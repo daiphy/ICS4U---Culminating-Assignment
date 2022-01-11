@@ -12,8 +12,9 @@ import javafx.scene.layout.VBox;
 
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import java.util.ArrayList;
 
-public class App extends Application {
+public class AppLayout extends Application {
 
     Stage window;
     Scene scene1, scene2;
@@ -34,7 +35,9 @@ public class App extends Application {
         Label labelCategory = new Label ("Category"); 
         Label labelCategory2 = new Label ("Category");
         Button button1 = new Button("Go to Scene 2"); //ADD BUTTON BACK LATER
-        
+        Button submitBTN = new Button("Submit");
+        ArrayList<String> arrli = new ArrayList<String>(6);
+
         button1.setOnAction(e -> window.setScene(scene2));
         
         //Layout 1 - children are laid out in vertical column
@@ -48,14 +51,20 @@ public class App extends Application {
         //Makes numerous text fields
         for (int i = 0; i < 5; i++)
         {
-            TextField textField = new TextField("Text Field");
-            TextField textField2 = new TextField("Text Field");
-            TextField textField3 = new TextField("Text Field");
+            TextField field = new TextField("Text Field");
+            TextField field2 = new TextField("Text Field");
+            TextField field3 = new TextField("Text Field");
  
-            right.getChildren().add(textField);
-            left.getChildren().add(textField2);
+            right.getChildren().add(field);
+            left.getChildren().add(field2);
         }
         
+        // right.getChildren().add(submitBTN);
+        // Label label3 = new Label();
+        // submitBTN.setOnAction(e -> {
+        //     arrli.add(field1.getText());
+        // );
+
         //Layout 3 - children are laid out in a horizontal column
         HBox hBox = new HBox(50);
         //hbox.setAlignment(Pos.CENTER);
@@ -76,4 +85,11 @@ public class App extends Application {
         window.setTitle("bonjour");
         window.show();
     }
+
+    // public void getData(Arraylist<String> arrli){
+    //     for (int i = 1; i < 12; i++){
+    //         String name = "field" ;
+    //         arrli.add(field[i].getText());
+    //     }
+    // }
 }
