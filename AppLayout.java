@@ -26,6 +26,7 @@ public class AppLayout extends Application {
     public void start(Stage primaryStage) throws Exception{
         window = primaryStage;
         
+        //-------------------- SCENE ONE BELOW --------------------//
         //Labels and formatting - Title and Headers
         Label title = new Label("Budgeting App");
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
@@ -53,8 +54,15 @@ public class AppLayout extends Application {
         Label labelBlank2 = new Label ("");
         
         //Buttons & Actions
-        Button buttonScene2 = new Button("Go to Scene 2");
         Button buttonConfirm = new Button("Confirm"); 
+        buttonConfirm.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        
+        Button buttonScene2 = new Button("Go to Scene 2");
+        buttonScene2.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+
+        //Text Fields
+        TextField field1 = new TextField();
+        TextField field2 = new TextField();
         
         //Add action for buttonScene2
         buttonScene2.setOnAction(e -> window.setScene(scene2));
@@ -76,10 +84,6 @@ public class AppLayout extends Application {
         //Layout - Vertical column on the far right
         VBox farRight = new VBox(10);
         farRight.getChildren().addAll(labelBlank2, labelAntAm2);
-
-        //Initializing Text Fields
-        TextField field1 = new TextField();
-        TextField field2 = new TextField();
         
         //Text fields - For left column
         for (int i = 0; i < 5; i++)
@@ -127,8 +131,6 @@ public class AppLayout extends Application {
         HBox hBoxBottom = new HBox(50);
         hBoxBottom.getChildren().addAll(buttonConfirm, buttonScene2);
         hBoxBottom.setAlignment(Pos.CENTER);
-        buttonConfirm.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        buttonScene2.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         
         //Layout - Entire GUI: Gathers the top, middle and bottom to make the entire GUI
         VBox mainScreen = new VBox(25);
@@ -138,7 +140,7 @@ public class AppLayout extends Application {
         //Display the entire GUI
         scene1 = new Scene(mainScreen, 1000, 500);
         
-        //SCENE TWO BELOW
+        //-------------------- SCENE TWO BELOW --------------------//
         //Button 2
         Button button2 = new Button("this scene sucks, go back to scene 1");
         button2.setOnAction(e -> window.setScene(scene1));
