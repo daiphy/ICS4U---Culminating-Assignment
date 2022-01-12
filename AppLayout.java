@@ -61,8 +61,17 @@ public class AppLayout extends Application {
         buttonScene2.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
 
         //Text Fields
-        TextField field1 = new TextField();
-        TextField field2 = new TextField();
+        TextField leftField = new TextField();
+        TextField leftField2 = new TextField();
+        TextField leftField3 = new TextField();
+        TextField leftField4 = new TextField();
+        TextField leftField5 = new TextField();
+        
+        TextField rightField = new TextField();
+        TextField rightField2 = new TextField();
+        TextField rightField3 = new TextField();
+        TextField rightField4 = new TextField();
+        TextField rightField5 = new TextField();
         
         //Add action for buttonScene2
         buttonScene2.setOnAction(e -> window.setScene(scene2));
@@ -85,29 +94,57 @@ public class AppLayout extends Application {
         VBox farRight = new VBox(10);
         farRight.getChildren().addAll(labelBlank2, labelAntAm2);
         
-        //Text fields - For left column
+        //Labels - For left column        
         for (int i = 0; i < 5; i++)
         {
             Label label = new Label("Label");
             label.setFont(Font.font("Verdana", 12));
-            field1 = new TextField("");
-            field1.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
- 
             farLeft.getChildren().add(label);
-            left.getChildren().add(field1);
         }
         
-        //Text fields - For left column
+        //Text fields - For left column 
+        leftField = new TextField("");
+        leftField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        leftField2 = new TextField("");
+        leftField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        leftField3 = new TextField("");
+        leftField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        leftField4 = new TextField("");
+        leftField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        leftField5 = new TextField("");
+        leftField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        left.getChildren().addAll(leftField, leftField2, leftField3, leftField4, leftField5); 
+        
+        //Labels - For right column
         for (int i = 0; i < 5; i++)
         {
             Label label2 = new Label("Label");
-            label2.setFont(Font.font("Verdana", 12));
-            field2 = new TextField("");
-            field2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
- 
+            label2.setFont(Font.font("Verdana", 12)); 
             right.getChildren().add(label2);
-            farRight.getChildren().add(field2);
         }
+        
+        //Text fields - For right column 
+        rightField = new TextField("");
+        rightField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        rightField2 = new TextField("");
+        rightField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        rightField3 = new TextField("");
+        rightField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        rightField4 = new TextField("");
+        rightField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        rightField5 = new TextField("");
+        rightField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        farRight.getChildren().addAll(rightField, rightField2, rightField3, rightField4, rightField5);
         
         //Layout - Gathers the vertical columns on the far left and left together
         HBox hBoxLeft = new HBox(50);
