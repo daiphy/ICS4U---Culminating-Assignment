@@ -4,21 +4,42 @@
 
 class Finance {
     //2D Arrays
-    public String[][] antIncomeArr;
-    public String[][] accIncomeArr;
-    public String[][] accExpenseArr;
-    public String[][] antExpenseArr;
+    public String[][] antIncomeArr = new String[6][2];
+    public String[][] accIncomeArr = new String[6][2];
+    public String[][] accExpenseArr = new String[6][2];
+    public String[][] antExpenseArr = new String[6][2];
 
-    
+    public Finance(){
+
+    }
 
     //Methods
-    public void populateCategories(String[] arr, String[][] newArr){        
-        String[] categoryArr = {"Food", "Health", "Transportation", "Utilies", "Personal","Other"};
+    public void populate(String[] arr, String[][] income, String[][] expenses){  
+        String[] incomeCat = {"Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      
+        String[] expenseCat = {"Food", "Health", "Transportation", "Utilies", "Personal","Other"};
         
+        int a = 0;
+        //populate categories
+        for(int i = 0; i < 12; i++){  
+            if(i < 6){
+                income[i][0] = incomeCat[i];  
+                expenses[i][0] = expenseCat[i];  
+                income[i][1] = arr[i];  
+            }
+            else{
+                expenses[a][1] = arr[i]; 
+                a++;  
+            }       
+        } 
+
+        //testing populate() 
         for(int i = 0; i < 6; i++){
-            newArr[0][i] = categoryArr[i];
-            newArr[1][i] = arr[i]; // the single arrays from the gui
-        }        
+            for(int j = 0; j < 2; j++){
+                System.out.print(antExpenseArr[i][j] + ", ");
+            } 
+            System.out.println();
+        }
+
     }
     //insert importing method name (file io)
     //insert exporting method name
