@@ -66,12 +66,14 @@ public class AppLayout extends Application {
         TextField leftField3 = new TextField();
         TextField leftField4 = new TextField();
         TextField leftField5 = new TextField();
+        TextField leftField6 = new TextField();
         
         TextField rightField = new TextField();
         TextField rightField2 = new TextField();
         TextField rightField3 = new TextField();
         TextField rightField4 = new TextField();
         TextField rightField5 = new TextField();
+        TextField rightField6 = new TextField();
         
         //Add action for buttonScene2
         buttonScene2.setOnAction(e -> window.setScene(scene2));
@@ -95,7 +97,7 @@ public class AppLayout extends Application {
         farRight.getChildren().addAll(labelBlank2, labelAntAm2);
         
         //Labels - For left column        
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 6; i++)
         {
             Label label = new Label("Label");
             label.setFont(Font.font("Verdana", 12));
@@ -118,10 +120,13 @@ public class AppLayout extends Application {
         leftField5 = new TextField("");
         leftField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         
-        left.getChildren().addAll(leftField, leftField2, leftField3, leftField4, leftField5); 
+        leftField6 = new TextField("");
+        leftField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        left.getChildren().addAll(leftField, leftField2, leftField3, leftField4, leftField5, leftField6); 
         
         //Labels - For right column
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 6; i++)
         {
             Label label2 = new Label("Label");
             label2.setFont(Font.font("Verdana", 12)); 
@@ -144,7 +149,10 @@ public class AppLayout extends Application {
         rightField5 = new TextField("");
         rightField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         
-        farRight.getChildren().addAll(rightField, rightField2, rightField3, rightField4, rightField5);
+        rightField6 = new TextField("");
+        rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        farRight.getChildren().addAll(rightField, rightField2, rightField3, rightField4, rightField5, rightField6);
         
         //Layout - Gathers the vertical columns on the far left and left together
         HBox hBoxLeft = new HBox(50);
