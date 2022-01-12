@@ -9,10 +9,9 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextField; 
 import javafx.scene.layout.HBox;
-import java.util.ArrayList;
+import javafx.geometry.Pos; //For alignment
 
 public class AppLayout extends Application {
 
@@ -26,52 +25,120 @@ public class AppLayout extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         window = primaryStage;
-
-        //Label label1 = new Label("Welcome to the first scene");
+        
+        //Labels and formatting - Title and Headers
+        Label title = new Label("Budgeting App");
+        title.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
         
         Label labelAntInc = new Label ("Anticipated Income");
+        labelAntInc.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        
         Label labelAntExp = new Label ("Anticipated Expenses");
+        labelAntExp.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         
         Label labelCategory = new Label ("Category"); 
+        labelCategory.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        
         Label labelCategory2 = new Label ("Category");
-        Button button1 = new Button("Go to Scene 2"); //ADD BUTTON BACK LATER
-        Button submitBTN = new Button("Submit");
-        ArrayList<String> arrli = new ArrayList<String>(6);
-
-        button1.setOnAction(e -> window.setScene(scene2));
+        labelCategory2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         
-        //Layout 1 - children are laid out in vertical column
+        Label labelAntAm = new Label ("Anticipated Amount");
+        labelAntAm.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        
+        Label labelAntAm2 = new Label ("Anticipated Amount");
+        labelAntAm2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        
+        //Labels - Act as line breaks
+        Label labelBlank = new Label ("");
+        Label labelBlank2 = new Label ("");
+        
+        //Buttons & Actions
+        Button buttonScene2 = new Button("Go to Scene 2");
+        Button buttonConfirm = new Button("Confirm"); 
+        
+        //Add action for buttonScene2
+        buttonScene2.setOnAction(e -> window.setScene(scene2));
+        
+        //Layout - Vertical column on the far left
+        VBox farLeft = new VBox(15);
+        farLeft.getChildren().addAll(labelAntInc);
+        farLeft.getChildren().addAll(labelCategory);
+        
+        //Layout - Vertical column on the left
         VBox left = new VBox(10);
-        left.getChildren().addAll(labelAntInc, labelCategory);
+        left.getChildren().addAll(labelBlank, labelAntAm);
         
-        //Layout 2 - children are laid out in vertical column
-        VBox right = new VBox(10);
-        right.getChildren().addAll(labelAntExp, labelCategory2);
+        //Layout - Vertical column on the right
+        VBox right = new VBox(15);
+        right.getChildren().addAll(labelAntExp);
+        right.getChildren().addAll(labelCategory2);
         
-        //Makes numerous text fields
+        //Layout - Vertical column on the far right
+        VBox farRight = new VBox(10);
+        farRight.getChildren().addAll(labelBlank2, labelAntAm2);
+
+        //Initializing Text Fields
+        TextField field1 = new TextField();
+        TextField field2 = new TextField();
+        
+        //Text fields - For left column
         for (int i = 0; i < 5; i++)
         {
-            TextField field = new TextField("Text Field");
-            TextField field2 = new TextField("Text Field");
-            TextField field3 = new TextField("Text Field");
+            Label label = new Label("Label");
+            label.setFont(Font.font("Verdana", 12));
+            field1 = new TextField("");
+            field1.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
  
-            right.getChildren().add(field);
-            left.getChildren().add(field2);
+            farLeft.getChildren().add(label);
+            left.getChildren().add(field1);
         }
         
-        // right.getChildren().add(submitBTN);
-        // Label label3 = new Label();
-        // submitBTN.setOnAction(e -> {
-        //     arrli.add(field1.getText());
-        // );
-
-        //Layout 3 - children are laid out in a horizontal column
-        HBox hBox = new HBox(50);
-        //hbox.setAlignment(Pos.CENTER);
-        hBox.getChildren().addAll(left, right);
+        //Text fields - For left column
+        for (int i = 0; i < 5; i++)
+        {
+            Label label2 = new Label("Label");
+            label2.setFont(Font.font("Verdana", 12));
+            field2 = new TextField("");
+            field2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+ 
+            right.getChildren().add(label2);
+            farRight.getChildren().add(field2);
+        }
         
-        scene1 = new Scene(hBox, 600, 300);
+        //Layout - Gathers the vertical columns on the far left and left together
+        HBox hBoxLeft = new HBox(50);
+        hBoxLeft.getChildren().addAll(farLeft, left);
         
+        //Layout - Gathers the vertical columns on the right and far right together
+        HBox hBoxRight = new HBox(50);
+        hBoxRight.getChildren().addAll(right, farRight);
+        
+        //Layout - Top of the GUI: Title and Images (*ADD IMAGES HERE*)
+        HBox hBoxTop = new HBox(50);
+        hBoxTop.getChildren().addAll(title);
+        hBoxTop.setAlignment(Pos.CENTER);
+        
+        //Layout - Middle of the GUI: Gather all the columns together
+        HBox hBoxMiddle = new HBox(50);
+        hBoxMiddle.getChildren().addAll(hBoxLeft, hBoxRight);
+        hBoxMiddle.setAlignment(Pos.CENTER);
+        
+        //Layout - Bottom of the GUI: Buttons
+        HBox hBoxBottom = new HBox(50);
+        hBoxBottom.getChildren().addAll(buttonConfirm, buttonScene2);
+        hBoxBottom.setAlignment(Pos.CENTER);
+        buttonConfirm.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        buttonScene2.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        
+        //Layout - Entire GUI: Gathers the top, middle and bottom to make the entire GUI
+        VBox mainScreen = new VBox(25);
+        mainScreen.getChildren().addAll(hBoxTop, hBoxMiddle, hBoxBottom);
+        mainScreen.setAlignment(Pos.CENTER);
+        
+        //Display the entire GUI
+        scene1 = new Scene(mainScreen, 1000, 500);
+        
+        //SCENE TWO BELOW
         //Button 2
         Button button2 = new Button("this scene sucks, go back to scene 1");
         button2.setOnAction(e -> window.setScene(scene1));
@@ -85,11 +152,4 @@ public class AppLayout extends Application {
         window.setTitle("bonjour");
         window.show();
     }
-
-    // public void getData(Arraylist<String> arrli){
-    //     for (int i = 1; i < 12; i++){
-    //         String name = "field" ;
-    //         arrli.add(field[i].getText());
-    //     }
-    // }
 }
