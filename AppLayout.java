@@ -18,8 +18,8 @@ public class AppLayout extends Application {
     Stage window;
     Scene scene1, scene2;
 
-    public static void main(String[] args){
-        launch(args);        
+    public AppLayout(){
+        
     }
     
     @Override
