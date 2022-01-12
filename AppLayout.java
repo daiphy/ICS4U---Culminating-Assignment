@@ -18,10 +18,11 @@ public class AppLayout extends Application {
     Stage window;
     Scene scene1, scene2;
 
+    // constructor method which launches the gui
     public AppLayout(){
         
     }
-    // constructor method which launches the gui
+    
     @Override
     public void start(Stage primaryStage) throws Exception{
         window = primaryStage;
@@ -62,22 +63,33 @@ public class AppLayout extends Application {
 
         //Text Fields
         TextField leftField = new TextField();
+        leftField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField leftField2 = new TextField();
+        leftField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField leftField3 = new TextField();
+        leftField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField leftField4 = new TextField();
+        leftField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField leftField5 = new TextField();
+        leftField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField leftField6 = new TextField();
+        leftField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         
         TextField rightField = new TextField();
+        rightField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField rightField2 = new TextField();
+        rightField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField rightField3 = new TextField();
+        rightField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField rightField4 = new TextField();
+        rightField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField rightField5 = new TextField();
+        rightField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField rightField6 = new TextField();
+        rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         
         //Add action for buttonScene2
         buttonScene2.setOnAction(e -> window.setScene(scene2));
-
 
         String[] arr = new String[12];
 
@@ -100,8 +112,6 @@ public class AppLayout extends Application {
             }
             }
         );
-
-        
         
         //Layout - Vertical column on the far left
         VBox farLeft = new VBox(15);
@@ -129,25 +139,6 @@ public class AppLayout extends Application {
             farLeft.getChildren().add(label);
         }
         
-        //Text fields - For left column 
-        // leftField = new TextField("");
-        // leftField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-        
-        // leftField2 = new TextField("");
-        // leftField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-        
-        // leftField3 = new TextField("");
-        // leftField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-        
-        // leftField4 = new TextField("");
-        // leftField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-        
-        // leftField5 = new TextField("");
-        // leftField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-        
-        // leftField6 = new TextField("");
-        // leftField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-        
         left.getChildren().addAll(leftField, leftField2, leftField3, leftField4, leftField5, leftField6); 
         
         //Labels - For right column
@@ -157,25 +148,6 @@ public class AppLayout extends Application {
             label2.setFont(Font.font("Verdana", 12)); 
             right.getChildren().add(label2);
         }
-        
-        //Text fields - For right column 
-        // rightField = new TextField("");
-        // rightField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-        
-        // rightField2 = new TextField("");
-        // rightField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-        
-        // rightField3 = new TextField("");
-        // rightField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-        
-        // rightField4 = new TextField("");
-        // rightField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-        
-        // rightField5 = new TextField("");
-        // rightField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-        
-        // rightField6 = new TextField("");
-        // rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         
         farRight.getChildren().addAll(rightField, rightField2, rightField3, rightField4, rightField5, rightField6);
         
