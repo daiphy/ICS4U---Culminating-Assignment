@@ -110,9 +110,6 @@ public class AppLayout extends Application {
             arr[9] = (rightField4.getText());  
             arr[10] = (rightField5.getText());  
             arr[11] = (rightField6.getText());  
-            for(int i = 0; i < 12; i++){
-                System.out.println(arr[i]);
-            }
             //populating arrays 
             finance.populate(arr, finance.antIncomeArr, finance.antExpenseArr);
             }
