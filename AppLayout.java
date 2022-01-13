@@ -17,14 +17,17 @@ public class AppLayout extends Application {
 
     Stage window;
     Scene scene1, scene2;
+    public String[] arr = new String[12];
 
-    // constructor method which launches the gui
+    // constructor method
     public AppLayout(){
-        
     }
     
     @Override
     public void start(Stage primaryStage) throws Exception{
+        Finance finance = new Finance();
+
+
         window = primaryStage;
         
         //-------------------- SCENE ONE BELOW --------------------//
@@ -91,7 +94,7 @@ public class AppLayout extends Application {
         //Add action for buttonScene2
         buttonScene2.setOnAction(e -> window.setScene(scene2));
 
-        String[] arr = new String[12];
+        //String[] arr = new String[12];
 
         //Add action for buttonConfirm
         buttonConfirm.setOnAction(e -> {                 
@@ -107,9 +110,8 @@ public class AppLayout extends Application {
             arr[9] = (rightField4.getText());  
             arr[10] = (rightField5.getText());  
             arr[11] = (rightField6.getText());  
-            for(int i = 0; i < 12; i++){
-                System.out.println(arr[i]);
-            }
+            //populating arrays 
+            finance.populate(arr, finance.antIncomeArr, finance.antExpenseArr);
             }
         );
         
