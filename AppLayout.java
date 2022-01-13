@@ -19,16 +19,16 @@ import javafx.scene.layout.HBox;
 import javafx.geometry.Pos; //For alignment
 
 public class AppLayout extends Application {
-
-    Stage window;
-    Scene scene1, scene2;
-    ComboBox cBMonths, cBIncome, cBExpense;
-    public String[] arr = new String[12];
-
-    // constructor method
-    public AppLayout(){
-    }
-    
+  
+  Stage window;
+  Scene scene1, scene2;
+  public String[] arr = new String[12];
+  ComboBox cBMonths, cBIncome, cBExpense;
+  
+  // constructor method
+  public AppLayout(){
+  }
+  
     @Override
     public void start(Stage primaryStage) throws Exception{
         Finance finance = new Finance();
@@ -79,30 +79,18 @@ public class AppLayout extends Application {
 
         //Text Fields
         TextField leftField = new TextField();
-        leftField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField leftField2 = new TextField();
-        leftField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField leftField3 = new TextField();
-        leftField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField leftField4 = new TextField();
-        leftField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField leftField5 = new TextField();
-        leftField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField leftField6 = new TextField();
-        leftField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         
         TextField rightField = new TextField();
-        rightField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField rightField2 = new TextField();
-        rightField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField rightField3 = new TextField();
-        rightField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField rightField4 = new TextField();
-        rightField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField rightField5 = new TextField();
-        rightField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         TextField rightField6 = new TextField();
-        rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         
         //Add action for buttonScene2
         // buttonScene2.setOnAction(e -> window.setScene(scene2));
@@ -177,6 +165,25 @@ public class AppLayout extends Application {
         leftField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
  
         
+        //Text fields - For left column 
+        leftField = new TextField("");
+        leftField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        leftField2 = new TextField("");
+        leftField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        leftField3 = new TextField("");
+        leftField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        leftField4 = new TextField("");
+        leftField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        leftField5 = new TextField("");
+        leftField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        leftField6 = new TextField("");
+        leftField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
         left.getChildren().addAll(leftField, leftField2, leftField3, leftField4, leftField5, leftField6); 
         
         //Labels - For right column
@@ -206,6 +213,25 @@ public class AppLayout extends Application {
         rightField6 = new TextField("");
         rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
      
+        
+        //Text fields - For right column 
+        rightField = new TextField("");
+        rightField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        rightField2 = new TextField("");
+        rightField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        rightField3 = new TextField("");
+        rightField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        rightField4 = new TextField("");
+        rightField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        rightField5 = new TextField("");
+        rightField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+        
+        rightField6 = new TextField("");
+        rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
         
         farRight.getChildren().addAll(rightField, rightField2, rightField3, rightField4, rightField5, rightField6);
         
@@ -251,14 +277,22 @@ public class AppLayout extends Application {
         scene1 = new Scene(mainScreen, 1000, 500);
         
         //-------------------- SCENE TWO BELOW --------------------//
+
+
         //Button 2
         Button button2 = new Button("this scene sucks, go back to scene 1");
-        button2.setOnAction(e -> window.setScene(scene1));
+        button2.setOnAction(action -> {
+            showAccScene(window, "Actual");
+            
+        });
+
+        
 
         //Layout 2
         StackPane layout2 = new StackPane();
         layout2.getChildren().add(button2);
-        scene2 = new Scene(layout2, 1000, 500);
+        
+        // scene2 = new Scene(layout2, 600, 300);
 
         window.setScene(scene1);
         window.setTitle("bonjour");
