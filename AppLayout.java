@@ -36,9 +36,12 @@ public class AppLayout extends Application {
     Finance finance = new Finance();
     
     window = primaryStage;
-    
+
+    showSceneOne(window);
+  }
     //-------------------- SCENE ONE BELOW --------------------//
-    //Labels and formatting - Title and Headers
+  public void showSceneOne(Stage stage){
+//Labels and formatting - Title and Headers
     Label title = new Label("Budgeting App");
     title.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
     
@@ -106,7 +109,7 @@ public class AppLayout extends Application {
     //Add action for buttonScene2
     // buttonScene2.setOnAction(e -> window.setScene(scene2));
     buttonScene2.setOnAction(action -> {
-      showAccScene(window, "Actual");
+      showSceneTwo(window, "Actual");
       // window.setScene(accScene);
     });
     
@@ -297,13 +300,13 @@ public class AppLayout extends Application {
     //Display the entire GUI
     scene1 = new Scene(mainScreen, 1000, 500);    
     
-    window.setScene(scene1);
-    window.setTitle("bonjour");
-    window.show();
+    stage.setScene(scene1);
+    stage.setTitle("bonjour");
+    stage.show();
   }
-  
+
   //-------------------- SCENE TWO BELOW --------------------//
-  public void showAccScene(Stage stage, String type){
+  public void showSceneTwo(Stage stage, String type){
     cBIncome = comboBoxIncome();
     cBIncome2 = comboBoxIncome();
     cBIncome3 = comboBoxIncome();
@@ -370,9 +373,11 @@ public class AppLayout extends Application {
     buttonNextPage.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
     
     //Button 2
-    Button button2 = new Button("this scene sucks, go back to scene 1");
+    Button button2 = new Button("Back");
     button2.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-    button2.setOnAction(action -> {showAccScene(window, "Actual");});
+    button2.setOnAction(action -> {
+        window.setScene(scene1);
+    });
     
     //Text Fields
     TextField leftField = new TextField();
