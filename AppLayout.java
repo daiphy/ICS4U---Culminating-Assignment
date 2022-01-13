@@ -52,12 +52,14 @@ public class AppLayout extends Application {
     cBIncome3 = comboBoxIncome();
     cBIncome4 = comboBoxIncome();
     cBIncome5 = comboBoxIncome();
+    cBIncome6 = comboBoxIncome();
     
     cBExpense = comboBoxExpense();
     cBExpense2 = comboBoxExpense();
     cBExpense3 = comboBoxExpense();
     cBExpense4 = comboBoxExpense();
     cBExpense5 = comboBoxExpense();
+    cBExpense6 = comboBoxExpense();
     
     Label selectMonth = new Label("Please Select a Month!");
     selectMonth.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
@@ -141,7 +143,7 @@ public class AppLayout extends Application {
     farLeft.getChildren().addAll(labelCategory);
     
     //Layout - Vertical column on the left
-    VBox left = new VBox(10);
+    VBox left = new VBox(12);
     left.getChildren().addAll(labelBlank, labelAntAm);
     
     //Layout - Vertical column on the right
@@ -150,7 +152,7 @@ public class AppLayout extends Application {
     right.getChildren().addAll(labelCategory2);
     
     //Layout - Vertical column on the far right
-    VBox farRight = new VBox(10);
+    VBox farRight = new VBox(12);
     farRight.getChildren().addAll(labelBlank2, labelAntAm2);
     
     /* For loop for combo box is not working
@@ -163,7 +165,7 @@ public class AppLayout extends Application {
      }
      */
     
-    farLeft.getChildren().addAll(cBIncome, cBIncome2, cBIncome3, cBIncome4, cBIncome5);
+    farLeft.getChildren().addAll(cBIncome, cBIncome2, cBIncome3, cBIncome4, cBIncome5, cBIncome6);
     
     //Text fields - For left column 
     leftField = new TextField("");
@@ -216,7 +218,7 @@ public class AppLayout extends Application {
     }
     */
     
-    right.getChildren().addAll(cBExpense, cBExpense2, cBExpense3, cBExpense4, cBExpense5);
+    right.getChildren().addAll(cBExpense, cBExpense2, cBExpense3, cBExpense4, cBExpense5, cBExpense6);
     
     //Text fields - For right column 
     rightField = new TextField("");
@@ -340,7 +342,7 @@ public class AppLayout extends Application {
     cBExpense15 = comboBoxExpense();
     
     //Labels and formatting - Title and Headers
-    Label title = new Label("Budgeting App PAGE 2");
+    Label title = new Label("Budgeting App");
     title.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
     
     Label labelAntInc = new Label (type + " Income");
@@ -422,7 +424,7 @@ public class AppLayout extends Application {
     farLeft.getChildren().addAll(labelCategory);
     
     //Layout - Vertical column on the left
-    VBox left = new VBox(10);
+    VBox left = new VBox(12);
     left.getChildren().addAll(labelBlank, labelAntAm);
     
     //Layout - Vertical column on the right
@@ -431,7 +433,7 @@ public class AppLayout extends Application {
     right.getChildren().addAll(labelCategory2);
     
     //Layout - Vertical column on the far right
-    VBox farRight = new VBox(10);
+    VBox farRight = new VBox(12);
     farRight.getChildren().addAll(labelBlank2, labelAntAm2);
     
     /*For loop not working with combobox
