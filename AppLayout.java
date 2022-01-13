@@ -27,7 +27,7 @@ public class AppLayout extends Application {
   ComboBox cBIncome, cBIncome2, cBIncome3, cBIncome4, cBIncome5, cBIncome6, cBIncome7, cBIncome8, cBIncome9, cBIncome10, cBIncome11, cBIncome12, cBIncome13, cBIncome14, cBIncome15; 
   ComboBox cBExpense, cBExpense2, cBExpense3, cBExpense4, cBExpense5, cBExpense6, cBExpense7, cBExpense8, cBExpense9, cBExpense10, cBExpense11, cBExpense12, cBExpense13, cBExpense14, cBExpense15;
   
-  // constructor method
+  //Constructor method
   public AppLayout(){
   }
   
@@ -49,12 +49,14 @@ public class AppLayout extends Application {
     cBIncome3 = comboBoxIncome();
     cBIncome4 = comboBoxIncome();
     cBIncome5 = comboBoxIncome();
+    cBIncome6 = comboBoxIncome();
     
     cBExpense = comboBoxExpense();
     cBExpense2 = comboBoxExpense();
     cBExpense3 = comboBoxExpense();
     cBExpense4 = comboBoxExpense();
     cBExpense5 = comboBoxExpense();
+    cBExpense6 = comboBoxExpense();
     
     Label selectMonth = new Label("Please Select a Month!");
     selectMonth.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
@@ -138,7 +140,7 @@ public class AppLayout extends Application {
     farLeft.getChildren().addAll(labelCategory);
     
     //Layout - Vertical column on the left
-    VBox left = new VBox(10);
+    VBox left = new VBox(12);
     left.getChildren().addAll(labelBlank, labelAntAm);
     
     //Layout - Vertical column on the right
@@ -147,7 +149,7 @@ public class AppLayout extends Application {
     right.getChildren().addAll(labelCategory2);
     
     //Layout - Vertical column on the far right
-    VBox farRight = new VBox(10);
+    VBox farRight = new VBox(12);
     farRight.getChildren().addAll(labelBlank2, labelAntAm2);
     
     /* For loop for combo box is not working
@@ -160,7 +162,7 @@ public class AppLayout extends Application {
      }
      */
     
-    farLeft.getChildren().addAll(cBIncome, cBIncome2, cBIncome3, cBIncome4, cBIncome5);
+    farLeft.getChildren().addAll(cBIncome, cBIncome2, cBIncome3, cBIncome4, cBIncome5, cBIncome6);
     
     //Text fields - For left column 
     leftField = new TextField("");
@@ -213,7 +215,7 @@ public class AppLayout extends Application {
     }
     */
     
-    right.getChildren().addAll(cBExpense, cBExpense2, cBExpense3, cBExpense4, cBExpense5);
+    right.getChildren().addAll(cBExpense, cBExpense2, cBExpense3, cBExpense4, cBExpense5, cBExpense6);
     
     //Text fields - For right column 
     rightField = new TextField("");
