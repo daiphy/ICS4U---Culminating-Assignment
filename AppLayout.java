@@ -19,12 +19,18 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos; //For alignment
+import java.util.ArrayList;
 
 public class AppLayout extends Application {
   
   Stage window;
   Scene scene1, scene2;
   public String[] arr = new String[12];
+  public ArrayList<String> incomeCatArr = new ArrayList<String>();
+  public ArrayList<String> incomeAmtArr = new ArrayList<String>();
+  public ArrayList<String> expenseCatArr = new ArrayList<String>();
+  public ArrayList<String> expenseAmtArr = new ArrayList<String>();
+  Finance finance = new Finance();
   ComboBox cBMonths;
   ComboBox cBIncome, cBIncome2, cBIncome3, cBIncome4, cBIncome5, cBIncome6, cBIncome7, cBIncome8, cBIncome9, cBIncome10, cBIncome11, cBIncome12, cBIncome13, cBIncome14, cBIncome15; 
   ComboBox cBExpense, cBExpense2, cBExpense3, cBExpense4, cBExpense5, cBExpense6, cBExpense7, cBExpense8, cBExpense9, cBExpense10, cBExpense11, cBExpense12, cBExpense13, cBExpense14, cBExpense15;
@@ -34,8 +40,7 @@ public class AppLayout extends Application {
   }
   
   @Override
-  public void start(Stage primaryStage) throws Exception{
-    Finance finance = new Finance();
+  public void start(Stage primaryStage) throws Exception{    
     
     window = primaryStage;
 
@@ -304,21 +309,7 @@ public class AppLayout extends Application {
     
     //Labels - Act as line breaks
     Label labelBlank = new Label ("");
-    Label labelBlank2 = new Label ("");
-    
-    //Buttons & Actions
-    Button buttonConfirm = new Button("Confirm"); 
-    buttonConfirm.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-    
-    Button buttonNextPage = new Button("Next page");
-    buttonNextPage.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-    
-    //Button 2
-    Button button2 = new Button("Back");
-    button2.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-    button2.setOnAction(action -> {
-        window.setScene(scene1);
-    });
+    Label labelBlank2 = new Label ("");        
     
     //Text Fields
     TextField leftField = new TextField();
@@ -386,6 +377,87 @@ public class AppLayout extends Application {
     rightField14.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
     rightField15.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
     
+    //Buttons & Actions
+    Button buttonConfirm = new Button("Confirm"); 
+    buttonConfirm.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+    
+    Button buttonNextPage = new Button("Next page");
+    buttonNextPage.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+    
+    //Button 2
+    Button button2 = new Button("Back");
+    button2.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+    button2.setOnAction(action -> {
+        window.setScene(scene1);
+    });
+
+    buttonConfirm.setOnAction(action ->{
+        incomeCatArr.add((String) cBIncome.getValue());
+        incomeCatArr.add((String) cBIncome2.getValue());
+        incomeCatArr.add((String) cBIncome3.getValue());
+        incomeCatArr.add((String) cBIncome4.getValue());
+        incomeCatArr.add((String) cBIncome5.getValue());
+        incomeCatArr.add((String) cBIncome6.getValue());
+        incomeCatArr.add((String) cBIncome7.getValue());
+        incomeCatArr.add((String) cBIncome8.getValue());
+        incomeCatArr.add((String) cBIncome9.getValue());
+        incomeCatArr.add((String) cBIncome10.getValue());
+        incomeCatArr.add((String) cBIncome11.getValue());
+        incomeCatArr.add((String) cBIncome12.getValue());
+        incomeCatArr.add((String) cBIncome13.getValue());
+        incomeCatArr.add((String) cBIncome14.getValue());
+        incomeCatArr.add((String) cBIncome15.getValue());
+        incomeAmtArr.add(leftField.getText());
+        incomeAmtArr.add(leftField2.getText());
+        incomeAmtArr.add(leftField3.getText());
+        incomeAmtArr.add(leftField4.getText());
+        incomeAmtArr.add(leftField5.getText());
+        incomeAmtArr.add(leftField6.getText());
+        incomeAmtArr.add(leftField7.getText());
+        incomeAmtArr.add(leftField8.getText());
+        incomeAmtArr.add(leftField9.getText());
+        incomeAmtArr.add(leftField10.getText());
+        incomeAmtArr.add(leftField11.getText());
+        incomeAmtArr.add(leftField12.getText());
+        incomeAmtArr.add(leftField13.getText());
+        incomeAmtArr.add(leftField14.getText());
+        incomeAmtArr.add(leftField15.getText());
+
+        expenseCatArr.add((String) cBExpense.getValue());
+        expenseCatArr.add((String) cBExpense2.getValue());
+        expenseCatArr.add((String) cBExpense3.getValue());
+        expenseCatArr.add((String) cBExpense4.getValue());
+        expenseCatArr.add((String) cBExpense5.getValue());
+        expenseCatArr.add((String) cBExpense6.getValue());
+        expenseCatArr.add((String) cBExpense7.getValue());
+        expenseCatArr.add((String) cBExpense8.getValue());
+        expenseCatArr.add((String) cBExpense9.getValue());
+        expenseCatArr.add((String) cBExpense10.getValue());
+        expenseCatArr.add((String) cBExpense11.getValue());
+        expenseCatArr.add((String) cBExpense12.getValue());
+        expenseCatArr.add((String) cBExpense13.getValue());
+        expenseCatArr.add((String) cBExpense14.getValue());
+        expenseCatArr.add((String) cBExpense15.getValue());
+        expenseAmtArr.add(rightField.getText());
+        expenseAmtArr.add(rightField2.getText());
+        expenseAmtArr.add(rightField3.getText());
+        expenseAmtArr.add(rightField4.getText());
+        expenseAmtArr.add(rightField5.getText());
+        expenseAmtArr.add(rightField6.getText());
+        expenseAmtArr.add(rightField7.getText());
+        expenseAmtArr.add(rightField8.getText());
+        expenseAmtArr.add(rightField9.getText());
+        expenseAmtArr.add(rightField10.getText());
+        expenseAmtArr.add(rightField11.getText());
+        expenseAmtArr.add(rightField12.getText());
+        expenseAmtArr.add(rightField13.getText());
+        expenseAmtArr.add(rightField14.getText());
+        expenseAmtArr.add(rightField15.getText());
+        
+        finance.populateAccArr(incomeCatArr, incomeAmtArr, finance.accIncomeArr, finance.incomeCat);
+        finance.populateAccArr(expenseCatArr, expenseAmtArr, finance.accExpenseArr, finance.expenseCat);
+    });
+
     //Add action for buttonScene2
     // buttonScene2.setOnAction(e -> window.setScene(scene2));
     
