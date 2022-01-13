@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos; //For alignment
 
-public class App extends Application {
+public class SceneMethod extends Application {
 
     Stage window;
     Scene scene1, accScene;
