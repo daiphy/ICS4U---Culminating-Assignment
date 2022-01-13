@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Popup;
@@ -14,7 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.control.TextField; 
+import javafx.scene.control.TextField;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos; //For alignment
 
@@ -27,7 +29,7 @@ public class AppLayout extends Application {
   ComboBox cBIncome, cBIncome2, cBIncome3, cBIncome4, cBIncome5, cBIncome6, cBIncome7, cBIncome8, cBIncome9, cBIncome10, cBIncome11, cBIncome12, cBIncome13, cBIncome14, cBIncome15; 
   ComboBox cBExpense, cBExpense2, cBExpense3, cBExpense4, cBExpense5, cBExpense6, cBExpense7, cBExpense8, cBExpense9, cBExpense10, cBExpense11, cBExpense12, cBExpense13, cBExpense14, cBExpense15;
   
-  //Constructor method
+  //-------------------- CONSTRUCTOR METHOD --------------------//
   public AppLayout(){
   }
   
@@ -41,7 +43,7 @@ public class AppLayout extends Application {
   }
     //-------------------- SCENE ONE BELOW --------------------//
   public void showSceneOne(Stage stage){
-//Labels and formatting - Title and Headers
+    //Labels and formatting - Title and Headers
     Label title = new Label("Budgeting App");
     title.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
     
@@ -107,6 +109,21 @@ public class AppLayout extends Application {
     TextField rightField4 = new TextField();
     TextField rightField5 = new TextField();
     TextField rightField6 = new TextField();
+
+    //Setting styles of text fields
+    leftField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+
+    rightField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
     
     //Add action for buttonScene2
     // buttonScene2.setOnAction(e -> window.setScene(scene2));
@@ -167,45 +184,6 @@ public class AppLayout extends Application {
     
     farLeft.getChildren().addAll(cBIncome, cBIncome2, cBIncome3, cBIncome4, cBIncome5, cBIncome6);
     
-    //Text fields - For left column 
-    leftField = new TextField("");
-    leftField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField2 = new TextField("");
-    leftField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField3 = new TextField("");
-    leftField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField4 = new TextField("");
-    leftField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField5 = new TextField("");
-    leftField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField6 = new TextField("");
-    leftField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    
-    //Text fields - For left column 
-    leftField = new TextField("");
-    leftField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField2 = new TextField("");
-    leftField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField3 = new TextField("");
-    leftField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField4 = new TextField("");
-    leftField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField5 = new TextField("");
-    leftField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField6 = new TextField("");
-    leftField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
     left.getChildren().addAll(leftField, leftField2, leftField3, leftField4, leftField5, leftField6); 
     
     /* For loop not working for combo box
@@ -219,45 +197,6 @@ public class AppLayout extends Application {
     */
     
     right.getChildren().addAll(cBExpense, cBExpense2, cBExpense3, cBExpense4, cBExpense5, cBExpense6);
-    
-    //Text fields - For right column 
-    rightField = new TextField("");
-    rightField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField2 = new TextField("");
-    rightField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField3 = new TextField("");
-    rightField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField4 = new TextField("");
-    rightField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField5 = new TextField("");
-    rightField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField6 = new TextField("");
-    rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    
-    //Text fields - For right column 
-    rightField = new TextField("");
-    rightField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField2 = new TextField("");
-    rightField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField3 = new TextField("");
-    rightField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField4 = new TextField("");
-    rightField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField5 = new TextField("");
-    rightField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField6 = new TextField("");
-    rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
     
     farRight.getChildren().addAll(rightField, rightField2, rightField3, rightField4, rightField5, rightField6);
     
@@ -413,10 +352,42 @@ public class AppLayout extends Application {
     TextField rightField13 = new TextField();
     TextField rightField14 = new TextField();
     TextField rightField15 = new TextField();
+
+    //setting textfield styles
+    leftField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField7.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField8.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField9.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField10.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField11.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField12.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField13.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField14.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    leftField15.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+
+    rightField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField7.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField8.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField9.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField10.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField11.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField12.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField13.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField14.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
+    rightField15.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
     
     //Add action for buttonScene2
     // buttonScene2.setOnAction(e -> window.setScene(scene2));
-    
     
     //Layout - Vertical column on the far left
     VBox farLeft = new VBox(10);
@@ -448,52 +419,6 @@ public class AppLayout extends Application {
     
     farLeft.getChildren().addAll(cBIncome, cBIncome2, cBIncome3, cBIncome4, cBIncome5, cBIncome6, cBIncome7, cBIncome8, cBIncome9, cBIncome10, cBIncome11, cBIncome12, cBIncome13, cBIncome14, cBIncome15);
     
-    //Text fields - For left column 
-    leftField = new TextField("");
-    leftField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField2 = new TextField("");
-    leftField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField3 = new TextField("");
-    leftField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField4 = new TextField("");
-    leftField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField5 = new TextField("");
-    leftField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField6 = new TextField("");
-    leftField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField7 = new TextField("");
-    leftField7.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField8 = new TextField("");
-    leftField8.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField9 = new TextField("");
-    leftField9.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField10 = new TextField("");
-    leftField10.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField11 = new TextField("");
-    leftField11.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField12 = new TextField("");
-    leftField12.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField13 = new TextField("");
-    leftField13.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField14 = new TextField("");
-    leftField14.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    leftField15 = new TextField("");
-    leftField15.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
     left.getChildren().addAll(leftField, leftField2, leftField3, leftField4, leftField5, leftField6, leftField7, leftField8, leftField9, leftField10, leftField11, leftField12, leftField13, leftField14, leftField15); 
     
     /* For loop not working with combobox
@@ -508,54 +433,8 @@ public class AppLayout extends Application {
     
     right.getChildren().addAll(cBExpense, cBExpense2, cBExpense3, cBExpense4, cBExpense5, cBExpense6, cBExpense7, cBExpense8, cBExpense9, cBExpense10, cBExpense11, cBExpense12, cBExpense13, cBExpense14, cBExpense15);
     
-    //Text fields - For right column 
-    rightField = new TextField("");
-    rightField.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField2 = new TextField("");
-    rightField2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField3 = new TextField("");
-    rightField3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField4 = new TextField("");
-    rightField4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField5 = new TextField("");
-    rightField5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField6 = new TextField("");
-    rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField7 = new TextField("");
-    rightField7.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField8 = new TextField("");
-    rightField8.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField9 = new TextField("");
-    rightField9.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField10 = new TextField("");
-    rightField10.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField11 = new TextField("");
-    rightField11.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField12 = new TextField("");
-    rightField12.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField13 = new TextField("");
-    rightField13.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField14 = new TextField("");
-    rightField14.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    rightField15 = new TextField("");
-    rightField15.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
     farRight.getChildren().addAll(rightField, rightField2, rightField3, rightField4, rightField5, rightField6, rightField7, rightField8, rightField9, rightField10, rightField11, rightField12, rightField13, rightField14, rightField15);
-    
+
     //Layout - Gathers the vertical columns on the far left and left together
     HBox hBoxLeft = new HBox(50);
     hBoxLeft.getChildren().addAll(farLeft, left);
@@ -578,11 +457,23 @@ public class AppLayout extends Application {
     HBox hBoxBottom = new HBox(50);
     hBoxBottom.getChildren().addAll(buttonConfirm, buttonNextPage, button2);
     hBoxBottom.setAlignment(Pos.CENTER);
-    
-    //Layout - Entire GUI: Gathers the top, middle and bottom to make the entire GUI
-    VBox mainScreen = new VBox(25);
-    mainScreen.getChildren().addAll(hBoxTop, hBoxMiddle, hBoxBottom);
-    mainScreen.setAlignment(Pos.CENTER);
+
+    //Layout - Vertical scrollbar on the far right
+    ScrollPane scroll = new ScrollPane();
+    scroll.setContent(hBoxMiddle);
+    scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+    //scroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+
+    //Layout - centering ths middle
+    HBox center = new HBox();
+    center.getChildren().add(scroll);
+    center.setAlignment(Pos.CENTER);
+
+    //Layout - Entire GUI
+    BorderPane mainScreen = new BorderPane();
+    mainScreen.setTop(hBoxTop);
+    mainScreen.setCenter(center);
+    mainScreen.setBottom(hBoxBottom);
     
     //Display the entire GUI
     // scene1 = new Scene(mainScreen, 1000, 500);
