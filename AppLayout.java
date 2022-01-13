@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TextField; 
 import javafx.scene.layout.HBox;
@@ -17,6 +20,7 @@ public class AppLayout extends Application {
 
     Stage window;
     Scene scene1, scene2;
+    ComboBox cBMonths;
     public String[] arr = new String[12];
 
     // constructor method
@@ -34,6 +38,8 @@ public class AppLayout extends Application {
         //Labels and formatting - Title and Headers
         Label title = new Label("Budgeting App");
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+
+        cBMonths = comboBoxMonths(window);
         
         Label labelAntInc = new Label ("Anticipated Income");
         labelAntInc.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
@@ -165,6 +171,11 @@ public class AppLayout extends Application {
         HBox hBoxTop = new HBox(50);
         hBoxTop.getChildren().addAll(title);
         hBoxTop.setAlignment(Pos.CENTER);
+
+        // under title
+        HBox comboBox = new HBox(50);
+        comboBox.getChildren().addAll(cBMonths);
+        comboBox.setAlignment(Pos.CENTER);
         
         //Layout - Middle of the GUI: Gather all the columns together
         HBox hBoxMiddle = new HBox(50);
@@ -178,7 +189,7 @@ public class AppLayout extends Application {
         
         //Layout - Entire GUI: Gathers the top, middle and bottom to make the entire GUI
         VBox mainScreen = new VBox(25);
-        mainScreen.getChildren().addAll(hBoxTop, hBoxMiddle, hBoxBottom);
+        mainScreen.getChildren().addAll(hBoxTop, cBMonths, hBoxMiddle, hBoxBottom);
         mainScreen.setAlignment(Pos.CENTER);
         
         //Display the entire GUI
@@ -197,5 +208,16 @@ public class AppLayout extends Application {
         window.setScene(scene1);
         window.setTitle("bonjour");
         window.show();
+    }
+    public ComboBox comboBoxMonths(Stage stage){
+        ComboBox months = new ComboBox();
+        months.getItems().addAll(
+            "January", "February", "March", "April", "May", "June",
+             "July", "August", "September", "October", "November", "December"
+        );
+        months.setPromptText("Select Month");
+        months.setEditable(false);
+
+        return months;
     }
 }
