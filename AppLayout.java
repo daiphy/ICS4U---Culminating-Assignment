@@ -102,23 +102,28 @@ public class AppLayout extends Application {
         //String[] arr = new String[12];
 
         //Add action for buttonConfirm
-        // buttonConfirm.setOnAction(e -> {                 
-        //     arr[0] = (leftField.getText());  
-        //     arr[1] = (leftField2.getText());  
-        //     arr[2] = (leftField3.getText());  
-        //     arr[3] = (leftField4.getText());  
-        //     arr[4] = (leftField5.getText());  
-        //     arr[5] = (leftField6.getText());  
-        //     arr[6] = (rightField.getText());  
-        //     arr[7] = (rightField2.getText());  
-        //     arr[8] = (rightField3.getText());  
-        //     arr[9] = (rightField4.getText());  
-        //     arr[10] = (rightField5.getText());  
-        //     arr[11] = (rightField6.getText());  
-        //     //populating arrays 
-        //     finance.populate(arr, finance.antIncomeArr, finance.antExpenseArr);
-        // });
+        buttonConfirm.setOnAction(e -> {                 
+            // arr[0] = (leftField.getText());  
+            // arr[1] = (leftField2.getText());  
+            // arr[2] = (leftField3.getText());  
+            // arr[3] = (leftField4.getText());  
+            // arr[4] = (leftField5.getText());  
+            // arr[5] = (leftField6.getText());  
+            // arr[6] = (rightField.getText());  
+            // arr[7] = (rightField2.getText());  
+            // arr[8] = (rightField3.getText());  
+            // arr[9] = (rightField4.getText());  
+            // arr[10] = (rightField5.getText());  
+            // arr[11] = (rightField6.getText());  
+            // //populating arrays 
+            // finance.populate(arr, finance.antIncomeArr, finance.antExpenseArr);
+
+            selectMonth.setText(cBMonths.getValue() + " selected");
+        });
         
+        HBox monthMessage = new HBox(50);
+        monthMessage.getChildren().addAll(selectMonth);
+        monthMessage.setAlignment(Pos.CENTER);
         //Layout - Vertical column on the far left
         VBox farLeft = new VBox(15);
         farLeft.getChildren().addAll(labelAntInc);
@@ -257,11 +262,6 @@ public class AppLayout extends Application {
         HBox hBoxMiddle = new HBox(50);
         hBoxMiddle.getChildren().addAll(cBIncome, hBoxLeft, hBoxRight);
         hBoxMiddle.setAlignment(Pos.CENTER);
-        
-        selectMonth.setText(cBMonths.getValue() + " selected");
-        HBox monthMessage = new HBox(50);
-        monthMessage.getChildren().addAll(selectMonth);
-        monthMessage.setAlignment(Pos.CENTER);
 
         //Layout - Bottom of the GUI: Buttons
         HBox hBoxBottom = new HBox(50);
@@ -285,8 +285,6 @@ public class AppLayout extends Application {
             showAccScene(window, "Actual");
             
         });
-
-        
 
         //Layout 2
         StackPane layout2 = new StackPane();
