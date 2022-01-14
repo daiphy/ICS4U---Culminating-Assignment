@@ -368,8 +368,6 @@ public class AppLayout extends Application {
     //Button - To scene 3
     buttonNextPage.setOnAction(action -> {
       showSceneThree(window, "Actual");
-      trends.populateDiff(trends.income2D);
-      trends.populateDiff(trends.expense2D);
     });
     
     //Button - Back to scene 1
@@ -444,6 +442,9 @@ public class AppLayout extends Application {
       
       trends.populateActual(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat);
         trends.populateActual(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat);
+        
+        trends.populateDiff(trends.income2D);
+      trends.populateDiff(trends.expense2D);
     });
     
     //Add action for buttonScene2
