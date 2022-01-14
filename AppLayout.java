@@ -16,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos; //For alignment
 import java.util.ArrayList;
@@ -368,6 +367,8 @@ public class AppLayout extends Application {
     //Button - To scene 3
     buttonNextPage.setOnAction(action -> {
       showSceneThree(window, "Actual");
+      trends.populateDiff(trends.income2D);
+      trends.populateDiff(trends.expense2D);
     });
     
     //Button - Back to scene 1
@@ -442,9 +443,6 @@ public class AppLayout extends Application {
       
       trends.populateActual(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat);
         trends.populateActual(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat);
-        
-        trends.populateDiff(trends.income2D);
-      trends.populateDiff(trends.expense2D);
     });
     
     //Add action for buttonScene2
@@ -502,7 +500,7 @@ public class AppLayout extends Application {
     
     //Layout - Gathers the vertical columns on the right and far right together
     HBox hBoxRight = new HBox(50);
-    hBoxRight.getChildren().addAll(right, farRight);
+    hBoxRight.getChildren().addAll(right, farRight, new Label());
     
     //Layout - Top of the GUI: Title and Images (*ADD IMAGES HERE*)
     HBox hBoxTop = new HBox(50);
@@ -523,6 +521,7 @@ public class AppLayout extends Application {
     ScrollPane scroll = new ScrollPane();
     scroll.setContent(hBoxMiddle);
     scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+    scroll.setStyle("-fx-background-color:transparent;");
     //scroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
     
     //Layout - centering ths middle
@@ -531,11 +530,9 @@ public class AppLayout extends Application {
     center.setAlignment(Pos.CENTER);
     
     //Layout - Entire GUI
-    BorderPane mainScreen = new BorderPane();
-    mainScreen.setTop(hBoxTop);
-    mainScreen.setCenter(center);
-    mainScreen.setBottom(hBoxBottom);
-    
+    VBox mainScreen = new VBox();
+    mainScreen.getChildren().addAll(hBoxTop, new Label(), center, new Label(), hBoxBottom, new Label());
+
     //Display the entire GUI
     // scene1 = new Scene(mainScreen, 1000, 500);
     
