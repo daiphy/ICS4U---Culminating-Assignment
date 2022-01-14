@@ -19,6 +19,8 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos; //For alignment
 import java.util.ArrayList;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class AppLayout extends Application {
   
@@ -41,6 +43,9 @@ public class AppLayout extends Application {
   ComboBox cBIncome, cBIncome2, cBIncome3, cBIncome4, cBIncome5, cBIncome6, cBIncome7, cBIncome8, cBIncome9, cBIncome10, cBIncome11, cBIncome12, cBIncome13, cBIncome14, cBIncome15; 
   ComboBox cBExpense, cBExpense2, cBExpense3, cBExpense4, cBExpense5, cBExpense6, cBExpense7, cBExpense8, cBExpense9, cBExpense10, cBExpense11, cBExpense12, cBExpense13, cBExpense14, cBExpense15;
   
+  //Initialize images
+  ImageView bee, bee2;
+  
   //-------------------- CONSTRUCTOR METHOD --------------------//
   public AppLayout(){
   }
@@ -51,7 +56,11 @@ public class AppLayout extends Application {
     showSceneOne(window);
   }
   //-------------------- SCENE ONE BELOW --------------------//
-  public void showSceneOne(Stage stage){
+  public void showSceneOne(Stage stage){    
+    //Images
+    bee = image();
+    bee2 = image();
+    
     //Labels and formatting - Title and Headers
     Label title = new Label("Budgeting App");
     title.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
@@ -195,7 +204,7 @@ public class AppLayout extends Application {
     
     //Layout - Top of the GUI: Title and Images (*ADD IMAGES HERE*)
     HBox hBoxTop = new HBox(50);
-    hBoxTop.getChildren().addAll(title);
+    hBoxTop.getChildren().addAll(bee, title, bee2);
     hBoxTop.setAlignment(Pos.CENTER);
     
     //Layout - Under the Title: Select month instructions
@@ -224,7 +233,7 @@ public class AppLayout extends Application {
     mainScreen.setAlignment(Pos.CENTER);
     
     //Display the entire GUI
-    scene1 = new Scene(mainScreen, 1000, 500);    
+    scene1 = new Scene(mainScreen, 1000, 600);    
     
     stage.setScene(scene1);
     stage.setTitle("Let's Talk Finance");
@@ -233,6 +242,11 @@ public class AppLayout extends Application {
   
   //-------------------- SCENE TWO BELOW --------------------//
   public void showSceneTwo(Stage stage, String type){
+    //Images
+    bee = image();
+    bee2 = image();
+    
+    //Combo boxes
     cBIncome = comboBoxIncome();
     cBIncome2 = comboBoxIncome();
     cBIncome3 = comboBoxIncome();
@@ -442,7 +456,7 @@ public class AppLayout extends Application {
       expenseAmtArr.add(rightField13.getText());
       expenseAmtArr.add(rightField14.getText());
       expenseAmtArr.add(rightField15.getText());
-            
+      
     });
     
     //Add action for buttonScene2
@@ -504,7 +518,7 @@ public class AppLayout extends Application {
     
     //Layout - Top of the GUI: Title and Images (*ADD IMAGES HERE*)
     HBox hBoxTop = new HBox(50);
-    hBoxTop.getChildren().addAll(title);
+    hBoxTop.getChildren().addAll(bee, title, bee2);
     hBoxTop.setAlignment(Pos.CENTER);
     
     //Layout - Middle of the GUI: Gather all the columns together
@@ -532,13 +546,13 @@ public class AppLayout extends Application {
     //Layout - Entire GUI
     VBox mainScreen = new VBox();
     mainScreen.getChildren().addAll(hBoxTop, new Label(), center, new Label(), hBoxBottom, new Label());
-
+    
     //Display the entire GUI
     // scene1 = new Scene(mainScreen, 1000, 500);
     
     // accScene = showAccScene(stage, type);
     
-    scene2 = new Scene(mainScreen, 1000, 500);
+    scene2 = new Scene(mainScreen, 1000, 600);
     
     window.setScene(scene2);
     
@@ -547,6 +561,10 @@ public class AppLayout extends Application {
   
   //-------------------- SCENE THREE BELOW --------------------//
   public void showSceneThree(Stage stage, String type){
+    //Images
+    bee = image();
+    bee2 = image();
+    
     //Labels and formatting - Title and Headers
     Label title = new Label("Budgeting App");    
     Label labelIncome = new Label ("Income");
@@ -672,9 +690,13 @@ public class AppLayout extends Application {
       labelFarRight.setFont(Font.font("Verdana", 12));
       vBoxFarRight.getChildren().add(labelFarRight);
     }   
-        
+    
     HBox rightTable = new HBox(10);
     rightTable.getChildren().addAll(vBoxFourthRight, vBoxThirdRight, vBoxSecondRight, vBoxFarRight);
+    
+    HBox hBoxTop = new HBox(10);
+    hBoxTop.getChildren().addAll(bee, title, bee2);
+    hBoxTop.setAlignment(Pos.CENTER);
     
     HBox hBoxMiddle = new HBox(20);
     hBoxMiddle.getChildren().addAll(leftTable, rightTable);
@@ -682,10 +704,10 @@ public class AppLayout extends Application {
     
     //Layout - Entire GUI: Gathers the top, middle and bottom to make the entire GUI
     VBox mainScreen = new VBox(25);
-    mainScreen.getChildren().addAll(title, hBoxMiddle, buttonScene2);
+    mainScreen.getChildren().addAll(hBoxTop, hBoxMiddle, buttonScene2);
     mainScreen.setAlignment(Pos.CENTER);
     
-    scene3 = new Scene(mainScreen, 1000, 500);
+    scene3 = new Scene(mainScreen, 1000, 600);
     
     window.setScene(scene3);
   }
@@ -723,6 +745,20 @@ public class AppLayout extends Application {
     expenseCat.setEditable(false);
     
     return expenseCat;
+  }
+  public ImageView image(){
+    // Create a image object
+    Image bee = new Image("bee.png");
+    
+    //creating ImageView for adding image
+    ImageView imageView = new ImageView();
+    imageView.setImage(bee);
+    imageView.setFitWidth(75);
+    imageView.setPreserveRatio(true);
+    imageView.setSmooth(true);
+    imageView.setCache(true);
+    
+    return imageView;
   }
   
   // some extra stuff to figure out later
