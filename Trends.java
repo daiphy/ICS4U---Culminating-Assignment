@@ -58,44 +58,66 @@ public class Trends {
 
 
     }
-    public void populateActual(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] income, String[]incomeCat){ //CHANGE THE INCOME NAMES
+    public void populateActual(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat){ //CHANGE THE INCOME NAMES
         
         
         for(int i = 0; i < 6; i++){ 
-            income[i][0] = incomeCat[i];
+            twoDArr[i][0] = labelCat[i];
         }
 
         
         for(int i = 0; i < 6; i++){
-            String temp = incomeCat[i]; 
-            int addOn = 0;
+            String temp = labelCat[i]; 
+            Double addOn = 0.0;
             for(int j = 0; j < catArr.size(); j++){
                 if(!amtArr.get(j).isEmpty() && catArr.get(j) != null){
                     if(catArr.get(j).equals(temp)){
-                        addOn += Integer.parseInt(amtArr.get(j));
+                        addOn += Double.parseDouble(amtArr.get(j));
                    }                
                 }   
             }            
             
-            income[i][2] = String.valueOf(addOn);
+            twoDArr[i][2] = String.valueOf(addOn);
 
         }
 
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 4; j++){
-                System.out.print(income[i][j] + ", ");
+                System.out.print(twoDArr[i][j] + ", ");
                 
             } 
             System.out.println();
-        }
+        }        
     }
 
     //calculates the difference between two doubles
     //can use this to find the difference between acc and ant income/expense, total accIncome - total accExpense
-    public void populateDiff(String[][] twoDArr){
+    public void populateDiff(String[][] twoDArr){        
+
+        for(int i = 0; i < 6; i++){
+            if (twoDArr[i][1] == null || twoDArr[i][1].equals("")){
+                System.out.println("no longer empty");
+                twoDArr[i][1] = "0.0";
+            }
+
+            if (twoDArr[i][2] == null){
+                twoDArr[i][2] = "0.0";
+            }
+            if (twoDArr[i][3] == null){
+                twoDArr[i][3] = "0.0";
+            }
+        }
+        for(int i = 0; i < 6; i++){
+            for(int j = 0; j < 4; j++){
+                System.out.print(twoDArr[i][j] + ", ");
+                
+            } 
+            System.out.println();
+        }
+        
         for(int i = 0; i < 6; i++){
             double ant = Double.parseDouble(twoDArr[i][1]);
-            double acc = Double.parseDouble(twoDArr[i][2]);
+            double acc = Double.parseDouble(twoDArr[i][2]);                        
             double diff = ant-acc;
             twoDArr[i][3] = Double.toString(diff);            
         }

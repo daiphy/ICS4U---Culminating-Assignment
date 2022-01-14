@@ -165,11 +165,11 @@ public class AppLayout extends Application {
     farRight.getChildren().addAll(labelBlank2, labelAntAm2);
     
     //Array containing the labels of the categories
-    String[] labelCatArr = new String[]{"Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Others"};    
+    // String[] labelCatArr = new String[]{"Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Others"};    
     
     //Prints out the elements inside labelCatArr on the far left side
-    for (int i = 0; i < labelCatArr.length; i++){
-      Label labelCat = new Label(labelCatArr[i]);
+    for (int i = 0; i < trends.incomeCat.length; i++){
+      Label labelCat = new Label(trends.incomeCat[i]);
       labelCat.setFont(Font.font("Verdana", 12));
       farLeft.getChildren().add(labelCat);
     }
@@ -177,8 +177,8 @@ public class AppLayout extends Application {
     left.getChildren().addAll(leftField, leftField2, leftField3, leftField4, leftField5, leftField6); 
     
     //Prints out the elements inside labelCatArr on the right side
-    for (int i = 0; i < labelCatArr.length; i++){
-      Label labelCat = new Label(labelCatArr[i]);
+    for (int i = 0; i < trends.expenseCat.length; i++){
+      Label labelCat = new Label(trends.expenseCat[i]);
       labelCat.setFont(Font.font("Verdana", 12));
       right.getChildren().add(labelCat);
     }
@@ -365,10 +365,12 @@ public class AppLayout extends Application {
     buttonNextPage.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
     
     //Button - To scene 3
-    buttonNextPage.setOnAction(action -> {
-      showSceneThree(window, "Actual");
+    buttonNextPage.setOnAction(action -> {      
+      trends.populateActual(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat);
+      trends.populateActual(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat);
       trends.populateDiff(trends.income2D);
-      trends.populateDiff(trends.expense2D);
+      trends.populateDiff(trends.expense2D);    
+      showSceneThree(window, "Actual");  
     });
     
     //Button - Back to scene 1
@@ -440,9 +442,7 @@ public class AppLayout extends Application {
       expenseAmtArr.add(rightField13.getText());
       expenseAmtArr.add(rightField14.getText());
       expenseAmtArr.add(rightField15.getText());
-      
-      trends.populateActual(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat);
-        trends.populateActual(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat);
+            
     });
     
     //Add action for buttonScene2
