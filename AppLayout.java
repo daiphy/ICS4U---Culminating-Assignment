@@ -34,8 +34,8 @@ public class AppLayout extends Application {
   public ArrayList<String> expenseCatArr = new ArrayList<String>();
   public ArrayList<String> expenseAmtArr = new ArrayList<String>();
   
-  //Initialize Finance
-  Finance finance = new Finance();
+  //Initialize Trends
+  Trends trends = new Trends();
   
   //Initialize combo boxes
   ComboBox cBMonths;
@@ -85,7 +85,7 @@ public class AppLayout extends Application {
     //Combo box - Drop down menu for months
     cBMonths = comboBoxMonths();
     
-    //Buttons & Actions
+    //Initializing buttons
     Button buttonConfirm = new Button("Confirm"); 
     buttonConfirm.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
     
@@ -123,30 +123,26 @@ public class AppLayout extends Application {
     rightField6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
     
     //Add action for buttonScene2
-    // buttonScene2.setOnAction(e -> window.setScene(scene2));
     buttonScene2.setOnAction(action -> {
       showSceneTwo(window, "Actual");
-      // window.setScene(accScene);
     });
-    
-    //String[] arr = new String[12];
     
     //Add action for buttonConfirm
     buttonConfirm.setOnAction(e -> {                 
-      // arr[0] = (leftField.getText());  
-      // arr[1] = (leftField2.getText());  
-      // arr[2] = (leftField3.getText());  
-      // arr[3] = (leftField4.getText());  
-      // arr[4] = (leftField5.getText());  
-      // arr[5] = (leftField6.getText());  
-      // arr[6] = (rightField.getText());  
-      // arr[7] = (rightField2.getText());  
-      // arr[8] = (rightField3.getText());  
-      // arr[9] = (rightField4.getText());  
-      // arr[10] = (rightField5.getText());  
-      // arr[11] = (rightField6.getText());  
-      // //populating arrays 
-      // finance.populate(arr, finance.antIncomeArr, finance.antExpenseArr);
+      arr[0] = (leftField.getText());  
+      arr[1] = (leftField2.getText());  
+      arr[2] = (leftField3.getText());  
+      arr[3] = (leftField4.getText());  
+      arr[4] = (leftField5.getText());  
+      arr[5] = (leftField6.getText());  
+      arr[6] = (rightField.getText());  
+      arr[7] = (rightField2.getText());  
+      arr[8] = (rightField3.getText());  
+      arr[9] = (rightField4.getText());  
+      arr[10] = (rightField5.getText());  
+      arr[11] = (rightField6.getText());  
+      //populating arrays 
+      trends.populate(arr, trends.income2D, trends.expense2D);
       
       selectMonth.setText(cBMonths.getValue() + " selected");
     });
@@ -232,7 +228,7 @@ public class AppLayout extends Application {
     scene1 = new Scene(mainScreen, 1000, 500);    
     
     stage.setScene(scene1);
-    stage.setTitle("bonjour");
+    stage.setTitle("Let's Talk Finance");
     stage.show();
   }
   
@@ -362,7 +358,7 @@ public class AppLayout extends Application {
     rightField14.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
     rightField15.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
     
-    //Buttons & Actions
+    //Initializing buttons
     Button buttonConfirm = new Button("Confirm"); 
     buttonConfirm.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
     
@@ -372,9 +368,11 @@ public class AppLayout extends Application {
     //Button - To scene 3
     buttonNextPage.setOnAction(action -> {
       showSceneThree(window, "Actual");
+      trends.populateDiff(trends.income2D);
+      trends.populateDiff(trends.expense2D);
     });
     
-    //Button 2
+    //Button - Back to scene 1
     Button buttonScene2 = new Button("Back");
     buttonScene2.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
     buttonScene2.setOnAction(action -> {
@@ -444,8 +442,8 @@ public class AppLayout extends Application {
       expenseAmtArr.add(rightField14.getText());
       expenseAmtArr.add(rightField15.getText());
       
-      finance.populateAccArr(incomeCatArr, incomeAmtArr, finance.accIncomeArr, finance.incomeCat);
-      finance.populateAccArr(expenseCatArr, expenseAmtArr, finance.accExpenseArr, finance.expenseCat);
+      trends.populateActual(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat);
+        trends.populateActual(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat);
     });
     
     //Add action for buttonScene2
