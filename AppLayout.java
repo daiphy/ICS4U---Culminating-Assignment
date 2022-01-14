@@ -583,184 +583,6 @@ public class AppLayout extends Application {
     Label labelBlank5 = new Label ("");
     Label labelBlank6 = new Label ("");
     
-    //Labels - For the table
-    Label labelFarLeft = new Label();
-    Label labelFarLeft2 = new Label();
-    Label labelFarLeft3 = new Label();
-    Label labelFarLeft4 = new Label();
-    Label labelFarLeft5 = new Label();
-    Label labelFarLeft6 = new Label();
-    
-    Label labelSecondLeft = new Label();
-    Label labelSecondLeft2 = new Label();
-    Label labelSecondLeft3 = new Label();
-    Label labelSecondLeft4 = new Label();
-    Label labelSecondLeft5 = new Label();
-    Label labelSecondLeft6 = new Label();
-    
-    Label labelThirdLeft = new Label();
-    Label labelThirdLeft2= new Label();
-    Label labelThirdLeft3 = new Label();
-    Label labelThirdLeft4 = new Label();
-    Label labelThirdLeft5 = new Label();
-    Label labelThirdLeft6 = new Label();
-    
-    Label labelFourthLeft = new Label();
-    Label labelFourthLeft2 = new Label();
-    Label labelFourthLeft3 = new Label();
-    Label labelFourthLeft4 = new Label();
-    Label labelFourthLeft5 = new Label();
-    Label labelFourthLeft6 = new Label();
-    
-    //Text fields - For left column 
-    labelFarLeft = new Label("");
-    labelFarLeft2 = new Label("");
-    labelFarLeft3 = new Label("");
-    labelFarLeft4 = new Label("");
-    labelFarLeft5 = new Label("");
-    labelFarLeft6 = new Label("");
-    
-    labelFarLeft.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFarLeft2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFarLeft3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFarLeft4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFarLeft5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFarLeft6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    //Text fields - For second left column 
-    labelSecondLeft = new Label("");    
-    labelSecondLeft2 = new Label("");
-    labelSecondLeft3 = new Label("");
-    labelSecondLeft4 = new Label("");
-    labelSecondLeft5 = new Label("");
-    labelSecondLeft6 = new Label("");
-    
-    labelSecondLeft.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelSecondLeft2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelSecondLeft3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelSecondLeft4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelSecondLeft5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelSecondLeft6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    //Text fields - For third left column 
-    labelThirdLeft = new Label("");
-    labelThirdLeft2 = new Label("");
-    labelThirdLeft3 = new Label("");
-    labelThirdLeft4 = new Label("");
-    labelThirdLeft5 = new Label("");
-    labelThirdLeft6 = new Label("");
-    
-    labelThirdLeft.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelThirdLeft2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelThirdLeft3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelThirdLeft4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelThirdLeft5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelThirdLeft6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    //Text fields - For fourth left column 
-    labelFourthLeft = new Label("");    
-    labelFourthLeft2 = new Label("");
-    labelFourthLeft3 = new Label("");
-    labelFourthLeft4 = new Label("");
-    labelFourthLeft5 = new Label("");
-    labelFourthLeft6 = new Label("");
-    
-    labelFourthLeft.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFourthLeft2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFourthLeft3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFourthLeft4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFourthLeft5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFourthLeft6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    //Text Fields
-    Label labelFarRight = new Label();
-    Label labelFarRight2 = new Label();
-    Label labelFarRight3 = new Label();
-    Label labelFarRight4 = new Label();
-    Label labelFarRight5 = new Label();
-    Label labelFarRight6 = new Label();
-    
-    Label labelSecondRight = new Label();
-    Label labelSecondRight2 = new Label();
-    Label labelSecondRight3 = new Label();
-    Label labelSecondRight4 = new Label();
-    Label labelSecondRight5 = new Label();
-    Label labelSecondRight6 = new Label();
-    
-    Label labelThirdRight = new Label();
-    Label labelThirdRight2 = new Label();
-    Label labelThirdRight3 = new Label();
-    Label labelThirdRight4 = new Label();
-    Label labelThirdRight5 = new Label();
-    Label labelThirdRight6 = new Label();
-    
-    Label labelFourthRight = new Label();
-    Label labelFourthRight2 = new Label();
-    Label labelFourthRight3 = new Label();
-    Label labelFourthRight4 = new Label();
-    Label labelFourthRight5 = new Label();
-    Label labelFourthRight6 = new Label();
-    
-    //Text fields - For right column 
-    labelFarRight = new Label("");
-    labelFarRight2 = new Label("");
-    labelFarRight3 = new Label("");
-    labelFarRight4 = new Label("");
-    labelFarRight5 = new Label("");
-    labelFarRight6 = new Label("");
-    
-    labelFarRight.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFarRight2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFarRight3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFarRight4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFarRight5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFarRight6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    //Text fields - For second right column 
-    labelSecondRight = new Label("");    
-    labelSecondRight2 = new Label("");
-    labelSecondRight3 = new Label("");
-    labelSecondRight4 = new Label("");
-    labelSecondRight5 = new Label("");
-    labelSecondRight6 = new Label("");
-    
-    labelSecondRight.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelSecondRight2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelSecondRight3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelSecondRight4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelSecondRight5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelSecondRight6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    //Text fields - For third right column 
-    labelThirdRight = new Label("");
-    labelThirdRight2 = new Label("");
-    labelThirdRight3 = new Label("");
-    labelThirdRight4 = new Label("");
-    labelThirdRight5 = new Label("");
-    labelThirdRight6 = new Label("");
-    
-    labelThirdRight.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelThirdRight2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelThirdRight3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelThirdRight4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelThirdRight5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelThirdRight6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
-    //Text fields - For fourth right column 
-    labelFourthRight = new Label("");
-    labelFourthRight2 = new Label("");
-    labelFourthRight3 = new Label("");
-    labelFourthRight4 = new Label("");
-    labelFourthRight5 = new Label("");
-    labelFourthRight6 = new Label("");
-    
-    labelFourthRight.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFourthRight2.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFourthRight3.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFourthRight4.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFourthRight5.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    labelFourthRight6.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
-    
     //Back button - goes back to scene 2
     Button buttonScene2 = new Button("Back");
     buttonScene2.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
@@ -768,34 +590,91 @@ public class AppLayout extends Application {
       window.setScene(scene2);
     });
     
-    //Layout
+    //Far left
     VBox vBoxFarLeft = new VBox(10);
-    vBoxFarLeft.getChildren().addAll(labelIncome, labelTotals, labelFarLeft, labelFarLeft2, labelFarLeft3, labelFarLeft4, labelFarLeft5, labelFarLeft6);
+    vBoxFarLeft.getChildren().addAll(labelIncome, labelTotals);
     
+    //Prints out the elements inside labelCatArr on the far left side
+    for (int i = 0; i < trends.income2D[0].length; i++){
+      Label labelFarLeft = new Label(trends.income2D[i][0]);
+      labelFarLeft.setFont(Font.font("Verdana", 12));
+      vBoxFarLeft.getChildren().add(labelFarLeft);
+    }    
+    
+    //Second left
     VBox vBoxSecondLeft = new VBox(10);
-    vBoxSecondLeft.getChildren().addAll(labelAnticipated, labelBlank, labelSecondLeft, labelSecondLeft2, labelSecondLeft3, labelSecondLeft4, labelSecondLeft5, labelSecondLeft6);
+    vBoxSecondLeft.getChildren().addAll(labelAnticipated, labelBlank);
     
+    for (int i = 0; i < trends.income2D[0].length; i++){
+      Label labelSecondLeft = new Label(trends.income2D[i][1]);
+      labelSecondLeft.setFont(Font.font("Verdana", 12));
+      vBoxSecondLeft.getChildren().add(labelSecondLeft);
+    }   
+    
+    //Third left
     VBox vBoxThirdLeft = new VBox(10);
-    vBoxThirdLeft.getChildren().addAll(labelActual, labelBlank2, labelThirdLeft, labelThirdLeft2, labelThirdLeft3, labelThirdLeft4, labelThirdLeft5, labelThirdLeft6);
+    vBoxThirdLeft.getChildren().addAll(labelActual, labelBlank2);
     
+    for (int i = 0; i < trends.income2D[0].length; i++){
+      Label labelThirdLeft = new Label(trends.income2D[i][2]);
+      labelThirdLeft.setFont(Font.font("Verdana", 12));
+      vBoxThirdLeft.getChildren().add(labelThirdLeft);
+    }   
+    
+    //Fourth left
     VBox vBoxFourthLeft = new VBox(10);
-    vBoxFourthLeft.getChildren().addAll(labelDiff, labelBlank3, labelFourthLeft, labelFourthLeft2, labelFourthLeft3, labelFourthLeft4, labelFourthLeft5, labelFourthLeft6);
+    vBoxFourthLeft.getChildren().addAll(labelDiff, labelBlank3);
+    
+    for (int i = 0; i < trends.income2D[0].length; i++){
+      Label labelFourthLeft = new Label(trends.income2D[i][3]);
+      labelFourthLeft.setFont(Font.font("Verdana", 12));
+      vBoxFourthLeft.getChildren().add(labelFourthLeft);
+    }   
     
     HBox leftTable = new HBox(10);
     leftTable.getChildren().addAll(vBoxFarLeft, vBoxSecondLeft, vBoxThirdLeft, vBoxFourthLeft);
     
-    VBox vBoxFarRight = new VBox(10);
-    vBoxFarRight.getChildren().addAll(labelDiff2, labelBlank4, labelFarRight, labelFarRight2, labelFarRight3, labelFarRight4, labelFarRight5, labelFarRight6);
-    
-    VBox vBoxSecondRight = new VBox(10);
-    vBoxSecondRight.getChildren().addAll(labelActual2, labelBlank5, labelSecondRight, labelSecondRight2, labelSecondRight3, labelSecondRight4, labelSecondRight5, labelSecondRight6);
-    
-    VBox vBoxThirdRight = new VBox(10);
-    vBoxThirdRight.getChildren().addAll(labelAnticipated2, labelBlank6, labelThirdRight, labelThirdRight2, labelThirdRight3, labelThirdRight4, labelThirdRight5, labelThirdRight6);
-    
+    //Fourth right
     VBox vBoxFourthRight = new VBox(10);
-    vBoxFourthRight.getChildren().addAll(labelExpenses, labelTotals2, labelFourthRight, labelFourthRight2, labelFourthRight3, labelFourthRight4, labelFourthRight5, labelFourthRight6);
+    vBoxFourthRight.getChildren().addAll(labelExpenses, labelTotals2);
     
+    //Prints out the elements inside labelCatArr on the far left side
+    for (int i = 0; i < trends.expense2D[0].length; i++){
+      Label labelFourthRight = new Label(trends.expense2D[i][0]);
+      labelFourthRight.setFont(Font.font("Verdana", 12));
+      vBoxFourthRight.getChildren().add(labelFourthRight);
+    }
+    
+    //Third right
+    VBox vBoxThirdRight = new VBox(10);
+    vBoxThirdRight.getChildren().addAll(labelAnticipated2, labelBlank6);
+    
+    for (int i = 0; i < trends.expense2D[0].length; i++){
+      Label labelThirdRight = new Label(trends.expense2D[i][1]);
+      labelThirdRight.setFont(Font.font("Verdana", 12));
+      vBoxThirdRight.getChildren().add(labelThirdRight);
+    }
+    
+    //Second right
+    VBox vBoxSecondRight = new VBox(10);
+    vBoxSecondRight.getChildren().addAll(labelActual2, labelBlank5);
+    
+    for (int i = 0; i < trends.expense2D[0].length; i++){
+      Label labelSecondRight = new Label(trends.expense2D[i][2]);
+      labelSecondRight.setFont(Font.font("Verdana", 12));
+      vBoxSecondRight.getChildren().add(labelSecondRight);
+    }
+    
+    //Far right
+    VBox vBoxFarRight = new VBox(10);
+    vBoxFarRight.getChildren().addAll(labelDiff2, labelBlank4);
+    
+    for (int i = 0; i < trends.expense2D[0].length; i++){
+      Label labelFarRight = new Label(trends.expense2D[i][3]);
+      labelFarRight.setFont(Font.font("Verdana", 12));
+      vBoxFarRight.getChildren().add(labelFarRight);
+    }   
+        
     HBox rightTable = new HBox(10);
     rightTable.getChildren().addAll(vBoxFourthRight, vBoxThirdRight, vBoxSecondRight, vBoxFarRight);
     
