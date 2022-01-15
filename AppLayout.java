@@ -371,6 +371,39 @@ public class AppLayout extends Application {
     rightField14.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
     rightField15.setStyle("-fx-font: 12 arial; -fx-background-color: #c9daf8;");
     
+    //Setting text field sizes
+    leftField.setPrefSize(80, 31);
+    leftField2.setPrefSize(80, 31);
+    leftField3.setPrefSize(80, 31);
+    leftField4.setPrefSize(80, 31);
+    leftField5.setPrefSize(80, 31);
+    leftField6.setPrefSize(80, 31);
+    leftField7.setPrefSize(80, 31);
+    leftField8.setPrefSize(80, 31);
+    leftField9.setPrefSize(80, 31);
+    leftField10.setPrefSize(80, 31);
+    leftField11.setPrefSize(80, 31);
+    leftField12.setPrefSize(80, 31);
+    leftField13.setPrefSize(80, 31);
+    leftField14.setPrefSize(80, 31);
+    leftField15.setPrefSize(80, 31);
+    
+    rightField.setPrefSize(80, 31);
+    rightField2.setPrefSize(80, 31);
+    rightField3.setPrefSize(80, 31);
+    rightField4.setPrefSize(80, 31);
+    rightField5.setPrefSize(80, 31);
+    rightField6.setPrefSize(80, 31);
+    rightField7.setPrefSize(80, 31);
+    rightField8.setPrefSize(80, 31);
+    rightField9.setPrefSize(80, 31);
+    rightField10.setPrefSize(80, 31);
+    rightField11.setPrefSize(80, 31);
+    rightField12.setPrefSize(80, 31);
+    rightField13.setPrefSize(80, 31);
+    rightField14.setPrefSize(80, 31);
+    rightField15.setPrefSize(80, 31);
+    
     //Initializing buttons
     Button buttonConfirm = new Button("Confirm"); 
     buttonConfirm.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
@@ -468,7 +501,7 @@ public class AppLayout extends Application {
     farLeft.getChildren().addAll(labelCategory);
     
     //Layout - Vertical column on the left
-    VBox left = new VBox(12);
+    VBox left = new VBox(10);
     left.getChildren().addAll(labelBlank, labelAntAm);
     
     //Layout - Vertical column on the right
@@ -477,7 +510,7 @@ public class AppLayout extends Application {
     right.getChildren().addAll(labelCategory2);
     
     //Layout - Vertical column on the far right
-    VBox farRight = new VBox(12);
+    VBox farRight = new VBox(10);
     farRight.getChildren().addAll(labelBlank2, labelAntAm2);
     
     /*For loop not working with combobox
