@@ -1,7 +1,7 @@
-// import java.io.IOException;
-// import java.io.*;
-// import java.io.File;
-// import javafx.stage.FileChooser;
+import java.io.IOException;
+import java.io.*;
+import java.io.File;
+import javafx.stage.FileChooser;
 
 import javafx.application.Application;
 // import javafx.collections.ObservableList;
@@ -15,8 +15,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-// import javafx.scene.control.ScrollPane;
-// import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.stage.FileChooser;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 // import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
@@ -25,43 +26,42 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.TextField; 
 // import javafx.scene.layout.GridPane;
 // import javafx.geometry.Insets;
-// import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
-// import javafx.geometry.Insets;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos; //For alignment
 
-public class AppLayoutFV extends Application{
+public class FVTestArea extends Application{
 
     // Global Variables
-    Scene sceneOne, sceneTwo, sceneThree, sceneFour, sceneFive, sceneSix, sceneSeven;
+    Scene sceneFour, sceneFive, sceneSix, sceneSeven;
     Stage window;
     Color babyBlue = Color.web("#C9DAF8");
     ComboBox cBMonths, cBIncFour, cBIncFive, cBExpFour, cBExpFive;
     // StackPane stackPane = new StackPane();
-    
+    String emptyCat = "";
+    String emptyAmnt = "";
     int y = 150;
     public LayoutFeatures features = new LayoutFeatures(); 
 
+    // GridPane gridPane = new GridPane();
     
-    public AppLayoutFV(){
+    public FVTestArea(){
 
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Finance finance = new Finance();
-
         window = primaryStage;
         cBIncFour = features.comboBoxIncome();
         cBIncFive = features.comboBoxIncome();
         cBExpFour = features.comboBoxExpense(); 
         cBExpFive = features.comboBoxExpense();
 
-        sceneOne = showSceneOne(window);
-
-        sceneFour = showSceneFourFive(window, "Anticipated", cBIncFour, cBExpFour);
-        sceneFive = showSceneFourFive(window, "Actual", cBIncFive, cBExpFive);
+        sceneFour = baseScene(window, "Anticipated", cBIncFour, cBExpFour);
+        sceneFive = baseScene(window, "Actual", cBIncFive, cBExpFive);
         // sceneFive = baseScene(window, "Anticipated", "Expense", cBExpense);
         // sceneSix = baseScene(window, "Actual", "Income", cBIncome);
         // sceneSeven = baseScene(window, "Actual", "Expense", cBExpense);
@@ -70,46 +70,9 @@ public class AppLayoutFV extends Application{
         window.show();
         
     }
-    public Scene showSceneOne (Stage scene){
-        Scene one;
+    public Scene baseScene(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
 
-        // Initializing buttons and labels
-        Label welcomeL = new Label("WELCOME");
-        Label questionL = new Label("Would you like to start a new budget or import a file?");
-        Button importB = new Button("IMPORT");
-        Text warningT = new Text(" ");
-
-        importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        importB.setOnAction(action ->{
-            //file directory code here
-            try {
-               // if the user does not input .csv, the warning text will be shown
-               warningT.setText(
-                     features.checkInputtedFile(scene));
-            } catch (Exception error) {
-               warningT.setText("Action terminated.");
-            }
-         
-        });   
-        
-        one = new Scene(importB, 1000, 500);
-
-        return one;
-    }
-
-
-
-    public void newBudgetButton(){
-        Button newBudget = new Button("NEW BUDGET");
-        newBudget.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        newBudget.setOnAction(action ->{
-            window.setScene(sceneThree); //WE NEED TO MAKE SCENE 3
-        });
-    }
-
-    public Scene showSceneFourFive(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
-
-        Scene fourFive;
+        Scene base;
 
         // initializing buttons, labels, comboBoxes
         Label titleL = new Label("Budgeting App");
@@ -134,23 +97,20 @@ public class AppLayoutFV extends Application{
         Text catAmnt = new Text("Category & Amount");
         Text cat = new Text();
         Text amnt = new Text();
-
-        String emptyCat = "";
-        String emptyAmnt = "";
         
-        Button addTB = features.addButton(cBInc, amntTFT, cat, amnt, emptyAmnt, emptyCat);
-        Button addBB = features.addButton(cBExp, amntTFB, cat, amnt, emptyAmnt, emptyCat);
+        Button addTB = features.addButton(cBInc, amntTFT, cat, amnt);
+        Button addBB = features.addButton(cBExp, amntTFB, cat, amnt);
         Button delTB = features.delButton(cBInc, amntTFT);
         Button delBB = features.delButton(cBExp, amntTFB);
 
-        Button nextB = features.nextButton(stage, sceneFive);
-        Button backB = features.backButton(stage, sceneFour);
+        Button nextB = features.nextButton(stage);
+        Button backB = features.backButton(stage);
         
 
         // MAKE IF STATEMENTS IN THE ADD/DEL BTN THAT THE RECTANGLE Y WILL CHANGE AS MORE THINGS ARE ADDED AND DELETED
 
-        StackPane stackPaneT = features.showSPane(babyBlue);
-        StackPane stackPaneB = features.showSPane(babyBlue);
+        StackPane stackPaneT = features.showSPane();
+        StackPane stackPaneB = features.showSPane();
 
         // Rectangle rectangle = new Rectangle(100,150,900,y);
         // rectangle.setFill(babyBlue);
@@ -260,8 +220,52 @@ public class AppLayoutFV extends Application{
         // fullScreen.getChildren().addAll(mainScreen, scroll);
         // fullScreen.setAlignment(Pos.CENTER_RIGHT);
 
-        fourFive = new Scene(mainScreen, 1000, 500);
+        base = new Scene(mainScreen, 1000, 500);
 
-        return fourFive; 
+        return base; 
     }
+    public String checkInputtedFile(Stage primaryStage) {
+        FileChooser fileChooser = new FileChooser(); // allow user to input file
+        File file = fileChooser.showOpenDialog(primaryStage);
+        String fileName = file.getName();
+        String filePath = file.getAbsolutePath();
+  
+        String warningText = " ";
+  
+        if (file != null) {
+           // If inputted file is .csv file
+           if ((fileName.substring(fileName.length() - 4, fileName.length())).equals(".csv")) {
+              // reading csv file by adding elements to questions and answers arraylist
+              try {
+                //  read csv method
+              } catch (Exception e) {
+                 warningText = "Invalid, action terminated.";
+              }
+           }
+           // Forces user to input .csv in order to go to continue
+           else {
+              warningText = "Please enter a .csv file.";
+  
+           }
+        }
+        return warningText;
+     }
+
+    /**
+     Button openFileButton = new Button("Open File (.csv)");
+      openFileButton.setFont(font);
+      openFileButton.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent e) {
+            try {
+               // if the user does not input .csv, the warning text will be shown
+               warningText.setText(
+                     checkInputtedFileGUI(primaryStage, questionsArrList, answersArrList, arrIndex, width, height));
+            } catch (Exception error) {
+               warningText.setText("Action terminated.");
+            }
+         }
+      });
+     */
+  
 }
