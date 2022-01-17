@@ -60,7 +60,8 @@ public class AppLayoutFV extends Application{
         cBExpFive = features.comboBoxExpense();
 
         sceneOne = showSceneOne(window);
-
+        sceneTwo = showSceneTwo(window);
+        sceneThree = showSceneThree(window);
         sceneFour = showSceneFourFive(window, "Anticipated", cBIncFour, cBExpFour);
         sceneFive = showSceneFourFive(window, "Actual", cBIncFive, cBExpFive);
         // sceneFive = baseScene(window, "Anticipated", "Expense", cBExpense);
@@ -86,51 +87,96 @@ public class AppLayoutFV extends Application{
             try {
                // if the user does not input .csv, the warning text will be shown
                warningT.setText(
-                     checkInputtedFile(scene));
+                     features.checkInputtedFile(scene));
             } catch (Exception error) {
                warningT.setText("Action terminated.");
             }
          
         });   
+
+        Button newBudgetB = newBudgetButton();
         
-        one = new Scene(importB, 1000, 500);
-
+        VBox mainScreen = new VBox(20);        
+        mainScreen.getChildren().addAll(welcomeL, questionL, importB, newBudgetB, warningT);
+        mainScreen.setAlignment(Pos.CENTER);
+        
+        one = new Scene(mainScreen, 1000, 500);
+        
         return one;
-    }
+    }    
+    public Scene showSceneTwo (Stage scene){
+        Scene two;
 
-    public String checkInputtedFile(Stage primaryStage) {
-        FileChooser fileChooser = new FileChooser(); // allow user to input file
-        File file = fileChooser.showOpenDialog(primaryStage);
-        String fileName = file.getName();
-        String filePath = file.getAbsolutePath();
-  
-        String warningText = " ";
-  
-        if (file != null) {
-           // If inputted file is .csv file
-           if ((fileName.substring(fileName.length() - 4, fileName.length())).equals(".csv")) {
-              // reading csv file by adding elements to questions and answers arraylist
-              try {
-                //  read csv method
-              } catch (Exception e) {
-                 warningText = "Invalid, action terminated.";
-              }
-           }
-           // Forces user to input .csv in order to go to continue
-           else {
-              warningText = "Please enter a .csv file.";
-  
-           }
-        }
-        return warningText;
-     }
+        // Initializing buttons and labels
+        Label welcomeL = new Label("WELCOME");
+        Label questionL = new Label("SCENE 2");
+        Button importB = new Button("IMPORT");
+        Text warningT = new Text("");
 
-    public void newBudgetButton(){
+        importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        importB.setOnAction(action ->{
+            //file directory code here
+            try {
+               // if the user does not input .csv, the warning text will be shown
+               warningT.setText(
+                     features.checkInputtedFile(scene));
+            } catch (Exception error) {
+               warningT.setText("Action terminated.");
+            }
+         
+        });   
+
+        Button newBudgetB = newBudgetButton();
+        
+        VBox mainScreen = new VBox(20);        
+        mainScreen.getChildren().addAll(welcomeL, questionL, importB, newBudgetB);
+        mainScreen.setAlignment(Pos.CENTER);
+        
+        two = new Scene(mainScreen, 1000, 500);
+        
+        return two;
+    }   
+
+    public Scene showSceneThree (Stage scene){
+        Scene three;
+
+        // Initializing buttons and labels
+        Label welcomeL = new Label("WELCOME");
+        Label questionL = new Label("SCENE 3");
+        Button importB = new Button("IMPORT");
+        Text warningT = new Text("");
+
+        importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        importB.setOnAction(action ->{
+            //file directory code here
+            try {
+               // if the user does not input .csv, the warning text will be shown
+               warningT.setText(
+                     features.checkInputtedFile(scene));
+            } catch (Exception error) {
+               warningT.setText("Action terminated.");
+            }
+         
+        });   
+
+        Button newBudgetB = newBudgetButton();
+        
+        VBox mainScreen = new VBox(20);        
+        mainScreen.getChildren().addAll(welcomeL, questionL, importB, newBudgetB);
+        mainScreen.setAlignment(Pos.CENTER);
+        
+        three = new Scene(mainScreen, 1000, 500);
+        
+        return three;
+    }   
+
+     public Button newBudgetButton(){
         Button newBudget = new Button("NEW BUDGET");
         newBudget.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         newBudget.setOnAction(action ->{
             window.setScene(sceneThree); //WE NEED TO MAKE SCENE 3
         });
+        return newBudget;
     }
 
     public Scene showSceneFourFive(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
