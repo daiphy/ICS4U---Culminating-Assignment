@@ -43,6 +43,7 @@ public class AppLayoutFV extends Application{
     String emptyAmnt = "";
     int y = 150;
     public LayoutFeatures features = new LayoutFeatures(); 
+    public Finance finance = new Finance();
 
     
     public AppLayoutFV(){
@@ -51,7 +52,7 @@ public class AppLayoutFV extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Finance finance = new Finance();
+        
 
         window = primaryStage;
         cBIncFour = features.comboBoxIncome();
@@ -87,13 +88,12 @@ public class AppLayoutFV extends Application{
             try {
                // if the user does not input .csv, the warning text will be shown
                warningT.setText(
-                     features.checkInputtedFile(scene));
+                     finance.checkInputtedFile(scene));
             } catch (Exception error) {
                warningT.setText("Action terminated.");
             }
          
         });   
-
         Button newBudgetB = newBudgetButton();
         
         VBox mainScreen = new VBox(20);        
@@ -104,6 +104,14 @@ public class AppLayoutFV extends Application{
         
         return one;
     }    
+    public Button newBudgetButton(){
+        Button newBudget = new Button("NEW BUDGET");
+        newBudget.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        newBudget.setOnAction(action ->{
+            window.setScene(sceneThree); //WE NEED TO MAKE SCENE 3
+        });
+        return newBudget;
+    }
     public Scene showSceneTwo (Stage scene){
         Scene two;
 
@@ -111,25 +119,9 @@ public class AppLayoutFV extends Application{
         Label welcomeL = new Label("WELCOME");
         Label questionL = new Label("SCENE 2");
         Button importB = new Button("IMPORT");
-        Text warningT = new Text("");
-
-        importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        importB.setOnAction(action ->{
-            //file directory code here
-            try {
-               // if the user does not input .csv, the warning text will be shown
-               warningT.setText(
-                     features.checkInputtedFile(scene));
-            } catch (Exception error) {
-               warningT.setText("Action terminated.");
-            }
-         
-        });   
-
-        Button newBudgetB = newBudgetButton();
         
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(welcomeL, questionL, importB, newBudgetB);
+        mainScreen.getChildren().addAll(welcomeL, questionL, importB);
         mainScreen.setAlignment(Pos.CENTER);
         
         two = new Scene(mainScreen, 1000, 500);
@@ -144,25 +136,10 @@ public class AppLayoutFV extends Application{
         Label welcomeL = new Label("WELCOME");
         Label questionL = new Label("SCENE 3");
         Button importB = new Button("IMPORT");
-        Text warningT = new Text("");
-
-        importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        importB.setOnAction(action ->{
-            //file directory code here
-            try {
-               // if the user does not input .csv, the warning text will be shown
-               warningT.setText(
-                     features.checkInputtedFile(scene));
-            } catch (Exception error) {
-               warningT.setText("Action terminated.");
-            }
-         
-        });   
-
-        Button newBudgetB = newBudgetButton();
+        
         
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(welcomeL, questionL, importB, newBudgetB);
+        mainScreen.getChildren().addAll(welcomeL, questionL, importB);
         mainScreen.setAlignment(Pos.CENTER);
         
         three = new Scene(mainScreen, 1000, 500);
@@ -170,14 +147,7 @@ public class AppLayoutFV extends Application{
         return three;
     }   
 
-     public Button newBudgetButton(){
-        Button newBudget = new Button("NEW BUDGET");
-        newBudget.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        newBudget.setOnAction(action ->{
-            window.setScene(sceneThree); //WE NEED TO MAKE SCENE 3
-        });
-        return newBudget;
-    }
+     
 
     public Scene showSceneFourFive(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
 

@@ -2,6 +2,9 @@
  * Base Class - Model - Finance
  */
 import java.io.*;
+import java.io.File;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 class Finance {
     
@@ -46,6 +49,32 @@ class Finance {
             System.out.println();
         }
     }
+    public String checkInputtedFile(Stage primaryStage) {
+        FileChooser fileChooser = new FileChooser(); // allow user to input file
+        File file = fileChooser.showOpenDialog(primaryStage);
+        String fileName = file.getName();
+        String filePath = file.getAbsolutePath();
+  
+        String warningText = " ";
+  
+        if (file != null) {
+           // If inputted file is .csv file
+           if ((fileName.substring(fileName.length() - 4, fileName.length())).equals(".csv")) {
+              // reading csv file by adding elements to questions and answers arraylist
+              try {
+                //  read csv method
+              } catch (Exception e) {
+                 warningText = "Invalid, action terminated.";
+              }
+           }
+           // Forces user to input .csv in order to go to continue
+           else {
+              warningText = "Please enter a .csv file.";
+  
+           }
+        }
+        return warningText;
+     }         
     //insert importing method name (file io)
     //insert exporting method name
     //insert creating csv name
