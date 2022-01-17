@@ -96,7 +96,6 @@ public class Trends {
 
         for(int i = 0; i < 6; i++){
             if (twoDArr[i][1] == null || twoDArr[i][1].equals("")){
-                System.out.println("no longer empty");
                 twoDArr[i][1] = "0.0";
             }
 
