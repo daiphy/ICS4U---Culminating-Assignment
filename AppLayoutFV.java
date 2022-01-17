@@ -28,8 +28,8 @@ import javafx.geometry.Pos; //For alignment
 
 public class AppLayoutFV extends Application{
 
-    //-------------------- GLOBAL VARIABLES --------------------//
-    Scene sceneFour, sceneFive, sceneSix, sceneSeven;
+    // Global Variables
+    Scene sceneOne, sceneTwo, sceneThree, sceneFour, sceneFive, sceneSix, sceneSeven;
     Stage window;
     Color babyBlue = Color.web("#C9DAF8");
     ComboBox cBMonths, cBIncFour, cBIncFive, cBExpFour, cBExpFive;
@@ -37,27 +37,26 @@ public class AppLayoutFV extends Application{
     String emptyCat = "";
     String emptyAmnt = "";
     int y = 150;
-    public LayoutFeatures features = new LayoutFeatures(); 
 
     // GridPane gridPane = new GridPane();
     
-    //-------------------- CONSTRUCTOR --------------------//
     public AppLayoutFV(){
 
     }
 
-    //-------------------- RUN THE GUI --------------------//
     @Override
     public void start(Stage primaryStage) throws Exception{
         Finance finance = new Finance();
         window = primaryStage;
-        cBIncFour = features.comboBoxIncome();
-        cBIncFive = features.comboBoxIncome();
-        cBExpFour = features.comboBoxExpense(); 
-        cBExpFive = features.comboBoxExpense();
+        cBIncFour = comboBoxIncome();
+        cBIncFive = comboBoxIncome();
+        cBExpFour = comboBoxExpense();
+        cBExpFive = comboBoxExpense();
 
-        sceneFour = baseScene(window, "Anticipated", cBIncFour, cBExpFour);
-        sceneFive = baseScene(window, "Actual", cBIncFive, cBExpFive);
+        sceneOne = showSceneOne(window);
+
+        sceneFour = showSceneFourFive(window, "Anticipated", cBIncFour, cBExpFour);
+        sceneFive = showSceneFourFive(window, "Actual", cBIncFive, cBExpFive);
         // sceneFive = baseScene(window, "Anticipated", "Expense", cBExpense);
         // sceneSix = baseScene(window, "Actual", "Income", cBIncome);
         // sceneSeven = baseScene(window, "Actual", "Expense", cBExpense);
@@ -66,49 +65,74 @@ public class AppLayoutFV extends Application{
         window.show();
         
     }
+    public Scene showSceneOne (Stage scene){
+        Scene sceneOne;
 
-    //-------------------- SCENE THREE/FOUR --------------------//
-    public Scene baseScene(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
+        // Initializing buttons and labels
+        Label welcomeL = new Label("WELCOME");
+        Label questionL = new Label("Would you like to start a new budget or import a file?");
+        Button importB = new Button("IMPORT");
+
+        importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        importB.setOnAction(action ->{
+            //file directory code here
+        }
+        );            
+
+        
+
+        return sceneOne;
+    }
+
+    public void newBudgetButton(){
+        Button newBudget = new Button("NEW BUDGET");
+        newBudget.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        newBudget.setOnAction(action ->{
+            window.setScene(sceneThree); //WE NEED TO MAKE SCENE 3
+        });
+    }
+
+    public Scene showSceneFourFive(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
 
         Scene base;
 
         // initializing buttons, labels, comboBoxes
         Label titleL = new Label("Budgeting App");
-        cBMonths = features.comboBoxMonths();
+        cBMonths = comboBoxMonths();
 
         Label typeL = new Label(whichType);
         Label incL = new Label("INCOME");
         Label expL = new Label("EXPENSE");
         
-        Label catTL = features.catLabel();
-        Label catBL = features.catLabel();
-        Label amntTL = features.amntLabel();
-        Label amntBL = features.amntLabel();
+        Label catTL = catLabel();
+        Label catBL = catLabel();
+        Label amntTL = amntLabel();
+        Label amntBL = amntLabel();
         
-        Label hSpaceOne = features.spacing();
-        Label hSpaceTwo = features.spacing();
-        Label vSpace = features.spacing();
-        Label rSpace = features.spacing();
+        Label hSpaceOne = spacing();
+        Label hSpaceTwo = spacing();
+        Label vSpace = spacing();
+        Label rSpace = spacing();
 
-        TextField amntTFT = features.amntT();
-        TextField amntTFB = features.amntT();
+        TextField amntTFT = amntT();
+        TextField amntTFB = amntT();
         Text catAmnt = new Text("Category & Amount");
         Text cat = new Text();
         Text amnt = new Text();
         
-        Button addTB = features.addButton(cBInc, amntTFT, cat, amnt);
-        Button addBB = features.addButton(cBExp, amntTFB, cat, amnt);
-        Button delTB = features.delButton(cBInc, amntTFT);
-        Button delBB = features.delButton(cBExp, amntTFB);
+        Button addTB = addButton(cBInc, amntTFT, cat, amnt);
+        Button addBB = addButton(cBExp, amntTFB, cat, amnt);
+        Button delTB = delButton(cBInc, amntTFT);
+        Button delBB = delButton(cBExp, amntTFB);
 
-        Button nextB = features.nextButton(stage);
-        Button backB = features.backButton(stage);
+        Button nextB = nextButton(stage);
+        Button backB = backButton(stage);
         
 
         // MAKE IF STATEMENTS IN THE ADD/DEL BTN THAT THE RECTANGLE Y WILL CHANGE AS MORE THINGS ARE ADDED AND DELETED
 
-        StackPane stackPaneT = features.showSPane();
-        StackPane stackPaneB = features.showSPane();
+        StackPane stackPaneT = showSPane();
+        StackPane stackPaneB = showSPane();
 
         // Rectangle rectangle = new Rectangle(100,150,900,y);
         // rectangle.setFill(babyBlue);
@@ -220,6 +244,145 @@ public class AppLayoutFV extends Application{
 
         base = new Scene(mainScreen, 1000, 500);
 
-        return base; 
+        return base;
     }
+    public StackPane showSPane(){
+        StackPane sPane = new StackPane();
+
+        Label rSpace = spacing();
+
+        Rectangle rectangle = new Rectangle(100,150,900,y);
+        rectangle.setFill(babyBlue);
+
+        Text catAmnt = new Text("Category & Amount");
+        Text cat = new Text();
+        Text amnt = new Text();
+
+        // stackPane.setMargin(catAmnt, new Insets(1, 1, 1, 1));
+
+        VBox cATotal = new VBox(10);
+        cATotal.getChildren().addAll(catAmnt, cat,amnt);
+
+        HBox catAmntBox = new HBox(10);
+        catAmntBox.getChildren().addAll(rSpace, cATotal);
+        catAmntBox.setAlignment(Pos.TOP_LEFT);
+
+        sPane.getChildren().addAll(rectangle, catAmntBox);
+
+        return sPane;
+    }
+    public Label spacing(){
+        Label space = new Label("                  ");
+        return space;
+    }
+    
+    public Label catLabel(){
+        Label cLabel = new Label("Category : ");
+        return cLabel;
+    }
+    public Label amntLabel(){
+        Label aLabel = new Label("Amount : ");
+        return aLabel;
+    }
+    public Button addButton(ComboBox cBTrans, TextField amountT, Text cat, Text amnt){
+        Button addB = new Button("ADD");
+        addB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        addB.setOnAction(action -> {
+            String catIncome = (String) cBTrans.getValue();
+            String showCatI = catIncome + " | ";
+            String amntIncomeString = amountT.getText();
+            String showAmntI = amntIncomeString + " | ";
+            Double amntIncome = Double.parseDouble(amntIncomeString);
+            System.out.println(catIncome + " : " + amntIncome);
+            if(cBTrans.getValue() != null && amountT.getText() != null){
+                // y += 20;
+                emptyCat += showCatI;
+                emptyAmnt += showAmntI;
+                cat.setText("Category : " + emptyCat);
+                amnt.setText("Amount : " + emptyAmnt);
+            }
+            // .add() to arraylist here Jane/Rachel
+        });
+
+        return addB;
+    }
+    public Button delButton(ComboBox cBTrans, TextField amountT){
+        Button delB = new Button("DELETE");
+        delB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        delB.setOnAction(action -> {
+            String catIncome = (String) cBTrans.getValue();
+            String amntIncomeString = amountT.getText();
+            Double amntIncome = Double.parseDouble(amntIncomeString);
+            System.out.println(catIncome + " : " + amntIncome);
+            // .remove() to arraylist here Jane/Rachel
+        });
+        return delB;
+    }
+    public Button nextButton(Stage stage){
+        Button nextB = new Button("NEXT");
+        nextB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        nextB.setOnAction(action -> {
+            // if(whichType.equals("Anticipated")){
+                stage.setScene(sceneFive);
+            // }
+        });
+        return nextB;
+    }
+    public Button backButton(Stage stage){
+        Button backB = new Button("BACK");
+        backB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        backB.setOnAction(action -> {
+            // if(whichType.equals("Anticipated")){
+                stage.setScene(sceneFour);
+            // }
+        });
+        return backB;
+    }
+    public TextField amntT(){
+        TextField amountT = new TextField("0.00");
+        return amountT;
+    }
+    public ScrollPane showScrollPane(VBox vBoxContents){
+        ScrollPane scroll = new ScrollPane();
+        scroll.setContent(vBoxContents);
+        scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+        scroll.setStyle("-fx-background-color:transparent;");
+        //scroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+
+        return scroll;
+    }
+
+    public ComboBox comboBoxMonths(){
+        ComboBox months = new ComboBox();
+        months.getItems().addAll(
+                                 "January", "February", "March", "April", "May", "June",
+                                 "July", "August", "September", "October", "November", "December"
+                                );
+        months.setPromptText("Select Month");
+        months.setEditable(false);
+        
+        return months;
+      }
+      public ComboBox comboBoxIncome(){
+        ComboBox incomeCat = new ComboBox();
+        incomeCat.getItems().addAll(
+                                    "Savings", "Paycheck", "Bonus",
+                                    "Interest", "Allowance", "Other"
+                                   );
+        incomeCat.setPromptText("Select Category");
+        incomeCat.setEditable(false);
+        
+        return incomeCat;
+      }
+      public ComboBox comboBoxExpense(){
+        ComboBox expenseCat = new ComboBox();
+        expenseCat.getItems().addAll(
+                                     "Food", "Health", "Transportation", 
+                                     "Utilies", "Personal","Other"
+                                    );
+        expenseCat.setPromptText("Select Category");
+        expenseCat.setEditable(false);
+        
+        return expenseCat;
+      }
 }
