@@ -772,7 +772,7 @@ public class AppLayout extends Application {
     ComboBox expenseCat = new ComboBox();
     expenseCat.getItems().addAll(
                                  "Food", "Health", "Transportation", 
-                                 "Utilies", "Personal","Other"
+                                 "Utilities", "Personal","Other"
                                 );
     expenseCat.setPromptText("Select Category");
     expenseCat.setEditable(false);
