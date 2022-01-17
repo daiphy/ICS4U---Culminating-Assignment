@@ -28,7 +28,7 @@ import javafx.geometry.Pos; //For alignment
 
 public class AppLayoutFV extends Application{
 
-    // Global Variables
+    //-------------------- GLOBAL VARIABLES --------------------//
     Scene sceneFour, sceneFive, sceneSix, sceneSeven;
     Stage window;
     Color babyBlue = Color.web("#C9DAF8");
@@ -41,10 +41,12 @@ public class AppLayoutFV extends Application{
 
     // GridPane gridPane = new GridPane();
     
+    //-------------------- CONSTRUCTOR --------------------//
     public AppLayoutFV(){
 
     }
 
+    //-------------------- RUN THE GUI --------------------//
     @Override
     public void start(Stage primaryStage) throws Exception{
         Finance finance = new Finance();
@@ -64,6 +66,8 @@ public class AppLayoutFV extends Application{
         window.show();
         
     }
+
+    //-------------------- SCENE THREE/FOUR --------------------//
     public Scene baseScene(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
 
         Scene base;
