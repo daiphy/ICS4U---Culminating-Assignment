@@ -1,7 +1,7 @@
 // import java.io.IOException;
 // import java.io.*;
-// import java.io.File;
-// import javafx.stage.FileChooser;
+import java.io.File;
+import javafx.stage.FileChooser;
 
 import javafx.application.Application;
 // import javafx.collections.ObservableList;
@@ -39,9 +39,11 @@ public class AppLayoutFV extends Application{
     Color babyBlue = Color.web("#C9DAF8");
     ComboBox cBMonths, cBIncFour, cBIncFive, cBExpFour, cBExpFive;
     // StackPane stackPane = new StackPane();
-    
+    String emptyCat = "";
+    String emptyAmnt = "";
     int y = 150;
     public LayoutFeatures features = new LayoutFeatures(); 
+    public Finance finance = new Finance();
 
     
     public AppLayoutFV(){
@@ -50,7 +52,7 @@ public class AppLayoutFV extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Finance finance = new Finance();
+        
 
         window = primaryStage;
         cBIncFour = features.comboBoxIncome();
@@ -59,14 +61,15 @@ public class AppLayoutFV extends Application{
         cBExpFive = features.comboBoxExpense();
 
         sceneOne = showSceneOne(window);
-
+        sceneTwo = showSceneTwo(window);
+        sceneThree = showSceneThree(window);
         sceneFour = showSceneFourFive(window, "Anticipated", cBIncFour, cBExpFour);
         sceneFive = showSceneFourFive(window, "Actual", cBIncFive, cBExpFive);
         // sceneFive = baseScene(window, "Anticipated", "Expense", cBExpense);
         // sceneSix = baseScene(window, "Actual", "Income", cBIncome);
         // sceneSeven = baseScene(window, "Actual", "Expense", cBExpense);
 
-        window.setScene(sceneFour);
+        window.setScene(sceneOne);
         window.show();
         
     }
@@ -77,7 +80,7 @@ public class AppLayoutFV extends Application{
         Label welcomeL = new Label("WELCOME");
         Label questionL = new Label("Would you like to start a new budget or import a file?");
         Button importB = new Button("IMPORT");
-        Text warningT = new Text(" ");
+        Text warningT = new Text("");
 
         importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         importB.setOnAction(action ->{
@@ -85,27 +88,66 @@ public class AppLayoutFV extends Application{
             try {
                // if the user does not input .csv, the warning text will be shown
                warningT.setText(
-                     features.checkInputtedFile(scene));
+                     finance.checkInputtedFile(scene));
             } catch (Exception error) {
                warningT.setText("Action terminated.");
             }
          
         });   
+        Button newBudgetB = newBudgetButton();
         
-        one = new Scene(importB, 1000, 500);
-
+        VBox mainScreen = new VBox(20);        
+        mainScreen.getChildren().addAll(welcomeL, questionL, importB, newBudgetB, warningT);
+        mainScreen.setAlignment(Pos.CENTER);
+        
+        one = new Scene(mainScreen, 1000, 500);
+        
         return one;
-    }
-
-
-
-    public void newBudgetButton(){
+    }    
+    public Button newBudgetButton(){
         Button newBudget = new Button("NEW BUDGET");
         newBudget.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         newBudget.setOnAction(action ->{
             window.setScene(sceneThree); //WE NEED TO MAKE SCENE 3
         });
+        return newBudget;
     }
+    public Scene showSceneTwo (Stage scene){
+        Scene two;
+
+        // Initializing buttons and labels
+        Label welcomeL = new Label("WELCOME");
+        Label questionL = new Label("SCENE 2");
+        Button importB = new Button("IMPORT");
+        
+        VBox mainScreen = new VBox(20);        
+        mainScreen.getChildren().addAll(welcomeL, questionL, importB);
+        mainScreen.setAlignment(Pos.CENTER);
+        
+        two = new Scene(mainScreen, 1000, 500);
+        
+        return two;
+    }   
+
+    public Scene showSceneThree (Stage scene){
+        Scene three;
+
+        // Initializing buttons and labels
+        Label welcomeL = new Label("WELCOME");
+        Label questionL = new Label("SCENE 3");
+        Button importB = new Button("IMPORT");
+        
+        
+        VBox mainScreen = new VBox(20);        
+        mainScreen.getChildren().addAll(welcomeL, questionL, importB);
+        mainScreen.setAlignment(Pos.CENTER);
+        
+        three = new Scene(mainScreen, 1000, 500);
+        
+        return three;
+    }   
+
+     
 
     public Scene showSceneFourFive(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
 
@@ -134,12 +176,9 @@ public class AppLayoutFV extends Application{
         Text catAmnt = new Text("Category & Amount");
         Text cat = new Text();
         Text amnt = new Text();
-
-        String emptyCat = "";
-        String emptyAmnt = "";
         
         Button addTB = features.addButton(cBInc, amntTFT, cat, amnt, emptyAmnt, emptyCat);
-        Button addBB = features.addButton(cBExp, amntTFB, cat, amnt, emptyAmnt, emptyCat);
+        Button addBB = features.addButton(cBInc, amntTFT, cat, amnt, emptyAmnt, emptyCat);
         Button delTB = features.delButton(cBInc, amntTFT);
         Button delBB = features.delButton(cBExp, amntTFB);
 
@@ -149,8 +188,8 @@ public class AppLayoutFV extends Application{
 
         // MAKE IF STATEMENTS IN THE ADD/DEL BTN THAT THE RECTANGLE Y WILL CHANGE AS MORE THINGS ARE ADDED AND DELETED
 
-        StackPane stackPaneT = features.showSPane(babyBlue);
-        StackPane stackPaneB = features.showSPane(babyBlue);
+        StackPane stackPaneT = features.showSPane();
+        StackPane stackPaneB = features.showSPane();
 
         // Rectangle rectangle = new Rectangle(100,150,900,y);
         // rectangle.setFill(babyBlue);

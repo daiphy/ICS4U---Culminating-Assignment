@@ -98,13 +98,14 @@ public class FVTestArea extends Application{
         Text cat = new Text();
         Text amnt = new Text();
         
-        Button addTB = features.addButton(cBInc, amntTFT, cat, amnt);
-        Button addBB = features.addButton(cBExp, amntTFB, cat, amnt);
+        Button addTB = features.addButton(cBInc, amntTFT, cat, amnt, emptyAmnt, emptyCat);
+        Button addBB = features.addButton(cBInc, amntTFT, cat, amnt, emptyAmnt, emptyCat);
         Button delTB = features.delButton(cBInc, amntTFT);
         Button delBB = features.delButton(cBExp, amntTFB);
 
-        Button nextB = features.nextButton(stage);
-        Button backB = features.backButton(stage);
+        Button nextB = features.nextButton(stage, sceneFive);
+        Button backB = features.backButton(stage, sceneFour);
+        
         
 
         // MAKE IF STATEMENTS IN THE ADD/DEL BTN THAT THE RECTANGLE Y WILL CHANGE AS MORE THINGS ARE ADDED AND DELETED
