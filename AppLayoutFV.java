@@ -1,3 +1,8 @@
+// import java.io.IOException;
+// import java.io.*;
+import java.io.File;
+import javafx.stage.FileChooser;
+
 import javafx.application.Application;
 // import javafx.collections.ObservableList;
 // import javafx.scene.Node;
@@ -23,7 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
-import javafx.geometry.Insets;
+// import javafx.geometry.Insets;
 import javafx.geometry.Pos; //For alignment
 
 public class AppLayoutFV extends Application{
@@ -61,28 +66,63 @@ public class AppLayoutFV extends Application{
         // sceneSix = baseScene(window, "Actual", "Income", cBIncome);
         // sceneSeven = baseScene(window, "Actual", "Expense", cBExpense);
 
-        window.setScene(sceneFour);
+        window.setScene(sceneOne);
         window.show();
         
     }
     public Scene showSceneOne (Stage scene){
-        Scene sceneOne;
+        Scene one;
 
         // Initializing buttons and labels
         Label welcomeL = new Label("WELCOME");
         Label questionL = new Label("Would you like to start a new budget or import a file?");
         Button importB = new Button("IMPORT");
+        Text warningT = new Text("");
 
         importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         importB.setOnAction(action ->{
             //file directory code here
-        }
-        );            
-
+            try {
+               // if the user does not input .csv, the warning text will be shown
+               warningT.setText(
+                     checkInputtedFile(scene));
+            } catch (Exception error) {
+               warningT.setText("Action terminated.");
+            }
+         
+        });   
         
+        one = new Scene(importB, 1000, 500);
 
-        return sceneOne;
+        return one;
     }
+
+    public String checkInputtedFile(Stage primaryStage) {
+        FileChooser fileChooser = new FileChooser(); // allow user to input file
+        File file = fileChooser.showOpenDialog(primaryStage);
+        String fileName = file.getName();
+        String filePath = file.getAbsolutePath();
+  
+        String warningText = " ";
+  
+        if (file != null) {
+           // If inputted file is .csv file
+           if ((fileName.substring(fileName.length() - 4, fileName.length())).equals(".csv")) {
+              // reading csv file by adding elements to questions and answers arraylist
+              try {
+                //  read csv method
+              } catch (Exception e) {
+                 warningText = "Invalid, action terminated.";
+              }
+           }
+           // Forces user to input .csv in order to go to continue
+           else {
+              warningText = "Please enter a .csv file.";
+  
+           }
+        }
+        return warningText;
+     }
 
     public void newBudgetButton(){
         Button newBudget = new Button("NEW BUDGET");
@@ -94,7 +134,7 @@ public class AppLayoutFV extends Application{
 
     public Scene showSceneFourFive(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
 
-        Scene base;
+        Scene fourFive;
 
         // initializing buttons, labels, comboBoxes
         Label titleL = new Label("Budgeting App");
@@ -184,32 +224,6 @@ public class AppLayoutFV extends Application{
         //     System.out.println(catIncome + " : " + amntIncome);
         //     // .remove() to arraylist here Jane/Rachel
         // });
-        // nextB.setOnAction(action -> {
-        //     // if (whichType.equals("Anticipated") && trans.equals("Income")){
-        //                 // sceneFive = baseScene(window, "Anticipated", "Expense", cBIncome);
-
-        //         // stage.setScene(sceneFive);
-        //         // stage.show();
-
-        //         if (whichType.equals("Anticipated") && trans.equals("Income")){
-        //             stage.setScene(sceneFive);
-        //             stage.show();
-        //         }
-        //         else if (whichType.equals("Anticipated") && trans.equals("Expense")){
-        //             stage.setScene(sceneSix);
-        //             stage.show();
-        //         }
-        //         else if (whichType.equals("Actual") && trans.equals("Income")){
-        //             stage.setScene(sceneSeven);
-        //             stage.show();
-        //         }
-            
-        // });
-        // backB.setOnAction(action -> {
-        //     stage.setScene(sceneFour);
-        //     stage.show();
-        
-        // });
 
         VBox firstCol = new VBox(10);
         firstCol.getChildren().addAll(typeL, incL);
@@ -242,9 +256,9 @@ public class AppLayoutFV extends Application{
         // fullScreen.getChildren().addAll(mainScreen, scroll);
         // fullScreen.setAlignment(Pos.CENTER_RIGHT);
 
-        base = new Scene(mainScreen, 1000, 500);
+        fourFive = new Scene(mainScreen, 1000, 500);
 
-        return base;
+        return fourFive;
     }
     public StackPane showSPane(){
         StackPane sPane = new StackPane();
