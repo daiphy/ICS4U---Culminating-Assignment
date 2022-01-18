@@ -96,12 +96,23 @@ public class AppLayoutFV extends Application{
     public Scene showSceneOne (Stage scene){
         Scene one;
 
-        // Initializing buttons and labels
-        Label welcomeL = new Label("WELCOME");
-        Label questionL = new Label("Would you like to start a new budget or import a file?");
-        Button importB = new Button("IMPORT");
         Text warningT = new Text("");
-
+        // Initializing buttons and labels
+        Label welcomeL = new Label("MAIN MENU");
+        welcomeL.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Label introL = new Label("Click on one of the buttons below to visit the page");
+        introL.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Button summaryB = new Button("SUMMARY");
+        summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Button trendsB = new Button("TRENDS");
+        trendsB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Button transactionB = new Button("TRANSACTIONS");
+        transactionB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Button planB = new Button("PLAN");
+        planB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Button newBudgetB = newBudgetButton();
+        newBudgetB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Button importB = new Button("IMPORT");
         importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         importB.setOnAction(action ->{
             //file directory code here
@@ -114,10 +125,15 @@ public class AppLayoutFV extends Application{
             }
          
         });   
-        Button newBudgetB = newBudgetButton();
-        
-        VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(welcomeL, questionL, importB, newBudgetB, warningT);
+
+        VBox left = new VBox(20);
+        left.getChildren().addAll(welcomeL, newBudgetB, transactionB, summaryB);
+
+        VBox right = new VBox(20);
+        right.getChildren().addAll(planB, trendsB, importB);
+
+        HBox mainScreen = new HBox(20);        
+        mainScreen.getChildren().addAll(left, right);
         mainScreen.setAlignment(Pos.CENTER);
         
         one = new Scene(mainScreen, 1000, 500);
