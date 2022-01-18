@@ -1,6 +1,8 @@
 // import java.io.IOException;
 // import java.io.*;
 import java.io.File;
+import java.util.ArrayList;
+
 import javafx.stage.FileChooser;
 
 import javafx.application.Application;
@@ -44,6 +46,20 @@ public class AppLayoutFV extends Application{
     int y = 150;
     public LayoutFeatures features = new LayoutFeatures(); 
     public Finance finance = new Finance();
+
+      //Initialize arrays
+        public String[] arr = new String[12];
+        public ArrayList<String> incomeAntCatArr = new ArrayList<String>();
+        public ArrayList<String> incomeAccCatArr = new ArrayList<String>();
+        public ArrayList<String> incomeAntAmtArr = new ArrayList<String>();
+        public ArrayList<String> incomeAccAmtArr = new ArrayList<String>();
+        public ArrayList<String> expenseAntCatArr = new ArrayList<String>();
+        public ArrayList<String> expenseAccCatArr = new ArrayList<String>();
+        public ArrayList<String> expenseAntAmtArr = new ArrayList<String>();
+        public ArrayList<String> expenseAccAmtArr = new ArrayList<String>();
+        
+        //Initialize Trends
+        Trends trends = new Trends();
 
     
     public AppLayoutFV(){
@@ -136,10 +152,12 @@ public class AppLayoutFV extends Application{
         Label welcomeL = new Label("WELCOME");
         Label questionL = new Label("SCENE 3");
         Button importB = new Button("IMPORT");
+
+        Button sceneFour = goToSceneFour(scene, "NEXT");
         
         
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(welcomeL, questionL, importB);
+        mainScreen.getChildren().addAll(welcomeL, questionL, importB, sceneFour);
         mainScreen.setAlignment(Pos.CENTER);
         
         three = new Scene(mainScreen, 1000, 500);
@@ -157,7 +175,7 @@ public class AppLayoutFV extends Application{
         Label titleL = new Label("Budgeting App");
         cBMonths = features.comboBoxMonths();
 
-        Label typeL = new Label(whichType);
+        Label typeL = new Label(whichType); // anticipated or actual
         Label incL = new Label("INCOME");
         Label expL = new Label("EXPENSE");
         
@@ -177,13 +195,95 @@ public class AppLayoutFV extends Application{
         Text cat = new Text();
         Text amnt = new Text();
         
-        Button addTB = features.addButton(cBInc, amntTFT, cat, amnt, emptyAmnt, emptyCat);
-        Button addBB = features.addButton(cBInc, amntTFT, cat, amnt, emptyAmnt, emptyCat);
-        Button delTB = features.delButton(cBInc, amntTFT);
-        Button delBB = features.delButton(cBExp, amntTFB);
+        // NOTE FOR DAIPHY : HI ME YOU CAN PROLLY METHODIZE THIS TOO LOL U DUMB DUMB!! YOU CAN PROLLY ALSO PUT IT IN AS LAYOUT FEATURE BUT THATS A 01/18/2022 PROBLEM LOL
+        // UNTIL 280 U CAN PROLLY ALSO METHODIZE THE DEL STUFF SINCE IT'S SAME CODE DIF VARIABLES !!
 
-        Button nextB = features.nextButton(stage, sceneFive);
-        Button backB = features.backButton(stage, sceneFour);
+        Button addTB = features.addButton(cBInc, amntTFT, cat, amnt); //income
+        addTB.setOnAction(action -> {
+            if(whichType.equalsIgnoreCase("ANTICIPATED")){
+                incomeAntCatArr.add((String) cBInc.getValue());
+                incomeAntAmtArr.add(amntTFT.getText());
+                System.out.println(incomeAntCatArr + " : " + incomeAntAmtArr);  // testing
+            }
+            else{
+                incomeAccCatArr.add((String) cBInc.getValue());
+                incomeAccAmtArr.add(amntTFT.getText());
+                System.out.println(incomeAccCatArr + " : " + incomeAccAmtArr);  //testng
+            }
+            System.out.println("Button pressed");
+            
+        });
+
+        Button addBB = features.addButton(cBExp, amntTFB, cat, amnt); // expense
+        addBB.setOnAction(action -> {
+            if(whichType.equalsIgnoreCase("ANTICIPATED")){
+                expenseAntCatArr.add((String) cBExp.getValue());
+                expenseAntAmtArr.add(amntTFB.getText());
+                System.out.println(expenseAntCatArr + " : " + expenseAntAmtArr);      //testing
+            }
+            else{
+                expenseAccCatArr.add((String) cBExp.getValue());
+                expenseAccAmtArr.add(amntTFB.getText());
+                System.out.println(expenseAccCatArr + " : " + expenseAccAmtArr);      //testing
+            }
+        });
+        
+        // TB (top half of the scene) -> income
+        Button delTB = features.delButton(cBInc, amntTFT);
+        delTB.setOnAction(action -> {
+            String temp = (String) cBInc.getValue();
+            String tempText = amntTFT.getText();
+            
+            if(whichType.equalsIgnoreCase("ANTICIPATED")){
+                for(int i = 0; i < incomeAntCatArr.size(); i++){
+                    if( incomeAntCatArr.get(i).equals(temp) && incomeAntAmtArr.get(i).equals(tempText)){
+                        incomeAntCatArr.remove(i);
+                        incomeAntAmtArr.remove(i);     
+                    }
+                }
+                System.out.println(incomeAntCatArr + " : " + incomeAntAmtArr);      // for testing
+
+            }
+            else{
+                for(int i = 0; i < incomeAccCatArr.size(); i++){
+                    if( incomeAccCatArr.get(i).equals(temp) && incomeAccAmtArr.get(i).equals(tempText)){
+                        incomeAccCatArr.remove(i);
+                        incomeAccAmtArr.remove(i);     
+                    }
+                }
+                System.out.println(incomeAccCatArr + " : " + incomeAccAmtArr);        // for testing
+            }
+        });
+        // BB (bottom half of the scene) -> expenses
+        Button delBB = features.delButton(cBExp, amntTFB);
+        delBB.setOnAction(action -> {
+            String temp = (String) cBExp.getValue();
+            String tempText = amntTFB.getText();
+            
+            if(whichType.equalsIgnoreCase("ANTICIPATED")){
+                for(int i = 0; i < expenseAntCatArr.size(); i++){
+                    if( expenseAntCatArr.get(i).equals(temp) && expenseAntAmtArr.get(i).equals(tempText)){
+                        expenseAntCatArr.remove(i);
+                        expenseAntAmtArr.remove(i);     
+                    }
+                }
+                System.out.println(expenseAntCatArr + " : " + expenseAntAmtArr);      // for testing
+
+            }
+            else{
+                for(int i = 0; i < expenseAccCatArr.size(); i++){
+                    if( expenseAccCatArr.get(i).equals(temp) && expenseAccAmtArr.get(i).equals(tempText)){
+                        expenseAccCatArr.remove(i);
+                        expenseAccAmtArr.remove(i);     
+                    }
+                }
+                System.out.println(expenseAccCatArr + " : " + expenseAccAmtArr);        // for testing
+            }
+        });
+
+
+        Button nextB = goToSceneFive(stage, "NEXT");
+        Button backB = goToSceneFour(stage, "BACK");
         
 
         // MAKE IF STATEMENTS IN THE ADD/DEL BTN THAT THE RECTANGLE Y WILL CHANGE AS MORE THINGS ARE ADDED AND DELETED
@@ -302,5 +402,25 @@ public class AppLayoutFV extends Application{
         fourFive = new Scene(mainScreen, 1000, 500);
 
         return fourFive; 
+    }
+    public Button goToSceneFive(Stage stage, String sceneName){
+        Button scene5B = new Button(sceneName);
+        scene5B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        scene5B.setOnAction(action -> {
+            // if(whichType.equals("Anticipated")){
+                stage.setScene(sceneFive);
+            // }
+        });
+        return scene5B;
+    }
+    public Button goToSceneFour(Stage stage, String sceneName){
+        Button scene4B = new Button(sceneName);
+        scene4B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        scene4B.setOnAction(action -> {
+            // if(whichType.equals("Anticipated")){
+                stage.setScene(sceneFour);
+            // }
+        });
+        return scene4B;
     }
 }
