@@ -1,9 +1,9 @@
 // import java.io.IOException;
 // import java.io.*;
-import java.io.File;
+// import java.io.File;
 import java.util.ArrayList;
 
-import javafx.stage.FileChooser;
+// import javafx.stage.FileChooser;
 
 import javafx.application.Application;
 // import javafx.collections.ObservableList;
@@ -36,6 +36,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
 
 public class AppLayoutFV extends Application{
 
@@ -89,7 +90,7 @@ public class AppLayoutFV extends Application{
         // sceneSix = baseScene(window, "Actual", "Income", cBIncome);
         // sceneSeven = baseScene(window, "Actual", "Expense", cBExpense);
 
-        window.setScene(sceneOne);
+        window.setScene(sceneFour);
         window.show();
         
     }
@@ -255,6 +256,8 @@ public class AppLayoutFV extends Application{
     
     public Scene showSceneFourFive(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
 
+        Label space = features.spacing();
+
         Scene fourFive;
 
         // initializing buttons, labels, comboBoxes
@@ -283,88 +286,82 @@ public class AppLayoutFV extends Application{
         
         // NOTE FOR DAIPHY : HI ME YOU CAN PROLLY METHODIZE THIS TOO LOL U DUMB DUMB!! YOU CAN PROLLY ALSO PUT IT IN AS LAYOUT FEATURE BUT THATS A 01/18/2022 PROBLEM LOL
         // UNTIL 280 U CAN PROLLY ALSO METHODIZE THE DEL STUFF SINCE IT'S SAME CODE DIF VARIABLES !!
+        // UM IDRK HOW YOU WOULD METHODIZE IT THO BC IF U RETURN ARRLIST U CAN ONLY RETURN ONE AND IF IT'S VOID DO YOU NEED ARR LIST? WILL IT GO THROUGH?
 
         Button addTB = features.addButton(cBInc, amntTFT, cat, amnt); //income
         addTB.setOnAction(action -> {
-            if(whichType.equalsIgnoreCase("ANTICIPATED")){
-                incomeAntCatArr.add((String) cBInc.getValue());
-                incomeAntAmtArr.add(amntTFT.getText());
-                System.out.println(incomeAntCatArr + " : " + incomeAntAmtArr);  // testing
-            }
-            else{
-                incomeAccCatArr.add((String) cBInc.getValue());
-                incomeAccAmtArr.add(amntTFT.getText());
-                System.out.println(incomeAccCatArr + " : " + incomeAccAmtArr);  //testng
-            }
-            System.out.println("Button pressed");
+            addToArr(whichType, cBInc, amntTFT, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);
             
         });
 
         Button addBB = features.addButton(cBExp, amntTFB, cat, amnt); // expense
         addBB.setOnAction(action -> {
-            if(whichType.equalsIgnoreCase("ANTICIPATED")){
-                expenseAntCatArr.add((String) cBExp.getValue());
-                expenseAntAmtArr.add(amntTFB.getText());
-                System.out.println(expenseAntCatArr + " : " + expenseAntAmtArr);      //testing
-            }
-            else{
-                expenseAccCatArr.add((String) cBExp.getValue());
-                expenseAccAmtArr.add(amntTFB.getText());
-                System.out.println(expenseAccCatArr + " : " + expenseAccAmtArr);      //testing
-            }
+            addToArr(whichType, cBExp, amntTFB, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
+            // if(whichType.equalsIgnoreCase("ANTICIPATED")){
+            //     expenseAntCatArr.add((String) cBExp.getValue());
+            //     expenseAntAmtArr.add(amntTFB.getText());
+            //     System.out.println(expenseAntCatArr + " : " + expenseAntAmtArr);      //testing
+            // }
+            // else{
+            //     expenseAccCatArr.add((String) cBExp.getValue());
+            //     expenseAccAmtArr.add(amntTFB.getText());
+            //     System.out.println(expenseAccCatArr + " : " + expenseAccAmtArr);      //testing
+            // }
         });
         
         // TB (top half of the scene) -> income
         Button delTB = features.delButton(cBInc, amntTFT);
         delTB.setOnAction(action -> {
-            String temp = (String) cBInc.getValue();
-            String tempText = amntTFT.getText();
+            removeFromArr(whichType, cBInc, amntTFT, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);
+            // String temp = (String) cBInc.getValue();
+            // String tempText = amntTFT.getText();
             
-            if(whichType.equalsIgnoreCase("ANTICIPATED")){
-                for(int i = 0; i < incomeAntCatArr.size(); i++){
-                    if( incomeAntCatArr.get(i).equals(temp) && incomeAntAmtArr.get(i).equals(tempText)){
-                        incomeAntCatArr.remove(i);
-                        incomeAntAmtArr.remove(i);     
-                    }
-                }
-                System.out.println(incomeAntCatArr + " : " + incomeAntAmtArr);      // for testing
+            // if(whichType.equalsIgnoreCase("ANTICIPATED")){
+            //     for(int i = 0; i < incomeAntCatArr.size(); i++){
+            //         if( incomeAntCatArr.get(i).equals(temp) && incomeAntAmtArr.get(i).equals(tempText)){
+            //             incomeAntCatArr.remove(i);
+            //             incomeAntAmtArr.remove(i);     
+            //         }
+            //     }
+            //     System.out.println(incomeAntCatArr + " : " + incomeAntAmtArr);      // for testing
 
-            }
-            else{
-                for(int i = 0; i < incomeAccCatArr.size(); i++){
-                    if( incomeAccCatArr.get(i).equals(temp) && incomeAccAmtArr.get(i).equals(tempText)){
-                        incomeAccCatArr.remove(i);
-                        incomeAccAmtArr.remove(i);     
-                    }
-                }
-                System.out.println(incomeAccCatArr + " : " + incomeAccAmtArr);        // for testing
-            }
+            // }
+            // else{
+            //     for(int i = 0; i < incomeAccCatArr.size(); i++){
+            //         if( incomeAccCatArr.get(i).equals(temp) && incomeAccAmtArr.get(i).equals(tempText)){
+            //             incomeAccCatArr.remove(i);
+            //             incomeAccAmtArr.remove(i);     
+            //         }
+            //     }
+            //     System.out.println(incomeAccCatArr + " : " + incomeAccAmtArr);        // for testing
+            // }
         });
         // BB (bottom half of the scene) -> expenses
         Button delBB = features.delButton(cBExp, amntTFB);
         delBB.setOnAction(action -> {
-            String temp = (String) cBExp.getValue();
-            String tempText = amntTFB.getText();
+            removeFromArr(whichType, cBExp, amntTFB, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
+            // String temp = (String) cBExp.getValue();
+            // String tempText = amntTFB.getText();
             
-            if(whichType.equalsIgnoreCase("ANTICIPATED")){
-                for(int i = 0; i < expenseAntCatArr.size(); i++){
-                    if( expenseAntCatArr.get(i).equals(temp) && expenseAntAmtArr.get(i).equals(tempText)){
-                        expenseAntCatArr.remove(i);
-                        expenseAntAmtArr.remove(i);     
-                    }
-                }
-                System.out.println(expenseAntCatArr + " : " + expenseAntAmtArr);      // for testing
+            // if(whichType.equalsIgnoreCase("ANTICIPATED")){
+            //     for(int i = 0; i < expenseAntCatArr.size(); i++){
+            //         if( expenseAntCatArr.get(i).equals(temp) && expenseAntAmtArr.get(i).equals(tempText)){
+            //             expenseAntCatArr.remove(i);
+            //             expenseAntAmtArr.remove(i);     
+            //         }
+            //     }
+            //     System.out.println(expenseAntCatArr + " : " + expenseAntAmtArr);      // for testing
 
-            }
-            else{
-                for(int i = 0; i < expenseAccCatArr.size(); i++){
-                    if( expenseAccCatArr.get(i).equals(temp) && expenseAccAmtArr.get(i).equals(tempText)){
-                        expenseAccCatArr.remove(i);
-                        expenseAccAmtArr.remove(i);     
-                    }
-                }
-                System.out.println(expenseAccCatArr + " : " + expenseAccAmtArr);        // for testing
-            }
+            // }
+            // else{
+            //     for(int i = 0; i < expenseAccCatArr.size(); i++){
+            //         if( expenseAccCatArr.get(i).equals(temp) && expenseAccAmtArr.get(i).equals(tempText)){
+            //             expenseAccCatArr.remove(i);
+            //             expenseAccAmtArr.remove(i);     
+            //         }
+            //     }
+            //     System.out.println(expenseAccCatArr + " : " + expenseAccAmtArr);        // for testing
+            // }
         });
 
 
@@ -394,78 +391,22 @@ public class AppLayoutFV extends Application{
         // Styling the Labels || Buttons
         titleL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
         typeL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // transL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // categoryL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // amountL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // amountT.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // addB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        // deleteB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        // nextB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        // backB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        // Label.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        // button.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
 
-        // // Button Actions
-        // addB.setOnAction(action -> {
-        //     String catIncome = (String) cBTrans.getValue();
-        //     String showCatI = catIncome + " | ";
-        //     String amntIncomeString = amountT.getText();
-        //     String showAmntI = amntIncomeString + " | ";
-        //     Double amntIncome = Double.parseDouble(amntIncomeString);
-        //     System.out.println(catIncome + " : " + amntIncome);
-        //     if(cBTrans.getValue() != null && amountT.getText() != null){
-        //         // y += 20;
-        //         emptyCat += showCatI;
-        //         emptyAmnt += showAmntI;
-        //         cat.setText("Category : " + emptyCat);
-        //         amnt.setText("Amount : " + emptyAmnt);
-        //     }
-        //     // .add() to arraylist here Jane/Rachel
-        // });
-        // deleteB.setOnAction(action -> {
-        //     String catIncome = (String) cBIncome.getValue();
-        //     String amntIncomeString = amountT.getText();
-        //     Double amntIncome = Double.parseDouble(amntIncomeString);
-        //     System.out.println(catIncome + " : " + amntIncome);
-        //     // .remove() to arraylist here Jane/Rachel
-        // });
-        // nextB.setOnAction(action -> {
-        //     // if (whichType.equals("Anticipated") && trans.equals("Income")){
-        //                 // sceneFive = baseScene(window, "Anticipated", "Expense", cBIncome);
-
-        //         // stage.setScene(sceneFive);
-        //         // stage.show();
-
-        //         if (whichType.equals("Anticipated") && trans.equals("Income")){
-        //             stage.setScene(sceneFive);
-        //             stage.show();
-        //         }
-        //         else if (whichType.equals("Anticipated") && trans.equals("Expense")){
-        //             stage.setScene(sceneSix);
-        //             stage.show();
-        //         }
-        //         else if (whichType.equals("Actual") && trans.equals("Income")){
-        //             stage.setScene(sceneSeven);
-        //             stage.show();
-        //         }
-            
-        // });
-        // backB.setOnAction(action -> {
-        //     stage.setScene(sceneFour);
-        //     stage.show();
-        
-        // });
 
         VBox firstCol = new VBox(10);
         firstCol.getChildren().addAll(typeL, incL);
 
         HBox secondRow = new HBox(50);
-        secondRow.getChildren().addAll(hSpaceOne, firstCol);
+        secondRow.getChildren().addAll(firstCol);
 
         HBox thirdRow = new HBox(50);
         thirdRow.getChildren().addAll(catTL, cBInc, amntTL, amntTFT, addTB, delTB);
         thirdRow.setAlignment(Pos.CENTER);
 
         HBox fourthRow = new HBox(50);
-        fourthRow.getChildren().addAll(hSpaceTwo, expL);
+        fourthRow.getChildren().addAll(expL);
 
         HBox fifthRow = new HBox(50);
         fifthRow.getChildren().addAll(catBL, cBExp, amntBL, amntTFB, addBB, delBB);
@@ -476,8 +417,10 @@ public class AppLayoutFV extends Application{
         lastRow.setAlignment(Pos.BOTTOM_RIGHT);
 
         VBox mainScreen = new VBox(10);
-        mainScreen.getChildren().addAll(vSpace, titleL, cBMonths, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
+        mainScreen.getChildren().addAll(titleL, cBMonths, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
         mainScreen.setAlignment(Pos.TOP_CENTER);
+
+        BorderPane bPane = showBorder(mainScreen);
 
         // ScrollPane scroll = showScrollPane(mainScreen);
 
@@ -485,7 +428,7 @@ public class AppLayoutFV extends Application{
         // fullScreen.getChildren().addAll(mainScreen, scroll);
         // fullScreen.setAlignment(Pos.CENTER_RIGHT);
 
-        fourFive = new Scene(mainScreen, 1000, 500);
+        fourFive = new Scene(bPane, 1000, 500);
 
         return fourFive; 
     }
@@ -509,4 +452,66 @@ public class AppLayoutFV extends Application{
         });
         return scene4B;
     }
+    public BorderPane showBorder(VBox center){
+        BorderPane bPane = new BorderPane();
+
+        Label topSpace = features.spacing();
+        Label bottomSpace = features.spacing();
+        Label leftSpace = features.spacing();
+        Label rightSpace = features.spacing();
+
+        // setting the borders
+        bPane.setTop(topSpace);
+        bPane.setBottom(bottomSpace);
+        bPane.setLeft(leftSpace);
+        bPane.setRight(rightSpace);
+        bPane.setCenter(center);
+
+        return bPane;
+    }
+    public void addToArr(String whichType, ComboBox comboBox, TextField amntTF, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
+        if(whichType.equalsIgnoreCase("ANTICIPATED")){
+            AntCatArr.add((String) comboBox.getValue());
+            AntAmtArr.add(amntTF.getText());
+            System.out.println(AntCatArr + " : " + AntAmtArr);  // testing
+        }
+        else{
+            AccCatArr.add((String) comboBox.getValue());
+            AccAmtArr.add(amntTF.getText());
+            System.out.println(AccCatArr + " : " + AccAmtArr);  //testng
+        }
+        System.out.println("Button pressed");
+    }
+    public void removeFromArr(String whichType, ComboBox comboBox, TextField amntTF, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
+        String temp = (String) comboBox.getValue();
+        String tempText = amntTF.getText();
+            
+        if(whichType.equalsIgnoreCase("ANTICIPATED")){
+            for(int i = 0; i < AntCatArr.size(); i++){
+                if( AntCatArr.get(i).equals(temp) && AntAmtArr.get(i).equals(tempText)){
+                    AntCatArr.remove(i);
+                    AntAmtArr.remove(i);     
+                }
+            }
+            System.out.println(AntCatArr + " : " + AntAmtArr);      // for testing
+
+        }
+        else{
+            for(int i = 0; i < AccCatArr.size(); i++){
+                if( AccCatArr.get(i).equals(temp) && AccAmtArr.get(i).equals(tempText)){
+                    AccCatArr.remove(i);
+                    AccAmtArr.remove(i);     
+                }
+            }
+            System.out.println(AccCatArr + " : " + AccAmtArr);        // for testing
+        }
+        System.out.println("Button pressed");
+    }
+
+    // scenes are objects that contains the buttons and those would interact w the scene themself
+    // paint
+    // make it its own custom object and put the buttons outside of a scene
+    // pane -> google the pane
+    // you can put different panes into one scene
+
 }
