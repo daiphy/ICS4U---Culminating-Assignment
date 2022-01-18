@@ -405,70 +405,9 @@ public class AppLayoutFV extends Application{
         catAmntBox.getChildren().addAll(rSpace, cATotal);
         catAmntBox.setAlignment(Pos.TOP_LEFT);
 
-        // stackPane.getChildren().addAll(rectangle, catAmntBox);
-
         // Styling the Labels || Buttons
         titleL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
         typeL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // transL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // categoryL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // amountL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // amountT.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // addB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        // deleteB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        // nextB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        // backB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-
-        // // Button Actions
-        // addB.setOnAction(action -> {
-        //     String catIncome = (String) cBTrans.getValue();
-        //     String showCatI = catIncome + " | ";
-        //     String amntIncomeString = amountT.getText();
-        //     String showAmntI = amntIncomeString + " | ";
-        //     Double amntIncome = Double.parseDouble(amntIncomeString);
-        //     System.out.println(catIncome + " : " + amntIncome);
-        //     if(cBTrans.getValue() != null && amountT.getText() != null){
-        //         // y += 20;
-        //         emptyCat += showCatI;
-        //         emptyAmnt += showAmntI;
-        //         cat.setText("Category : " + emptyCat);
-        //         amnt.setText("Amount : " + emptyAmnt);
-        //     }
-        //     // .add() to arraylist here Jane/Rachel
-        // });
-        // deleteB.setOnAction(action -> {
-        //     String catIncome = (String) cBIncome.getValue();
-        //     String amntIncomeString = amountT.getText();
-        //     Double amntIncome = Double.parseDouble(amntIncomeString);
-        //     System.out.println(catIncome + " : " + amntIncome);
-        //     // .remove() to arraylist here Jane/Rachel
-        // });
-        // nextB.setOnAction(action -> {
-        //     // if (whichType.equals("Anticipated") && trans.equals("Income")){
-        //                 // sceneFive = baseScene(window, "Anticipated", "Expense", cBIncome);
-
-        //         // stage.setScene(sceneFive);
-        //         // stage.show();
-
-        //         if (whichType.equals("Anticipated") && trans.equals("Income")){
-        //             stage.setScene(sceneFive);
-        //             stage.show();
-        //         }
-        //         else if (whichType.equals("Anticipated") && trans.equals("Expense")){
-        //             stage.setScene(sceneSix);
-        //             stage.show();
-        //         }
-        //         else if (whichType.equals("Actual") && trans.equals("Income")){
-        //             stage.setScene(sceneSeven);
-        //             stage.show();
-        //         }
-            
-        // });
-        // backB.setOnAction(action -> {
-        //     stage.setScene(sceneFour);
-        //     stage.show();
-        
-        // });
 
         VBox firstCol = new VBox(10);
         firstCol.getChildren().addAll(typeL, incL);
@@ -505,16 +444,38 @@ public class AppLayoutFV extends Application{
 
         return fourFive; 
     }
-    public Button goToSceneFive(Stage stage, String sceneName){
-        Button scene5B = new Button(sceneName);
-        scene5B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        scene5B.setOnAction(action -> {
+
+    // Button Methods
+    public Button goToSceneOne(Stage stage, String sceneName){
+        Button scene1B = new Button(sceneName);
+        scene1B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        scene1B.setOnAction(action -> {
             // if(whichType.equals("Anticipated")){
-                stage.setScene(sceneFive);
+                stage.setScene(sceneOne);
             // }
         });
-        return scene5B;
+        return scene1B;
     }
+    public Button goToSceneTwo(Stage stage, String sceneName){
+        Button scene2B = new Button(sceneName);
+        scene2B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        scene2B.setOnAction(action -> {
+            // if(whichType.equals("Anticipated")){
+                stage.setScene(sceneTwo);
+            // }
+        });
+        return scene2B;
+    }
+    public Button goToSceneThree(Stage stage, String sceneName){
+        Button scene3B = new Button(sceneName);
+        scene3B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        scene3B.setOnAction(action -> {
+            // if(whichType.equals("Anticipated")){
+                stage.setScene(sceneThree);
+            // }
+        });
+        return scene3B;
+    }    
     public Button goToSceneFour(Stage stage, String sceneName){
         Button scene4B = new Button(sceneName);
         scene4B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
@@ -524,5 +485,15 @@ public class AppLayoutFV extends Application{
             // }
         });
         return scene4B;
+    }
+    public Button goToSceneFive(Stage stage, String sceneName){
+        Button scene5B = new Button(sceneName);
+        scene5B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        scene5B.setOnAction(action -> {
+            // if(whichType.equals("Anticipated")){
+                stage.setScene(sceneFive);
+            // }
+        });
+        return scene5B;
     }
 }
