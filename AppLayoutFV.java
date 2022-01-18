@@ -81,11 +81,10 @@ public class AppLayoutFV extends Application{
         cBExpFour = features.comboBoxExpense(); 
         cBExpFive = features.comboBoxExpense();
 
-        sceneOne = showSceneOne(window);
-        sceneTwo = showSceneTwo(window);
-        sceneThree = showSceneThree(window, cBMonths);
-        sceneFour = showSceneFourFive(window, "Anticipated", cBIncFour, cBExpFour);
-        sceneFive = showSceneFourFive(window, "Actual", cBIncFive, cBExpFive);
+        sceneOne = showSceneOne(window); // main Menu
+        sceneTwo = showSceneTwo(window, cBMonths); //  new budget      
+        sceneThree = showSceneThreeFour(window, "Anticipated", cBIncFour, cBExpFour);
+        sceneFour = showSceneThreeFour(window, "Actual", cBIncFive, cBExpFive);
         // sceneFive = baseScene(window, "Anticipated", "Expense", cBExpense);
         // sceneSix = baseScene(window, "Actual", "Income", cBIncome);
         // sceneSeven = baseScene(window, "Actual", "Expense", cBExpense);
@@ -97,12 +96,18 @@ public class AppLayoutFV extends Application{
     public Scene showSceneOne (Stage scene){
         Scene one;
 
-        // Initializing buttons and labels
-        Label welcomeL = new Label("WELCOME");
-        Label questionL = new Label("Would you like to start a new budget or import a file?");
-        Button importB = new Button("IMPORT");
         Text warningT = new Text("");
-
+        // Initializing buttons and labels
+        Label welcomeL = new Label("MAIN MENU");
+        Label introL = new Label("Click on one of the buttons below to visit the page");
+        Button summaryB = new Button("SUMMARY"); // scene 5
+        summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Button trendsB = new Button("TRENDS"); //scene 7
+        trendsB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Button transactionB = goToSceneFour(window, "TRANSACTION"); // scene four
+        Button planB = goToSceneThree(window, "PLAN");        
+        Button newBudgetB = goToSceneTwo(window, "NEW BUDGET");        
+        Button importB = new Button("IMPORT");
         importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         importB.setOnAction(action ->{
             //file directory code here
@@ -115,43 +120,25 @@ public class AppLayoutFV extends Application{
             }
          
         });   
-        Button newBudgetB = newBudgetButton();
-        
-        VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(welcomeL, questionL, importB, newBudgetB, warningT);
+
+        VBox left = new VBox(20);
+        left.getChildren().addAll(welcomeL, introL, newBudgetB, transactionB, summaryB);
+
+        VBox right = new VBox(20);
+        right.getChildren().addAll(planB, trendsB, importB);
+
+        HBox mainScreen = new HBox(20);        
+        mainScreen.getChildren().addAll(left, right);
         mainScreen.setAlignment(Pos.CENTER);
         
         one = new Scene(mainScreen, 1000, 500);
         
         return one;
     }    
-    public Button newBudgetButton(){
-        Button newBudget = new Button("NEW BUDGET");
-        newBudget.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        newBudget.setOnAction(action ->{
-            window.setScene(sceneThree); //WE NEED TO MAKE SCENE 3
-        });
-        return newBudget;
-    }
-    public Scene showSceneTwo (Stage scene){
-        Scene two;
 
-        // Initializing buttons and labels
-        Label welcomeL = new Label("WELCOME");
-        Label questionL = new Label("SCENE 2");
-        Button importB = new Button("IMPORT");
-        
-        VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(welcomeL, questionL, importB);
-        mainScreen.setAlignment(Pos.CENTER);
-        
-        two = new Scene(mainScreen, 1000, 500);
-        
-        return two;
-    }   
     
-    public Scene showSceneThree (Stage scene, ComboBox cBMonths){
-        Scene three;
+    public Scene showSceneTwo (Stage scene, ComboBox cBMonths){
+        Scene two;
 
         //Title and instructions for scene 3
         Label newBudgetL = new Label("NEW BUDGET");
@@ -225,11 +212,9 @@ public class AppLayoutFV extends Application{
         displayCat.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
                 
         //NOTE: Buttons need action, move formatting to its own button methods
-        Button mainMenuB = new Button("MAIN MENU");
-        mainMenuB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Button mainMenuB = goToSceneOne(window, "MAIN MENU");        
         
-        Button nextPageB = new Button("NEXT PAGE");
-        nextPageB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Button nextPageB = goToSceneThree(window, "NEXT PAGE");        
         
         //HBox to gather main menu button and next page button
         HBox sceneButtons = new HBox();
@@ -249,16 +234,14 @@ public class AppLayoutFV extends Application{
         mainScreen.getChildren().addAll(fillerL, centerScreen, filler2L);
         mainScreen.setAlignment(Pos.CENTER);
         
-        three = new Scene(mainScreen, 1000, 500);
+        two = new Scene(mainScreen, 1000, 500);
         
-        return three;
+        return two;
     }
     
-    public Scene showSceneFourFive(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
+    public Scene showSceneThreeFour(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
 
-        Label space = features.spacing();
-
-        Scene fourFive;
+        Scene threeFour;
 
         // initializing buttons, labels, comboBoxes
         Label titleL = new Label("Budgeting App");
@@ -274,6 +257,8 @@ public class AppLayoutFV extends Application{
         Label amntBL = features.amntLabel();
         
         Label hSpaceOne = features.spacing();
+        Label space = features.spacing();
+
         Label hSpaceTwo = features.spacing();
         Label vSpace = features.spacing();
         Label rSpace = features.spacing();
@@ -364,9 +349,21 @@ public class AppLayoutFV extends Application{
             // }
         });
 
-
-        Button nextB = goToSceneFive(stage, "NEXT");
-        Button backB = goToSceneFour(stage, "BACK");
+        HBox lastRow = new HBox(10);
+        
+        lastRow.setAlignment(Pos.BOTTOM_RIGHT);
+        if (whichType.equalsIgnoreCase("Anticipated")){
+            Button nextB = goToSceneFour(stage, "NEXT");
+            Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
+            lastRow.getChildren().addAll(mainMenuB, nextB);
+        }
+        else{
+            Button nextB = goToSceneFour(stage, "NEXT");
+            Button backB = goToSceneThree(stage, "BACK");
+            Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
+            lastRow.getChildren().addAll(mainMenuB, backB, nextB);
+        }
+        
         
 
         // MAKE IF STATEMENTS IN THE ADD/DEL BTN THAT THE RECTANGLE Y WILL CHANGE AS MORE THINGS ARE ADDED AND DELETED
@@ -385,8 +382,6 @@ public class AppLayoutFV extends Application{
         HBox catAmntBox = new HBox(10);
         catAmntBox.getChildren().addAll(rSpace, cATotal);
         catAmntBox.setAlignment(Pos.TOP_LEFT);
-
-        // stackPane.getChildren().addAll(rectangle, catAmntBox);
 
         // Styling the Labels || Buttons
         titleL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
@@ -412,9 +407,7 @@ public class AppLayoutFV extends Application{
         fifthRow.getChildren().addAll(catBL, cBExp, amntBL, amntTFB, addBB, delBB);
         fifthRow.setAlignment(Pos.CENTER);
 
-        HBox lastRow = new HBox(10);
-        lastRow.getChildren().addAll(backB, nextB);
-        lastRow.setAlignment(Pos.BOTTOM_RIGHT);
+        
 
         VBox mainScreen = new VBox(10);
         mainScreen.getChildren().addAll(titleL, cBMonths, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
@@ -428,9 +421,51 @@ public class AppLayoutFV extends Application{
         // fullScreen.getChildren().addAll(mainScreen, scroll);
         // fullScreen.setAlignment(Pos.CENTER_RIGHT);
 
-        fourFive = new Scene(bPane, 1000, 500);
+        threeFour = new Scene(bPane, 1000, 500);
 
-        return fourFive; 
+        return threeFour; 
+    }
+
+    // Button Methods
+    public Button goToSceneOne(Stage stage, String sceneName){
+        Button scene1B = new Button(sceneName);
+        scene1B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        scene1B.setOnAction(action -> {
+            // if(whichType.equals("Anticipated")){
+                stage.setScene(sceneOne);
+            // }
+        });
+        return scene1B;
+    }
+    public Button goToSceneTwo(Stage stage, String sceneName){
+        Button scene2B = new Button(sceneName);
+        scene2B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        scene2B.setOnAction(action -> {
+            // if(whichType.equals("Anticipated")){
+                stage.setScene(sceneTwo);
+            // }
+        });
+        return scene2B;
+    }
+    public Button goToSceneThree(Stage stage, String sceneName){
+        Button scene3B = new Button(sceneName);
+        scene3B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        scene3B.setOnAction(action -> {
+            // if(whichType.equals("Anticipated")){
+                stage.setScene(sceneThree);
+            // }
+        });
+        return scene3B;
+    }    
+    public Button goToSceneFour(Stage stage, String sceneName){
+        Button scene4B = new Button(sceneName);
+        scene4B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        scene4B.setOnAction(action -> {
+            // if(whichType.equals("Anticipated")){
+                stage.setScene(sceneFour);
+            // }
+        });
+        return scene4B;
     }
     public Button goToSceneFive(Stage stage, String sceneName){
         Button scene5B = new Button(sceneName);
@@ -441,16 +476,6 @@ public class AppLayoutFV extends Application{
             // }
         });
         return scene5B;
-    }
-    public Button goToSceneFour(Stage stage, String sceneName){
-        Button scene4B = new Button(sceneName);
-        scene4B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        scene4B.setOnAction(action -> {
-            // if(whichType.equals("Anticipated")){
-                stage.setScene(sceneFour);
-            // }
-        });
-        return scene4B;
     }
     public BorderPane showBorder(VBox center){
         BorderPane bPane = new BorderPane();
