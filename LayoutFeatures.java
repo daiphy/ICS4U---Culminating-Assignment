@@ -1,9 +1,3 @@
-import java.io.File;
-import javafx.stage.FileChooser;
-import javafx.application.Application;
-// import javafx.collections.ObservableList;
-// import javafx.scene.Node;
-// import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -45,7 +39,7 @@ public class LayoutFeatures{
 
         Label rSpace = spacing();
 
-        Rectangle rectangle = new Rectangle(100,150,900,150);
+        Rectangle rectangle = new Rectangle(100,150,900,y);
         rectangle.setFill(babyBlue);
 
         Text catAmnt = new Text("Category & Amount");
@@ -78,60 +72,67 @@ public class LayoutFeatures{
         Label aLabel = new Label("Amount : ");
         return aLabel;
     }
-    public Button addButton(ComboBox cBTrans, TextField amountT, Text cat, Text amnt, String emptyAmnt, String emptyCat){
+    public Button addButton(ComboBox cBTrans, TextField amountT, Text cat, Text amnt){
         Button addB = new Button("ADD");
         addB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        addB.setOnAction(action -> {
-            String catIncome = (String) cBTrans.getValue();
-            String showCatI = catIncome + " | ";
-            String amntIncomeString = amountT.getText();
-            String showAmntI = amntIncomeString + " | ";
-            Double amntIncome = Double.parseDouble(amntIncomeString);
-            System.out.println(catIncome + " : " + amntIncome);
-            if(cBTrans.getValue() != null && amountT.getText() != null){
-                // y += 20;
-                // emptyCat += showCatI;
-                // emptyAmnt += showAmntI;
-                cat.setText("Category : " + emptyCat);
-                amnt.setText("Amount : " + emptyAmnt);
-            }
-            // .add() to arraylist here Jane/Rachel
-        });
+        // addB.setOnAction(action -> {
+        //     String catIncome = (String) cBTrans.getValue();
+        //     String showCatI = catIncome + " | ";
+        //     String amntIncomeString = amountT.getText();
+        //     String showAmntI = amntIncomeString + " | ";
+        //     Double amntIncome = Double.parseDouble(amntIncomeString);
+        //     System.out.println(catIncome + " : " + amntIncome);
+        //     if(cBTrans.getValue() != null && amountT.getText() != null){
+        //         // y += 20;
+        //         emptyCat += showCatI;
+        //         emptyAmnt += showAmntI;
+        //         cat.setText("Category : " + emptyCat);
+        //         amnt.setText("Amount : " + emptyAmnt);
+        //     }
+        //     // .add() to arraylist here Jane/Rachel
+        // });
 
         return addB;
     }
     public Button delButton(ComboBox cBTrans, TextField amountT){
         Button delB = new Button("DELETE");
         delB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        delB.setOnAction(action -> {
-            String catIncome = (String) cBTrans.getValue();
-            String amntIncomeString = amountT.getText();
-            Double amntIncome = Double.parseDouble(amntIncomeString);
-            System.out.println(catIncome + " : " + amntIncome);
-            // .remove() to arraylist here Jane/Rachel
-        });
+        // delB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        // delB.setOnAction(action -> {
+        //     String catIncome = (String) cBTrans.getValue();
+        //     String amntIncomeString = amountT.getText();
+        //     Double amntIncome = Double.parseDouble(amntIncomeString);
+        //     System.out.println(catIncome + " : " + amntIncome);
+        //     // .remove() to arraylist here Jane/Rachel
+        // });
         return delB;
     }
-    public Button nextButton(Stage stage, Scene sceneFive){
-        Button nextB = new Button("NEXT");
-        nextB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        nextB.setOnAction(action -> {
-            // if(whichType.equals("Anticipated")){
-                stage.setScene(sceneFive);
-            // }
-        });
-        return nextB;
+    public Button confirmButton(Stage stage){
+        Button confirm = new Button("Confirm");
+        
+        return confirm;
+    
     }
-    public Button backButton(Stage stage, Scene sceneFour){
-        Button backB = new Button("BACK");
-        backB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        backB.setOnAction(action -> {
-            // if(whichType.equals("Anticipated")){
-                stage.setScene(sceneFour);
-            // }
-        });
-        return backB;
-    }
+    // public Button goToSceneFive(Stage stage, String sceneName, Scene sceneFive){
+    //     Button scene5B = new Button(sceneName);
+    //     scene5B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+    //     scene5B.setOnAction(action -> {
+    //         // if(whichType.equals("Anticipated")){
+    //             stage.setScene(sceneFive);
+    //         // }
+    //     });
+    //     return scene5B;
+    // }
+    // public Button goToSceneFour(Stage stage, String sceneName, Scene sceneFour){
+    //     Button scene4B = new Button(sceneName);
+    //     scene4B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+    //     scene4B.setOnAction(action -> {
+    //         // if(whichType.equals("Anticipated")){
+    //             stage.setScene(sceneFour);
+    //         // }
+    //     });
+    //     return scene4B;
+    // }
     public TextField amntT(){
         TextField amountT = new TextField("0.00");
         return amountT;
@@ -179,30 +180,4 @@ public class LayoutFeatures{
         
         return expenseCat;
     }
-    public String checkInputtedFile(Stage primaryStage) {
-        FileChooser fileChooser = new FileChooser(); // allow user to input file
-        File file = fileChooser.showOpenDialog(primaryStage);
-        String fileName = file.getName();
-        String filePath = file.getAbsolutePath();
-  
-        String warningText = " ";
-  
-        if (file != null) {
-           // If inputted file is .csv file
-           if ((fileName.substring(fileName.length() - 4, fileName.length())).equals(".csv")) {
-              // reading csv file by adding elements to questions and answers arraylist
-              try {
-                //  read csv method
-              } catch (Exception e) {
-                 warningText = "Invalid, action terminated.";
-              }
-           }
-           // Forces user to input .csv in order to go to continue
-           else {
-              warningText = "Please enter a .csv file.";
-  
-           }
-        }
-        return warningText;
-     }
 }
