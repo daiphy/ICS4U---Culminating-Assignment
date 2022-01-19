@@ -37,6 +37,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.image.ImageView;
 
 public class AppLayoutFV extends Application{
 
@@ -44,6 +45,7 @@ public class AppLayoutFV extends Application{
     Scene sceneOne, sceneTwo, sceneThree, sceneFour, sceneFive, sceneSix, sceneSeven;
     Stage window;
     Color babyBlue = Color.web("#C9DAF8");
+    ImageView bee, bee2;
     ComboBox cBMonths, cBIncFour, cBIncFive, cBExpFour, cBExpFive;
     // StackPane stackPane = new StackPane();
     String emptyCat = "";
@@ -76,6 +78,7 @@ public class AppLayoutFV extends Application{
         
 
         window = primaryStage;
+        
         cBIncFour = features.comboBoxIncome();
         cBIncFive = features.comboBoxIncome();
         cBExpFour = features.comboBoxExpense(); 
@@ -99,21 +102,37 @@ public class AppLayoutFV extends Application{
 
         Text warningT = new Text("");
         
-        // Initializing buttons and labels
+        //Title, bees and instructions
         Label welcomeL = new Label("MAIN MENU");
+        welcomeL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        
+        bee = features.image();
+        bee2 = features.image();
+        
         Label introL = new Label("Click on one of the buttons below to visit a page");
         
-        Button summaryB = new Button("SUMMARY"); // scene 5
+        //Buttons and formatting
+        Button newBudgetB = goToSceneTwo(window, "NEW BUDGET"); //scene 2
+        newBudgetB.setPrefWidth(150);
+        
+        Button transactionB = goToSceneFour(window, "TRANSACTION"); //scene 4
+        transactionB.setPrefWidth(150);
+        
+        Button summaryB = new Button("SUMMARY"); //scene 5
         summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        summaryB.setPrefWidth(150);
         
         Button trendsB = new Button("TRENDS"); //scene 7
         trendsB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        trendsB.setPrefWidth(150);
         
-        Button transactionB = goToSceneFour(window, "TRANSACTION"); // scene four
         Button planB = goToSceneThree(window, "PLAN");        
-        Button newBudgetB = goToSceneTwo(window, "NEW BUDGET");        
+        planB.setPrefWidth(150);
+        
         Button importB = new Button("IMPORT");
         importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        importB.setPrefWidth(150);
+        
         importB.setOnAction(action ->{
             //file directory code here
             try {
@@ -125,18 +144,28 @@ public class AppLayoutFV extends Application{
             }
          
         });   
-
+        
+        HBox titleHB = new HBox(20);
+        titleHB.getChildren().addAll(bee, welcomeL, bee2);
+        titleHB.setAlignment(Pos.CENTER);
+        
         VBox left = new VBox(20);
-        left.getChildren().addAll(welcomeL, introL, newBudgetB, transactionB, summaryB);
+        left.getChildren().addAll(newBudgetB, planB, summaryB);
 
         VBox right = new VBox(20);
-        right.getChildren().addAll(planB, trendsB, importB);
-
-        HBox mainScreen = new HBox(20);        
-        mainScreen.getChildren().addAll(left, right);
+        right.getChildren().addAll(importB, transactionB, trendsB);
+        
+        HBox mainMenu = new HBox(20);
+        mainMenu.getChildren().addAll(left, right);
+        mainMenu.setAlignment(Pos.CENTER);
+        
+        VBox mainScreen = new VBox(20);        
+        mainScreen.getChildren().addAll(titleHB, introL, mainMenu);
         mainScreen.setAlignment(Pos.CENTER);
         
-        one = new Scene(mainScreen, 1000, 500);
+        BorderPane bPane = showBorder(mainScreen);
+        
+        one = new Scene(bPane, 1000, 500);
         
         return one;
     }    
@@ -145,9 +174,12 @@ public class AppLayoutFV extends Application{
     public Scene showSceneTwo (Stage scene, ComboBox cBMonths){
         Scene two;
 
-        //Title label, instructions label and formatting
+        //Title, bees, instructions label and formatting
         Label newBudgetL = new Label("NEW BUDGET");
         newBudgetL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        
+        bee = features.image();
+        bee2 = features.image();
         
         Label instructionsL = new Label("Type in your desired category and press add to include it. If you would like to delete one, type in your category and press the delete button."); 
         
@@ -191,6 +223,11 @@ public class AppLayoutFV extends Application{
         Label incomeCatL = new Label("*User input*"); //This will depend on the categories (modify later)
         Label expensesCatL = new Label("*User input*");
         
+        //Gathers the title and bees
+        HBox titleHB = new HBox(20);
+        titleHB.getChildren().addAll(bee, newBudgetL, bee2);
+        titleHB.setAlignment(Pos.CENTER);
+        
         //Displays the user's categories
         VBox incomeCat = new VBox(20);
         incomeCat.getChildren().addAll(incomeL, incomeCatL);
@@ -216,7 +253,7 @@ public class AppLayoutFV extends Application{
         
         //Making the overall screen
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(newBudgetL, instructionsL, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
+        mainScreen.getChildren().addAll(titleHB, instructionsL, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
         mainScreen.setAlignment(Pos.CENTER);
         
         //Fillers
@@ -238,9 +275,12 @@ public class AppLayoutFV extends Application{
 
         Scene threeFour;
 
-        // initializing buttons, labels, comboBoxes
+        //Titles, bees, buttons, labels, comboBoxes
         Label titleL = new Label("Budgeting App");
         cBMonths = features.comboBoxMonths();
+        
+        bee = features.image();
+        bee2 = features.image();
 
         Label typeL = new Label(whichType); // anticipated or actual
         Label incL = new Label("INCOME");
@@ -402,10 +442,13 @@ public class AppLayoutFV extends Application{
         fifthRow.getChildren().addAll(catBL, cBExp, amntBL, amntTFB, addBB, delBB);
         fifthRow.setAlignment(Pos.CENTER);
 
-        
+        //Gathers the title and bees
+        HBox titleHB = new HBox(20);
+        titleHB.getChildren().addAll(bee, titleL, bee2);
+        titleHB.setAlignment(Pos.CENTER);
 
         VBox mainScreen = new VBox(10);
-        mainScreen.getChildren().addAll(titleL, cBMonths, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
+        mainScreen.getChildren().addAll(titleHB, cBMonths, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
         mainScreen.setAlignment(Pos.TOP_CENTER);
 
         BorderPane bPane = showBorder(mainScreen);
