@@ -89,21 +89,26 @@ public class AppLayoutFV extends Application{
         // sceneSix = baseScene(window, "Actual", "Income", cBIncome);
         // sceneSeven = baseScene(window, "Actual", "Expense", cBExpense);
 
-        window.setScene(sceneFour);
+        window.setScene(sceneOne);
         window.show();
         
     }
+    //-------------------- SCENE ONE BELOW --------------------//
     public Scene showSceneOne (Stage scene){
         Scene one;
 
         Text warningT = new Text("");
+        
         // Initializing buttons and labels
         Label welcomeL = new Label("MAIN MENU");
-        Label introL = new Label("Click on one of the buttons below to visit the page");
+        Label introL = new Label("Click on one of the buttons below to visit a page");
+        
         Button summaryB = new Button("SUMMARY"); // scene 5
         summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        
         Button trendsB = new Button("TRENDS"); //scene 7
         trendsB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        
         Button transactionB = goToSceneFour(window, "TRANSACTION"); // scene four
         Button planB = goToSceneThree(window, "PLAN");        
         Button newBudgetB = goToSceneTwo(window, "NEW BUDGET");        
@@ -136,59 +141,47 @@ public class AppLayoutFV extends Application{
         return one;
     }    
 
-    
+    //-------------------- SCENE TWO BELOW --------------------//
     public Scene showSceneTwo (Stage scene, ComboBox cBMonths){
         Scene two;
 
-        //Title and instructions for scene 3
+        //Title label, instructions label and formatting
         Label newBudgetL = new Label("NEW BUDGET");
-        Label instructionsL = new Label("Please answer the questions. Click the income or outcome button for whichever you want your category to be under."); 
-        Label instructions2L = new Label("Type in your desired category then press add to include it. If you would like to delete one, type in your category and press the delete button");
-        Label instructions3L = new Label("Please ensure that the number of categories entered is the same as your answer to the questions.");
+        newBudgetL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
         
-        //VBox gathers the title and instructions together
-        VBox instructions = new VBox(5);
-        instructions.getChildren().addAll(newBudgetL, instructionsL, instructions2L, instructions3L);
-        instructions.setAlignment(Pos.CENTER);
+        Label instructionsL = new Label("Type in your desired category and press add to include it. If you would like to delete one, type in your category and press the delete button."); 
         
         //Asks the user which month they are budgeting for and provide a drop down menu 
         Label monthL = new Label("Month:");
         cBMonths = features.comboBoxMonths();
         
-        //Asks user how many categories they will have for income
-        Label howManyIncomeCatL = new Label("How many categories for income?");
-        TextField incomeCatTF = new TextField();
-        
         //HBox gathers the month input and income categories input as they are in the same row
         HBox monthRow = new HBox(20);
-        monthRow.getChildren().addAll(monthL, cBMonths, howManyIncomeCatL, incomeCatTF);
+        monthRow.getChildren().addAll(monthL, cBMonths);
         monthRow.setAlignment(Pos.CENTER);
         
-        //User selects income or expenses button
-        Button incomeB = new Button("INCOME");
-        Button expensesB = new Button("EXPENSES");
+        //Asks the user to type in their category for income and expenses
+        Label incCatL = new Label("Type in your category for income:");
+        TextField incCatTF = new TextField();
         
-        //Asks user how many categories they will have for expenses
-        Label howManyExpensesCatL = new Label("How many categories for expenses?");
-        TextField expensesCatTF = new TextField();
+        Label expCatL = new Label("Type in your category for expense:");
+        TextField expCatTF = new TextField();
         
-        //HBox gathers the income button, expenses button, and expenses categories input as they are in the same row
-        HBox incExpRow = new HBox(20);
-        incExpRow.getChildren().addAll(incomeB, expensesB, howManyExpensesCatL, expensesCatTF);
-        incExpRow.setAlignment(Pos.CENTER);
+        //User selects either the add or delete button for income and expenses
+        Button addIncCatB = new Button("ADD");
+        Button deleteIncCatB = new Button("DELETE");
         
-        //Asks the user to type in their category
-        Label typeCatL = new Label("Please type in your desired category:");
-        TextField catTF = new TextField();
-        
-        //User selects either the add or delete button
-        Button addB = new Button("ADD");
-        Button deleteB = new Button("DELETE");
+        Button addExpCatB = new Button("ADD");
+        Button deleteExpCatB = new Button("DELETE");
                        
         //HBox
-        HBox typeCatRow = new HBox(20);
-        typeCatRow.getChildren().addAll(typeCatL, catTF, addB, deleteB);
-        typeCatRow.setAlignment(Pos.CENTER);
+        HBox incCatRow = new HBox(20);
+        incCatRow.getChildren().addAll(incCatL, incCatTF, addIncCatB, deleteIncCatB);
+        incCatRow.setAlignment(Pos.CENTER);
+        
+        HBox expCatRow = new HBox(20);
+        expCatRow.getChildren().addAll(expCatL, expCatTF, addExpCatB, deleteExpCatB);
+        expCatRow.setAlignment(Pos.CENTER);
         
         //Labels for displaying the user's categories
         Label catL = new Label("CATEGORIES");
@@ -206,7 +199,7 @@ public class AppLayoutFV extends Application{
         expenseCat.getChildren().addAll(expensesL, expensesCatL);
         
         //Gathers the two vBoxes above so they are side by side 
-        HBox displayCat = new HBox(150);
+        HBox displayCat = new HBox(200);
         displayCat.getChildren().addAll(incomeCat, expenseCat);
         displayCat.setAlignment(Pos.CENTER);
         displayCat.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -217,28 +210,30 @@ public class AppLayoutFV extends Application{
         Button nextPageB = goToSceneThree(window, "NEXT PAGE");        
         
         //HBox to gather main menu button and next page button
-        HBox sceneButtons = new HBox();
+        HBox sceneButtons = new HBox(20);
         sceneButtons.getChildren().addAll(mainMenuB, nextPageB);
         sceneButtons.setAlignment(Pos.CENTER_RIGHT);
         
         //Making the overall screen
-        VBox centerScreen = new VBox(20);        
-        centerScreen.getChildren().addAll(instructions, monthRow, incExpRow, typeCatRow, catL, displayCat, sceneButtons);
-        centerScreen.setAlignment(Pos.CENTER);
-        
-        //Fillers
-        Label fillerL = new Label();
-        Label filler2L = new Label();
-        
-        HBox mainScreen = new HBox(20);
-        mainScreen.getChildren().addAll(fillerL, centerScreen, filler2L);
+        VBox mainScreen = new VBox(20);        
+        mainScreen.getChildren().addAll(newBudgetL, instructionsL, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
         mainScreen.setAlignment(Pos.CENTER);
         
-        two = new Scene(mainScreen, 1000, 500);
+        //Fillers
+        //Label fillerL = new Label();
+        //Label filler2L = new Label();
+        
+        //HBox mainScreen = new HBox(20);
+        //mainScreen.getChildren().addAll(fillerL, centerScreen, filler2L);
+        //mainScreen.setAlignment(Pos.CENTER);
+        
+        BorderPane bPaneTwo = showBorder(mainScreen);
+        two = new Scene(bPaneTwo, 1000, 500);
         
         return two;
     }
     
+    //-------------------- SCENE THREE/FOUR BELOW --------------------//
     public Scene showSceneThreeFour(Stage stage, String whichType, ComboBox cBInc, ComboBox cBExp){
 
         Scene threeFour;
