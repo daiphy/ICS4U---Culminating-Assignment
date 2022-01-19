@@ -14,7 +14,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos; 
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class LayoutFeatures{ 
 
@@ -145,7 +146,6 @@ public class LayoutFeatures{
 
         return scroll;
     }
-
     public ComboBox comboBoxMonths(){
         ComboBox months = new ComboBox();
         months.getItems().addAll(
@@ -156,8 +156,8 @@ public class LayoutFeatures{
         months.setEditable(false);
         
         return months;
-      }
-      public ComboBox comboBoxIncome(){
+    }
+    public ComboBox comboBoxIncome(){
         ComboBox incomeCat = new ComboBox();
         incomeCat.getItems().addAll(
                                     "Savings", "Paycheck", "Bonus",
@@ -168,15 +168,29 @@ public class LayoutFeatures{
         
         return incomeCat;
     }
-      public ComboBox comboBoxExpense(){
+    public ComboBox comboBoxExpense(){
         ComboBox expenseCat = new ComboBox();
         expenseCat.getItems().addAll(
                                      "Food", "Health", "Transportation", 
                                      "Utilies", "Personal","Other"
-                                    );
+        );
         expenseCat.setPromptText("Select Category");
         expenseCat.setEditable(false);
         
         return expenseCat;
     }
+  public ImageView image(){
+    // Create a image object
+    Image bee = new Image("bee.png");
+    
+    //creating ImageView for adding image
+    ImageView imageView = new ImageView();
+    imageView.setImage(bee);
+    imageView.setFitWidth(75);
+    imageView.setPreserveRatio(true);
+    imageView.setSmooth(true);
+    imageView.setCache(true);
+    
+    return imageView;
+  }
 }
