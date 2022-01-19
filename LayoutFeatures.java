@@ -12,20 +12,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos; 
 
 
 public class LayoutFeatures{ 
 
     //-------------------- GLOBAL VARIABLES --------------------//
-    Scene sceneFour, sceneFive, sceneSix, sceneSeven;
-    Stage window;
+    // Scene sceneFour, sceneFive, sceneSix, sceneSeven;
+    // Stage window;
     Color babyBlue = Color.web("#C9DAF8");
-    ComboBox cBMonths, cBIncFour, cBIncFive, cBExpFour, cBExpFive;
-    // StackPane stackPane = new StackPane();
-    String emptyCat = "";
-    String emptyAmnt = "";
-    int y = 150; 
+    // ComboBox cBMonths, cBIncFour, cBIncFive, cBExpFour, cBExpFive;
+    // // StackPane stackPane = new StackPane();
+    // String emptyCat = "";
+    // String emptyAmnt = "";
+    // int y = 150; 
 
     //-------------------- CONSTRUCTOR --------------------// 
     public LayoutFeatures(){
@@ -34,33 +35,31 @@ public class LayoutFeatures{
  
     //-------------------- FEATURE METHODS --------------------//    
 
-    public StackPane showSPane(){
+    public StackPane showSPane(Text cat, Text amnt){
         StackPane sPane = new StackPane();
 
         Label rSpace = spacing();
 
-        Rectangle rectangle = new Rectangle(100,150,900,y);
+        Label testing = catLabel();
+
+        Rectangle rectangle = new Rectangle(100,150,900,150);
         rectangle.setFill(babyBlue);
 
-        Text catAmnt = new Text("Category & Amount");
-        Text cat = new Text();
-        Text amnt = new Text();
-
-        // stackPane.setMargin(catAmnt, new Insets(1, 1, 1, 1));
+        // StackPane.setMargin(catAmnt, new Insets(1, 1, 1, 1));
 
         VBox cATotal = new VBox(10);
-        cATotal.getChildren().addAll(catAmnt, cat,amnt);
+        cATotal.getChildren().addAll(testing, cat, amnt);
 
         HBox catAmntBox = new HBox(10);
         catAmntBox.getChildren().addAll(rSpace, cATotal);
         catAmntBox.setAlignment(Pos.TOP_LEFT);
 
-        sPane.getChildren().addAll(rectangle, catAmntBox);
+        sPane.getChildren().addAll(rectangle, testing, cat);
 
         return sPane;
     }
     public Label spacing(){
-        Label space = new Label("                  ");
+        Label space = new Label("           ");
         return space;
     }
     
@@ -72,7 +71,7 @@ public class LayoutFeatures{
         Label aLabel = new Label("Amount : ");
         return aLabel;
     }
-    public Button addButton(ComboBox cBTrans, TextField amountT, Text cat, Text amnt){
+    public Button addButton(){
         Button addB = new Button("ADD");
         addB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         // addB.setOnAction(action -> {
@@ -94,7 +93,7 @@ public class LayoutFeatures{
 
         return addB;
     }
-    public Button delButton(ComboBox cBTrans, TextField amountT){
+    public Button delButton(){
         Button delB = new Button("DELETE");
         delB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         // delB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
