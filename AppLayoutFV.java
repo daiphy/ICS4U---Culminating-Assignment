@@ -346,7 +346,7 @@ public class AppLayoutFV extends Application{
         // TB (top half of the scene) -> income
         Button delTB = features.delButton();
         delTB.setOnAction(action -> {
-            removeFromArr(whichType, cBInc, amntTFT, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);
+            removeFromArr(whichType, true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);
             // String temp = (String) cBInc.getValue();
             // String tempText = amntTFT.getText();
             
@@ -373,7 +373,7 @@ public class AppLayoutFV extends Application{
         // BB (bottom half of the scene) -> expenses
         Button delBB = features.delButton();
         delBB.setOnAction(action -> {
-            removeFromArr(whichType, cBExp, amntTFB, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
+            removeFromArr(whichType, true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
             // String temp = (String) cBExp.getValue();
             // String tempText = amntTFB.getText();
             
@@ -576,15 +576,32 @@ public class AppLayoutFV extends Application{
         }
         System.out.println("Button pressed");
     }
-    public void removeFromArr(String whichType, ComboBox comboBox, TextField amntTF, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
+    public void removeFromArr(String whichType, boolean income, ComboBox comboBox, TextField amntTF, Text catInc, Text amtInc, Text catExp, Text amtExp, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
         String temp = (String) comboBox.getValue();
         String tempText = amntTF.getText();
+        String stringCat, stringAmt;
+        String printCat = "";
+        String printAmt = "";
             
         if(whichType.equalsIgnoreCase("ANTICIPATED")){
             for(int i = 0; i < AntCatArr.size(); i++){
                 if( AntCatArr.get(i).equals(temp) && AntAmtArr.get(i).equals(tempText)){
                     AntCatArr.remove(i);
                     AntAmtArr.remove(i);     
+                    
+                    stringCat = AccCatArr.get(i) + " | ";
+                    stringAmt = AccAmtArr.get(i) + " | ";
+                    // printCat = stringCat - stringCat;
+                    printAmt = stringAmt;
+                    if(income == true){
+                        catInc.setText("Categories : " + printCat);
+                        amtInc.setText("Amount : " + printAmt);
+                    }
+                    else {
+                        catExp.setText("Categories : " + printCat);
+                        amtExp.setText("Amount : " + printAmt);
+                    }
+
                 }
             }
             System.out.println(AntCatArr + " : " + AntAmtArr);      // for testing
