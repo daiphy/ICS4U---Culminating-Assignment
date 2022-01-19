@@ -58,7 +58,7 @@ public class LayoutFeatures{
         return yellowB;
     }
     public Label setFont(String name, int size){
-        Label labelFont = new Label();
+        Label labelFont = new Label(name);
         labelFont.setFont(Font.font("Verdana", FontWeight.BOLD, size));
         return labelFont;
     }
@@ -107,6 +107,25 @@ public class LayoutFeatures{
         //scroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 
         return scroll;
+    }
+    public StackPane showSPane(Text cat, Text amnt){
+        StackPane sPane = new StackPane();
+
+        Rectangle rectangle = new Rectangle(100,150,900,150);
+        rectangle.setFill(babyBlue);
+
+        Label space = spacing();
+
+        VBox cATotal = new VBox(10);
+        cATotal.getChildren().addAll(cat, amnt);
+
+        HBox catAmntBox = new HBox(10);
+        catAmntBox.getChildren().addAll(space, cATotal);
+        catAmntBox.setAlignment(Pos.TOP_LEFT);
+
+        sPane.getChildren().addAll(rectangle, catAmntBox);
+
+        return sPane;
     }
     public ComboBox comboBoxMonths(){
         ComboBox months = new ComboBox();
