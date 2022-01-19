@@ -92,7 +92,7 @@ public class AppLayoutFV extends Application{
         // sceneSix = baseScene(window, "Actual", "Income", cBIncome);
         // sceneSeven = baseScene(window, "Actual", "Expense", cBExpense);
 
-        window.setScene(sceneThree);
+        window.setScene(sceneOne);
         window.show();
         
     }
@@ -198,13 +198,39 @@ public class AppLayoutFV extends Application{
         
         Label expCatL = new Label("Type in your category for expense:");
         TextField expCatTF = new TextField();
+
+        //Initialize arraylists
+        ArrayList<String> incomeCat = new ArrayList<String>(); // holds all the customized catergory names for income
+        ArrayList<String> expenseCat = new ArrayList<String>(); // holds all the customized category names for expense
+
+        //Labels for displaying the user's categories
+        Label catL = new Label("CATEGORIES");
+        Label incomeL = new Label("INCOME");
+        Label expensesL = new Label ("EXPENSES");
         
+        Text incomeCatT = new Text("*User input*"); //This will depend on the categories (modify later)
+        Text expensesCatT = new Text("*User input*");
+
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = new Button("ADD");
+        addIncCatB.setOnAction(action ->{
+            showCategoryAdd(true, incomeCat, incCatTF, true, incomeCatT, expensesCatT);                        
+        });
+
         Button deleteIncCatB = new Button("DELETE");
-        
+        deleteIncCatB.setOnAction(action ->{
+            showCategoryAdd(false, expenseCat, expCatTF, true, incomeCatT, expensesCatT);
+        });
+
         Button addExpCatB = new Button("ADD");
+        addExpCatB.setOnAction(action ->{
+            showCategoryAdd(true, expenseCat, expCatTF, false, incomeCatT, expensesCatT);                        
+        });
+
         Button deleteExpCatB = new Button("DELETE");
+        deleteExpCatB.setOnAction(action ->{
+            showCategoryAdd(false, expenseCat, expCatTF, false, incomeCatT, expensesCatT);
+        });           
                        
         //HBox
         HBox incCatRow = new HBox(20);
@@ -213,15 +239,7 @@ public class AppLayoutFV extends Application{
         
         HBox expCatRow = new HBox(20);
         expCatRow.getChildren().addAll(expCatL, expCatTF, addExpCatB, deleteExpCatB);
-        expCatRow.setAlignment(Pos.CENTER);
-        
-        //Labels for displaying the user's categories
-        Label catL = new Label("CATEGORIES");
-        Label incomeL = new Label("INCOME");
-        Label expensesL = new Label ("EXPENSES");
-        
-        Label incomeCatL = new Label("*User input*"); //This will depend on the categories (modify later)
-        Label expensesCatL = new Label("*User input*");
+        expCatRow.setAlignment(Pos.CENTER);        
         
         //Gathers the title and bees
         HBox titleHB = new HBox(20);
@@ -229,15 +247,15 @@ public class AppLayoutFV extends Application{
         titleHB.setAlignment(Pos.CENTER);
         
         //Displays the user's categories
-        VBox incomeCat = new VBox(20);
-        incomeCat.getChildren().addAll(incomeL, incomeCatL);
+        VBox incomeCatLayout = new VBox(20);
+        incomeCatLayout.getChildren().addAll(incomeL, incomeCatT);
         
-        VBox expenseCat = new VBox(20);
-        expenseCat.getChildren().addAll(expensesL, expensesCatL);
+        VBox expenseCatLayout = new VBox(20);
+        expenseCatLayout.getChildren().addAll(expensesL, expensesCatT);
         
         //Gathers the two vBoxes above so they are side by side 
         HBox displayCat = new HBox(200);
-        displayCat.getChildren().addAll(incomeCat, expenseCat);
+        displayCat.getChildren().addAll(incomeCatLayout, expenseCatLayout);
         displayCat.setAlignment(Pos.CENTER);
         displayCat.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
                 
@@ -531,7 +549,62 @@ public class AppLayoutFV extends Application{
         bPane.setCenter(center);
 
         return bPane;
+    }    
+    public void showCategoryAdd(boolean add, ArrayList<String> categoryArrList, TextField catTF, boolean income, Text incomeCatT, Text expensesCatT){
+        String stringCat;
+        String printCat = "";
+        if(add == true){
+            categoryArrList.add(catTF.getText());
+        }
+        else{
+            if(categoryArrList.contains(catTF.getText())){
+                categoryArrList.remove(catTF.getText());
+            }    
+        }
+        
+        System.out.println("income is: " + categoryArrList);                    
+        
+        if(categoryArrList.size() == 0){
+            if(income == true){
+                incomeCatT.setText("Categories : ");
+            }
+            else{
+                expensesCatT.setText("Categories : ");
+            }
+        }
+
+        for(int i = 0; i < categoryArrList.size(); i ++){
+            stringCat = categoryArrList.get(i) + " | ";      
+            System.out.println("String cat is: " + stringCat)      ;
+            printCat += stringCat;            
+            if(income == true){
+                incomeCatT.setText("Categories : " + stringCat);
+            }
+            else {
+                expensesCatT.setText("Categories : " + stringCat);
+            }
+        }
+        
     }
+
+    // public void showCategoryDelete(ArrayList<String> categoryArrList, TextField catTF, boolean income, Text incomeCatT, Text expensesCatT){
+    //     String stringCat;
+    //     String printCat = "";
+    //     categoryArrList.add(catTF.getText());
+    //     System.out.println("income is: " + categoryArrList);                    
+
+    //     for(int i = 0; i < categoryArrList.size(); i ++){
+    //         stringCat = categoryArrList.get(i) + " | ";            
+    //         printCat += stringCat;            
+    //         if(income == true){
+    //             incomeCatT.setText("Categories : " + printCat);
+    //         }
+    //         else {
+    //             expensesCatT.setText("Categories : " + printCat);
+    //         }
+    //     }
+    // }
+
     public void addToArr(String whichType, boolean income, ComboBox comboBox, TextField amntTF, Text catInc, Text amtInc, Text catExp, Text amtExp, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
         String stringCat, stringAmt;
         String printCat = "";
