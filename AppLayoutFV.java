@@ -27,7 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.TextField; 
 // import javafx.scene.layout.GridPane;
 // import javafx.geometry.Insets;
-// import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 // import javafx.geometry.Insets;
@@ -46,8 +46,8 @@ public class AppLayoutFV extends Application{
     Color babyBlue = Color.web("#C9DAF8");
     ComboBox cBMonths, cBIncFour, cBIncFive, cBExpFour, cBExpFive;
     // StackPane stackPane = new StackPane();
-    String emptyCat = "";
-    String emptyAmnt = "";
+    // String emptyCat = "";
+    // String emptyAmnt = "";
     int y = 150;
     public LayoutFeatures features = new LayoutFeatures(); 
     public Finance finance = new Finance();
@@ -89,7 +89,7 @@ public class AppLayoutFV extends Application{
         // sceneSix = baseScene(window, "Actual", "Income", cBIncome);
         // sceneSeven = baseScene(window, "Actual", "Expense", cBExpense);
 
-        window.setScene(sceneFour);
+        window.setScene(sceneThree);
         window.show();
         
     }
@@ -256,32 +256,46 @@ public class AppLayoutFV extends Application{
         Label amntTL = features.amntLabel();
         Label amntBL = features.amntLabel();
         
-        Label hSpaceOne = features.spacing();
-        Label space = features.spacing();
+        // Label hSpaceOne = features.spacing();
+        // Label space = features.spacing();
 
-        Label hSpaceTwo = features.spacing();
-        Label vSpace = features.spacing();
-        Label rSpace = features.spacing();
+        // Label hSpaceTwo = features.spacing();
+        // Label vSpace = features.spacing();
+        // Label rSpace = features.spacing();
 
         TextField amntTFT = features.amntT();
         TextField amntTFB = features.amntT();
-        Text catAmnt = new Text("Category & Amount");
-        Text cat = new Text();
-        Text amnt = new Text();
-        
-        // NOTE FOR DAIPHY : HI ME YOU CAN PROLLY METHODIZE THIS TOO LOL U DUMB DUMB!! YOU CAN PROLLY ALSO PUT IT IN AS LAYOUT FEATURE BUT THATS A 01/18/2022 PROBLEM LOL
-        // UNTIL 280 U CAN PROLLY ALSO METHODIZE THE DEL STUFF SINCE IT'S SAME CODE DIF VARIABLES !!
-        // UM IDRK HOW YOU WOULD METHODIZE IT THO BC IF U RETURN ARRLIST U CAN ONLY RETURN ONE AND IF IT'S VOID DO YOU NEED ARR LIST? WILL IT GO THROUGH?
+        // Text catAmnt = new Text("Category & Amount");
+        Text showIncCat = new Text();
+        Text showIncAmt = new Text();
+        Text showExpCat = new Text();
+        Text showExpAmt = new Text();
 
-        Button addTB = features.addButton(cBInc, amntTFT, cat, amnt); //income
+        // Styling the Labels || Buttons
+        titleL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        typeL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        // Label.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        // button.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+
+        Button addTB = features.addButton(); //income
         addTB.setOnAction(action -> {
-            addToArr(whichType, cBInc, amntTFT, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);
-            
+            addToArr(whichType, true , cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);
+            // String stringCat, stringAmt;
+            // String printCat = "";
+            // String printAmt = "";
+            // for(int i = 0; i < incomeAntCatArr.size(); i ++){
+            //     stringCat = incomeAntCatArr.get(i) + " | ";
+            //     stringAmt = incomeAntAmtArr.get(i) + " | ";
+            //     printCat += stringCat;
+            //     printAmt += stringAmt;
+            //     cat.setText("Categories : " + printCat);
+            //     amnt.setText("Amount : " + printAmt);
+            // }
         });
 
-        Button addBB = features.addButton(cBExp, amntTFB, cat, amnt); // expense
+        Button addBB = features.addButton(); // expense
         addBB.setOnAction(action -> {
-            addToArr(whichType, cBExp, amntTFB, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
+            addToArr(whichType, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
             // if(whichType.equalsIgnoreCase("ANTICIPATED")){
             //     expenseAntCatArr.add((String) cBExp.getValue());
             //     expenseAntAmtArr.add(amntTFB.getText());
@@ -295,7 +309,7 @@ public class AppLayoutFV extends Application{
         });
         
         // TB (top half of the scene) -> income
-        Button delTB = features.delButton(cBInc, amntTFT);
+        Button delTB = features.delButton();
         delTB.setOnAction(action -> {
             removeFromArr(whichType, cBInc, amntTFT, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);
             // String temp = (String) cBInc.getValue();
@@ -322,7 +336,7 @@ public class AppLayoutFV extends Application{
             // }
         });
         // BB (bottom half of the scene) -> expenses
-        Button delBB = features.delButton(cBExp, amntTFB);
+        Button delBB = features.delButton();
         delBB.setOnAction(action -> {
             removeFromArr(whichType, cBExp, amntTFB, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
             // String temp = (String) cBExp.getValue();
@@ -363,32 +377,18 @@ public class AppLayoutFV extends Application{
             Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
             lastRow.getChildren().addAll(mainMenuB, backB, nextB);
         }
-        
-        
 
         // MAKE IF STATEMENTS IN THE ADD/DEL BTN THAT THE RECTANGLE Y WILL CHANGE AS MORE THINGS ARE ADDED AND DELETED
 
-        StackPane stackPaneT = features.showSPane();
-        StackPane stackPaneB = features.showSPane();
+        StackPane stackPaneT = showSPane(showIncCat, showIncAmt);
+        StackPane stackPaneB = showSPane(showExpCat, showExpAmt);
 
-        // Rectangle rectangle = new Rectangle(100,150,900,y);
-        // rectangle.setFill(babyBlue);
+        // VBox cATotal = new VBox(10);
+        // cATotal.getChildren().addAll(catAmnt, cat,amnt);
 
-        // stackPane.setMargin(catAmnt, new Insets(1, 1, 1, 1));
-
-        VBox cATotal = new VBox(10);
-        cATotal.getChildren().addAll(catAmnt, cat,amnt);
-
-        HBox catAmntBox = new HBox(10);
-        catAmntBox.getChildren().addAll(rSpace, cATotal);
-        catAmntBox.setAlignment(Pos.TOP_LEFT);
-
-        // Styling the Labels || Buttons
-        titleL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
-        typeL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // Label.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // button.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-
+        // HBox catAmntBox = new HBox(10);
+        // catAmntBox.getChildren().addAll(rSpace, cATotal);
+        // catAmntBox.setAlignment(Pos.TOP_LEFT);
 
         VBox firstCol = new VBox(10);
         firstCol.getChildren().addAll(typeL, incL);
@@ -406,8 +406,6 @@ public class AppLayoutFV extends Application{
         HBox fifthRow = new HBox(50);
         fifthRow.getChildren().addAll(catBL, cBExp, amntBL, amntTFB, addBB, delBB);
         fifthRow.setAlignment(Pos.CENTER);
-
-        
 
         VBox mainScreen = new VBox(10);
         mainScreen.getChildren().addAll(titleL, cBMonths, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
@@ -494,16 +492,47 @@ public class AppLayoutFV extends Application{
 
         return bPane;
     }
-    public void addToArr(String whichType, ComboBox comboBox, TextField amntTF, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
+    public void addToArr(String whichType, boolean income, ComboBox comboBox, TextField amntTF, Text catInc, Text amtInc, Text catExp, Text amtExp, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
+        String stringCat, stringAmt;
+        String printCat = "";
+        String printAmt = "";
         if(whichType.equalsIgnoreCase("ANTICIPATED")){
             AntCatArr.add((String) comboBox.getValue());
             AntAmtArr.add(amntTF.getText());
             System.out.println(AntCatArr + " : " + AntAmtArr);  // testing
+            for(int i = 0; i < AntCatArr.size(); i ++){
+                stringCat = AntCatArr.get(i) + " | ";
+                stringAmt = AntAmtArr.get(i) + " | ";
+                printCat += stringCat;
+                printAmt += stringAmt;
+                if(income == true){
+                    catInc.setText("Categories : " + printCat);
+                    amtInc.setText("Amount : " + printAmt);
+                }
+                else {
+                    catExp.setText("Categories : " + printCat);
+                    amtExp.setText("Amount : " + printAmt);
+                }
+            }
         }
         else{
             AccCatArr.add((String) comboBox.getValue());
             AccAmtArr.add(amntTF.getText());
             System.out.println(AccCatArr + " : " + AccAmtArr);  //testng
+            for(int i = 0; i < AntCatArr.size(); i ++){
+                stringCat = AccCatArr.get(i) + " | ";
+                stringAmt = AccAmtArr.get(i) + " | ";
+                printCat += stringCat;
+                printAmt += stringAmt;
+                if(income == true){
+                    catInc.setText("Categories : " + printCat);
+                    amtInc.setText("Amount : " + printAmt);
+                }
+                else {
+                    catExp.setText("Categories : " + printCat);
+                    amtExp.setText("Amount : " + printAmt);
+                }
+            }
         }
         System.out.println("Button pressed");
     }
@@ -531,6 +560,26 @@ public class AppLayoutFV extends Application{
             System.out.println(AccCatArr + " : " + AccAmtArr);        // for testing
         }
         System.out.println("Button pressed");
+    }
+    public StackPane showSPane(Text cat, Text amnt){
+        StackPane sPane = new StackPane();
+
+        Rectangle rectangle = new Rectangle(100,150,900,150);
+        rectangle.setFill(babyBlue);
+
+        // StackPane.setMargin(catAmnt, new Insets(1, 1, 1, 1));
+        Label space = features.spacing();
+
+        VBox cATotal = new VBox(10);
+        cATotal.getChildren().addAll(cat, amnt);
+
+        HBox catAmntBox = new HBox(10);
+        catAmntBox.getChildren().addAll(space, cATotal);
+        catAmntBox.setAlignment(Pos.TOP_LEFT);
+
+        sPane.getChildren().addAll(rectangle, catAmntBox);
+
+        return sPane;
     }
 
     // scenes are objects that contains the buttons and those would interact w the scene themself
