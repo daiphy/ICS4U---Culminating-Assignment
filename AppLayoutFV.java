@@ -27,7 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.TextField; 
 // import javafx.scene.layout.GridPane;
 // import javafx.geometry.Insets;
-import javafx.scene.shape.Rectangle;
+// import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 // import javafx.geometry.Insets;
@@ -37,7 +37,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.image.ImageView;
 
 public class AppLayoutFV extends Application{
 
@@ -45,11 +44,10 @@ public class AppLayoutFV extends Application{
     Scene sceneOne, sceneTwo, sceneThree, sceneFour, sceneFive, sceneSix, sceneSeven;
     Stage window;
     Color babyBlue = Color.web("#C9DAF8");
-    ImageView bee, bee2;
     ComboBox cBMonths, cBIncFour, cBIncFive, cBExpFour, cBExpFive;
     // StackPane stackPane = new StackPane();
-    // String emptyCat = "";
-    // String emptyAmnt = "";
+    String emptyCat = "";
+    String emptyAmnt = "";
     int y = 150;
     public LayoutFeatures features = new LayoutFeatures(); 
     public Finance finance = new Finance();
@@ -78,7 +76,6 @@ public class AppLayoutFV extends Application{
         
 
         window = primaryStage;
-        
         cBIncFour = features.comboBoxIncome();
         cBIncFive = features.comboBoxIncome();
         cBExpFour = features.comboBoxExpense(); 
@@ -92,7 +89,7 @@ public class AppLayoutFV extends Application{
         // sceneSix = baseScene(window, "Actual", "Income", cBIncome);
         // sceneSeven = baseScene(window, "Actual", "Expense", cBExpense);
 
-        window.setScene(sceneThree);
+        window.setScene(sceneOne);
         window.show();
         
     }
@@ -102,37 +99,21 @@ public class AppLayoutFV extends Application{
 
         Text warningT = new Text("");
         
-        //Title, bees and instructions
+        // Initializing buttons and labels
         Label welcomeL = new Label("MAIN MENU");
-        welcomeL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
-        
-        bee = features.image();
-        bee2 = features.image();
-        
         Label introL = new Label("Click on one of the buttons below to visit a page");
         
-        //Buttons and formatting
-        Button newBudgetB = goToSceneTwo(window, "NEW BUDGET"); //scene 2
-        newBudgetB.setPrefWidth(150);
-        
-        Button transactionB = goToSceneFour(window, "TRANSACTION"); //scene 4
-        transactionB.setPrefWidth(150);
-        
-        Button summaryB = new Button("SUMMARY"); //scene 5
+        Button summaryB = new Button("SUMMARY"); // scene 5
         summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        summaryB.setPrefWidth(150);
         
         Button trendsB = new Button("TRENDS"); //scene 7
         trendsB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        trendsB.setPrefWidth(150);
         
+        Button transactionB = goToSceneFour(window, "TRANSACTION"); // scene four
         Button planB = goToSceneThree(window, "PLAN");        
-        planB.setPrefWidth(150);
-        
+        Button newBudgetB = goToSceneTwo(window, "NEW BUDGET");        
         Button importB = new Button("IMPORT");
         importB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        importB.setPrefWidth(150);
-        
         importB.setOnAction(action ->{
             //file directory code here
             try {
@@ -144,28 +125,18 @@ public class AppLayoutFV extends Application{
             }
          
         });   
-        
-        HBox titleHB = new HBox(20);
-        titleHB.getChildren().addAll(bee, welcomeL, bee2);
-        titleHB.setAlignment(Pos.CENTER);
-        
+
         VBox left = new VBox(20);
-        left.getChildren().addAll(newBudgetB, planB, summaryB);
+        left.getChildren().addAll(welcomeL, introL, newBudgetB, transactionB, summaryB);
 
         VBox right = new VBox(20);
-        right.getChildren().addAll(importB, transactionB, trendsB);
-        
-        HBox mainMenu = new HBox(20);
-        mainMenu.getChildren().addAll(left, right);
-        mainMenu.setAlignment(Pos.CENTER);
-        
-        VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(titleHB, introL, mainMenu);
+        right.getChildren().addAll(planB, trendsB, importB);
+
+        HBox mainScreen = new HBox(20);        
+        mainScreen.getChildren().addAll(left, right);
         mainScreen.setAlignment(Pos.CENTER);
         
-        BorderPane bPane = showBorder(mainScreen);
-        
-        one = new Scene(bPane, 1000, 500);
+        one = new Scene(mainScreen, 1000, 500);
         
         return one;
     }    
@@ -174,12 +145,9 @@ public class AppLayoutFV extends Application{
     public Scene showSceneTwo (Stage scene, ComboBox cBMonths){
         Scene two;
 
-        //Title, bees, instructions label and formatting
+        //Title label, instructions label and formatting
         Label newBudgetL = new Label("NEW BUDGET");
         newBudgetL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
-        
-        bee = features.image();
-        bee2 = features.image();
         
         Label instructionsL = new Label("Type in your desired category and press add to include it. If you would like to delete one, type in your category and press the delete button."); 
         
@@ -198,14 +166,40 @@ public class AppLayoutFV extends Application{
         
         Label expCatL = new Label("Type in your category for expense:");
         TextField expCatTF = new TextField();
-        
+
+        //Initialize arraylists
+        ArrayList<String> incomeCat = new ArrayList<String>(); // holds all the customized catergory names for income
+        ArrayList<String> expenseCat = new ArrayList<String>(); // holds all the customized category names for expense
+
         //User selects either the add or delete button for income and expenses
-        Button addIncCatB = new Button("ADD");
+        Button addIncCatB = features.addButton();                
+        addIncCatB.setOnAction(action ->{
+            incomeCat.add(incCatTF.getText());
+            System.out.println("income is: " + incomeCat);
+        });
+
         Button deleteIncCatB = new Button("DELETE");
-        
-        Button addExpCatB = new Button("ADD");
+        deleteIncCatB.setOnAction(action ->{
+            if(incomeCat.contains(incCatTF.getText())){
+                incomeCat.remove(incCatTF.getText());
+            }            
+            System.out.println("income is: " + incomeCat);
+        });
+
+        Button addExpCatB = features.addButton();  
+        addExpCatB.setOnAction(action ->{
+            expenseCat.add(expCatTF.getText());
+            System.out.println("expense is: " + expenseCat);
+        });
+
         Button deleteExpCatB = new Button("DELETE");
-                       
+        deleteExpCatB.setOnAction(action ->{
+            if(expenseCat.contains(expCatTF.getText())){
+                expenseCat.remove(expCatTF.getText());
+            }            
+            System.out.println("expense is: " + expenseCat);
+        });           
+        
         //HBox
         HBox incCatRow = new HBox(20);
         incCatRow.getChildren().addAll(incCatL, incCatTF, addIncCatB, deleteIncCatB);
@@ -223,21 +217,16 @@ public class AppLayoutFV extends Application{
         Label incomeCatL = new Label("*User input*"); //This will depend on the categories (modify later)
         Label expensesCatL = new Label("*User input*");
         
-        //Gathers the title and bees
-        HBox titleHB = new HBox(20);
-        titleHB.getChildren().addAll(bee, newBudgetL, bee2);
-        titleHB.setAlignment(Pos.CENTER);
-        
         //Displays the user's categories
-        VBox incomeCat = new VBox(20);
-        incomeCat.getChildren().addAll(incomeL, incomeCatL);
+        VBox incomeCatLayout = new VBox(20);
+        incomeCatLayout.getChildren().addAll(incomeL, incomeCatL);
         
-        VBox expenseCat = new VBox(20);
-        expenseCat.getChildren().addAll(expensesL, expensesCatL);
+        VBox expenseCatincomeCatLayout = new VBox(20);
+        expenseCatincomeCatLayout.getChildren().addAll(expensesL, expensesCatL);
         
         //Gathers the two vBoxes above so they are side by side 
         HBox displayCat = new HBox(200);
-        displayCat.getChildren().addAll(incomeCat, expenseCat);
+        displayCat.getChildren().addAll(incomeCatLayout, expenseCatincomeCatLayout);
         displayCat.setAlignment(Pos.CENTER);
         displayCat.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
                 
@@ -253,7 +242,7 @@ public class AppLayoutFV extends Application{
         
         //Making the overall screen
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(titleHB, instructionsL, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
+        mainScreen.getChildren().addAll(newBudgetL, instructionsL, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
         mainScreen.setAlignment(Pos.CENTER);
         
         //Fillers
@@ -275,12 +264,9 @@ public class AppLayoutFV extends Application{
 
         Scene threeFour;
 
-        //Titles, bees, buttons, labels, comboBoxes
+        // initializing buttons, labels, comboBoxes
         Label titleL = new Label("Budgeting App");
         cBMonths = features.comboBoxMonths();
-        
-        bee = features.image();
-        bee2 = features.image();
 
         Label typeL = new Label(whichType); // anticipated or actual
         Label incL = new Label("INCOME");
@@ -291,111 +277,43 @@ public class AppLayoutFV extends Application{
         Label amntTL = features.amntLabel();
         Label amntBL = features.amntLabel();
         
-        // Label hSpaceOne = features.spacing();
-        // Label space = features.spacing();
+        Label hSpaceOne = features.spacing();
+        Label space = features.spacing();
 
-        // Label hSpaceTwo = features.spacing();
-        // Label vSpace = features.spacing();
-        // Label rSpace = features.spacing();
+        Label hSpaceTwo = features.spacing();
+        Label vSpace = features.spacing();
+        Label rSpace = features.spacing();
 
         TextField amntTFT = features.amntT();
         TextField amntTFB = features.amntT();
-        // Text catAmnt = new Text("Category & Amount");
-        Text showIncCat = new Text();
-        Text showIncAmt = new Text();
-        Text showExpCat = new Text();
-        Text showExpAmt = new Text();
-
-        // Styling the Labels || Buttons
-        titleL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
-        typeL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // Label.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        // button.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        Text catAmnt = new Text("Category & Amount");
+        Text cat = new Text();
+        Text amnt = new Text();
+        
+        // NOTE FOR DAIPHY : HI ME YOU CAN PROLLY METHODIZE THIS TOO LOL U DUMB DUMB!! YOU CAN PROLLY ALSO PUT IT IN AS LAYOUT FEATURE BUT THATS A 01/18/2022 PROBLEM LOL
+        // UNTIL 280 U CAN PROLLY ALSO METHODIZE THE DEL STUFF SINCE IT'S SAME CODE DIF VARIABLES !!
+        // UM IDRK HOW YOU WOULD METHODIZE IT THO BC IF U RETURN ARRLIST U CAN ONLY RETURN ONE AND IF IT'S VOID DO YOU NEED ARR LIST? WILL IT GO THROUGH?
 
         Button addTB = features.addButton(); //income
         addTB.setOnAction(action -> {
-            addToArr(whichType, true , cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);
-            // String stringCat, stringAmt;
-            // String printCat = "";
-            // String printAmt = "";
-            // for(int i = 0; i < incomeAntCatArr.size(); i ++){
-            //     stringCat = incomeAntCatArr.get(i) + " | ";
-            //     stringAmt = incomeAntAmtArr.get(i) + " | ";
-            //     printCat += stringCat;
-            //     printAmt += stringAmt;
-            //     cat.setText("Categories : " + printCat);
-            //     amnt.setText("Amount : " + printAmt);
-            // }
+            addToArr(whichType, cBInc, amntTFT, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);
+            
         });
 
         Button addBB = features.addButton(); // expense
         addBB.setOnAction(action -> {
-            addToArr(whichType, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
-            // if(whichType.equalsIgnoreCase("ANTICIPATED")){
-            //     expenseAntCatArr.add((String) cBExp.getValue());
-            //     expenseAntAmtArr.add(amntTFB.getText());
-            //     System.out.println(expenseAntCatArr + " : " + expenseAntAmtArr);      //testing
-            // }
-            // else{
-            //     expenseAccCatArr.add((String) cBExp.getValue());
-            //     expenseAccAmtArr.add(amntTFB.getText());
-            //     System.out.println(expenseAccCatArr + " : " + expenseAccAmtArr);      //testing
-            // }
+            addToArr(whichType, cBExp, amntTFB, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);            
         });
         
         // TB (top half of the scene) -> income
-        Button delTB = features.delButton();
+        Button delTB = features.delButton(cBInc, amntTFT);
         delTB.setOnAction(action -> {
             removeFromArr(whichType, cBInc, amntTFT, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);
-            // String temp = (String) cBInc.getValue();
-            // String tempText = amntTFT.getText();
-            
-            // if(whichType.equalsIgnoreCase("ANTICIPATED")){
-            //     for(int i = 0; i < incomeAntCatArr.size(); i++){
-            //         if( incomeAntCatArr.get(i).equals(temp) && incomeAntAmtArr.get(i).equals(tempText)){
-            //             incomeAntCatArr.remove(i);
-            //             incomeAntAmtArr.remove(i);     
-            //         }
-            //     }
-            //     System.out.println(incomeAntCatArr + " : " + incomeAntAmtArr);      // for testing
-
-            // }
-            // else{
-            //     for(int i = 0; i < incomeAccCatArr.size(); i++){
-            //         if( incomeAccCatArr.get(i).equals(temp) && incomeAccAmtArr.get(i).equals(tempText)){
-            //             incomeAccCatArr.remove(i);
-            //             incomeAccAmtArr.remove(i);     
-            //         }
-            //     }
-            //     System.out.println(incomeAccCatArr + " : " + incomeAccAmtArr);        // for testing
-            // }
         });
         // BB (bottom half of the scene) -> expenses
-        Button delBB = features.delButton();
+        Button delBB = features.delButton(cBExp, amntTFB);
         delBB.setOnAction(action -> {
             removeFromArr(whichType, cBExp, amntTFB, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
-            // String temp = (String) cBExp.getValue();
-            // String tempText = amntTFB.getText();
-            
-            // if(whichType.equalsIgnoreCase("ANTICIPATED")){
-            //     for(int i = 0; i < expenseAntCatArr.size(); i++){
-            //         if( expenseAntCatArr.get(i).equals(temp) && expenseAntAmtArr.get(i).equals(tempText)){
-            //             expenseAntCatArr.remove(i);
-            //             expenseAntAmtArr.remove(i);     
-            //         }
-            //     }
-            //     System.out.println(expenseAntCatArr + " : " + expenseAntAmtArr);      // for testing
-
-            // }
-            // else{
-            //     for(int i = 0; i < expenseAccCatArr.size(); i++){
-            //         if( expenseAccCatArr.get(i).equals(temp) && expenseAccAmtArr.get(i).equals(tempText)){
-            //             expenseAccCatArr.remove(i);
-            //             expenseAccAmtArr.remove(i);     
-            //         }
-            //     }
-            //     System.out.println(expenseAccCatArr + " : " + expenseAccAmtArr);        // for testing
-            // }
         });
 
         HBox lastRow = new HBox(10);
@@ -412,18 +330,32 @@ public class AppLayoutFV extends Application{
             Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
             lastRow.getChildren().addAll(mainMenuB, backB, nextB);
         }
+        
+        
 
         // MAKE IF STATEMENTS IN THE ADD/DEL BTN THAT THE RECTANGLE Y WILL CHANGE AS MORE THINGS ARE ADDED AND DELETED
 
-        StackPane stackPaneT = showSPane(showIncCat, showIncAmt);
-        StackPane stackPaneB = showSPane(showExpCat, showExpAmt);
+        StackPane stackPaneT = features.showSPane();
+        StackPane stackPaneB = features.showSPane();
 
-        // VBox cATotal = new VBox(10);
-        // cATotal.getChildren().addAll(catAmnt, cat,amnt);
+        // Rectangle rectangle = new Rectangle(100,150,900,y);
+        // rectangle.setFill(babyBlue);
 
-        // HBox catAmntBox = new HBox(10);
-        // catAmntBox.getChildren().addAll(rSpace, cATotal);
-        // catAmntBox.setAlignment(Pos.TOP_LEFT);
+        // stackPane.setMargin(catAmnt, new Insets(1, 1, 1, 1));
+
+        VBox cATotal = new VBox(10);
+        cATotal.getChildren().addAll(catAmnt, cat,amnt);
+
+        HBox catAmntBox = new HBox(10);
+        catAmntBox.getChildren().addAll(rSpace, cATotal);
+        catAmntBox.setAlignment(Pos.TOP_LEFT);
+
+        // Styling the Labels || Buttons
+        titleL.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        typeL.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        // Label.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        // button.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+
 
         VBox firstCol = new VBox(10);
         firstCol.getChildren().addAll(typeL, incL);
@@ -442,13 +374,10 @@ public class AppLayoutFV extends Application{
         fifthRow.getChildren().addAll(catBL, cBExp, amntBL, amntTFB, addBB, delBB);
         fifthRow.setAlignment(Pos.CENTER);
 
-        //Gathers the title and bees
-        HBox titleHB = new HBox(20);
-        titleHB.getChildren().addAll(bee, titleL, bee2);
-        titleHB.setAlignment(Pos.CENTER);
+        
 
         VBox mainScreen = new VBox(10);
-        mainScreen.getChildren().addAll(titleHB, cBMonths, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
+        mainScreen.getChildren().addAll(titleL, cBMonths, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
         mainScreen.setAlignment(Pos.TOP_CENTER);
 
         BorderPane bPane = showBorder(mainScreen);
@@ -531,48 +460,19 @@ public class AppLayoutFV extends Application{
         bPane.setCenter(center);
 
         return bPane;
-    }
-    public void addToArr(String whichType, boolean income, ComboBox comboBox, TextField amntTF, Text catInc, Text amtInc, Text catExp, Text amtExp, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
-        String stringCat, stringAmt;
-        String printCat = "";
-        String printAmt = "";
+    }    
+
+    // scene 3/4 adding to arraylists
+    public void addToArr(String whichType, ComboBox comboBox, TextField amntTF, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
         if(whichType.equalsIgnoreCase("ANTICIPATED")){
             AntCatArr.add((String) comboBox.getValue());
             AntAmtArr.add(amntTF.getText());
             System.out.println(AntCatArr + " : " + AntAmtArr);  // testing
-            for(int i = 0; i < AntCatArr.size(); i ++){
-                stringCat = AntCatArr.get(i) + " | ";
-                stringAmt = AntAmtArr.get(i) + " | ";
-                printCat += stringCat;
-                printAmt += stringAmt;
-                if(income == true){
-                    catInc.setText("Categories : " + printCat);
-                    amtInc.setText("Amount : " + printAmt);
-                }
-                else {
-                    catExp.setText("Categories : " + printCat);
-                    amtExp.setText("Amount : " + printAmt);
-                }
-            }
         }
         else{
             AccCatArr.add((String) comboBox.getValue());
             AccAmtArr.add(amntTF.getText());
             System.out.println(AccCatArr + " : " + AccAmtArr);  //testng
-            for(int i = 0; i < AntCatArr.size(); i ++){
-                stringCat = AccCatArr.get(i) + " | ";
-                stringAmt = AccAmtArr.get(i) + " | ";
-                printCat += stringCat;
-                printAmt += stringAmt;
-                if(income == true){
-                    catInc.setText("Categories : " + printCat);
-                    amtInc.setText("Amount : " + printAmt);
-                }
-                else {
-                    catExp.setText("Categories : " + printCat);
-                    amtExp.setText("Amount : " + printAmt);
-                }
-            }
         }
         System.out.println("Button pressed");
     }
@@ -600,26 +500,6 @@ public class AppLayoutFV extends Application{
             System.out.println(AccCatArr + " : " + AccAmtArr);        // for testing
         }
         System.out.println("Button pressed");
-    }
-    public StackPane showSPane(Text cat, Text amnt){
-        StackPane sPane = new StackPane();
-
-        Rectangle rectangle = new Rectangle(100,150,900,150);
-        rectangle.setFill(babyBlue);
-
-        // StackPane.setMargin(catAmnt, new Insets(1, 1, 1, 1));
-        Label space = features.spacing();
-
-        VBox cATotal = new VBox(10);
-        cATotal.getChildren().addAll(cat, amnt);
-
-        HBox catAmntBox = new HBox(10);
-        catAmntBox.getChildren().addAll(space, cATotal);
-        catAmntBox.setAlignment(Pos.TOP_LEFT);
-
-        sPane.getChildren().addAll(rectangle, catAmntBox);
-
-        return sPane;
     }
 
     // scenes are objects that contains the buttons and those would interact w the scene themself
