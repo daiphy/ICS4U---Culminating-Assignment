@@ -1,6 +1,8 @@
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -11,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.TextField; 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos; 
@@ -36,29 +39,6 @@ public class LayoutFeatures{
  
     //-------------------- FEATURE METHODS --------------------//    
 
-    public StackPane showSPane(Text cat, Text amnt){
-        StackPane sPane = new StackPane();
-
-        Label rSpace = spacing();
-
-        Label testing = catLabel();
-
-        Rectangle rectangle = new Rectangle(100,150,900,150);
-        rectangle.setFill(babyBlue);
-
-        // StackPane.setMargin(catAmnt, new Insets(1, 1, 1, 1));
-
-        VBox cATotal = new VBox(10);
-        cATotal.getChildren().addAll(testing, cat, amnt);
-
-        HBox catAmntBox = new HBox(10);
-        catAmntBox.getChildren().addAll(rSpace, cATotal);
-        catAmntBox.setAlignment(Pos.TOP_LEFT);
-
-        sPane.getChildren().addAll(rectangle, testing, cat);
-
-        return sPane;
-    }
     public Label spacing(){
         Label space = new Label("           ");
         return space;
@@ -72,39 +52,24 @@ public class LayoutFeatures{
         Label aLabel = new Label("Amount : ");
         return aLabel;
     }
+    public Button yellowButton(String name){
+        Button yellowB = new Button(name);
+        yellowB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        return yellowB;
+    }
+    public Label setFont(String name, int size){
+        Label labelFont = new Label();
+        labelFont.setFont(Font.font("Verdana", FontWeight.BOLD, size));
+        return labelFont;
+    }
     public Button addButton(){
         Button addB = new Button("ADD");
         addB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        // addB.setOnAction(action -> {
-        //     String catIncome = (String) cBTrans.getValue();
-        //     String showCatI = catIncome + " | ";
-        //     String amntIncomeString = amountT.getText();
-        //     String showAmntI = amntIncomeString + " | ";
-        //     Double amntIncome = Double.parseDouble(amntIncomeString);
-        //     System.out.println(catIncome + " : " + amntIncome);
-        //     if(cBTrans.getValue() != null && amountT.getText() != null){
-        //         // y += 20;
-        //         emptyCat += showCatI;
-        //         emptyAmnt += showAmntI;
-        //         cat.setText("Category : " + emptyCat);
-        //         amnt.setText("Amount : " + emptyAmnt);
-        //     }
-        //     // .add() to arraylist here Jane/Rachel
-        // });
-
         return addB;
     }
     public Button delButton(){
         Button delB = new Button("DELETE");
         delB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        // delB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        // delB.setOnAction(action -> {
-        //     String catIncome = (String) cBTrans.getValue();
-        //     String amntIncomeString = amountT.getText();
-        //     Double amntIncome = Double.parseDouble(amntIncomeString);
-        //     System.out.println(catIncome + " : " + amntIncome);
-        //     // .remove() to arraylist here Jane/Rachel
-        // });
         return delB;
     }
     public Button confirmButton(Stage stage){
@@ -113,33 +78,30 @@ public class LayoutFeatures{
         return confirm;
     
     }
-    // public Button goToSceneFive(Stage stage, String sceneName, Scene sceneFive){
-    //     Button scene5B = new Button(sceneName);
-    //     scene5B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-    //     scene5B.setOnAction(action -> {
-    //         // if(whichType.equals("Anticipated")){
-    //             stage.setScene(sceneFive);
-    //         // }
-    //     });
-    //     return scene5B;
-    // }
-    // public Button goToSceneFour(Stage stage, String sceneName, Scene sceneFour){
-    //     Button scene4B = new Button(sceneName);
-    //     scene4B.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-    //     scene4B.setOnAction(action -> {
-    //         // if(whichType.equals("Anticipated")){
-    //             stage.setScene(sceneFour);
-    //         // }
-    //     });
-    //     return scene4B;
-    // }
     public TextField amntT(){
         TextField amountT = new TextField("0.00");
         return amountT;
     }
-    public ScrollPane showScrollPane(VBox vBoxContents){
+    public BorderPane showBorder(VBox center){
+        BorderPane bPane = new BorderPane();
+
+        Label topSpace = spacing();
+        Label bottomSpace = spacing();
+        Label leftSpace = spacing();
+        Label rightSpace = spacing();
+
+        // setting the borders
+        bPane.setTop(topSpace);
+        bPane.setBottom(bottomSpace);
+        bPane.setLeft(leftSpace);
+        bPane.setRight(rightSpace);
+        bPane.setCenter(center);
+
+        return bPane;
+    }   
+    public ScrollPane showScrollPane(BorderPane contents){
         ScrollPane scroll = new ScrollPane();
-        scroll.setContent(vBoxContents);
+        scroll.setContent(contents);
         scroll.setHbarPolicy(ScrollBarPolicy.NEVER);
         scroll.setStyle("-fx-background-color:transparent;");
         //scroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
