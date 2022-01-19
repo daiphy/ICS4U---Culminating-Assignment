@@ -47,7 +47,6 @@ public class AppLayoutFV extends Application{
     Stage window;
     Color babyBlue = Color.web("#C9DAF8");
     ImageView bee, bee2;
-    // ComboBox cBMonths, cBIncFour, cBIncFive, cBExpFour, cBExpFive;
 
     //Initialize objects -> Trends/LayoutFeatures/Finance
     Trends trends = new Trends();
@@ -355,8 +354,8 @@ public class AppLayoutFV extends Application{
         }
 
         // stack panes to show the user inputs on top of the rectangles
-        StackPane stackPaneT = showSPane(showIncCat, showIncAmt);
-        StackPane stackPaneB = showSPane(showExpCat, showExpAmt);
+        StackPane stackPaneT = features.showSPane(showIncCat, showIncAmt);
+        StackPane stackPaneB = features.showSPane(showExpCat, showExpAmt);
 
         // plan vs transactions and income lbls
         VBox firstCol = new VBox(10);
@@ -566,24 +565,24 @@ public class AppLayoutFV extends Application{
         System.out.println("Button pressed"); // testing delete later
     }
     
-    public StackPane showSPane(Text cat, Text amnt){
-        StackPane sPane = new StackPane();
+    // public StackPane showSPane(Text cat, Text amnt){
+    //     StackPane sPane = new StackPane();
 
-        Rectangle rectangle = new Rectangle(100,150,900,150);
-        rectangle.setFill(babyBlue);
+    //     Rectangle rectangle = new Rectangle(100,150,900,150);
+    //     rectangle.setFill(babyBlue);
 
-        Label space = features.spacing();
+    //     Label space = features.spacing();
 
-        VBox cATotal = new VBox(10);
-        cATotal.getChildren().addAll(cat, amnt);
+    //     VBox cATotal = new VBox(10);
+    //     cATotal.getChildren().addAll(cat, amnt);
 
-        HBox catAmntBox = new HBox(10);
-        catAmntBox.getChildren().addAll(space, cATotal);
-        catAmntBox.setAlignment(Pos.TOP_LEFT);
+    //     HBox catAmntBox = new HBox(10);
+    //     catAmntBox.getChildren().addAll(space, cATotal);
+    //     catAmntBox.setAlignment(Pos.TOP_LEFT);
 
-        sPane.getChildren().addAll(rectangle, catAmntBox);
+    //     sPane.getChildren().addAll(rectangle, catAmntBox);
 
-        return sPane;
-    }
+    //     return sPane;
+    // }
 
 }
