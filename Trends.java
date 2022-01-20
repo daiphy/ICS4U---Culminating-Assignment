@@ -24,6 +24,17 @@ public class Trends {
     }
 
     //Methods
+    public void updateCatArr(ArrayList<String> categoryArrList, String[] catArr){
+        int size = categoryArrList.size();
+        
+        catArr = new String[size];
+
+        for (int i = 0; i < size; i++){
+            catArr[i] = categoryArrList.get(i);
+        }
+    }
+
+
     public void populate(String[] arr, String[][] income, String[][] expenses){  
         
         int a = 0;
