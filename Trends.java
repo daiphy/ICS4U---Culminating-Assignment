@@ -6,8 +6,8 @@ public class Trends {
     public String[][] income2D = new String[6][4];
     public String[][] expense2D = new String[6][4];
     
-    public String[] incomeCat = {"Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      
-    public String[] expenseCat = {"Food", "Health", "Transportation", "Utilies", "Personal","Other"}; // we need to make this permanent in the 2d arrays first or something
+    public ArrayList<String> incomeCat = new ArrayList<String>();  
+    public ArrayList<String> expenseCat = new ArrayList<String>(); // we need to make this permanent in the 2d arrays first or something
 
     public String[] monthNames = {"January", "February", "March", "April", "May", 
     "June", "July", "August", "September", "October", "November", "December"};
@@ -24,14 +24,22 @@ public class Trends {
     }
 
     //Methods
+    public void updateCatArr(ArrayList<String> categoryArrList, String[] catArr){
+        catArr = new String[categoryArrList.size()];
+        for(int i = 0; i < categoryArrList.size(); i ++){
+            catArr[i] = categoryArrList.get(i);
+        }
+        
+    }
+
     public void populate(String[] arr, String[][] income, String[][] expenses){  
         
         int a = 0;
         //populate categories
         for(int i = 0; i < 12; i++){  
             if(i < 6){
-                income[i][0] = this.incomeCat[i];  
-                expenses[i][0] = this.expenseCat[i];  
+                income[i][0] = this.incomeCat.get(i);  
+                expenses[i][0] = this.expenseCat.get(i);  
                 income[i][1] = arr[i];  
             }
             else{
