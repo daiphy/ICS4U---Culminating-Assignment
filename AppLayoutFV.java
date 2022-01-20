@@ -240,6 +240,9 @@ public class AppLayoutFV extends Application{
         });           
 
         Button confirm = features.yellowButton("CONFIRM");
+        confirm.setOnAction(action ->{
+            // trends.updateCatArr(incomeCat, catArr);
+        });
 
                        
         //HBox
