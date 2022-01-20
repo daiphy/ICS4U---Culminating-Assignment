@@ -453,6 +453,7 @@ public class AppLayoutFV extends Application{
         
         if(categoryArrList.size() == 0){
             if(income == true){
+                System.out.println("reset");
                 incomeCatT.setText("Categories : ");
             }
             else{
@@ -472,10 +473,7 @@ public class AppLayoutFV extends Application{
                 expensesCatT.setText("Categories : " + printCat);
             }
         }
-    
         System.out.println("arraylist is: " + categoryArrList);
-
-        
     }
 
     public void showUserInput(String whichType, boolean add, boolean income, ComboBox comboBox, TextField amntTF, Text catInc, Text amtInc, Text catExp, Text amtExp, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
