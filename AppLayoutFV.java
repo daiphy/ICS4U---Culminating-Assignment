@@ -219,25 +219,28 @@ public class AppLayoutFV extends Application{
         Text expensesCatT = new Text("*User input*");
 
         //User selects either the add or delete button for income and expenses
-        Button addIncCatB = new Button("ADD");
+        Button addIncCatB = features.yellowButton("ADD");
         addIncCatB.setOnAction(action ->{
             showCategory(true, incomeCat, incCatTF, true, incomeCatT, expensesCatT);                        
         });
 
-        Button deleteIncCatB = new Button("DELETE");
+        Button deleteIncCatB = features.yellowButton("DELETE");
         deleteIncCatB.setOnAction(action ->{
-            showCategory(false, expenseCat, expCatTF, true, incomeCatT, expensesCatT);
+            showCategory(false, incomeCat, incCatTF, true, incomeCatT, expensesCatT);
         });
 
-        Button addExpCatB = new Button("ADD");
+        Button addExpCatB = features.yellowButton("ADD");
         addExpCatB.setOnAction(action ->{
             showCategory(true, expenseCat, expCatTF, false, incomeCatT, expensesCatT);                        
         });
 
-        Button deleteExpCatB = new Button("DELETE");
+        Button deleteExpCatB = features.yellowButton("DELETE");
         deleteExpCatB.setOnAction(action ->{
             showCategory(false, expenseCat, expCatTF, false, incomeCatT, expensesCatT);
         });           
+
+        Button confirm = features.yellowButton("CONFIRM");
+
                        
         //HBox
         HBox incCatRow = new HBox(20);
@@ -437,16 +440,16 @@ public class AppLayoutFV extends Application{
     public void showCategory(boolean add, ArrayList<String> categoryArrList, TextField catTF, boolean income, Text incomeCatT, Text expensesCatT){
         String stringCat;
         String printCat = "";
+        String temp = catTF.getText();
         if(add == true){
             categoryArrList.add(catTF.getText());
         }
         else{
             if(categoryArrList.contains(catTF.getText())){
+                System.out.println("going thru delete");
                 categoryArrList.remove(catTF.getText());
             }    
         }
-        
-        System.out.println("income is: " + categoryArrList);                    
         
         if(categoryArrList.size() == 0){
             if(income == true){
@@ -461,6 +464,7 @@ public class AppLayoutFV extends Application{
             stringCat = categoryArrList.get(i) + " | ";      
             System.out.println("String cat is: " + stringCat)      ;
             printCat += stringCat;            
+            System.out.println(printCat);
             if(income == true){
                 incomeCatT.setText("Categories : " + printCat);
             }
@@ -468,6 +472,9 @@ public class AppLayoutFV extends Application{
                 expensesCatT.setText("Categories : " + printCat);
             }
         }
+    
+        System.out.println("arraylist is: " + categoryArrList);
+
         
     }
 
@@ -493,22 +500,22 @@ public class AppLayoutFV extends Application{
         }
         else{
             if(whichType.equalsIgnoreCase("ANTICIPATED")){
-                for(int i = 0; i < AntCatArr.size(); i++){
-                    if( AntCatArr.get(i).equals(temp) && AntAmtArr.get(i).equals(tempText)){
-                        AntCatArr.remove(i);
-                        AntAmtArr.remove(i);     
+                // for(int i = 0; i < AntCatArr.size(); i++){
+                    if( AntCatArr.contains(temp) && AntAmtArr.contains(tempText)){
+                        AntCatArr.remove(temp);
+                        AntAmtArr.remove(tempText);     
                     }
-                }
+                // }
                 System.out.println(AntCatArr + " : " + AntAmtArr);      // for testing DELETE LTR
             }
             else{
-                for(int i = 0; i < AccCatArr.size(); i++){
+                // for(int i = 0; i < AccCatArr.size(); i++){
                     
-                    if( AccCatArr.get(i).equals(temp) && AccAmtArr.get(i).equals(tempText)){
-                        AccCatArr.remove(i);
-                        AccAmtArr.remove(i);     
+                    if( AccCatArr.contains(temp) && AccAmtArr.contains(tempText)){
+                        AccCatArr.remove(temp);
+                        AccAmtArr.remove(tempText);     
                     }
-                }
+                // }
                 System.out.println(AccCatArr + " : " + AccAmtArr);      // for testing DELETE LTR
             }
         }
@@ -565,24 +572,5 @@ public class AppLayoutFV extends Application{
         System.out.println("Button pressed"); // testing delete later
     }
     
-    // public StackPane showSPane(Text cat, Text amnt){
-    //     StackPane sPane = new StackPane();
-
-    //     Rectangle rectangle = new Rectangle(100,150,900,150);
-    //     rectangle.setFill(babyBlue);
-
-    //     Label space = features.spacing();
-
-    //     VBox cATotal = new VBox(10);
-    //     cATotal.getChildren().addAll(cat, amnt);
-
-    //     HBox catAmntBox = new HBox(10);
-    //     catAmntBox.getChildren().addAll(space, cATotal);
-    //     catAmntBox.setAlignment(Pos.TOP_LEFT);
-
-    //     sPane.getChildren().addAll(rectangle, catAmntBox);
-
-    //     return sPane;
-    // }
 
 }
