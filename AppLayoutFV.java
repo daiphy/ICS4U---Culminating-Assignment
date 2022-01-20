@@ -78,8 +78,8 @@ public class AppLayoutFV extends Application{
         ComboBox cBMonths = features.comboBoxMonths();
         
         // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
-        ComboBox cBIncThree = features.comboBoxIncome();
-        ComboBox cBIncFour = features.comboBoxIncome();
+        ComboBox cBIncThree = features.comboBoxIncome(trends.incomeCat);
+        ComboBox cBIncFour = features.comboBoxIncome(trends.incomeCat);
         ComboBox cBExpThree = features.comboBoxExpense();
         ComboBox cBExpFour = features.comboBoxExpense();
 
@@ -170,8 +170,7 @@ public class AppLayoutFV extends Application{
         mainScreen.setAlignment(Pos.CENTER);
         
         // calling the borderpane method
-        BorderPane bPane = features.showBorder(mainScreen);
-        
+        BorderPane bPane = features.showBorder(mainScreen);        
         // add all the components to the scene
         one = new Scene(bPane, 1000, 500);
         
@@ -205,10 +204,7 @@ public class AppLayoutFV extends Application{
         
         Label expCatL = features.setFont("Type in your category for expense:", 12);
         TextField expCatTF = new TextField();
-
-        //Initialize arraylists
-        ArrayList<String> incomeCat = new ArrayList<String>(); // holds all the customized catergory names for income
-        ArrayList<String> expenseCat = new ArrayList<String>(); // holds all the customized category names for expense
+        
 
         //Labels for displaying the user's categories
         Label catL = features.setFont("CATEGORIES", 12);
@@ -221,28 +217,25 @@ public class AppLayoutFV extends Application{
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
         addIncCatB.setOnAction(action ->{
-            showCategory(true, incomeCat, incCatTF, true, incomeCatT, expensesCatT);                        
+            showCategory(true, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);                        
         });
 
         Button deleteIncCatB = features.yellowButton("DELETE");
         deleteIncCatB.setOnAction(action ->{
-            showCategory(false, incomeCat, incCatTF, true, incomeCatT, expensesCatT);
+            showCategory(false, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);
         });
 
         Button addExpCatB = features.yellowButton("ADD");
         addExpCatB.setOnAction(action ->{
-            showCategory(true, expenseCat, expCatTF, false, incomeCatT, expensesCatT);                        
+            showCategory(true, trends.expenseCat, expCatTF, false, incomeCatT, expensesCatT);                        
         });
 
         Button deleteExpCatB = features.yellowButton("DELETE");
         deleteExpCatB.setOnAction(action ->{
-            showCategory(false, expenseCat, expCatTF, false, incomeCatT, expensesCatT);
+            showCategory(false, trends.expenseCat, expCatTF, false, incomeCatT, expensesCatT);
         });           
 
         Button confirm = features.yellowButton("CONFIRM");
-        confirm.setOnAction(action ->{
-            // trends.updateCatArr(incomeCat, catArr);
-        });
 
                        
         //HBox
