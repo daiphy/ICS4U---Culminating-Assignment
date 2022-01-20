@@ -28,7 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.TextField; 
 // import javafx.scene.layout.GridPane;
 // import javafx.geometry.Insets;
-import javafx.scene.shape.Rectangle;
+// import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 // import javafx.geometry.Insets;
@@ -63,6 +63,9 @@ public class AppLayoutFV extends Application{
         public ArrayList<String> expenseAccCatArr = new ArrayList<String>();
         public ArrayList<String> expenseAntAmtArr = new ArrayList<String>();
         public ArrayList<String> expenseAccAmtArr = new ArrayList<String>();
+
+        public ArrayList<String> incomeCat = new ArrayList<String>();  
+        public ArrayList<String> expenseCat = new ArrayList<String>(); // we need to make this permanent in the 2d arrays first or something    
     
     public AppLayoutFV(){
 
@@ -76,16 +79,17 @@ public class AppLayoutFV extends Application{
         window = primaryStage;
 
         ComboBox cBMonths = features.comboBoxMonths();
-        
-        // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
-        ComboBox cBIncThree = features.comboBoxIncome(trends.incomeCat);
-        ComboBox cBIncFour = features.comboBoxIncome(trends.incomeCat);
-        ComboBox cBExpThree = features.comboBoxExpense();
-        ComboBox cBExpFour = features.comboBoxExpense();
 
         // setting the scene (initializing them)
         sceneOne = showSceneOne(window); // main Menu
-        sceneTwo = showSceneTwo(window, cBMonths); //  new budget      
+        sceneTwo = showSceneTwo(window, cBMonths); //  new budget  
+        
+        // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
+        ComboBox cBIncThree = features.comboBoxIncome(incomeCat);
+        ComboBox cBIncFour = features.comboBoxIncome(incomeCat);
+        ComboBox cBExpThree = features.comboBoxExpense();
+        ComboBox cBExpFour = features.comboBoxExpense();
+    
         sceneThree = showSceneThreeFour(window, "Anticipated", cBIncThree, cBExpThree, cBMonths); // plan
         sceneFour = showSceneThreeFour(window, "Actual", cBIncFour, cBExpFour, cBMonths); // transactions
 
@@ -94,6 +98,7 @@ public class AppLayoutFV extends Application{
         window.show();
         
     }
+    
     //-------------------- SCENE ONE BELOW --------------------//
     public Scene showSceneOne (Stage scene){
 
@@ -217,12 +222,12 @@ public class AppLayoutFV extends Application{
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
         addIncCatB.setOnAction(action ->{
-            showCategory(true, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);                        
+            showCategory(true, incomeCat, incCatTF, true, incomeCatT, expensesCatT);                        
         });
 
         Button deleteIncCatB = features.yellowButton("DELETE");
         deleteIncCatB.setOnAction(action ->{
-            showCategory(false, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);
+            showCategory(false, incomeCat, incCatTF, true, incomeCatT, expensesCatT);
         });
 
         Button addExpCatB = features.yellowButton("ADD");
@@ -235,7 +240,7 @@ public class AppLayoutFV extends Application{
             showCategory(false, trends.expenseCat, expCatTF, false, incomeCatT, expensesCatT);
         });           
 
-        Button confirm = features.yellowButton("CONFIRM");
+        // Button confirm = features.yellowButton("CONFIRM");
 
                        
         //HBox
@@ -438,12 +443,12 @@ public class AppLayoutFV extends Application{
         String printCat = "";
         String temp = catTF.getText();
         if(add == true){
-            categoryArrList.add(catTF.getText());
+            categoryArrList.add(temp);
         }
         else{
-            if(categoryArrList.contains(catTF.getText())){
+            if(categoryArrList.contains(temp)){
                 System.out.println("going thru delete");
-                categoryArrList.remove(catTF.getText());
+                categoryArrList.remove(temp);
             }    
         }
         
