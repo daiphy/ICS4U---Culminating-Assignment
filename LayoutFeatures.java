@@ -1,4 +1,4 @@
-import javafx.scene.Scene;
+// import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
@@ -15,7 +15,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.geometry.Insets;
+
+import java.util.ArrayList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+// import javafx.geometry.Insets;
 import javafx.geometry.Pos; 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -138,12 +143,28 @@ public class LayoutFeatures{
         
         return months;
     }
-    public ComboBox comboBoxIncome(){
+    public ComboBox comboBoxIncome(ArrayList<String> arrList){
         ComboBox incomeCat = new ComboBox();
-        incomeCat.getItems().addAll(
-                                    "Savings", "Paycheck", "Bonus",
-                                    "Interest", "Allowance", "Other"
-                                   );
+
+        // ArrayList<String> arrList = new ArrayList<String>();
+
+        // arrList.add("Saving");
+        // arrList.add("paychque");
+        
+        ObservableList<String> oList = FXCollections.observableArrayList(arrList);
+
+
+        if(arrList.isEmpty() == true){
+            incomeCat.getItems().addAll(
+                "ARR"
+                // "Savings", "Paycheck", "Bonus",
+                // "Interest", "Allowance", "Other"
+               );
+        }
+        else{
+            System.out.println("Arr list not empty");
+            incomeCat.setItems(oList);
+        }
         incomeCat.setPromptText("Select Category");
         incomeCat.setEditable(false);
         
