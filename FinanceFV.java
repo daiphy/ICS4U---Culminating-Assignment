@@ -2,6 +2,7 @@
  * Base Class - Model - Finance
  */
 import java.io.*;
+
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -19,6 +20,13 @@ class FinanceFV {
                                 {"Bonus", "0", "0", "0"}, 
                                 {"Allowance", "0", "0", "0"},
                                 {"Other", "0", "0", "0"}};
+    public String[] testArr = {"Month: February", "0", "0", "0",
+                               "Savings", "0", "0", "0",
+                               "Paycheck", "0", "0", "0",
+                               "Interest", "0", "0", "0",
+                               "Bonus", "0", "0", "0",
+                               "Allowance", "0", "0", "0",
+                               "Other", "0", "0", "0"};
     public int startRow = 7;
 
     //-------------------- CONSTRUCTOR --------------------//
@@ -179,9 +187,8 @@ class FinanceFV {
             System.out.println(e.getMessage());
         }
     }
-    //--- method to find section in 2D array using recursion ---//
-    //maybe change to "findSection()" and "bool" into "found"
-    public boolean updateCSV(String[][] arr, int row, int col, String[] temp, int count){
+    //--- method to update an array containing csv data (chosen month already has existing data) ---//
+    public boolean update2DArr(String[][] arr, int row, int col, int count){
         boolean bool = true;
         if(col < arr[0].length && row < arr.length){ //validation checks 
             if(arr[row][col].equals("Month: " + this.nextMonth)){
@@ -190,42 +197,34 @@ class FinanceFV {
             else{
                 if(bool){
                     if(col == arr[0].length - 1){
-                        bool = updateCSV(arr, row + 1, 0, temp, count + 1); //go down
+                        bool = update2DArr(arr, row + 1, 0, count + 1); //next row
                     }
-                    bool = updateCSV(arr, row, col + 1, temp, count + 1); //go right
+                    bool = update2DArr(arr, row, col + 1, count + 1); //next col
                 }
             }
-            if(bool && row != startRow && count < temp.length){
-                temp[count] = arr[row][col];
-            }
+        }
+        if(col < arr[0].length && row < arr.length){
+            arr[row][col] = testArr[count];            
         }
         return bool;
     }
-    //--- method to update csv (chosen month already has existing data) ---//
-    public void updateCSV(String[] temp){
-        // //try catch to append to existing data in csv
-        // try(PrintWriter writer = new PrintWriter(this.fileName)){
-        //     StringBuilder builder = new StringBuilder();
-        //     //loop through csv contents first and add to stringBuilder
-        //     for(int i = 0; i < arrOne.length; i++){
-        //         for(int j = 0; j < arrOne[0].length; j++){
-        //             builder.append(arrOne[i][j] + ",");
-        //         }
-        //         //create a new line each time a new row starts
-        //         builder.append("\n");
-        //     }
-        //     //loop through data that needs to be added and add to stringBuilder
-        //     for(int a = 0; a < test2D.length; a++){
-        //         for(int b = 0; b < test2D[0].length; b++){
-        //             builder.append(test2D[a][b] + ",");
-        //         }
-        //         builder.append("\n");
-        //     }
-        //     //put all the information into the csv
-        //     writer.write(builder.toString());
-        // } catch (FileNotFoundException e){
-        //     System.out.println(e.getMessage());
-        // }
+    //--- method to write to csv ---//
+    public void updateCSV(String[][] arr){
+        //try catch to append to existing data in csv
+        try(PrintWriter writer = new PrintWriter(this.fileName)){
+            StringBuilder builder = new StringBuilder();
+            //loop through 2D arr
+            for(int a = 0; a < arr.length; a++){
+                for(int b = 0; b < arr[0].length; b++){
+                    builder.append(arr[a][b] + ",");
+                }
+                builder.append("\n");
+            }
+            //put all the information into the csv
+            writer.write(builder.toString());
+        } catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }
 
         //from 0,0 to row for starting point (decide for this vs next month)
         //bc you can either rewrite over smth existing or add a missing month
