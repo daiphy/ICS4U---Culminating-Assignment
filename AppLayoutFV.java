@@ -6,6 +6,8 @@ import java.util.ArrayList;
 // import javafx.stage.FileChooser;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 // import javafx.collections.ObservableList;
 // import javafx.scene.Node;
 // import javafx.scene.Parent;
@@ -64,8 +66,8 @@ public class AppLayoutFV extends Application{
         public ArrayList<String> expenseAntAmtArr = new ArrayList<String>();
         public ArrayList<String> expenseAccAmtArr = new ArrayList<String>();
 
-        public ArrayList<String> incomeCat = new ArrayList<String>();  
-        public ArrayList<String> expenseCat = new ArrayList<String>(); // we need to make this permanent in the 2d arrays first or something    
+        ArrayList<String> incomeCat = new ArrayList<String>();  
+        ArrayList<String> expenseCat = new ArrayList<String>(); // we need to make this permanent in the 2d arrays first or something    
     
     public AppLayoutFV(){
 
@@ -80,13 +82,21 @@ public class AppLayoutFV extends Application{
 
         ComboBox cBMonths = features.comboBoxMonths();
 
+        // ArrayList<String> incomeCat = new ArrayList<String>();  
+        // ArrayList<String> expenseCat = new ArrayList<String>(); // we need to make this permanent in the 2d arrays first or something    
+
         // setting the scene (initializing them)
         sceneOne = showSceneOne(window); // main Menu
-        sceneTwo = showSceneTwo(window, cBMonths); //  new budget  
+        // sceneTwo = showSceneTwo(window, cBMonths, incomeCat); //  new budget  
+        showSceneTwo(window, cBMonths); //  new budget  
+        ArrayList<String> arrList = new ArrayList<String>();
+
+        arrList.add("Saving");
+        arrList.add("paychque");
         
         // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
-        ComboBox cBIncThree = features.comboBoxIncome(incomeCat);
-        ComboBox cBIncFour = features.comboBoxIncome(incomeCat);
+        ComboBox cBIncThree = comboBoxIncome(incomeCat);
+        ComboBox cBIncFour = comboBoxIncome(arrList);
         ComboBox cBExpThree = features.comboBoxExpense();
         ComboBox cBExpFour = features.comboBoxExpense();
     
@@ -183,8 +193,8 @@ public class AppLayoutFV extends Application{
     }    
 
     //-------------------- SCENE TWO BELOW --------------------//
-    public Scene showSceneTwo (Stage scene, ComboBox cBMonths){
-        Scene two;  // initialize a scene to return
+    public void showSceneTwo (Stage scene, ComboBox cBMonths){
+        // Scene two;  // initialize a scene to return
 
         //Title, bees, instructions label and formatting
         Label newBudgetL = features.setFont("NEW BUDGET", 25);
@@ -222,7 +232,7 @@ public class AppLayoutFV extends Application{
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
         addIncCatB.setOnAction(action ->{
-            showCategory(true, incomeCat, incCatTF, true, incomeCatT, expensesCatT);                        
+            showCategory(true, incomeCat, incCatTF, true, incomeCatT, expensesCatT); 
         });
 
         Button deleteIncCatB = features.yellowButton("DELETE");
@@ -242,7 +252,6 @@ public class AppLayoutFV extends Application{
 
         // Button confirm = features.yellowButton("CONFIRM");
 
-                       
         //HBox
         HBox incCatRow = new HBox(20);
         incCatRow.getChildren().addAll(incCatL, incCatTF, addIncCatB, deleteIncCatB);
@@ -273,7 +282,10 @@ public class AppLayoutFV extends Application{
         //NOTE: Buttons need action, move formatting to its own button methods
         Button mainMenuB = goToSceneOne(window, "MAIN MENU");        
         
-        Button nextPageB = goToSceneThree(window, "NEXT PAGE");        
+        Button nextPageB = goToSceneThree(window, "NEXT PAGE"); 
+        // nextPageB.setOnAction(action ->{
+            // ComboBox incComboBox = features.comboBoxIncome(incomeCat);
+        // });       
         
         //HBox to gather main menu button and next page button
         HBox sceneButtons = new HBox(20);
@@ -288,9 +300,12 @@ public class AppLayoutFV extends Application{
         // call border mthd
         BorderPane bPaneTwo = features.showBorder(mainScreen);
         // putting everything into the scene
-        two = new Scene(bPaneTwo, 1000, 500);
-        
-        return two;
+        sceneTwo = new Scene(bPaneTwo, 1000, 500);
+            
+        scene.setScene(sceneTwo);
+        scene.show();
+
+        // return two;
     }
     
     //-------------------- SCENE THREE/FOUR BELOW --------------------//
@@ -326,10 +341,14 @@ public class AppLayoutFV extends Application{
         Button addBB = features.yellowButton("ADD"); // BB (bottom half of the scene) -> expense
         Button delTB = features.yellowButton("DELETE"); // TB (top half of the scene) -> income
         Button delBB = features.yellowButton("DELETE"); // BB (bottom half of the scene) -> expense
+
+        // ComboBox cBInc = comboBoxIncome(incomeCat);
+        // ComboBox cBIncFour = features.comboBoxIncome(incomeCat);
         
         // button actions
         addTB.setOnAction(action -> {
-            showUserInput(whichType, true , true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);            
+            showUserInput(whichType, true , true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);   
+            System.out.println(incomeCat);      
         });
         addBB.setOnAction(action -> {
             showUserInput(whichType,true, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
@@ -383,6 +402,7 @@ public class AppLayoutFV extends Application{
         HBox titleHB = new HBox(20);
         titleHB.getChildren().addAll(bee, titleL, bee2);
         titleHB.setAlignment(Pos.CENTER);
+
 
         // put it all together in the vbox
         VBox mainScreen = new VBox(10);
@@ -569,6 +589,36 @@ public class AppLayoutFV extends Application{
             System.out.println("exp cat : " + printCat + " exp amt : " + printAmt);     //testng DELETE LTR
         }
         System.out.println("Button pressed"); // testing delete later
+    }
+    public ComboBox comboBoxIncome(ArrayList<String> aList){
+        ComboBox incomeCatCB = new ComboBox();
+
+        // ArrayList<String> arrList = new ArrayList<String>();
+
+        // arrList.add("Saving");
+        // arrList.add("paychque");
+        
+        ObservableList<String> oList = FXCollections.observableArrayList(aList);
+
+
+        if(aList.isEmpty() == false){
+            
+               System.out.println("Arr list not empty");
+            incomeCatCB.setItems(oList);
+        }
+        else{
+            System.out.println("EMPTY ARR");
+            incomeCatCB.getItems().addAll(
+                "ARR"
+                
+                // "Savings", "Paycheck", "Bonus",
+                // "Interest", "Allowance", "Other"
+               );
+        }
+        incomeCatCB.setPromptText("Select Category");
+        incomeCatCB.setEditable(false);
+        
+        return incomeCatCB;
     }
     
 
