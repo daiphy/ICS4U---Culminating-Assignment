@@ -46,7 +46,6 @@ public class AppLayoutFV extends Application{
     Scene sceneOne, sceneTwo, sceneThree, sceneFour, sceneFive, sceneSix, sceneSeven;
     Stage window;
     Color babyBlue = Color.web("#C9DAF8");
-    Color lightBlue = Color.web("#EFF8FF");
     ImageView bee, bee2;
 
     //Initialize objects -> Trends/LayoutFeatures/Finance
