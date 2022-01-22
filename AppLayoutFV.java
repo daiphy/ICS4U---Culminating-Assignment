@@ -81,21 +81,21 @@ public class AppLayoutFV extends Application{
         window = primaryStage;
 
         ComboBox cBMonths = features.comboBoxMonths();
-
-        // ArrayList<String> incomeCat = new ArrayList<String>();  
         // ArrayList<String> expenseCat = new ArrayList<String>(); // we need to make this permanent in the 2d arrays first or something    
 
         // setting the scene (initializing them)
         sceneOne = showSceneOne(window); // main Menu
-        // sceneTwo = showSceneTwo(window, cBMonths, incomeCat); //  new budget  
-        showSceneTwo(window, cBMonths); //  new budget  
+        sceneTwo = showSceneTwo(window, cBMonths); //  new budget 
+        ArrayList<String> tempArrayList = incomeCat;  
+ 
+        // showSceneTwo(window, cBMonths); //  new budget  
         ArrayList<String> arrList = new ArrayList<String>();
 
         arrList.add("Saving");
         arrList.add("paychque");
         
         // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
-        ComboBox cBIncThree = comboBoxIncome(incomeCat);
+        ComboBox cBIncThree = comboBoxIncome(tempArrayList);
         ComboBox cBIncFour = comboBoxIncome(arrList);
         ComboBox cBExpThree = features.comboBoxExpense();
         ComboBox cBExpFour = features.comboBoxExpense();
@@ -193,8 +193,8 @@ public class AppLayoutFV extends Application{
     }    
 
     //-------------------- SCENE TWO BELOW --------------------//
-    public void showSceneTwo (Stage scene, ComboBox cBMonths){
-        // Scene two;  // initialize a scene to return
+    public Scene showSceneTwo (Stage scene, ComboBox cBMonths){
+        Scene two;  // initialize a scene to return
 
         //Title, bees, instructions label and formatting
         Label newBudgetL = features.setFont("NEW BUDGET", 25);
@@ -300,12 +300,12 @@ public class AppLayoutFV extends Application{
         // call border mthd
         BorderPane bPaneTwo = features.showBorder(mainScreen);
         // putting everything into the scene
-        sceneTwo = new Scene(bPaneTwo, 1000, 500);
+        two = new Scene(bPaneTwo, 1000, 500);
             
-        scene.setScene(sceneTwo);
-        scene.show();
+        // scene.setScene(sceneTwo);
+        // scene.show();
 
-        // return two;
+        return two;
     }
     
     //-------------------- SCENE THREE/FOUR BELOW --------------------//
@@ -591,17 +591,24 @@ public class AppLayoutFV extends Application{
         System.out.println("Button pressed"); // testing delete later
     }
     public ComboBox comboBoxIncome(ArrayList<String> aList){
+        
         ComboBox incomeCatCB = new ComboBox();
+
+        int size = aList.size();
+        String sizeString = String.valueOf(size);
 
         // ArrayList<String> arrList = new ArrayList<String>();
 
+        // for(int i =0; i < incomeCat.size(); i++){
+        //     arrList.add(incomeCat.get(i));
+        // }
         // arrList.add("Saving");
         // arrList.add("paychque");
         
         ObservableList<String> oList = FXCollections.observableArrayList(aList);
 
 
-        if(aList.isEmpty() == false){
+        if(oList.isEmpty() == false){
             
                System.out.println("Arr list not empty");
             incomeCatCB.setItems(oList);
@@ -609,7 +616,7 @@ public class AppLayoutFV extends Application{
         else{
             System.out.println("EMPTY ARR");
             incomeCatCB.getItems().addAll(
-                "ARR"
+                "ARR", sizeString
                 
                 // "Savings", "Paycheck", "Bonus",
                 // "Interest", "Allowance", "Other"
