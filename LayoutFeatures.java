@@ -1,4 +1,4 @@
-// import javafx.scene.Scene;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
@@ -18,9 +18,7 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-// import javafx.geometry.Insets;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos; 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,6 +34,7 @@ public class LayoutFeatures{
     // String emptyCat = "";
     // String emptyAmnt = "";
     // int y = 150; 
+    Trends trends = new Trends();
 
     //-------------------- CONSTRUCTOR --------------------// 
     public LayoutFeatures(){
@@ -143,33 +142,7 @@ public class LayoutFeatures{
         
         return months;
     }
-    public ComboBox comboBoxIncome(ArrayList<String> arrList){
-        ComboBox incomeCat = new ComboBox();
-
-        // ArrayList<String> arrList = new ArrayList<String>();
-
-        // arrList.add("Saving");
-        // arrList.add("paychque");
-        
-        ObservableList<String> oList = FXCollections.observableArrayList(arrList);
-
-
-        if(arrList.isEmpty() == true){
-            incomeCat.getItems().addAll(
-                "ARR"
-                // "Savings", "Paycheck", "Bonus",
-                // "Interest", "Allowance", "Other"
-               );
-        }
-        else{
-            System.out.println("Arr list not empty");
-            incomeCat.setItems(oList);
-        }
-        incomeCat.setPromptText("Select Category");
-        incomeCat.setEditable(false);
-        
-        return incomeCat;
-    }
+    
     public ComboBox comboBoxExpense(){
         ComboBox expenseCat = new ComboBox();
         expenseCat.getItems().addAll(
