@@ -315,6 +315,9 @@ public class AppLayoutFV extends Application{
         Label amntTL = features.amntLabel();
         Label amntBL = features.amntLabel();
 
+        // Label spaceOne = features.spacing();
+        // Label spaceTwo = features.spacing();
+
         TextField amntTFT = features.amntT();   // user inputs inc amnt
         TextField amntTFB = features.amntT();   // user inputs exp amnt
 
@@ -359,7 +362,7 @@ public class AppLayoutFV extends Application{
             lastRow.getChildren().addAll(mainMenuB, backB, nextB);
         }
 
-        // stack panes to show the user inputs on top of the rectangles
+        // // stack panes to show the user inputs on top of the rectangles
         StackPane stackPaneT = features.showSPane(showIncCat, showIncAmt);
         StackPane stackPaneB = features.showSPane(showExpCat, showExpAmt);
 
@@ -374,12 +377,22 @@ public class AppLayoutFV extends Application{
         thirdRow.getChildren().addAll(catTL, cBInc, amntTL, amntTFT, addTB, delTB);
         thirdRow.setAlignment(Pos.CENTER);
 
+        // HBox cATotalT = new HBox(10);
+        // cATotalT.getChildren().addAll(showIncCat, spaceOne, showIncAmt);
+        // cATotalT.setAlignment(Pos.CENTER);
+        // cATotalT.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
+
         HBox fourthRow = new HBox(50);
         fourthRow.getChildren().addAll(expL);
 
         HBox fifthRow = new HBox(50);
         fifthRow.getChildren().addAll(catBL, cBExp, amntBL, amntTFB, addBB, delBB);
         fifthRow.setAlignment(Pos.CENTER);
+
+        // HBox cATotalB = new HBox(10);
+        // cATotalB.getChildren().addAll(showExpCat, spaceTwo, showExpAmt);
+        // cATotalB.setAlignment(Pos.CENTER);
+        // cATotalB.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
 
         //Gathers the title and bees
         HBox titleHB = new HBox(20);
@@ -465,23 +478,23 @@ public class AppLayoutFV extends Application{
         }
 
         for(int i = 0; i < categoryArrList.size(); i ++){
-            stringCat = categoryArrList.get(i) + " | ";      
+            stringCat = categoryArrList.get(i) + "\n";      
             System.out.println("String cat is: " + stringCat)      ;
             printCat += stringCat;            
             System.out.println(printCat);
             if(income == true){
-                incomeCatT.setText("Categories : " + printCat);
+                incomeCatT.setText("Categories : \n" + printCat);
             }
             else {
-                expensesCatT.setText("Categories : " + printCat);
+                expensesCatT.setText("Categories : \n" + printCat);
             }
         }
         System.out.println("arraylist is: " + categoryArrList);
     }
 
-    public void showUserInput(String whichType, boolean add, boolean income, ComboBox comboBox, TextField amntTF, Text catInc, Text amtInc, Text catExp, Text amtExp, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
+    public void showUserInput(String whichType, boolean add, boolean income, ComboBox ComboBox, TextField amntTF, Text catInc, Text amtInc, Text catExp, Text amtExp, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
         // initialize strings
-        String temp = (String) comboBox.getValue();
+        String temp = (String) ComboBox.getValue();
         String tempText = amntTF.getText();
         String stringCat, stringAmt;
         String printCat = "";
@@ -491,11 +504,11 @@ public class AppLayoutFV extends Application{
         if (add == true){
             // add the contents to the arr
             if(whichType.equalsIgnoreCase("ANTICIPATED")){
-                AntCatArr.add((String) comboBox.getValue());    //JANE can i jus put temp?
+                AntCatArr.add((String) ComboBox.getValue());    //JANE can i jus put temp?
                 AntAmtArr.add(amntTF.getText());                // and like tempText here?
             }
             else{
-                AccCatArr.add((String) comboBox.getValue());
+                AccCatArr.add((String) ComboBox.getValue());
                 AccAmtArr.add(amntTF.getText());
             }
         }
@@ -525,8 +538,8 @@ public class AppLayoutFV extends Application{
         if (whichType.equalsIgnoreCase("ANTICIPATED")){
             for(int i = 0; i < AntCatArr.size(); i ++){
                 // set string as the array element
-                stringCat = AntCatArr.get(i) + " | ";
-                stringAmt = AntAmtArr.get(i) + " | ";
+                stringCat = AntCatArr.get(i) + "\n";
+                stringAmt = AntAmtArr.get(i) + "\n";
                 // concanate
                 printCat += stringCat;
                 printAmt += stringAmt;
@@ -536,8 +549,8 @@ public class AppLayoutFV extends Application{
         else{
             System.out.println(AccCatArr + " : " + AccAmtArr);  //testng DELETE LTR
             for(int i = 0; i < AccCatArr.size(); i ++){
-                stringCat = AccCatArr.get(i) + " | ";   //set string as arr element
-                stringAmt = AccAmtArr.get(i) + " | ";
+                stringCat = AccCatArr.get(i) + "\n";   //set string as arr element
+                stringAmt = AccAmtArr.get(i) + "\n";
                 printCat += stringCat;      // concanate
                 printAmt += stringAmt;
             }
@@ -560,14 +573,14 @@ public class AppLayoutFV extends Application{
         // conds if it is income or exp
         // set text to the user inputs
         if(income == true){
-            catInc.setText("Categories : " + printCat);
-            amtInc.setText("Amount : " + printAmt);
+            catInc.setText("Categories : \n" + printCat);
+            amtInc.setText("Amount : \n" + printAmt);
             System.out.println("inc cat : " + printCat + " inc amt : " + printAmt);     //testng DELETE LTR
 
         }
         else {
-            catExp.setText("Categories : " + printCat);
-            amtExp.setText("Amount : " + printAmt);
+            catExp.setText("Categories : \n" + printCat);
+            amtExp.setText("Amount : \n" + printAmt);
             System.out.println("exp cat : " + printCat + " exp amt : " + printAmt);     //testng DELETE LTR
         }
         System.out.println("Button pressed"); // testing delete later
