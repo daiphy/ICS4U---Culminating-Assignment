@@ -209,8 +209,8 @@ public class AppLayoutFV extends Application{
 
         //Labels for displaying the user's categories
         Label catL = features.setFont("CATEGORIES", 12);
-        Label incomeL = features.setFont("INCOME", 12);
-        Label expensesL = features.setFont ("EXPENSES", 12);
+        Label incomeL = features.incomeLabel();
+        Label expensesL = features.expenseLabel();
         
         Text incomeCatT = new Text("*User input*"); //This will depend on the categories (modify later)
         Text expensesCatT = new Text("*User input*");
@@ -311,8 +311,8 @@ public class AppLayoutFV extends Application{
         bee2 = features.image();
 
         Label typeL = features.setFont(whichType, 12); // anticipated or actual
-        Label incL = features.setFont("INCOME", 12);
-        Label expL = features.setFont("EXPENSE", 12);
+        Label incL = features.incomeLabel();
+        Label expL = features.expenseLabel();
         
         Label catTL = features.catLabel();
         Label catBL = features.catLabel();
@@ -475,27 +475,16 @@ public class AppLayoutFV extends Application{
     titleHB.getChildren().addAll(bee, cBMonths, bee2);
     titleHB.setAlignment(Pos.CENTER);
     
-    Label labelIncome = new Label ("Income");
-    Label labelExpenses = new Label ("Expenses");
-    Label labelAnticipated = new Label ("Anticipated"); 
-    Label labelAnticipated2 = new Label ("Anticipated"); 
-    Label labelActual = new Label ("Actual"); 
-    Label labelActual2 = new Label ("Actual");
-    Label labelDiff = new Label ("Difference"); 
-    Label labelDiff2 = new Label ("Difference"); 
-    Label labelTotals = new Label ("Totals");
-    Label labelTotals2 = new Label ("Totals"); 
-    
-    labelIncome.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-    labelExpenses.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-    labelAnticipated.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelAnticipated2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelActual.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelActual2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelDiff.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelDiff2.setFont(Font.font("Verdana", FontWeight.BOLD, 12)); 
-    labelTotals.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelTotals2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+    Label labelIncome = features.incomeLabel();
+    Label labelExpenses = features.expenseLabel();
+    Label labelAnticipated = features.anticipatedLabel(); 
+    Label labelAnticipated2 = features.anticipatedLabel(); 
+    Label labelActual = features.actuaLabel(); 
+    Label labelActual2 = features.actuaLabel();
+    Label labelDiff = features.diffLabel(); 
+    Label labelDiff2 = features.diffLabel(); 
+    Label labelTotals = features.totaLabel();
+    Label labelTotals2 = features.totaLabel();
     
     //Label - Act as line break
     //NOTE: REPLACE LABEL BLANKS WITH ACC CALC. VALUES
@@ -628,7 +617,7 @@ public class AppLayoutFV extends Application{
     titleHB.getChildren().addAll(bee, cBMonths, bee2);
     titleHB.setAlignment(Pos.CENTER);
     
-    Label monthlyBudgetL = new Label("MONTHLY BUDGET");
+    Label monthlyBudgetL = features.setFont("MONTHLY BUDGET", 16);
     
     //-------------------- SCENE SIX SECTION 1 BELOW --------------------//
     int sumAccIncome = 110; //ADD VALUES BY PASSING IT INTO THIS METHOD
@@ -680,12 +669,13 @@ public class AppLayoutFV extends Application{
     int sumAccExpense = 200;
     //Note: sumAccIncome has been initialized earlier
     
-    Label incomeL = features.setFont("INCOME", 12);
-    Label expensesL = features.setFont ("EXPENSES", 12);
-    Label antL = new Label("ANTICIPATED");
-    Label accL = new Label("ACTUAL");
-    Label antL2 = new Label("ANTICIPATED");
-    Label accL2 = new Label("ACTUAL");
+    Label incomeL = features.incomeLabel();
+    Label expensesL = features.expenseLabel();
+    Label antL = features.anticipatedLabel();
+    Label accL = features.actuaLabel();
+    Label antL2 = features.anticipatedLabel();
+    Label accL2 = features.actuaLabel();
+
     Label space = new Label(""); //For spacing
     Label space2 = new Label("");
     Label space3 = new Label(""); 
