@@ -198,10 +198,11 @@ public class AppLayoutFV extends Application{
         bee2 = features.image();
         
         Label instructionsL = features.setFont("Type in your desired category and press add to include it. If you would like to delete one, type in your category and press the delete button.", 12); 
-        
+        Label infoL = features.setFont("If you want default categories set for you, do not enter anything.", 12);
+
         //Asks the user which month they are budgeting for and provide a drop down menu 
-        Label monthL = features.setFont("Month:", 12);
-        
+        Label monthL = features.setFont("Month:", 12);        
+
         //HBox gathers the month input and income categories input as they are in the same row
         HBox monthRow = new HBox(20);
         monthRow.getChildren().addAll(monthL, cBMonths);
@@ -213,11 +214,7 @@ public class AppLayoutFV extends Application{
         
         Label expCatL = features.setFont("Type in your category for expense:", 12);
         TextField expCatTF = new TextField();
-
-        // //Initialize arraylists
-        // ArrayList<String> incomeCat = new ArrayList<String>(); // holds all the customized catergory names for income
-        // ArrayList<String> expenseCat = new ArrayList<String>(); // holds all the customized category names for expense
-
+        
         //Labels for displaying the user's categories
         Label catL = features.setFont("CATEGORIES", 12);
         Label incomeL = features.incomeLabel();
@@ -313,11 +310,12 @@ public class AppLayoutFV extends Application{
         
         //Making the overall screen
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(titleHB, instructionsL, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
+        mainScreen.getChildren().addAll(titleHB, instructionsL, infoL, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
         mainScreen.setAlignment(Pos.CENTER);
         
         // call border mthd
         BorderPane bPaneTwo = features.showBorder(mainScreen);
+        
         // putting everything into the scene
         two = new Scene(bPaneTwo, 1000, 500);
         
@@ -396,14 +394,6 @@ public class AppLayoutFV extends Application{
             cBExp = cBExpFour;
         }
 
-        // String tempT = amntTFT.getText();
-        // String tempB = amntTFB.getText();
-
-        // button actions
-        // if(isNumeric(tempT) == true && isNumeric(tempB) == true){
-        //     System.out.print("tempT is: " + tempT);
-        //     System.out.print("tempB is: " + tempB);
-        
         addTB.setOnAction(action -> {     
             boolean check;       
             check = isNumeric(amntTFT.getText()); //INPUT VALIDATION
