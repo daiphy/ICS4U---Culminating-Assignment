@@ -216,7 +216,7 @@ public class AppLayoutFV extends Application{
         Text expensesCatT = new Text("*User input*"); 
 
         //Set the chosen month to selected month from combo box
-        trends.getMonth(cBMonths);
+        getMonth(cBMonths);
 
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
@@ -460,12 +460,12 @@ public class AppLayoutFV extends Application{
     //-------------------- SCENE FIVE BELOW --------------------//
     public Scene showSceneFive(Stage stage, ComboBox cBMonths){
         //Set the chosen month to selected month from combo box
-        trends.getMonth(cBMonths);
-        
+        getMonth(cBMonths);
+
         //put into CSV
         //financeFV.appendCSV(trends.income2D);
-        financeFV.toCSV(financeFV.readCSV(), "income");
-        financeFV.toCSV(financeFV.readCSV(), "expense");
+        financeFV.toCSV(financeFV.readCSV(), "income", this.month);
+        financeFV.toCSV(financeFV.readCSV(), "expense", this.month);
         
         Scene five;
         //Titles, bees, buttons, labels, comboBoxes
@@ -633,7 +633,7 @@ public class AppLayoutFV extends Application{
         bee2 = features.image();
 
         //Set the chosen month to selected month from combo box
-        trends.getMonth(cBMonths);
+        getMonth(cBMonths);
         
         HBox titleHB = new HBox();
         titleHB.getChildren().addAll(bee, cBMonths, bee2);
@@ -826,6 +826,13 @@ public class AppLayoutFV extends Application{
             stage.setScene(sceneSix);
         });
         return scene6B;
+    }
+
+    //month things
+    public void getMonth(ComboBox cBMonths){
+        cBMonths.setOnAction(action ->{
+            this.month = (String)cBMonths.getValue();
+        });
     }
 
     public void showCategory(boolean add, ArrayList<String> categoryArrList, TextField catTF, boolean income, Text incomeCatT, Text expensesCatT){

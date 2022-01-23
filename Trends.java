@@ -83,14 +83,7 @@ public class Trends {
 
 
     // }
-    public String getMonth(ComboBox cBMonths){
-        cBMonths.setOnAction(action ->{
-            this.chosenMonth = (String)cBMonths.getValue();
-        });
-        return this.chosenMonth;
-    }
     public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col){ //CHANGE THE INCOME NAMES
-        
         
         for(int i = 0; i < twoDArr.length; i++){ 
             if(i == 0){

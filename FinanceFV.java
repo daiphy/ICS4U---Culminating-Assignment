@@ -28,7 +28,7 @@ class FinanceFV {
     //-------------------- METHOD THAT COLLECTS ALL OTHER METHODS --------------------//
     //this method collects methods from financeFV in order to be used in AppLayoutFV
     //arr is existing csv contents by using readCSV() in the param, choice is to determine which file it stores into
-    public void toCSV(String[][] arr, String choice){
+    public void toCSV(String[][] arr, String choice, String month){
         //file name to inport to income vs expense
         if(choice.equals("income")){
             this.fileName = "income.csv";
@@ -36,15 +36,15 @@ class FinanceFV {
         else{
             this.fileName = "expense.csv";
         }
-        findNext();
+        findNext(month);
     //     //put into CSV
-    //     String coords = checkForMonth(trends.chosenMonth);
+    //     String coords = checkForMonth(month);
     //     if(coords.equals("")){
     //         appendCSV(arr);
     //     }
     //     else{
     //         findNext(); 
-    //         String initialCoords = checkForMonth(trends.chosenMonth);
+    //         String initialCoords = checkForMonth(month);
     //         int row = Integer.parseInt(initialCoords.substring(0,initialCoords.indexOf(",")));
     //         int col = Integer.parseInt(initialCoords.substring(initialCoords.indexOf(",") + 1,initialCoords.length()));
     //         boolean updated = update2DArr(arr, row, col, 0);
@@ -167,10 +167,10 @@ class FinanceFV {
      * - will find name of next month by searching through the array
      *   of month names located in "Trends.java"
      */
-    public void findNext(){
+    public void findNext(String month){
         int index = 0;
         for(int i = 0; i < trends.monthNames.length; i++){
-            if(trends.monthNames[i].equals(trends.chosenMonth)){
+            if(trends.monthNames[i].equals(month)){
                 //the name of the next month will be at the next index from chosen month name
                 index = i + 1;
                 // System.out.println("index: " + index);
@@ -211,7 +211,7 @@ class FinanceFV {
         }
     }
     //--- method to update an array containing csv data (chosen month already has existing data) ---//
-    public boolean update2DArr(String[][] arr, int row, int col, int count){
+    public boolean update2DArr(String[][] arr, int row, int col, int count, int count2){
         boolean bool = true;
         if(col < arr[0].length && row < arr.length){ //validation checks 
             if(arr[row][col].equals("Month: " + this.nextMonth)){
@@ -220,9 +220,9 @@ class FinanceFV {
             else{
                 if(bool){
                     if(col == arr[0].length - 1){
-                        bool = update2DArr(arr, row + 1, 0, count + 1); //next row
+                        bool = update2DArr(arr, row + 1, 0, count + 1, count2); //next row
                     }
-                    bool = update2DArr(arr, row, col + 1, count + 1); //next col
+                    bool = update2DArr(arr, row, col + 1, count + 1, count2); //next col
                 }
             }
         }
