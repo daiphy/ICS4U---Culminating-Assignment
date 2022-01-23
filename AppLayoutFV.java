@@ -54,6 +54,13 @@ public class AppLayoutFV extends Application{
     Trends trends = new Trends();
     public LayoutFeatures features = new LayoutFeatures(); 
     public Finance finance = new Finance();
+    public ComboBox cBMonths;
+
+     // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
+     public ComboBox cBIncThree = features.comboBoxIncome();
+     public ComboBox cBIncFour = features.comboBoxIncome();
+     public ComboBox cBExpThree = features.comboBoxExpense();
+     public ComboBox cBExpFour = features.comboBoxExpense();
 
       //Initialize arrays
         public String[] arr = new String[12];        
@@ -69,21 +76,13 @@ public class AppLayoutFV extends Application{
         // UH SINCE THIS IS GLOBAL ATTEMPT USING "WINDOW" AS THE STAGE INSTEAD OF RUNNING STAGE THROUGH PARAMS?
         window = primaryStage;
 
-        ComboBox cBMonths = features.comboBoxMonths();
-        
-        // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
-        ComboBox cBIncThree = features.comboBoxIncome();
-        ComboBox cBIncFour = features.comboBoxIncome();
-        ComboBox cBExpThree = features.comboBoxExpense();
-        ComboBox cBExpFour = features.comboBoxExpense();
-
         // setting the scene (initializing them)
         sceneOne = showSceneOne(window); // main Menu
-        sceneTwo = showSceneTwo(window, cBMonths); //  new budget      
-        sceneThree = showSceneThreeFour(window, "Anticipated", cBIncThree, cBExpThree, cBMonths); // plan
-        sceneFour = showSceneThreeFour(window, "Actual", cBIncFour, cBExpFour, cBMonths); // transactions
-        sceneFive = showSceneFive(window, cBMonths);
-        sceneSix = showSceneSix(window, cBMonths);
+        // sceneTwo = showSceneTwo(window, cBMonths); //  new budget      
+        // sceneThree = showSceneThreeFour(window, "Anticipated", cBIncThree, cBExpThree, cBMonths); // plan
+        // sceneFour = showSceneThreeFour(window, "Actual", cBIncFour, cBExpFour, cBMonths); // transactions
+        // sceneFive = showSceneFive(window, cBMonths);
+        // sceneSix = showSceneSix(window, cBMonths);
         
         // set the first scene
         window.setScene(sceneOne);
@@ -724,6 +723,7 @@ public class AppLayoutFV extends Application{
     
     return six;
   }
+         
 
     // Button Methods
     public Button goToSceneOne(Stage stage, String sceneName){
@@ -736,13 +736,16 @@ public class AppLayoutFV extends Application{
     public Button goToSceneTwo(Stage stage, String sceneName){
         Button scene2B = features.yellowButton(sceneName);
         scene2B.setOnAction(action -> {
-                stage.setScene(sceneTwo);
+            cBMonths = features.comboBoxMonths();
+            sceneTwo = showSceneTwo(window, cBMonths); //  new budget     
+            stage.setScene(sceneTwo);
         });
         return scene2B;
     }
     public Button goToSceneThree(Stage stage, String sceneName){
         Button scene3B = features.yellowButton(sceneName);
         scene3B.setOnAction(action -> {
+            sceneThree = showSceneThreeFour(window, "Anticipated", cBIncThree, cBExpThree, cBMonths); // plan
                 stage.setScene(sceneThree);
         });
         return scene3B;
@@ -750,6 +753,8 @@ public class AppLayoutFV extends Application{
     public Button goToSceneFour(Stage stage, String sceneName){
         Button scene4B = features.yellowButton(sceneName);
         scene4B.setOnAction(action -> {
+            cBMonths = features.comboBoxMonths();
+            sceneFour = showSceneThreeFour(window, "Actual", cBIncFour, cBExpFour, cBMonths); // transactions
                 stage.setScene(sceneFour);
         });
         return scene4B;
@@ -759,15 +764,19 @@ public class AppLayoutFV extends Application{
         scene5B.setOnAction(action -> {
             trends.populateDiff(trends.income2D);
             trends.populateDiff(trends.expense2D);
+            cBMonths = features.comboBoxMonths();
+            sceneFive = showSceneFive(window, cBMonths);
             stage.setScene(sceneFive);
         });
         return scene5B;
     }
     public Button goToSceneSix(Stage stage, String sceneName){
-    Button scene6B = features.yellowButton(sceneName);
-    scene6B.setOnAction(action -> {
-      stage.setScene(sceneSix);
-    });
+        Button scene6B = features.yellowButton(sceneName);
+        scene6B.setOnAction(action -> {
+            cBMonths = features.comboBoxMonths();
+            sceneSix = showSceneSix(window, cBMonths);
+            stage.setScene(sceneSix);
+        });
     return scene6B;
   }
 
