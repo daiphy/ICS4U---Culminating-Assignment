@@ -7,7 +7,10 @@ import java.util.Locale.Category;
 // import javafx.stage.FileChooser;
 
 import javafx.application.Application;
-// import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.*;
+import javafx.scene.Group;
 // import javafx.scene.Node;
 // import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -392,6 +395,9 @@ public class AppLayoutFV extends Application{
                 trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 2, month);
                 trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 2, month);
             }
+
+            
+
         });        
         
         // FORMATTING
@@ -770,15 +776,30 @@ public class AppLayoutFV extends Application{
     
     return six;
     }
-    public Scene showSceneSeven(){
-        Scene seven;
+    public Scene showSceneSeven(Stage stage){ // u have to click plan and transactions first because thats what populates the 2d arr
+        Scene seven;  
+        ArrayList<PieChart.Data> categories = new ArrayList<PieChart.Data>();
+        for(int i = 1; i < trends.income2D.length; i++){   
+            double amount = Double.valueOf(trends.income2D[i][2])    ;
+            if(amount != 0){                 
+                categories.add(new PieChart.Data(trends.income2D[i][0], amount));
+            }
+        }
+
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(categories);
+                      
+        PieChart piechart = new PieChart(pieChartData);
+        piechart.setTitle("Actual Income");
 
         LineChart<String,String> lineChart = showlLineChart();
 
-        VBox mainScreen = new VBox(lineChart);
+        VBox mainScreen = new VBox(10);
+        mainScreen.getChildren().addAll(piechart , lineChart);
+        mainScreen.setAlignment(Pos.TOP_CENTER);
 
-        seven = new Scene(mainScreen, 1000,500);
+        BorderPane bPane = features.showBorder(mainScreen);
 
+        seven = new Scene(bPane, 1000, 700);
         return seven;
     }
     public LineChart<String,String> showlLineChart(){
@@ -815,6 +836,7 @@ public class AppLayoutFV extends Application{
 
         return lineChart;
     }     
+         
 
     // Button Methods
     public Button goToSceneOne(Stage stage, String sceneName){
@@ -872,12 +894,12 @@ public class AppLayoutFV extends Application{
         return scene6B;
     }
     public Button goToSceneSeven(Stage stage, String sceneName){
-        Button scene6B = features.yellowButton(sceneName);
-        scene6B.setOnAction(action -> {
-            sceneSix = showSceneSeven();
-            stage.setScene(sceneSix);
+        Button scene7B = features.yellowButton(sceneName);
+        scene7B.setOnAction(action -> {
+            sceneSeven = showSceneSeven(window);
+            stage.setScene(sceneSeven);
         });
-        return scene6B;
+        return scene7B;
     }
 
     //month things
