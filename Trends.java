@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import javafx.scene.control.ComboBox;
 
 public class Trends {
@@ -9,20 +8,18 @@ public class Trends {
     public String[][] income2D = new String[7][4];
     public String[][] expense2D = new String[7][4];
     
-    public String[] incomeCat = {"Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      
-    public String[] expenseCat = {"Food", "Health", "Transportation", "Utilies", "Personal","Other"}; // we need to make this permanent in the 2d arrays first or something
+    public String[] incomeCat = {" ", "Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      // the space in front makes it line up with the num of rows in the 2d arrays
+    public String[] expenseCat = {" ", "Food", "Health", "Transportation", "Utilies", "Personal","Other"}; // we need to make this permanent in the 2d arrays first or something
 
     public String[] monthNames = {"January", "February", "March", "April", "May", 
     "June", "July", "August", "September", "October", "November", "December"};
     
-    
+    public String chosenMonth;
     public int totalAntIncome;
     public int totalAntExpenses;
 
     public int totalAccIncome;
     public int totalAccExpense;
-
-    public String chosenMonth;
 
     // public FinanceFV financeFV = new FinanceFV();
 
@@ -86,20 +83,12 @@ public class Trends {
 
 
     // }
-
-    public void getMonth(ComboBox cBMonths){
-        cBMonths.setOnAction(action ->{
-            this.chosenMonth = (String)cBMonths.getValue();
-            System.out.println(this.chosenMonth);
-        });
-    }
-
-    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col){ //CHANGE THE INCOME NAMES
-        
+    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col, String month){ //CHANGE THE INCOME NAMES
         
         for(int i = 0; i < twoDArr.length; i++){ 
             if(i == 0){
-                twoDArr[i][0] = "Month: " + this.chosenMonth;
+                System.out.print(month);
+                twoDArr[i][0] = "Month: " + month;
             }
             else{
                 twoDArr[i][0] = labelCat[i]; //this inputs the categories in column 0 of the 2d array

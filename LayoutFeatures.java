@@ -34,7 +34,7 @@ public class LayoutFeatures{
     // String emptyCat = "";
     // String emptyAmnt = "";
     // int y = 150; 
-    // public FinanceFV financeFV = new FinanceFV();
+    
     public Trends trends = new Trends();
 
     //-------------------- CONSTRUCTOR --------------------// 
@@ -197,6 +197,8 @@ public class LayoutFeatures{
         
         return expenseCat;
     }
+    
+
     public ImageView image(){
         // Create a image object
         Image bee = new Image("bee.png");
