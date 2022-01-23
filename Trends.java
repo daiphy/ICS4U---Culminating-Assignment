@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javafx.scene.control.ComboBox;
+
 public class Trends {
     
     //-------------------- GLOBAL VARIABLES --------------------//
@@ -20,7 +22,9 @@ public class Trends {
     public int totalAccIncome;
     public int totalAccExpense;
 
-    public FinanceFV financeFV = new FinanceFV();
+    public String chosenMonth;
+
+    // public FinanceFV financeFV = new FinanceFV();
 
     //-------------------- CONSTRUCTOR --------------------//
     public Trends(){
@@ -82,12 +86,20 @@ public class Trends {
 
 
     // }
+
+    public void getMonth(ComboBox cBMonths){
+        cBMonths.setOnAction(action ->{
+            this.chosenMonth = (String)cBMonths.getValue();
+            System.out.println(this.chosenMonth);
+        });
+    }
+
     public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col){ //CHANGE THE INCOME NAMES
         
         
         for(int i = 0; i < twoDArr.length; i++){ 
             if(i == 0){
-                twoDArr[i][0] = "Month: " + financeFV.chosenMonth;
+                twoDArr[i][0] = "Month: " + this.chosenMonth;
             }
             else{
                 twoDArr[i][0] = labelCat[i]; //this inputs the categories in column 0 of the 2d array
