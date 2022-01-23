@@ -13,7 +13,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.TextField; 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos; 
@@ -40,7 +43,7 @@ public class LayoutFeatures{
     //-------------------- FEATURE METHODS --------------------//    
 
     public Label spacing(){
-        Label space = new Label("           ");
+        Label space = new Label("                        ");
         return space;
     }
     
@@ -115,13 +118,19 @@ public class LayoutFeatures{
         rectangle.setFill(babyBlue);
 
         Label space = spacing();
+        // testing
 
-        VBox cATotal = new VBox(10);
-        cATotal.getChildren().addAll(cat, amnt);
+        // VBox cATotal = new VBox(10);
+        // cATotal.getChildren().addAll(cat, amnt);
+
+        // HBox catAmntBox = new HBox(10);
+        // catAmntBox.getChildren().addAll(space, cATotal);
+        // catAmntBox.setAlignment(Pos.TOP_LEFT);
 
         HBox catAmntBox = new HBox(10);
-        catAmntBox.getChildren().addAll(space, cATotal);
-        catAmntBox.setAlignment(Pos.TOP_LEFT);
+        catAmntBox.getChildren().addAll(cat, space, amnt);
+        catAmntBox.setAlignment(Pos.TOP_CENTER);
+        catAmntBox.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
 
         sPane.getChildren().addAll(rectangle, catAmntBox);
 
