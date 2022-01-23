@@ -209,9 +209,9 @@ public class AppLayoutFV extends Application{
         Label expCatL = features.setFont("Type in your category for expense:", 12);
         TextField expCatTF = new TextField();
 
-        //Initialize arraylists
-        ArrayList<String> incomeCat = new ArrayList<String>(); // holds all the customized catergory names for income
-        ArrayList<String> expenseCat = new ArrayList<String>(); // holds all the customized category names for expense
+        // //Initialize arraylists
+        // ArrayList<String> incomeCat = new ArrayList<String>(); // holds all the customized catergory names for income
+        // ArrayList<String> expenseCat = new ArrayList<String>(); // holds all the customized category names for expense
 
         //Labels for displaying the user's categories
         Label catL = features.setFont("CATEGORIES", 12);
@@ -769,43 +769,52 @@ public class AppLayoutFV extends Application{
     six = new Scene(sPane, 1000, 500);
     
     return six;
-  }
-  public Scene showSceneSeven(){
-    Scene seven;
-
-    CategoryAxis xAxis = new CategoryAxis();
-    xAxis.setLabel("Category");
-      
-    CategoryAxis yAxis = new CategoryAxis();
-    yAxis.setLabel("Amount($)");
-      
-    // LineChart lineChart = new LineChart(xAxis, yAxis);
-
-    LineChart<String,String> lineChart = new LineChart<String, String>(xAxis,yAxis);
-
-    // lineChart.setTitle("Expense Line Graph");
-
-    lineChart.setTitle("Expense Line Graph");
-
-    XYChart.Series series = new XYChart.Series();
-
-    series.setName("Expense Line Graph");
-
-    for(int i = 1; i < trends.expense2D.length; i++) {
-        for (int j = 0; j < 4; j++){
-        series.getData().add(new XYChart.Data(trends.expense2D[i][0], trends.expense2D[i][1]));
-        }
     }
+    public Scene showSceneSeven(){
+        Scene seven;
+
+        LineChart<String,String> lineChart = showlLineChart();
+
+        VBox mainScreen = new VBox(lineChart);
+
+        seven = new Scene(mainScreen, 1000,500);
+
+        return seven;
+    }
+    public LineChart<String,String> showlLineChart(){
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Category");
+          
+        CategoryAxis yAxis = new CategoryAxis();
+        yAxis.setLabel("Amount($)");
     
-    lineChart.getData().add(series);
+        LineChart<String,String> lineChart = new LineChart<String, String>(xAxis,yAxis);
+    
+        lineChart.setTitle("Expense Line Graph");
+    
+        // lineChart.setTitle("Expense Line Graph");
+    
+        XYChart.Series antSeries = new XYChart.Series();
+        XYChart.Series accSeries = new XYChart.Series();
+    
+        antSeries.setName("Anticipated");
+        accSeries.setName("Actual");
+    
+        for(int i = 1; i < trends.expense2D.length; i++) {
+            for (int j = 0; j < 4; j++){
+                antSeries.getData().add(new XYChart.Data(trends.expense2D[i][0], trends.expense2D[i][1]));
+            }
+        }
+        for(int i = 1; i < trends.expense2D.length; i++) {
+            for (int j = 0; j < 4; j++){
+                accSeries.getData().add(new XYChart.Data(trends.expense2D[i][0], trends.expense2D[i][2]));
+            }
+        }
+        
+        lineChart.getData().addAll(antSeries, accSeries);
 
-    VBox mainScreen = new VBox(lineChart);
-
-    seven = new Scene(mainScreen, 1000,500);
-
-    return seven;
-  }
-         
+        return lineChart;
+    }     
 
     // Button Methods
     public Button goToSceneOne(Stage stage, String sceneName){
