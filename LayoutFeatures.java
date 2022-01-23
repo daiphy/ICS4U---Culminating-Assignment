@@ -34,6 +34,7 @@ public class LayoutFeatures{
     // String emptyCat = "";
     // String emptyAmnt = "";
     // int y = 150; 
+    public FinanceFV financeFV = new FinanceFV();
 
     //-------------------- CONSTRUCTOR --------------------// 
     public LayoutFeatures(){
@@ -169,18 +170,25 @@ public class LayoutFeatures{
         
         return expenseCat;
     }
-  public ImageView image(){
-    // Create a image object
-    Image bee = new Image("bee.png");
-    
-    //creating ImageView for adding image
-    ImageView imageView = new ImageView();
-    imageView.setImage(bee);
-    imageView.setFitWidth(75);
-    imageView.setPreserveRatio(true);
-    imageView.setSmooth(true);
-    imageView.setCache(true);
-    
-    return imageView;
-  }
+    public void getMonth(ComboBox cBMonths){
+        cBMonths.setOnAction(action ->{
+            financeFV.chosenMonth = (String)cBMonths.getValue();
+            System.out.println(financeFV.chosenMonth);
+        });
+    }
+
+    public ImageView image(){
+        // Create a image object
+        Image bee = new Image("bee.png");
+        
+        //creating ImageView for adding image
+        ImageView imageView = new ImageView();
+        imageView.setImage(bee);
+        imageView.setFitWidth(75);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        
+        return imageView;
+    }
 }

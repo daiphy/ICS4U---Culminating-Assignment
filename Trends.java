@@ -2,9 +2,10 @@ import java.util.ArrayList;
 
 public class Trends {
     
+    //-------------------- GLOBAL VARIABLES --------------------//
     //2D Arrays
-    public String[][] income2D = new String[6][4];
-    public String[][] expense2D = new String[6][4];
+    public String[][] income2D = new String[7][4];
+    public String[][] expense2D = new String[7][4];
     
     public String[] incomeCat = {"Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      
     public String[] expenseCat = {"Food", "Health", "Transportation", "Utilies", "Personal","Other"}; // we need to make this permanent in the 2d arrays first or something
@@ -19,6 +20,9 @@ public class Trends {
     public int totalAccIncome;
     public int totalAccExpense;
 
+    public FinanceFV financeFV = new FinanceFV();
+
+    //-------------------- CONSTRUCTOR --------------------//
     public Trends(){
 
     }
@@ -44,49 +48,54 @@ public class Trends {
     //     return twoDArr;
     // }
 
-    public void populateCat(String[] arr, String[][] income, String[][] expenses){  
+    // public void populateCat(String[] arr, String[][] income, String[][] expenses){  
         
-        int a = 0;
-        //populate categories and anticipated
-        for(int i = 0; i < 12; i++){  
-            if(i < 6){
-                income[i][0] = incomeCat[i];  
-                expenses[i][0] = expenseCat[i];  
-                income[i][1] = arr[i];  
-            }
-            else{
-                expenses[a][1] = arr[i]; 
-                a++;  
-            }       
-        } 
+    //     int a = 0;
+    //     //populate categories and anticipated
+    //     for(int i = 0; i < 12; i++){  
+    //         if(i < 6){
+    //             income[i][0] = incomeCat[i];  
+    //             expenses[i][0] = expenseCat[i];  
+    //             income[i][1] = arr[i];  
+    //         }
+    //         else{
+    //             expenses[a][1] = arr[i]; 
+    //             a++;  
+    //         }       
+    //     } 
         
-        //testing populate() 
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j < 2; j++){
-                System.out.print(income[i][j] + ", ");
+    //     //testing populate() 
+    //     for(int i = 0; i < 6; i++){
+    //         for(int j = 0; j < 2; j++){
+    //             System.out.print(income[i][j] + ", ");
                 
-            } 
-            System.out.println();
-        }
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j < 2; j++){
-                System.out.print(expenses[i][j] + ", ");
+    //         } 
+    //         System.out.println();
+    //     }
+    //     for(int i = 0; i < 6; i++){
+    //         for(int j = 0; j < 2; j++){
+    //             System.out.print(expenses[i][j] + ", ");
                 
-            } 
-            System.out.println();
-        }
+    //         } 
+    //         System.out.println();
+    //     }
 
 
-    }
+    // }
     public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col){ //CHANGE THE INCOME NAMES
         
         
-        for(int i = 0; i < 6; i++){ 
-            twoDArr[i][0] = labelCat[i]; //this inputs the categories in column 0 of the 2d array
+        for(int i = 0; i < twoDArr.length; i++){ 
+            if(i == 0){
+                twoDArr[i][0] = "Month: " + financeFV.chosenMonth;
+            }
+            else{
+                twoDArr[i][0] = labelCat[i]; //this inputs the categories in column 0 of the 2d array
+            }
         }
 
         
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < twoDArr.length; i++){
             String temp = labelCat[i]; 
             Double addOn = 0.0;
             for(int j = 0; j < catArr.size(); j++){
@@ -101,7 +110,7 @@ public class Trends {
 
         }
         System.out.println("in populate");
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < twoDArr.length; i++){
             for(int j = 0; j < 4; j++){
                 System.out.print(twoDArr[i][j] + ", ");
                 
@@ -115,7 +124,7 @@ public class Trends {
     //can use this to find the difference between acc and ant income/expense, total accIncome - total accExpense
     public String[][] populateDiff(String[][] twoDArr){        
 
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < twoDArr.length; i++){
             if (twoDArr[i][1] == null || twoDArr[i][1].equals("")){
                 System.out.println("no longer empty");
                 twoDArr[i][1] = "0.0";
@@ -129,22 +138,22 @@ public class Trends {
             }
         }
         System.out.println("in diff");
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j < 4; j++){
+        for(int i = 0; i < twoDArr.length; i++){
+            for(int j = 0; j < twoDArr[0].length; j++){
                 System.out.print(twoDArr[i][j] + ", ");
                 
             } 
             System.out.println();
         }
         
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < twoDArr.length; i++){
             double ant = Double.parseDouble(twoDArr[i][1]);
             double acc = Double.parseDouble(twoDArr[i][2]);                        
             double diff = ant-acc;
             twoDArr[i][3] = Double.toString(diff);            
         }
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j < 4; j++){
+        for(int i = 0; i < twoDArr.length; i++){
+            for(int j = 0; j < twoDArr[0].length; j++){
                 System.out.print(twoDArr[i][j] + ", ");
                 
             } 
