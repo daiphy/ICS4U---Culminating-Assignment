@@ -302,7 +302,7 @@ public class AppLayoutFV extends Application{
         //initialize itles, bees, buttons, labels
         if(whichType.equals("Anticipated")){
             titleL = features.setFont("Plan", 25);
-        }        
+        }
         else{
             titleL = features.setFont("Transactions", 25);
         }
@@ -511,7 +511,7 @@ public class AppLayoutFV extends Application{
     vBoxFarLeft.getChildren().addAll(labelIncome, labelTotals);
     
     //Prints out the elements inside labelCatArr on the far left side
-    for (int i = 0; i < trends.income2D[0].length; i++){
+    for (int i = 0; i < trends.income2D.length; i++){
       Label labelFarLeft = new Label(trends.income2D[i][0]);
       labelFarLeft.setFont(Font.font("Verdana", 12));
       vBoxFarLeft.getChildren().add(labelFarLeft);
@@ -521,7 +521,7 @@ public class AppLayoutFV extends Application{
     VBox vBoxSecondLeft = new VBox(10);
     vBoxSecondLeft.getChildren().addAll(labelAnticipated, labelBlank);
     
-    for (int i = 0; i < trends.income2D[0].length; i++){
+    for (int i = 0; i < trends.income2D.length; i++){
       Label labelSecondLeft = new Label(trends.income2D[i][1]);
       labelSecondLeft.setFont(Font.font("Verdana", 12));
       vBoxSecondLeft.getChildren().add(labelSecondLeft);
@@ -531,7 +531,7 @@ public class AppLayoutFV extends Application{
     VBox vBoxThirdLeft = new VBox(10);
     vBoxThirdLeft.getChildren().addAll(labelActual, labelBlank2);
     
-    for (int i = 0; i < trends.income2D[0].length; i++){
+    for (int i = 0; i < trends.income2D.length; i++){
       Label labelThirdLeft = new Label(trends.income2D[i][2]);
       labelThirdLeft.setFont(Font.font("Verdana", 12));
       vBoxThirdLeft.getChildren().add(labelThirdLeft);
@@ -541,7 +541,7 @@ public class AppLayoutFV extends Application{
     VBox vBoxFourthLeft = new VBox(10);
     vBoxFourthLeft.getChildren().addAll(labelDiff, labelBlank3);
     
-    for (int i = 0; i < trends.income2D[0].length; i++){
+    for (int i = 0; i < trends.income2D.length; i++){
       Label labelFourthLeft = new Label(trends.income2D[i][3]);
       labelFourthLeft.setFont(Font.font("Verdana", 12));
       vBoxFourthLeft.getChildren().add(labelFourthLeft);
@@ -555,7 +555,7 @@ public class AppLayoutFV extends Application{
     vBoxFourthRight.getChildren().addAll(labelExpenses, labelTotals2);
     
     //Prints out the elements inside labelCatArr on the far left side
-    for (int i = 0; i < trends.expense2D[0].length; i++){
+    for (int i = 0; i < trends.expense2D.length; i++){
       Label labelFourthRight = new Label(trends.expense2D[i][0]);
       labelFourthRight.setFont(Font.font("Verdana", 12));
       vBoxFourthRight.getChildren().add(labelFourthRight);
@@ -565,7 +565,7 @@ public class AppLayoutFV extends Application{
     VBox vBoxThirdRight = new VBox(10);
     vBoxThirdRight.getChildren().addAll(labelAnticipated2, labelBlank6);
     
-    for (int i = 0; i < trends.expense2D[0].length; i++){
+    for (int i = 0; i < trends.expense2D.length; i++){
       Label labelThirdRight = new Label(trends.expense2D[i][1]);
       labelThirdRight.setFont(Font.font("Verdana", 12));
       vBoxThirdRight.getChildren().add(labelThirdRight);
@@ -575,7 +575,7 @@ public class AppLayoutFV extends Application{
     VBox vBoxSecondRight = new VBox(10);
     vBoxSecondRight.getChildren().addAll(labelActual2, labelBlank5);
     
-    for (int i = 0; i < trends.expense2D[0].length; i++){
+    for (int i = 0; i < trends.expense2D.length; i++){
       Label labelSecondRight = new Label(trends.expense2D[i][2]);
       labelSecondRight.setFont(Font.font("Verdana", 12));
       vBoxSecondRight.getChildren().add(labelSecondRight);
@@ -585,7 +585,7 @@ public class AppLayoutFV extends Application{
     VBox vBoxFarRight = new VBox(10);
     vBoxFarRight.getChildren().addAll(labelDiff2, labelBlank4);
     
-    for (int i = 0; i < trends.expense2D[0].length; i++){
+    for (int i = 0; i < trends.expense2D.length; i++){
       Label labelFarRight = new Label(trends.expense2D[i][3]);
       labelFarRight.setFont(Font.font("Verdana", 12));
       vBoxFarRight.getChildren().add(labelFarRight);
@@ -783,7 +783,7 @@ public class AppLayoutFV extends Application{
         scene3B.setOnAction(action -> {
             cBMonths = features.comboBoxMonths();
             sceneThree = showSceneThreeFour(window, "Anticipated", cBMonths); // plan
-            stage.setScene(sceneThree);
+                stage.setScene(sceneThree);
         });
         return scene3B;
     }    
@@ -927,7 +927,5 @@ public class AppLayoutFV extends Application{
             System.out.println("exp cat : " + printCat + " exp amt : " + printAmt);     //testng DELETE LTR
         }
         System.out.println("Button pressed"); // testing delete later
-    }
-    
-
+    }    
 }
