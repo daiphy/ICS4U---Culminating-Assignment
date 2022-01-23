@@ -83,12 +83,19 @@ public class Trends {
 
 
     // }
-    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col, String month){ //CHANGE THE INCOME NAMES
+    public void getMonth(ComboBox cBMonths){
+        cBMonths.setOnAction(action ->{
+            this.chosenMonth = (String)cBMonths.getValue();
+            System.out.println(this.chosenMonth);
+        });
+    }
+    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col){ //CHANGE THE INCOME NAMES
+        
         
         for(int i = 0; i < twoDArr.length; i++){ 
             if(i == 0){
-                System.out.print(month);
-                twoDArr[i][0] = "Month: " + month;
+                System.out.print(this.chosenMonth);
+                twoDArr[i][0] = "Month: " + this.chosenMonth;
             }
             else{
                 twoDArr[i][0] = labelCat[i]; //this inputs the categories in column 0 of the 2d array
@@ -176,6 +183,19 @@ public class Trends {
         
         return sum;
     }    
+    
+    //Calculates the sum of the amounts column in a two d array
+    public double sumAccCalculator(String[][] twoDArr){
+        double addTerm;
+        double sum = 0;
+
+        for(int i = 0; i < twoDArr[0].length; i++){
+            addTerm = Double.valueOf(twoDArr[i][2]);
+            sum += addTerm;
+        }
+        
+        return sum;
+    }
 
     //calculates the end balance
     public double endBalance(double startingBalance, double accSavings){
