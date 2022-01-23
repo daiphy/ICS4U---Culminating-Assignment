@@ -2,7 +2,6 @@
 // import java.io.*;
 // import java.io.File;
 import java.util.ArrayList;
-import java.util.Locale.Category;
 
 // import javafx.stage.FileChooser;
 
@@ -11,11 +10,6 @@ import javafx.application.Application;
 // import javafx.scene.Node;
 // import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.Axis;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 // import javafx.event.ActionEvent;
 // import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -45,6 +39,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.image.ImageView;
+import java.text.DecimalFormat;
 
 public class AppLayoutFV extends Application{
 
@@ -57,11 +52,10 @@ public class AppLayoutFV extends Application{
     ImageView bee, bee2;
 
     //Initialize objects -> Trends/LayoutFeatures/Finance
-    public Trends trends = new Trends();
+    Trends trends = new Trends();
     public LayoutFeatures features = new LayoutFeatures(); 
     public FinanceFV financeFV = new FinanceFV();
     public ComboBox cBMonths;
-    public String month;
 
      // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
     //   ComboBox cBIncThree = features.comboBoxIncome();
@@ -126,7 +120,7 @@ public class AppLayoutFV extends Application{
         summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         summaryB.setPrefWidth(150);
         
-        Button trendsB = goToSceneSeven(window, "TRENDS"); //scene 7
+        Button trendsB = features.yellowButton("TRENDS"); //scene 7
         trendsB.setPrefWidth(150);
         
         Button planB = goToSceneThree(window, "PLAN");        
@@ -215,14 +209,14 @@ public class AppLayoutFV extends Application{
 
         //Labels for displaying the user's categories
         Label catL = features.setFont("CATEGORIES", 12);
-        Label incomeL = features.incomeLabel();
-        Label expensesL = features.expenseLabel();
+        Label incomeL = features.setFont("INCOME", 12);
+        Label expensesL = features.setFont ("EXPENSES", 12);
         
         Text incomeCatT = new Text("*User input*"); //This will depend on the categories (modify later)
         Text expensesCatT = new Text("*User input*"); 
 
         //Set the chosen month to selected month from combo box
-        getMonth(cBMonths);
+        trends.getMonth(cBMonths);
 
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
@@ -302,7 +296,7 @@ public class AppLayoutFV extends Application{
     }
     
     //-------------------- SCENE THREE/FOUR BELOW --------------------//
-    public Scene showSceneThreeFour(Stage stage, String whichType){
+    public Scene showSceneThreeFour(Stage stage, String whichType, ComboBox cBMonths){
 
         Scene threeFour;  // initialize a scene to return
 
@@ -319,11 +313,9 @@ public class AppLayoutFV extends Application{
         bee = features.image();
         bee2 = features.image();
 
-        Label monthL = features.setFont(trends.chosenMonth, 18);
-
-        Label typeL = features.setFont(whichType, 16); // anticipated or actual
-        Label incL = features.incomeLabel();
-        Label expL = features.expenseLabel();
+        Label typeL = features.setFont(whichType, 12); // anticipated or actual
+        Label incL = features.setFont("INCOME", 12);
+        Label expL = features.setFont("EXPENSE", 12);
         
         Label catTL = features.catLabel();
         Label catBL = features.catLabel();
@@ -385,12 +377,12 @@ public class AppLayoutFV extends Application{
         });
         confirmB.setOnAction(action ->{
             if (whichType.equalsIgnoreCase("Anticipated")){
-                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 1, month);
-                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 1, month);
+                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 1);
+                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 1);
             }
             else{
-                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 2, month);
-                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 2, month);
+                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 2);
+                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 2);
             }
         });        
         
@@ -415,11 +407,6 @@ public class AppLayoutFV extends Application{
         StackPane stackPaneT = features.showSPane(showIncCat, showIncAmt);
         StackPane stackPaneB = features.showSPane(showExpCat, showExpAmt);
 
-        //Gathers the title and bees
-        HBox titleHB = new HBox(20);
-        titleHB.getChildren().addAll(bee, titleL, bee2);
-        titleHB.setAlignment(Pos.CENTER);
-
         // plan vs transactions and income lbls
         VBox firstCol = new VBox(10);
         firstCol.getChildren().addAll(typeL, incL);
@@ -431,6 +418,11 @@ public class AppLayoutFV extends Application{
         thirdRow.getChildren().addAll(catTL, cBInc, amntTL, amntTFT, addTB, delTB);
         thirdRow.setAlignment(Pos.CENTER);
 
+        // HBox cATotalT = new HBox(10);
+        // cATotalT.getChildren().addAll(showIncCat, spaceOne, showIncAmt);
+        // cATotalT.setAlignment(Pos.CENTER);
+        // cATotalT.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
+
         HBox fourthRow = new HBox(50);
         fourthRow.getChildren().addAll(expL);
 
@@ -438,9 +430,19 @@ public class AppLayoutFV extends Application{
         fifthRow.getChildren().addAll(catBL, cBExp, amntBL, amntTFB, addBB, delBB);
         fifthRow.setAlignment(Pos.CENTER);
 
+        // HBox cATotalB = new HBox(10);
+        // cATotalB.getChildren().addAll(showExpCat, spaceTwo, showExpAmt);
+        // cATotalB.setAlignment(Pos.CENTER);
+        // cATotalB.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        //Gathers the title and bees
+        HBox titleHB = new HBox(20);
+        titleHB.getChildren().addAll(bee, titleL, bee2);
+        titleHB.setAlignment(Pos.CENTER);
+
         // put it all together in the vbox
         VBox mainScreen = new VBox(10);
-        mainScreen.getChildren().addAll(titleHB, monthL, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
+        mainScreen.getChildren().addAll(titleHB, cBMonths, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
         mainScreen.setAlignment(Pos.TOP_CENTER);
 
         // add a border
@@ -457,16 +459,6 @@ public class AppLayoutFV extends Application{
     
     //-------------------- SCENE FIVE BELOW --------------------//
   public Scene showSceneFive(Stage stage, ComboBox cBMonths){
-
-    //Set the chosen month to selected month from combo box
-    getMonth(cBMonths);
-
-    //put into CSV
-    //financeFV.appendCSV(trends.income2D);
-    financeFV.toCSV(financeFV.readCSV(), "income", this.month);
-    financeFV.toCSV(financeFV.readCSV(), "expense", this.month);
-    
-
     Scene five;
     //Titles, bees, buttons, labels, comboBoxes
     //Label titleL = new Label("Budgeting App");
@@ -485,16 +477,30 @@ public class AppLayoutFV extends Application{
     titleHB.getChildren().addAll(bee, cBMonths, bee2);
     titleHB.setAlignment(Pos.CENTER);
     
-    Label labelIncome = features.incomeLabel();
-    Label labelExpenses = features.expenseLabel();
-    Label labelAnticipated = features.anticipatedLabel(); 
-    Label labelAnticipated2 = features.anticipatedLabel(); 
-    Label labelActual = features.actuaLabel(); 
-    Label labelActual2 = features.actuaLabel();
-    Label labelDiff = features.diffLabel(); 
-    Label labelDiff2 = features.diffLabel(); 
-    Label labelTotals = features.totaLabel();
-    Label labelTotals2 = features.totaLabel();
+    //Set the chosen month to selected month from combo box
+    trends.getMonth(cBMonths);
+
+    Label labelIncome = new Label ("Income");
+    Label labelExpenses = new Label ("Expenses");
+    Label labelAnticipated = new Label ("Anticipated"); 
+    Label labelAnticipated2 = new Label ("Anticipated"); 
+    Label labelActual = new Label ("Actual"); 
+    Label labelActual2 = new Label ("Actual");
+    Label labelDiff = new Label ("Difference"); 
+    Label labelDiff2 = new Label ("Difference"); 
+    Label labelTotals = new Label ("Totals");
+    Label labelTotals2 = new Label ("Totals"); 
+    
+    labelIncome.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+    labelExpenses.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+    labelAnticipated.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+    labelAnticipated2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+    labelActual.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+    labelActual2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+    labelDiff.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+    labelDiff2.setFont(Font.font("Verdana", FontWeight.BOLD, 12)); 
+    labelTotals.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+    labelTotals2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
     
     //Label - Act as line break
     //NOTE: REPLACE LABEL BLANKS WITH ACC CALC. VALUES
@@ -519,7 +525,6 @@ public class AppLayoutFV extends Application{
     //Second left
     VBox vBoxSecondLeft = new VBox(10);
     vBoxSecondLeft.getChildren().addAll(labelAnticipated, labelBlank);
-    vBoxSecondLeft.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.income2D.length; i++){
       Label labelSecondLeft = new Label(trends.income2D[i][1]);
@@ -530,7 +535,6 @@ public class AppLayoutFV extends Application{
     //Third left
     VBox vBoxThirdLeft = new VBox(10);
     vBoxThirdLeft.getChildren().addAll(labelActual, labelBlank2);
-    vBoxThirdLeft.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.income2D.length; i++){
       Label labelThirdLeft = new Label(trends.income2D[i][2]);
@@ -541,7 +545,6 @@ public class AppLayoutFV extends Application{
     //Fourth left
     VBox vBoxFourthLeft = new VBox(10);
     vBoxFourthLeft.getChildren().addAll(labelDiff, labelBlank3);
-    vBoxFourthLeft.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.income2D.length; i++){
       Label labelFourthLeft = new Label(trends.income2D[i][3]);
@@ -549,7 +552,7 @@ public class AppLayoutFV extends Application{
       vBoxFourthLeft.getChildren().add(labelFourthLeft);
     }   
     
-    HBox leftTable = new HBox(20);
+    HBox leftTable = new HBox(10);
     leftTable.getChildren().addAll(vBoxFarLeft, vBoxSecondLeft, vBoxThirdLeft, vBoxFourthLeft);
     
     //Fourth right
@@ -598,7 +601,7 @@ public class AppLayoutFV extends Application{
     Button mainMenuB = goToSceneOne(window, "MAIN MENU");  
     Button nextPageB = goToSceneSix(window, "NEXT PAGE");
     
-    HBox rightTable = new HBox(20);
+    HBox rightTable = new HBox(10);
     rightTable.getChildren().addAll(vBoxFourthRight, vBoxThirdRight, vBoxSecondRight, vBoxFarRight);
     
     HBox hBoxMiddle = new HBox(20);
@@ -611,43 +614,54 @@ public class AppLayoutFV extends Application{
     
     VBox mainScreen = new VBox(10);
     mainScreen.getChildren().addAll(titleHB, hBoxMiddle, buttonsHB);
-    mainScreen.setAlignment(Pos.CENTER);
+    mainScreen.setAlignment(Pos.TOP_CENTER);
     
     BorderPane bPane = features.showBorder(mainScreen);
-    
-    ScrollPane sPane = features.showScrollPane(bPane);
-
-    five = new Scene(sPane, 1000, 500);
+    five = new Scene(bPane, 1000, 680);
     return five;
   }
   
   //-------------------- SCENE SIX BELOW --------------------//
   public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     Scene six;    
+    DecimalFormat df = new DecimalFormat("######.##");
     bee = features.image();
     bee2 = features.image();
 
     //Set the chosen month to selected month from combo box
-    getMonth(cBMonths);
+    trends.getMonth(cBMonths);
     
     HBox titleHB = new HBox();
     titleHB.getChildren().addAll(bee, cBMonths, bee2);
     titleHB.setAlignment(Pos.CENTER);
     
-    Label monthlyBudgetL = features.setFont("MONTHLY BUDGET", 16);
+    Label monthlyBudgetL = new Label("MONTHLY BUDGET");
     
     //-------------------- SCENE SIX SECTION 1 BELOW --------------------//
-    int sumAccIncome = 110; //ADD VALUES BY PASSING IT INTO THIS METHOD
-    int endBalance = 0; //Acc income - acc expense
+    double sumAccIncome = trends.sumAccCalculator(trends.income2D); //ADD VALUES BY PASSING IT INTO THIS METHOD
+    double endBalance = trends.sumAccCalculator(trends.income2D) - trends.sumAccCalculator(trends.expense2D); //Acc income - acc expense
     
-    Rectangle sumAccIncomeR = new Rectangle (50, sumAccIncome + 10, babyBlue);
-    Rectangle endBalanceR = new Rectangle (50, endBalance + 10, darkBlue);
+    Rectangle sumAccIncomeR, endBalanceR;
+    
+    if (sumAccIncome < 0){
+      sumAccIncomeR = new Rectangle (50, 10, babyBlue); //10 is the default min. rect size
+    }
+    else{
+      sumAccIncomeR = new Rectangle (50, sumAccIncome + 10, babyBlue);
+    }
+    
+    if(endBalance < 0){
+      endBalanceR = new Rectangle (50, 10, darkBlue);
+    }
+    else{
+      endBalanceR = new Rectangle (50, endBalance + 10, darkBlue);
+    }
     
     Label sumAccIncomeL = new Label("Sum of Actual Income");
-    Label sumAccIncomeValueL = new Label("$" + String.valueOf(sumAccIncome));
+    Label sumAccIncomeValueL = new Label("$" + String.valueOf(df.format(sumAccIncome)));
     
     Label endBalanceL = new Label("End Balance");
-    Label endBalanceValueL = new Label("$" + String.valueOf(endBalance));
+    Label endBalanceValueL = new Label("$" + String.valueOf(df.format(endBalance)));
     
     VBox sumAccIncomeHB = new VBox(10);
     sumAccIncomeHB.getChildren().addAll(sumAccIncomeR, sumAccIncomeL, sumAccIncomeValueL);
@@ -664,16 +678,29 @@ public class AppLayoutFV extends Application{
     //summaryLeftStack.getChildren().addAll(new Rectangle(300, 150, babyBlue), summaryLeftHB);
     
     //-------------------- SCENE SIX SECTION 2 BELOW --------------------//
-    Label percentL = new Label("% saved this month");
+    Double percentSaved = (endBalance/(trends.sumAccCalculator(trends.income2D))) * 100;
+    Double saved = endBalance;
     
-    //If [value] is +ive, then increase, else, print decrease
-    Label percentDescriptionL = new Label("Increase in total savings");
+    Label percentL = new Label("% " + String.valueOf(df.format(percentSaved)));
+    Label savedL = new Label("$ " + String.valueOf(df.format(saved)));
+    Label percentDescriptionL = new Label("");
+    Label savedDescriptionL = new Label("");
     
-    //If [value] is +ive, then increase, else, print -$
-    Label savedL = new Label("+$");
-    Label savedDescriptionL = new Label("Saved this month");
+    if (percentSaved > 0){
+      percentDescriptionL = new Label("Increase in total savings");
+    }
+    else{
+      percentDescriptionL = new Label("Decrease in total savings");
+    }
     
-    VBox summaryRightHB = new VBox(20);
+    if (saved > 0){
+      savedDescriptionL = new Label("Saved this month");
+    }
+    else{
+      savedDescriptionL = new Label("Lost this month");
+    }
+    
+    VBox summaryRightHB = new VBox(10);
     summaryRightHB.getChildren().addAll(percentL, percentDescriptionL, savedL, savedDescriptionL);
     summaryRightHB.setAlignment(Pos.CENTER);  
     
@@ -681,18 +708,17 @@ public class AppLayoutFV extends Application{
     summaryRightStack.getChildren().addAll(new Rectangle(300, 150, babyBlue), summaryRightHB);
     
     //-------------------- SCENE SIX SECTION 3 BELOW --------------------//            
-    int sumAntIncome = 100;//ADD VALUES BY PASSING IT INTO THIS METHOD //Actual income
-    int sumAntExpense = 205;
-    int sumAccExpense = 200;
+    double sumAntIncome = trends.sumCalculator(trends.income2D);//ADD VALUES BY PASSING IT INTO THIS METHOD //Actual income
+    double sumAntExpense = trends.sumCalculator(trends.expense2D);
+    double sumAccExpense = trends.sumAccCalculator(trends.expense2D);;
     //Note: sumAccIncome has been initialized earlier
     
-    Label incomeL = features.incomeLabel();
-    Label expensesL = features.expenseLabel();
-    Label antL = features.anticipatedLabel();
-    Label accL = features.actuaLabel();
-    Label antL2 = features.anticipatedLabel();
-    Label accL2 = features.actuaLabel();
-
+    Label incomeL = features.setFont("INCOME", 12);
+    Label expensesL = features.setFont ("EXPENSES", 12);
+    Label antL = new Label("ANTICIPATED");
+    Label accL = new Label("ACTUAL");
+    Label antL2 = new Label("ANTICIPATED");
+    Label accL2 = new Label("ACTUAL");
     Label space = new Label(""); //For spacing
     Label space2 = new Label("");
     Label space3 = new Label(""); 
@@ -700,15 +726,38 @@ public class AppLayoutFV extends Application{
     Label space5 = new Label("");
     Label space6 = new Label("");
     
-    Label sumAntIncL = new Label("$" + String.valueOf(sumAntIncome));
-    Label sumAccIncL = new Label("$" + String.valueOf(sumAccIncome));
-    Label sumAntExpL = new Label("$" + String.valueOf(sumAntExpense));
-    Label sumAccExpL = new Label("$" + String.valueOf(sumAccExpense));
+    Label sumAntIncL = new Label("$" + String.valueOf(df.format(sumAntIncome)));
+    Label sumAccIncL = new Label("$" + String.valueOf(df.format(sumAccIncome)));
+    Label sumAntExpL = new Label("$" + String.valueOf(df.format(sumAntExpense)));
+    Label sumAccExpL = new Label("$" + String.valueOf(df.format(sumAccExpense)));
     
-    Rectangle sumAntIncR = new Rectangle (sumAntIncome + 10, 20, white);
-    Rectangle sumAccIncR = new Rectangle (sumAccIncome + 10, 20, white);
-    Rectangle sumAntExpR = new Rectangle (sumAntExpense + 10, 20, white);
-    Rectangle sumAccExpR = new Rectangle (sumAccExpense + 10, 20, white);
+    Rectangle sumAntIncR, sumAccIncR, sumAntExpR, sumAccExpR;
+    
+    if (sumAntIncome < 0){
+      sumAntIncR = new Rectangle (10, 20, white); //10 is default rect size
+    }
+    else{
+      sumAntIncR = new Rectangle (sumAntIncome + 10, 20, white);
+    }
+    
+    if(sumAccIncome < 0){
+      sumAccIncR = new Rectangle (10, 20, white);
+    }
+    else{
+      sumAccIncR = new Rectangle (sumAccIncome + 10, 20, white);
+    }
+    if(sumAntExpense < 0){
+      sumAntExpR = new Rectangle (10, 20, white);
+    }
+    else{
+      sumAntExpR = new Rectangle (sumAntExpense + 10, 20, white);
+    }
+    if(sumAccExpense < 0){
+      sumAccExpR = new Rectangle (10, 20, white);
+    }
+    else{
+      sumAccExpR = new Rectangle (sumAccExpense + 10, 20, white);
+    }
     
     VBox incAntAccHB = new VBox(20);
     incAntAccHB.getChildren().addAll(antL, accL);
@@ -740,8 +789,6 @@ public class AppLayoutFV extends Application{
     VBox summaryBottomVB = new VBox(20);
     summaryBottomVB.getChildren().addAll(space5, allRect, space6);
     summaryBottomVB.setBackground(new Background(new BackgroundFill(darkBlue, CornerRadii.EMPTY, Insets.EMPTY)));
-
-    Button next = goToSceneSeven(scene, "NEXT");
     
     //-------------------- SCENE SIX COMBINE ALL SECTIONS BELOW --------------------//
     Button mainMenuB = goToSceneOne(window, "MAIN MENU"); 
@@ -753,60 +800,24 @@ public class AppLayoutFV extends Application{
     mainScreenMiddle.setAlignment(Pos.CENTER);
     
     HBox buttonsHB = new HBox(10);
-    buttonsHB.getChildren().addAll(backB, mainMenuB, next);
+    buttonsHB.getChildren().addAll(backB, mainMenuB);
     buttonsHB.setAlignment(Pos.CENTER);
     
     VBox mainScreen = new VBox(10);
     mainScreen.getChildren().addAll(titleHB, monthlyBudgetL, mainScreenMiddle, summaryBottomVB, buttonsHB);
-    mainScreen.setAlignment(Pos.CENTER);
+    mainScreen.setAlignment(Pos.TOP_CENTER);
     
     // calling the borderpane method
     BorderPane bPane = features.showBorder(mainScreen);
     
-    ScrollPane sPane = features.showScrollPane(bPane);
+    // add a scroll wheel
+    ScrollPane scroll = features.showScrollPane(bPane);
 
-    // add all the components to the scene
-    six = new Scene(sPane, 1000, 500);
-    
+    // add the components into the scene
+    six = new Scene(scroll, 1000, 500);
     return six;
   }
-  public Scene showSceneSeven(){
-    Scene seven;
-
-    CategoryAxis xAxis = new CategoryAxis();
-    xAxis.setLabel("Category");
-      
-    CategoryAxis yAxis = new CategoryAxis();
-    yAxis.setLabel("Amount($)");
-      
-    // LineChart lineChart = new LineChart(xAxis, yAxis);
-
-    LineChart<String,String> lineChart = new LineChart<String, String>(xAxis,yAxis);
-
-    // lineChart.setTitle("Expense Line Graph");
-
-    lineChart.setTitle("Expense Line Graph");
-
-    XYChart.Series series = new XYChart.Series();
-
-    series.setName("Expense Line Graph");
-
-    for(int i = 1; i < trends.expense2D.length; i++) {
-        for (int j = 0; j < 4; j++){
-        series.getData().add(new XYChart.Data(trends.expense2D[i][0], trends.expense2D[i][1]));
-        }
-    }
-    
-    lineChart.getData().add(series);
-
-    VBox mainScreen = new VBox(lineChart);
-
-    seven = new Scene(mainScreen, 1000,500);
-
-    return seven;
-  }
          
-
     // Button Methods
     public Button goToSceneOne(Stage stage, String sceneName){
         Button scene1B = features.yellowButton(sceneName);
@@ -828,7 +839,7 @@ public class AppLayoutFV extends Application{
         Button scene3B = features.yellowButton(sceneName);
         scene3B.setOnAction(action -> {
             cBMonths = features.comboBoxMonths();
-            sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
+            sceneThree = showSceneThreeFour(window, "Anticipated", cBMonths); // plan
                 stage.setScene(sceneThree);
         });
         return scene3B;
@@ -837,7 +848,7 @@ public class AppLayoutFV extends Application{
         Button scene4B = features.yellowButton(sceneName);
         scene4B.setOnAction(action -> {
             cBMonths = features.comboBoxMonths();
-            sceneFour = showSceneThreeFour(window, "Actual"); // transactions
+            sceneFour = showSceneThreeFour(window, "Actual", cBMonths); // transactions
                 stage.setScene(sceneFour);
         });
         return scene4B;
@@ -861,21 +872,6 @@ public class AppLayoutFV extends Application{
             stage.setScene(sceneSix);
         });
         return scene6B;
-    }
-    public Button goToSceneSeven(Stage stage, String sceneName){
-        Button scene6B = features.yellowButton(sceneName);
-        scene6B.setOnAction(action -> {
-            sceneSix = showSceneSeven();
-            stage.setScene(sceneSix);
-        });
-        return scene6B;
-    }
-
-    //month things
-    public void getMonth(ComboBox cBMonths){
-        cBMonths.setOnAction(action ->{
-            this.month = (String)cBMonths.getValue();
-        });
     }
 
     public void showCategory(boolean add, ArrayList<String> categoryArrList, TextField catTF, boolean income, Text incomeCatT, Text expensesCatT){
