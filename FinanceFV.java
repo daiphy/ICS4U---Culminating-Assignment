@@ -11,7 +11,7 @@ class FinanceFV {
     
     //-------------------- GLOBAL VARIABLES --------------------//
     public String fileName = "income.csv";        
-    public String nextMonth = "March";
+    public String nextMonth = "";
     public String[] testArr = {"Month: March", "0", "0", "0",
                                "Savings", "0", "0", "0",
                                "Paycheck", "0", "0", "0",
@@ -36,21 +36,22 @@ class FinanceFV {
         else{
             this.fileName = "expense.csv";
         }
-        //put into CSV
-        String coords = checkForMonth(month);
-        if(coords.equals(":)")){
-            appendCSV(arr);
-        }
-        else{
-            findNext(month); 
-            String initialCoords = checkForMonth(month);
-            int row = Integer.parseInt(initialCoords.substring(0,initialCoords.indexOf(",")));
-            int col = Integer.parseInt(initialCoords.substring(initialCoords.indexOf(",") + 1,initialCoords.length()));
-            boolean updated = update2DArr(arr, row, col, 0, 0);
-            if(updated){
-                updateCSV(arr);
-            } 
-        }
+        findNext(month);
+    //     //put into CSV
+    //     String coords = checkForMonth(month);
+    //     if(coords.equals("")){
+    //         appendCSV(arr);
+    //     }
+    //     else{
+    //         findNext(); 
+    //         String initialCoords = checkForMonth(month);
+    //         int row = Integer.parseInt(initialCoords.substring(0,initialCoords.indexOf(",")));
+    //         int col = Integer.parseInt(initialCoords.substring(initialCoords.indexOf(",") + 1,initialCoords.length()));
+    //         boolean updated = update2DArr(arr, row, col, 0);
+    //         if(updated){
+    //             updateCSV(arr);
+    //         } 
+    //     }
     }
     
     //-------------------- CHECK IF CSV FILE --------------------//
@@ -146,7 +147,7 @@ class FinanceFV {
     */
     public String checkForMonth(String monthName){
         String[][] arr = readCSV();
-        String coords = ":)";
+        String coords = "";
         for(int i = 0; i < arr.length; i++){
             for(int j = 0; j < arr[0].length; j++){
                 //check if the line contains the chosen month name
@@ -176,6 +177,7 @@ class FinanceFV {
             }
         }
         this.nextMonth = trends.monthNames[index];
+        System.out.println("this.nextMonth: " + this.nextMonth);
     }
 
     //--- method to append to the csv ---//
@@ -209,23 +211,23 @@ class FinanceFV {
         }
     }
     //--- method to update an array containing csv data (chosen month already has existing data) ---//
-    public boolean update2DArr(String[][] arr, int row, int col, int r, int c){
+    public boolean update2DArr(String[][] arr, int row, int col, int count, int count2){
         boolean bool = true;
         if(col < arr[0].length && row < arr.length){ //validation checks 
-            if(arr[row][col].equals("Month: " + this.nextMonth) || arr[row][col] == null){
+            if(arr[row][col].equals("Month: " + this.nextMonth)){
                 return false;
             }
             else{
                 if(bool){
                     if(col == arr[0].length - 1){
-                        bool = update2DArr(arr, row + 1, 0, r + 1, 0); //next row
+                        bool = update2DArr(arr, row + 1, 0, count + 1, count2); //next row
                     }
-                    bool = update2DArr(arr, row, col + 1, r, c + 1); //next col
+                    bool = update2DArr(arr, row, col + 1, count + 1, count2); //next col
                 }
             }
         }
-        if(col < arr[0].length && row < arr.length && c < arr[0].length && row < arr.length){
-            arr[row][col] = trends.income2D[r][c];            
+        if(col < arr[0].length && row < arr.length){
+            arr[row][col] = testArr[count];            
         }
         return bool;
     }

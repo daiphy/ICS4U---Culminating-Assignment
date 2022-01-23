@@ -6,7 +6,10 @@ import java.util.ArrayList;
 // import javafx.stage.FileChooser;
 
 import javafx.application.Application;
-// import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.*;
+import javafx.scene.Group;
 // import javafx.scene.Node;
 // import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -120,7 +123,7 @@ public class AppLayoutFV extends Application{
         summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         summaryB.setPrefWidth(150);
         
-        Button trendsB = features.yellowButton("TRENDS"); //scene 7
+        Button trendsB = goToSceneSeven(window, "TRENDS"); //scene 7
         trendsB.setPrefWidth(150);
         
         Button planB = goToSceneThree(window, "PLAN");        
@@ -384,6 +387,9 @@ public class AppLayoutFV extends Application{
                 trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 2, month);
                 trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 2, month);
             }
+
+            
+
         });        
         
         // FORMATTING
@@ -464,8 +470,8 @@ public class AppLayoutFV extends Application{
 
         //put into CSV
         //financeFV.appendCSV(trends.income2D);
-        financeFV.toCSV(trends.income2D, "income", this.month);
-        financeFV.toCSV(trends.expense2D, "expense", this.month);
+        financeFV.toCSV(financeFV.readCSV(), "income", this.month);
+        financeFV.toCSV(financeFV.readCSV(), "expense", this.month);
         
         Scene five;
         //Titles, bees, buttons, labels, comboBoxes
@@ -770,6 +776,31 @@ public class AppLayoutFV extends Application{
         
         return six;
     }
+    public Scene showSceneSeven(Stage stage){ // u have to click plan and transactions first because thats what populates the 2d arr
+        Scene seven;  
+        ArrayList<PieChart.Data> categories = new ArrayList<PieChart.Data>();
+        for(int i = 1; i < trends.income2D.length; i++){   
+            double amount = Double.valueOf(trends.income2D[i][2])    ;
+            if(amount != 0){                 
+                categories.add(new PieChart.Data(trends.income2D[i][0], amount));
+            }
+        }
+
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(categories);
+                      
+        PieChart piechart = new PieChart(pieChartData);
+        piechart.setTitle("Actual Income");
+
+        VBox mainScreen = new VBox(10);
+        mainScreen.getChildren().add(piechart);
+        mainScreen.setAlignment(Pos.TOP_CENTER);
+
+        BorderPane bPane = features.showBorder(mainScreen);
+
+
+        seven = new Scene(bPane, 1000, 700);
+        return seven;
+    }
          
 
     // Button Methods
@@ -826,6 +857,14 @@ public class AppLayoutFV extends Application{
             stage.setScene(sceneSix);
         });
         return scene6B;
+    }
+    public Button goToSceneSeven(Stage stage, String sceneName){
+        Button scene7B = features.yellowButton(sceneName);
+        scene7B.setOnAction(action -> {
+            sceneSeven = showSceneSeven(window);
+            stage.setScene(sceneSeven);
+        });
+        return scene7B;
     }
 
     //month things
