@@ -464,8 +464,8 @@ public class AppLayoutFV extends Application{
 
         //put into CSV
         //financeFV.appendCSV(trends.income2D);
-        financeFV.toCSV(financeFV.readCSV(), "income", this.month);
-        financeFV.toCSV(financeFV.readCSV(), "expense", this.month);
+        financeFV.toCSV(trends.income2D, "income", this.month);
+        financeFV.toCSV(trends.expense2D, "expense", this.month);
         
         Scene five;
         //Titles, bees, buttons, labels, comboBoxes
