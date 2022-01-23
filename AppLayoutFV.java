@@ -56,15 +56,7 @@ public class AppLayoutFV extends Application{
     public Finance finance = new Finance();
 
       //Initialize arrays
-        public String[] arr = new String[12];
-        public ArrayList<String> incomeAntCatArr = new ArrayList<String>();
-        public ArrayList<String> incomeAccCatArr = new ArrayList<String>();
-        public ArrayList<String> incomeAntAmtArr = new ArrayList<String>();
-        public ArrayList<String> incomeAccAmtArr = new ArrayList<String>();
-        public ArrayList<String> expenseAntCatArr = new ArrayList<String>();
-        public ArrayList<String> expenseAccCatArr = new ArrayList<String>();
-        public ArrayList<String> expenseAntAmtArr = new ArrayList<String>();
-        public ArrayList<String> expenseAccAmtArr = new ArrayList<String>();
+        public String[] arr = new String[12];        
     
     public AppLayoutFV(){
 
@@ -227,28 +219,28 @@ public class AppLayoutFV extends Application{
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
         addIncCatB.setOnAction(action ->{
-            showCategory(true, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);                        
+            // showCategory(true, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);                        
         });
 
         Button deleteIncCatB = features.yellowButton("DELETE");
         deleteIncCatB.setOnAction(action ->{
-            showCategory(false, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);
+            // showCategory(false, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);
         });
 
         Button addExpCatB = features.yellowButton("ADD");
         addExpCatB.setOnAction(action ->{
-            showCategory(true, trends.expenseCat, expCatTF, false, incomeCatT, expensesCatT);                        
+            // showCategory(true, trends.expenseCat, expCatTF, false, incomeCatT, expensesCatT);                        
         });
 
         Button deleteExpCatB = features.yellowButton("DELETE");
         deleteExpCatB.setOnAction(action ->{
-            showCategory(false, trends.expenseCat, expCatTF, false, incomeCatT, expensesCatT);
+            // showCategory(false, trends.expenseCat, expCatTF, false, incomeCatT, expensesCatT);
         });                   
 
         Button confirm = features.yellowButton("CONFIRM");
         confirm.setOnAction(action->{
             // trends.income2D = new String[trends.incomeCat.size()+1][4];            //initializes how big income2D is
-            trends.populateCat(trends.incomeCat, trends.income2D);            
+            // trends.populateCat(trends.incomeCat, trends.income2D);            
         });
                        
         //HBox
@@ -330,39 +322,57 @@ public class AppLayoutFV extends Application{
         Text showExpCat = new Text();
         Text showExpAmt = new Text();
 
+        // Arraylists
+        ArrayList<String> incomeCatArr = new ArrayList<String>();
+        ArrayList<String> incomeAmtArr = new ArrayList<String>(); 
+        ArrayList<String> expenseCatArr = new ArrayList<String>();
+        ArrayList<String> expenseAmtArr = new ArrayList<String>();
+
         Button addTB = features.yellowButton("ADD"); // TB (top half of the scene) -> income
         Button addBB = features.yellowButton("ADD"); // BB (bottom half of the scene) -> expense
         Button delTB = features.yellowButton("DELETE"); // TB (top half of the scene) -> income
         Button delBB = features.yellowButton("DELETE"); // BB (bottom half of the scene) -> expense
-        
+        Button confirmB = features.yellowButton("CONFIRM");
+
         // button actions
         addTB.setOnAction(action -> {
-            showUserInput(whichType, true , true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);            
+            showUserInput(true , true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeCatArr, incomeAmtArr);            
         });
         addBB.setOnAction(action -> {
-            showUserInput(whichType,true, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
+            showUserInput(true, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseCatArr, expenseAmtArr);
         });
         delTB.setOnAction(action -> {
-            showUserInput(whichType, false, true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeAntCatArr, incomeAntAmtArr, incomeAccCatArr, incomeAccAmtArr);
+            showUserInput( false, true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeCatArr, incomeAmtArr);
         });
         delBB.setOnAction(action -> {
-            showUserInput(whichType, false, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseAntCatArr, expenseAntAmtArr, expenseAccCatArr, expenseAccAmtArr);
+            showUserInput( false, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseCatArr, expenseAmtArr);
         });
-
+        confirmB.setOnAction(action ->{
+            if (whichType.equalsIgnoreCase("Anticipated")){
+                trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 1);
+                trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 1);
+            }
+            else{
+                trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 2);
+                trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 2);
+            }
+        });        
+        
         // FORMATTING
         HBox lastRow = new HBox(10);
         // conds for the btn of scene 3 and scene 4 
         lastRow.setAlignment(Pos.BOTTOM_RIGHT);
+        
         if (whichType.equalsIgnoreCase("Anticipated")){
-            Button nextB = goToSceneFour(stage, "NEXT");
+            Button nextB = goToSceneFour(stage, "NEXT");            
             Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
-            lastRow.getChildren().addAll(mainMenuB, nextB);
+            lastRow.getChildren().addAll(confirmB, mainMenuB, nextB);
         }
         else{
-            Button nextB = goToSceneFour(stage, "NEXT");
+            Button nextB = goToSceneFive(stage, "NEXT");
             Button backB = goToSceneThree(stage, "BACK");
             Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
-            lastRow.getChildren().addAll(mainMenuB, backB, nextB);
+            lastRow.getChildren().addAll(confirmB, mainMenuB, backB, nextB);
         }
 
         // stack panes to show the user inputs on top of the rectangles
@@ -415,7 +425,14 @@ public class AppLayoutFV extends Application{
     //Titles, bees, buttons, labels, comboBoxes
     //Label titleL = new Label("Budgeting App");
     cBMonths = features.comboBoxMonths();
-    
+    System.out.println("scene 5");
+    for(int i = 0; i < 6; i++){
+        for(int j = 0; j < 4; j++){
+            System.out.print(trends.income2D[i][j] + ", ");
+            
+        } 
+        System.out.println();
+    }  
     bee = features.image();
     bee2 = features.image();
     
@@ -740,7 +757,9 @@ public class AppLayoutFV extends Application{
     public Button goToSceneFive(Stage stage, String sceneName){
         Button scene5B = features.yellowButton(sceneName);
         scene5B.setOnAction(action -> {
-                stage.setScene(sceneFive);
+            trends.populateDiff(trends.income2D);
+            trends.populateDiff(trends.expense2D);
+            stage.setScene(sceneFive);
         });
         return scene5B;
     }
@@ -791,7 +810,7 @@ public class AppLayoutFV extends Application{
         System.out.println("arraylist is: " + categoryArrList);
     }
 
-    public void showUserInput(String whichType, boolean add, boolean income, ComboBox comboBox, TextField amntTF, Text catInc, Text amtInc, Text catExp, Text amtExp, ArrayList<String> AntCatArr, ArrayList<String> AntAmtArr, ArrayList<String> AccCatArr, ArrayList<String> AccAmtArr){
+    public void showUserInput(boolean add, boolean income, ComboBox comboBox, TextField amntTF, Text catInc, Text amtInc, Text catExp, Text amtExp, ArrayList<String> catArr, ArrayList<String> amtArr){
         // initialize strings
         String temp = (String) comboBox.getValue();
         String tempText = amntTF.getText();
@@ -801,62 +820,41 @@ public class AppLayoutFV extends Application{
         
         // conds if it is the add btn or del btn
         if (add == true){
-            // add the contents to the arr
-            if(whichType.equalsIgnoreCase("ANTICIPATED")){
-                AntCatArr.add((String) comboBox.getValue());    //JANE can i jus put temp?
-                AntAmtArr.add(amntTF.getText());                // and like tempText here?
-            }
-            else{
-                AccCatArr.add((String) comboBox.getValue());
-                AccAmtArr.add(amntTF.getText());
-            }
+            catArr.add((String) comboBox.getValue());    //JANE can i jus put temp?
+            amtArr.add(amntTF.getText());                // and like tempText here?
+            
         }
         else{
-            if(whichType.equalsIgnoreCase("ANTICIPATED")){
-                // for(int i = 0; i < AntCatArr.size(); i++){
-                    if( AntCatArr.contains(temp) && AntAmtArr.contains(tempText)){
-                        AntCatArr.remove(temp);
-                        AntAmtArr.remove(tempText);     
-                    }
-                // }
-                System.out.println(AntCatArr + " : " + AntAmtArr);      // for testing DELETE LTR
-            }
-            else{
-                // for(int i = 0; i < AccCatArr.size(); i++){
-                    
-                    if( AccCatArr.contains(temp) && AccAmtArr.contains(tempText)){
-                        AccCatArr.remove(temp);
-                        AccAmtArr.remove(tempText);     
-                    }
-                // }
-                System.out.println(AccCatArr + " : " + AccAmtArr);      // for testing DELETE LTR
-            }
+            // for(int i = 0; i < CatArr.size(); i++){
+                if( catArr.contains(temp) && amtArr.contains(tempText)){
+                    catArr.remove(temp);
+                    amtArr.remove(tempText);     
+                }
+            // }
+            System.out.println(catArr + " : " + amtArr);      // for testing DELETE LTR
         }
 
         // conds if scene 3 or scene 4
-        if (whichType.equalsIgnoreCase("ANTICIPATED")){
-            for(int i = 0; i < AntCatArr.size(); i ++){
-                // set string as the array element
-                stringCat = AntCatArr.get(i) + " | ";
-                stringAmt = AntAmtArr.get(i) + " | ";
-                // concanate
-                printCat += stringCat;
-                printAmt += stringAmt;
-            }
-            System.out.println(AntCatArr + " : " + AntAmtArr);  // testing DELETE LTR
+        for(int i = 0; i < catArr.size(); i ++){
+            // set string as the array element
+            stringCat = catArr.get(i) + " | ";
+            stringAmt = amtArr.get(i) + " | ";
+            // concanate
+            printCat += stringCat;
+            printAmt += stringAmt;
         }
-        else{
-            System.out.println(AccCatArr + " : " + AccAmtArr);  //testng DELETE LTR
-            for(int i = 0; i < AccCatArr.size(); i ++){
-                stringCat = AccCatArr.get(i) + " | ";   //set string as arr element
-                stringAmt = AccAmtArr.get(i) + " | ";
-                printCat += stringCat;      // concanate
-                printAmt += stringAmt;
-            }
-        }
+        System.out.println(catArr + " : " + amtArr);  // testing DELETE LTR
+                    
+        // for(int i = 0; i < catArr.size(); i ++){
+        //     stringCat = catArr.get(i) + " | ";   //set string as arr element
+        //     stringAmt = catArr.get(i) + " | ";
+        //     printCat += stringCat;      // concanate
+        //     printAmt += stringAmt;
+        // }
+        
         
         // if the user deletes all inputs set it to default labels 
-        if(AntCatArr.size() == 0 || AccCatArr.size() == 0){
+        if(catArr.size() == 0 || catArr.size() == 0){
             if(income == true){
                 catInc.setText("Categories : ");
                 amtInc.setText("Amount : ");
