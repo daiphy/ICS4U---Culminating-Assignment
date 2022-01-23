@@ -83,12 +83,12 @@ public class Trends {
 
 
     // }
-    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col){ //CHANGE THE INCOME NAMES
+    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col, String month){ //CHANGE THE INCOME NAMES
         
         for(int i = 0; i < twoDArr.length; i++){ 
             if(i == 0){
-                System.out.print(this.chosenMonth);
-                twoDArr[i][0] = "Month: " + this.chosenMonth;
+                System.out.print(month);
+                twoDArr[i][0] = "Month: " + month;
             }
             else{
                 twoDArr[i][0] = labelCat[i]; //this inputs the categories in column 0 of the 2d array
