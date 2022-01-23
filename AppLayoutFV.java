@@ -46,6 +46,8 @@ public class AppLayoutFV extends Application{
     Scene sceneOne, sceneTwo, sceneThree, sceneFour, sceneFive, sceneSix, sceneSeven;
     Stage window;
     Color babyBlue = Color.web("#C9DAF8");
+    Color darkBlue = Color.web("#9AB3DF");
+    Color white = Color.web("#FFFFFF");
     ImageView bee, bee2;
 
     //Initialize objects -> Trends/LayoutFeatures/Finance
@@ -573,7 +575,35 @@ public class AppLayoutFV extends Application{
     
     Label monthlyBudgetL = new Label("MONTHLY BUDGET");
     
-    Label percentL = new Label("% Increase/Decrease");
+    //-------------------- SCENE SIX SECTION 1 BELOW --------------------//
+    int sumAccIncome = 110; //ADD VALUES BY PASSING IT INTO THIS METHOD
+    int endBalance = 0; //Acc income - acc expense
+    
+    Rectangle sumAccIncomeR = new Rectangle (50, sumAccIncome + 10, babyBlue);
+    Rectangle endBalanceR = new Rectangle (50, endBalance + 10, darkBlue);
+    
+    Label sumAccIncomeL = new Label("Sum of Actual Income");
+    Label sumAccIncomeValueL = new Label("$" + String.valueOf(sumAccIncome));
+    
+    Label endBalanceL = new Label("End Balance");
+    Label endBalanceValueL = new Label("$" + String.valueOf(endBalance));
+    
+    VBox sumAccIncomeHB = new VBox(10);
+    sumAccIncomeHB.getChildren().addAll(sumAccIncomeR, sumAccIncomeL, sumAccIncomeValueL);
+    sumAccIncomeHB.setAlignment(Pos.BOTTOM_CENTER);
+    
+    VBox endBalanceHB = new VBox(10);
+    endBalanceHB.getChildren().addAll(endBalanceR, endBalanceL, endBalanceValueL);
+    endBalanceHB.setAlignment(Pos.BOTTOM_CENTER);
+    
+    HBox summaryLeftHB = new HBox(50);
+    summaryLeftHB.getChildren().addAll(sumAccIncomeHB, endBalanceHB);
+    
+    //StackPane summaryLeftStack = new StackPane();
+    //summaryLeftStack.getChildren().addAll(new Rectangle(300, 150, babyBlue), summaryLeftHB);
+    
+    //-------------------- SCENE SIX SECTION 2 BELOW --------------------//
+    Label percentL = new Label("% saved this month");
     
     //If [value] is +ive, then increase, else, print decrease
     Label percentDescriptionL = new Label("Increase in total savings");
@@ -589,23 +619,88 @@ public class AppLayoutFV extends Application{
     StackPane summaryRightStack = new StackPane();
     summaryRightStack.getChildren().addAll(new Rectangle(300, 150, babyBlue), summaryRightHB);
     
+    //-------------------- SCENE SIX SECTION 3 BELOW --------------------//            
+    int sumAntIncome = 100;//ADD VALUES BY PASSING IT INTO THIS METHOD //Actual income
+    int sumAntExpense = 205;
+    int sumAccExpense = 200;
+    //Note: sumAccIncome has been initialized earlier
+    
+    Label incomeL = features.setFont("INCOME", 12);
+    Label expensesL = features.setFont ("EXPENSES", 12);
+    Label antL = new Label("ANTICIPATED");
+    Label accL = new Label("ACTUAL");
+    Label antL2 = new Label("ANTICIPATED");
+    Label accL2 = new Label("ACTUAL");
+    Label space = new Label(""); //For spacing
+    Label space2 = new Label("");
+    Label space3 = new Label(""); 
+    Label space4 = new Label(""); 
+    Label space5 = new Label("");
+    Label space6 = new Label("");
+    
+    Label sumAntIncL = new Label("$" + String.valueOf(sumAntIncome));
+    Label sumAccIncL = new Label("$" + String.valueOf(sumAccIncome));
+    Label sumAntExpL = new Label("$" + String.valueOf(sumAntExpense));
+    Label sumAccExpL = new Label("$" + String.valueOf(sumAccExpense));
+    
+    Rectangle sumAntIncR = new Rectangle (sumAntIncome + 10, 20, white);
+    Rectangle sumAccIncR = new Rectangle (sumAccIncome + 10, 20, white);
+    Rectangle sumAntExpR = new Rectangle (sumAntExpense + 10, 20, white);
+    Rectangle sumAccExpR = new Rectangle (sumAccExpense + 10, 20, white);
+    
+    VBox incAntAccHB = new VBox(20);
+    incAntAccHB.getChildren().addAll(antL, accL);
+    VBox incomeSummaryVB = new VBox(20);
+    incomeSummaryVB.getChildren().addAll(incomeL, incAntAccHB);
+    
+    VBox incAntAccValueHB = new VBox(20);
+    incAntAccValueHB.getChildren().addAll(space, sumAntIncL, sumAccIncL);
+    
+    VBox incRectVB = new VBox(20);
+    incRectVB.getChildren().addAll(space2, sumAntIncR, sumAccIncR);
+    
+    VBox expAntAccHB = new VBox(20);
+    expAntAccHB.getChildren().addAll(antL2, accL2);
+    VBox expenseSummaryVB = new VBox(20);
+    expenseSummaryVB.getChildren().addAll(expensesL, expAntAccHB);
+    
+    VBox expAntAccValueHB = new VBox(20);
+    expAntAccValueHB.getChildren().addAll(space3, sumAntExpL, sumAccExpL);
+    
+    VBox expRectVB = new VBox(20);
+    expRectVB.getChildren().addAll(space4, sumAntExpR, sumAccExpR);
+    
+    HBox allRect = new HBox(20);
+    allRect.getChildren().addAll(incomeSummaryVB, incAntAccValueHB, incRectVB, expenseSummaryVB, expAntAccValueHB, expRectVB);
+    allRect.setAlignment(Pos.CENTER);
+    
+    
+    VBox summaryBottomVB = new VBox(20);
+    summaryBottomVB.getChildren().addAll(space5, allRect, space6);
+    summaryBottomVB.setBackground(new Background(new BackgroundFill(darkBlue, CornerRadii.EMPTY, Insets.EMPTY)));
+    
+    //-------------------- SCENE SIX COMBINE ALL SECTIONS BELOW --------------------//
     Button mainMenuB = goToSceneOne(window, "MAIN MENU"); 
     Button backB = goToSceneFive(window, "BACK");
     //Export button?
+    
+    HBox mainScreenMiddle = new HBox(100);
+    mainScreenMiddle.getChildren().addAll(summaryLeftHB, summaryRightStack);
+    mainScreenMiddle.setAlignment(Pos.CENTER);
     
     HBox buttonsHB = new HBox(10);
     buttonsHB.getChildren().addAll(backB, mainMenuB);
     buttonsHB.setAlignment(Pos.CENTER);
     
     VBox mainScreen = new VBox(10);
-    mainScreen.getChildren().addAll(titleHB, monthlyBudgetL, summaryRightStack, buttonsHB);
+    mainScreen.getChildren().addAll(titleHB, monthlyBudgetL, mainScreenMiddle, summaryBottomVB, buttonsHB);
     mainScreen.setAlignment(Pos.TOP_CENTER);
     
     // calling the borderpane method
     BorderPane bPane = features.showBorder(mainScreen);
     
     // add all the components to the scene
-    six = new Scene(bPane, 1000, 500);
+    six = new Scene(bPane, 1000, 700);
     
     return six;
   }
