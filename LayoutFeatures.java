@@ -34,7 +34,7 @@ public class LayoutFeatures{
     // String emptyCat = "";
     // String emptyAmnt = "";
     // int y = 150; 
-    public FinanceFV financeFV = new FinanceFV();
+    public Trends trends = new Trends();
 
     //-------------------- CONSTRUCTOR --------------------// 
     public LayoutFeatures(){
@@ -170,12 +170,7 @@ public class LayoutFeatures{
         
         return expenseCat;
     }
-    public void getMonth(ComboBox cBMonths){
-        cBMonths.setOnAction(action ->{
-            financeFV.chosenMonth = (String)cBMonths.getValue();
-            System.out.println(financeFV.chosenMonth);
-        });
-    }
+    
 
     public ImageView image(){
         // Create a image object

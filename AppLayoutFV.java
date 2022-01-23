@@ -215,7 +215,7 @@ public class AppLayoutFV extends Application{
         Text expensesCatT = new Text("*User input*"); 
 
         //Set the chosen month to selected month from combo box
-        features.getMonth(cBMonths);
+        trends.getMonth(cBMonths);
 
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
@@ -477,7 +477,7 @@ public class AppLayoutFV extends Application{
     titleHB.setAlignment(Pos.CENTER);
     
     //Set the chosen month to selected month from combo box
-    features.getMonth(cBMonths);
+    trends.getMonth(cBMonths);
 
     Label labelIncome = new Label ("Income");
     Label labelExpenses = new Label ("Expenses");
@@ -627,7 +627,7 @@ public class AppLayoutFV extends Application{
     bee2 = features.image();
 
     //Set the chosen month to selected month from combo box
-    features.getMonth(cBMonths);
+    trends.getMonth(cBMonths);
     
     HBox titleHB = new HBox();
     titleHB.getChildren().addAll(bee, cBMonths, bee2);
