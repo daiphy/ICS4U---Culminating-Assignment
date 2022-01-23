@@ -46,24 +46,50 @@ public class LayoutFeatures{
         Label space = new Label("                        ");
         return space;
     }
-    
-    public Label catLabel(){
-        Label cLabel = new Label("Category : ");
-        return cLabel;
-    }
-    public Label amntLabel(){
-        Label aLabel = new Label("Amount : ");
-        return aLabel;
-    }
-    public Button yellowButton(String name){
-        Button yellowB = new Button(name);
-        yellowB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
-        return yellowB;
-    }
     public Label setFont(String name, int size){
         Label labelFont = new Label(name);
         labelFont.setFont(Font.font("Verdana", FontWeight.BOLD, size));
         return labelFont;
+    }
+    /*-------------------- LABELS WE USE OFTEN ------------------ */
+    public Label catLabel(){
+        Label cLabel = setFont("Category : ", 12);
+        return cLabel;
+    }
+    public Label amntLabel(){
+        Label aLabel = setFont("Amount : ", 12);
+        return aLabel;
+    }
+    public Label incomeLabel(){
+        Label label = setFont("INCOME", 15);
+        return label;
+    }
+    public Label expenseLabel(){
+        Label label = setFont("EXPENSE", 15);
+        return label;
+    }
+    public Label anticipatedLabel(){
+        Label label = setFont("ANTICIPATED", 12);
+        return label;
+    }
+    public Label actuaLabel(){
+        Label label = setFont("ACTUAL", 12);
+        return label;
+    }
+    public Label diffLabel(){
+        Label label = setFont("DIFFERENCE", 12);
+        return label;
+    }
+    public Label totaLabel(){
+        Label label = setFont("TOTALS", 12);
+        return label;
+    }
+    /*----------------------------------------------------------- */
+
+    public Button yellowButton(String name){
+        Button yellowB = new Button(name);
+        yellowB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+        return yellowB;
     }
     public Button addButton(){
         Button addB = new Button("ADD");
