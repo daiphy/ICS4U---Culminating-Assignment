@@ -87,7 +87,7 @@ class Finance {
     //testing populating CSV
     public String[][] populate(){
         for(int i = 0; i < trends.income2D.length; i++){
-            trends.income2D[i][0] = trends.incomeCat[i];
+            // trends.income2D[i][0] = trends.incomeCat.get(i);
         }
         return trends.income2D;
     }
