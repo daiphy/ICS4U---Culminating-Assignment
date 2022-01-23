@@ -227,26 +227,29 @@ public class AppLayoutFV extends Application{
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
         addIncCatB.setOnAction(action ->{
-            showCategory(true, incomeCat, incCatTF, true, incomeCatT, expensesCatT);                        
+            showCategory(true, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);                        
         });
 
         Button deleteIncCatB = features.yellowButton("DELETE");
         deleteIncCatB.setOnAction(action ->{
-            showCategory(false, incomeCat, incCatTF, true, incomeCatT, expensesCatT);
+            showCategory(false, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);
         });
 
         Button addExpCatB = features.yellowButton("ADD");
         addExpCatB.setOnAction(action ->{
-            showCategory(true, expenseCat, expCatTF, false, incomeCatT, expensesCatT);                        
+            showCategory(true, trends.expenseCat, expCatTF, false, incomeCatT, expensesCatT);                        
         });
 
         Button deleteExpCatB = features.yellowButton("DELETE");
         deleteExpCatB.setOnAction(action ->{
-            showCategory(false, expenseCat, expCatTF, false, incomeCatT, expensesCatT);
-        });           
+            showCategory(false, trends.expenseCat, expCatTF, false, incomeCatT, expensesCatT);
+        });                   
 
         Button confirm = features.yellowButton("CONFIRM");
-
+        confirm.setOnAction(action->{
+            // trends.income2D = new String[trends.incomeCat.size()+1][4];            //initializes how big income2D is
+            trends.populateCat(trends.incomeCat, trends.income2D);            
+        });
                        
         //HBox
         HBox incCatRow = new HBox(20);

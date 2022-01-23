@@ -24,12 +24,24 @@ public class Trends {
     }
 
     //Methods
-    public void updateCatArr(ArrayList<String> categoryArrList, String[] catArr){
-        catArr = new String[categoryArrList.size()];
-        for(int i = 0; i < categoryArrList.size(); i ++){
-            catArr[i] = categoryArrList.get(i);
+    public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr){
+        // twoDArr = new String[categoryArrList.size()+ 1][4];
+        int a = 0;
+        for(int i = 1; i < categoryArrList.size()+1; i ++){ //starts at one because 0 is the month name
+            twoDArr[i][0] = categoryArrList.get(a);
+            a++;
         }
-        
+        System.out.println("the length is" + twoDArr.length);
+
+        //testing populate() 
+        for(int i = 0; i < twoDArr.length; i++){
+            for(int j = 0; j < 2; j++){
+                System.out.print(income2D[i][j] + ", ");
+                
+            } 
+            System.out.println();
+        }
+        return twoDArr;
     }
 
     public void populate(String[] arr, String[][] income, String[][] expenses){  
