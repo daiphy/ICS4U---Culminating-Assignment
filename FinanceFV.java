@@ -11,7 +11,7 @@ class FinanceFV {
     //-------------------- GLOBAL VARIABLES --------------------//
     public String fileName = "income.csv";
     public Trends trends = new Trends();
-    public String chosenMonth;
+    // public String chosenMonth;
     public String nextMonth = "";
     public String[][] test2D = {{"Month: March", "0", "0", "0"},
                                 {"Savings", "0", "0", "0"}, 
@@ -150,7 +150,7 @@ class FinanceFV {
     public void findNext(){
         int index = 0;
         for(int i = 0; i < trends.monthNames.length; i++){
-            if(trends.monthNames[i].equals(this.chosenMonth)){
+            if(trends.monthNames[i].equals(trends.chosenMonth)){
                 //the name of the next month will be at the next index from chosen month name
                 index = i + 1;
             }
