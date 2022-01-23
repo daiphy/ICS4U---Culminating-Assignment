@@ -24,14 +24,34 @@ public class Trends {
     }
 
     //Methods
-    public void populate(String[] arr, String[][] income, String[][] expenses){  
+    // public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr){
+    //     // twoDArr = new String[categoryArrList.size()+ 1][4];
+    //     int a = 0;
+    //     for(int i = 1; i < categoryArrList.size()+1; i ++){ //starts at one because 0 is the month name
+    //         twoDArr[i][0] = categoryArrList.get(a);
+    //         a++;
+    //     }
+    //     System.out.println("the length is" + twoDArr.length);
+
+    //     //testing populate() 
+    //     for(int i = 0; i < twoDArr.length; i++){
+    //         for(int j = 0; j < 2; j++){
+    //             System.out.print(income2D[i][j] + ", ");
+                
+    //         } 
+    //         System.out.println();
+    //     }
+    //     return twoDArr;
+    // }
+
+    public void populateCat(String[] arr, String[][] income, String[][] expenses){  
         
         int a = 0;
-        //populate categories
+        //populate categories and anticipated
         for(int i = 0; i < 12; i++){  
             if(i < 6){
-                income[i][0] = this.incomeCat[i];  
-                expenses[i][0] = this.expenseCat[i];  
+                income[i][0] = incomeCat[i];  
+                expenses[i][0] = expenseCat[i];  
                 income[i][1] = arr[i];  
             }
             else{
@@ -58,11 +78,11 @@ public class Trends {
 
 
     }
-    public void populateActual(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat){ //CHANGE THE INCOME NAMES
+    public void populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col){ //CHANGE THE INCOME NAMES
         
         
         for(int i = 0; i < 6; i++){ 
-            twoDArr[i][0] = labelCat[i];
+            twoDArr[i][0] = labelCat[i]; //this inputs the categories in column 0 of the 2d array
         }
 
         
@@ -77,10 +97,10 @@ public class Trends {
                 }   
             }            
             
-            twoDArr[i][2] = String.valueOf(addOn);
+            twoDArr[i][col] = String.valueOf(addOn);
 
         }
-
+        System.out.println("in populate");
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 4; j++){
                 System.out.print(twoDArr[i][j] + ", ");
@@ -96,6 +116,7 @@ public class Trends {
 
         for(int i = 0; i < 6; i++){
             if (twoDArr[i][1] == null || twoDArr[i][1].equals("")){
+                System.out.println("no longer empty");
                 twoDArr[i][1] = "0.0";
             }
 
@@ -106,6 +127,7 @@ public class Trends {
                 twoDArr[i][3] = "0.0";
             }
         }
+        System.out.println("in diff");
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 4; j++){
                 System.out.print(twoDArr[i][j] + ", ");
