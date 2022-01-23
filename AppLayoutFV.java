@@ -778,6 +778,33 @@ public class AppLayoutFV extends Application{
     }
     public Scene showSceneSeven(Stage stage){ // u have to click plan and transactions first because thats what populates the 2d arr
         Scene seven;  
+
+        Button main = goToSceneOne(stage, "MAIN MENU");
+        Button back = goToSceneSix(stage, "BACK");
+
+        PieChart piechart = showPieChart();
+
+        LineChart<String,String> lineChart = showlLineChart();
+
+        HBox graphs = new HBox(10);
+        graphs.getChildren().addAll(piechart , lineChart);
+
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(back, main);
+        buttons.setAlignment(Pos.BOTTOM_LEFT);
+
+        VBox mainScreen = new VBox(10);
+        mainScreen.getChildren().addAll(graphs, buttons);
+        mainScreen.setAlignment(Pos.TOP_CENTER);
+
+        BorderPane bPane = features.showBorder(mainScreen);
+
+        seven = new Scene(bPane, 1000, 500);
+        return seven;
+    }
+
+    // ---------------------------- GRAPHS ------------------------------ //
+    public PieChart showPieChart(){
         ArrayList<PieChart.Data> categories = new ArrayList<PieChart.Data>();
         for(int i = 1; i < trends.income2D.length; i++){   
             double amount = Double.valueOf(trends.income2D[i][2])    ;
@@ -790,17 +817,7 @@ public class AppLayoutFV extends Application{
                       
         PieChart piechart = new PieChart(pieChartData);
         piechart.setTitle("Actual Income");
-
-        LineChart<String,String> lineChart = showlLineChart();
-
-        VBox mainScreen = new VBox(10);
-        mainScreen.getChildren().addAll(piechart , lineChart);
-        mainScreen.setAlignment(Pos.TOP_CENTER);
-
-        BorderPane bPane = features.showBorder(mainScreen);
-
-        seven = new Scene(bPane, 1000, 700);
-        return seven;
+        return piechart;
     }
     public LineChart<String,String> showlLineChart(){
         CategoryAxis xAxis = new CategoryAxis();
@@ -836,9 +853,9 @@ public class AppLayoutFV extends Application{
 
         return lineChart;
     }     
-         
+    // ---------------------------------------------------------------- //
 
-    // Button Methods
+    // ---------------------- Button Methods --------------------------- //
     public Button goToSceneOne(Stage stage, String sceneName){
         Button scene1B = features.yellowButton(sceneName);
         scene1B.setOnAction(action -> {
@@ -901,6 +918,7 @@ public class AppLayoutFV extends Application{
         });
         return scene7B;
     }
+    // ---------------------------------------------------------------- //
 
     //month things
     public void getMonth(ComboBox cBMonths){
