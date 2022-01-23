@@ -14,7 +14,6 @@ public class Trends {
     public String[] monthNames = {"January", "February", "March", "April", "May", 
     "June", "July", "August", "September", "October", "November", "December"};
     
-    public String chosenMonth;
     public int totalAntIncome;
     public int totalAntExpenses;
 
@@ -80,22 +79,16 @@ public class Trends {
     //         } 
     //         System.out.println();
     //     }
-//  
 
     // }
-    public void getMonth(ComboBox cBMonths){
-        cBMonths.setOnAction(action ->{
-            this.chosenMonth = (String)cBMonths.getValue();
-            System.out.println(this.chosenMonth);
-        });
-    }
-    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col){ //CHANGE THE INCOME NAMES
+
+    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col, String month){ //CHANGE THE INCOME NAMES
         
         
         for(int i = 0; i < twoDArr.length; i++){ 
             if(i == 0){
-                System.out.print(this.chosenMonth);
-                twoDArr[i][0] = "Month: " + this.chosenMonth;
+                System.out.print(month);
+                twoDArr[i][0] = "Month: " + month;
             }
             else{
                 twoDArr[i][0] = labelCat[i]; //this inputs the categories in column 0 of the 2d array

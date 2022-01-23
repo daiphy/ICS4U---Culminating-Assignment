@@ -307,7 +307,7 @@ public class AppLayoutFV extends Application{
     
     //-------------------- SCENE THREE/FOUR BELOW --------------------//
     public Scene showSceneThreeFour(Stage stage, String whichType){
-
+        System.out.println(this.month);
         Scene threeFour;  // initialize a scene to return
 
         Label titleL;
@@ -323,7 +323,7 @@ public class AppLayoutFV extends Application{
         bee = features.image();
         bee2 = features.image();
 
-        Label monthL = features.setFont(trends.chosenMonth, 18);
+        Label monthL = features.setFont(this.month, 18);
 
         Label typeL = features.setFont(whichType, 16); // anticipated or actual
         Label incL = features.incomeLabel();
@@ -389,12 +389,12 @@ public class AppLayoutFV extends Application{
         });
         confirmB.setOnAction(action ->{
             if (whichType.equalsIgnoreCase("Anticipated")){
-                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 1);
-                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 1);
+                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 1, this.month);
+                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 1, this.month);
             }
             else{
-                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 2);
-                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 2);
+                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 2, this.month);
+                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 2, this.month);
             }
         });        
         
