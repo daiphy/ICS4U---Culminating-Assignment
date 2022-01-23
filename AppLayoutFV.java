@@ -55,6 +55,7 @@ public class AppLayoutFV extends Application{
     public LayoutFeatures features = new LayoutFeatures(); 
     public FinanceFV financeFV = new FinanceFV();
     public ComboBox cBMonths;
+    public String month;
 
      // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
     //   ComboBox cBIncThree = features.comboBoxIncome();
@@ -457,313 +458,318 @@ public class AppLayoutFV extends Application{
     }
     
     //-------------------- SCENE FIVE BELOW --------------------//
-  public Scene showSceneFive(Stage stage, ComboBox cBMonths){
-    Scene five;
-    //Titles, bees, buttons, labels, comboBoxes
-    //Label titleL = new Label("Budgeting App");
-    System.out.println("scene 5");
-    for(int i = 0; i < 6; i++){
-        for(int j = 0; j < 4; j++){
-            System.out.print(trends.income2D[i][j] + ", ");
-            
-        } 
-        System.out.println();
-    }  
-    bee = features.image();
-    bee2 = features.image();
-    
-    HBox titleHB = new HBox();
-    titleHB.getChildren().addAll(bee, cBMonths, bee2);
-    titleHB.setAlignment(Pos.CENTER);
-    
-    //Set the chosen month to selected month from combo box
-    trends.getMonth(cBMonths);
-
-    Label labelIncome = new Label ("Income");
-    Label labelExpenses = new Label ("Expenses");
-    Label labelAnticipated = new Label ("Anticipated"); 
-    Label labelAnticipated2 = new Label ("Anticipated"); 
-    Label labelActual = new Label ("Actual"); 
-    Label labelActual2 = new Label ("Actual");
-    Label labelDiff = new Label ("Difference"); 
-    Label labelDiff2 = new Label ("Difference"); 
-    Label labelTotals = new Label ("Totals");
-    Label labelTotals2 = new Label ("Totals"); 
-    
-    labelIncome.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-    labelExpenses.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-    labelAnticipated.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelAnticipated2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelActual.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelActual2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelDiff.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelDiff2.setFont(Font.font("Verdana", FontWeight.BOLD, 12)); 
-    labelTotals.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    labelTotals2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-    
-    //Label - Act as line break
-    //NOTE: REPLACE LABEL BLANKS WITH ACC CALC. VALUES
-    Label labelBlank = new Label ("");
-    Label labelBlank2 = new Label ("");
-    Label labelBlank3 = new Label ("");
-    Label labelBlank4 = new Label ("");
-    Label labelBlank5 = new Label ("");
-    Label labelBlank6 = new Label ("");
-    
-    //Far left
-    VBox vBoxFarLeft = new VBox(10);
-    vBoxFarLeft.getChildren().addAll(labelIncome, labelTotals);
-    
-    //Prints out the elements inside labelCatArr on the far left side
-    for (int i = 1; i < trends.income2D.length; i++){
-      Label labelFarLeft = new Label(trends.income2D[i][0]);
-      labelFarLeft.setFont(Font.font("Verdana", 12));
-      vBoxFarLeft.getChildren().add(labelFarLeft);
-    }    
-    
-    //Second left
-    VBox vBoxSecondLeft = new VBox(10);
-    vBoxSecondLeft.getChildren().addAll(labelAnticipated, labelBlank);
-    
-    for (int i = 1; i < trends.income2D.length; i++){
-      Label labelSecondLeft = new Label(trends.income2D[i][1]);
-      labelSecondLeft.setFont(Font.font("Verdana", 12));
-      vBoxSecondLeft.getChildren().add(labelSecondLeft);
-    }   
-    
-    //Third left
-    VBox vBoxThirdLeft = new VBox(10);
-    vBoxThirdLeft.getChildren().addAll(labelActual, labelBlank2);
-    
-    for (int i = 1; i < trends.income2D.length; i++){
-      Label labelThirdLeft = new Label(trends.income2D[i][2]);
-      labelThirdLeft.setFont(Font.font("Verdana", 12));
-      vBoxThirdLeft.getChildren().add(labelThirdLeft);
-    }   
-    
-    //Fourth left
-    VBox vBoxFourthLeft = new VBox(10);
-    vBoxFourthLeft.getChildren().addAll(labelDiff, labelBlank3);
-    
-    for (int i = 1; i < trends.income2D.length; i++){
-      Label labelFourthLeft = new Label(trends.income2D[i][3]);
-      labelFourthLeft.setFont(Font.font("Verdana", 12));
-      vBoxFourthLeft.getChildren().add(labelFourthLeft);
-    }   
-    
-    HBox leftTable = new HBox(10);
-    leftTable.getChildren().addAll(vBoxFarLeft, vBoxSecondLeft, vBoxThirdLeft, vBoxFourthLeft);
-    
-    //Fourth right
-    VBox vBoxFourthRight = new VBox(10);
-    vBoxFourthRight.getChildren().addAll(labelExpenses, labelTotals2);
-    
-    //Prints out the elements inside labelCatArr on the far left side
-    for (int i = 1; i < trends.expense2D.length; i++){
-      Label labelFourthRight = new Label(trends.expense2D[i][0]);
-      labelFourthRight.setFont(Font.font("Verdana", 12));
-      vBoxFourthRight.getChildren().add(labelFourthRight);
+    public Scene showSceneFive(Stage stage, ComboBox cBMonths){
+        //Set the chosen month to selected month from combo box
+        trends.getMonth(cBMonths);
+        
+        //put into CSV
+        //financeFV.appendCSV(trends.income2D);
+        financeFV.toCSV(financeFV.readCSV(), "income");
+        financeFV.toCSV(financeFV.readCSV(), "expense");
+        
+        Scene five;
+        //Titles, bees, buttons, labels, comboBoxes
+        //Label titleL = new Label("Budgeting App");
+        System.out.println("scene 5");
+        for(int i = 0; i < 6; i++){
+            for(int j = 0; j < 4; j++){
+                System.out.print(trends.income2D[i][j] + ", ");
+                
+            } 
+            System.out.println();
+        }  
+        bee = features.image();
+        bee2 = features.image();
+        
+        HBox titleHB = new HBox();
+        titleHB.getChildren().addAll(bee, cBMonths, bee2);
+        titleHB.setAlignment(Pos.CENTER);
+        
+        Label labelIncome = new Label ("Income");
+        Label labelExpenses = new Label ("Expenses");
+        Label labelAnticipated = new Label ("Anticipated"); 
+        Label labelAnticipated2 = new Label ("Anticipated"); 
+        Label labelActual = new Label ("Actual"); 
+        Label labelActual2 = new Label ("Actual");
+        Label labelDiff = new Label ("Difference"); 
+        Label labelDiff2 = new Label ("Difference"); 
+        Label labelTotals = new Label ("Totals");
+        Label labelTotals2 = new Label ("Totals"); 
+        
+        labelIncome.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        labelExpenses.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        labelAnticipated.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        labelAnticipated2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        labelActual.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        labelActual2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        labelDiff.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        labelDiff2.setFont(Font.font("Verdana", FontWeight.BOLD, 12)); 
+        labelTotals.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        labelTotals2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        
+        //Label - Act as line break
+        //NOTE: REPLACE LABEL BLANKS WITH ACC CALC. VALUES
+        Label labelBlank = new Label ("");
+        Label labelBlank2 = new Label ("");
+        Label labelBlank3 = new Label ("");
+        Label labelBlank4 = new Label ("");
+        Label labelBlank5 = new Label ("");
+        Label labelBlank6 = new Label ("");
+        
+        //Far left
+        VBox vBoxFarLeft = new VBox(10);
+        vBoxFarLeft.getChildren().addAll(labelIncome, labelTotals);
+        
+        //Prints out the elements inside labelCatArr on the far left side
+        for (int i = 1; i < trends.income2D.length; i++){
+        Label labelFarLeft = new Label(trends.income2D[i][0]);
+        labelFarLeft.setFont(Font.font("Verdana", 12));
+        vBoxFarLeft.getChildren().add(labelFarLeft);
+        }    
+        
+        //Second left
+        VBox vBoxSecondLeft = new VBox(10);
+        vBoxSecondLeft.getChildren().addAll(labelAnticipated, labelBlank);
+        
+        for (int i = 1; i < trends.income2D.length; i++){
+        Label labelSecondLeft = new Label(trends.income2D[i][1]);
+        labelSecondLeft.setFont(Font.font("Verdana", 12));
+        vBoxSecondLeft.getChildren().add(labelSecondLeft);
+        }   
+        
+        //Third left
+        VBox vBoxThirdLeft = new VBox(10);
+        vBoxThirdLeft.getChildren().addAll(labelActual, labelBlank2);
+        
+        for (int i = 1; i < trends.income2D.length; i++){
+        Label labelThirdLeft = new Label(trends.income2D[i][2]);
+        labelThirdLeft.setFont(Font.font("Verdana", 12));
+        vBoxThirdLeft.getChildren().add(labelThirdLeft);
+        }   
+        
+        //Fourth left
+        VBox vBoxFourthLeft = new VBox(10);
+        vBoxFourthLeft.getChildren().addAll(labelDiff, labelBlank3);
+        
+        for (int i = 1; i < trends.income2D.length; i++){
+        Label labelFourthLeft = new Label(trends.income2D[i][3]);
+        labelFourthLeft.setFont(Font.font("Verdana", 12));
+        vBoxFourthLeft.getChildren().add(labelFourthLeft);
+        }   
+        
+        HBox leftTable = new HBox(10);
+        leftTable.getChildren().addAll(vBoxFarLeft, vBoxSecondLeft, vBoxThirdLeft, vBoxFourthLeft);
+        
+        //Fourth right
+        VBox vBoxFourthRight = new VBox(10);
+        vBoxFourthRight.getChildren().addAll(labelExpenses, labelTotals2);
+        
+        //Prints out the elements inside labelCatArr on the far left side
+        for (int i = 1; i < trends.expense2D.length; i++){
+        Label labelFourthRight = new Label(trends.expense2D[i][0]);
+        labelFourthRight.setFont(Font.font("Verdana", 12));
+        vBoxFourthRight.getChildren().add(labelFourthRight);
+        }
+        
+        //Third right
+        VBox vBoxThirdRight = new VBox(10);
+        vBoxThirdRight.getChildren().addAll(labelAnticipated2, labelBlank6);
+        
+        for (int i = 1; i < trends.expense2D.length; i++){
+        Label labelThirdRight = new Label(trends.expense2D[i][1]);
+        labelThirdRight.setFont(Font.font("Verdana", 12));
+        vBoxThirdRight.getChildren().add(labelThirdRight);
+        }
+        
+        //Second right
+        VBox vBoxSecondRight = new VBox(10);
+        vBoxSecondRight.getChildren().addAll(labelActual2, labelBlank5);
+        
+        for (int i = 1; i < trends.expense2D.length; i++){
+        Label labelSecondRight = new Label(trends.expense2D[i][2]);
+        labelSecondRight.setFont(Font.font("Verdana", 12));
+        vBoxSecondRight.getChildren().add(labelSecondRight);
+        }
+        
+        //Far right
+        VBox vBoxFarRight = new VBox(10);
+        vBoxFarRight.getChildren().addAll(labelDiff2, labelBlank4);
+        
+        for (int i = 1; i < trends.expense2D.length; i++){
+        Label labelFarRight = new Label(trends.expense2D[i][3]);
+        labelFarRight.setFont(Font.font("Verdana", 12));
+        vBoxFarRight.getChildren().add(labelFarRight);
+        }   
+        
+        //Buttons
+        Button backB = goToSceneThree(stage, "BACK"); //back to scene 3
+        Button mainMenuB = goToSceneOne(window, "MAIN MENU");  
+        Button nextPageB = goToSceneSix(window, "NEXT PAGE");
+        
+        HBox rightTable = new HBox(10);
+        rightTable.getChildren().addAll(vBoxFourthRight, vBoxThirdRight, vBoxSecondRight, vBoxFarRight);
+        
+        HBox hBoxMiddle = new HBox(20);
+        hBoxMiddle.getChildren().addAll(leftTable, rightTable);
+        hBoxMiddle.setAlignment(Pos.CENTER);
+        
+        HBox buttonsHB = new HBox(10);
+        buttonsHB.getChildren().addAll(backB, mainMenuB, nextPageB);
+        buttonsHB.setAlignment(Pos.CENTER);
+        
+        VBox mainScreen = new VBox(10);
+        mainScreen.getChildren().addAll(titleHB, hBoxMiddle, buttonsHB);
+        mainScreen.setAlignment(Pos.TOP_CENTER);
+        
+        BorderPane bPane = features.showBorder(mainScreen);
+        five = new Scene(bPane, 1000, 680);
+        return five;
     }
-    
-    //Third right
-    VBox vBoxThirdRight = new VBox(10);
-    vBoxThirdRight.getChildren().addAll(labelAnticipated2, labelBlank6);
-    
-    for (int i = 1; i < trends.expense2D.length; i++){
-      Label labelThirdRight = new Label(trends.expense2D[i][1]);
-      labelThirdRight.setFont(Font.font("Verdana", 12));
-      vBoxThirdRight.getChildren().add(labelThirdRight);
-    }
-    
-    //Second right
-    VBox vBoxSecondRight = new VBox(10);
-    vBoxSecondRight.getChildren().addAll(labelActual2, labelBlank5);
-    
-    for (int i = 1; i < trends.expense2D.length; i++){
-      Label labelSecondRight = new Label(trends.expense2D[i][2]);
-      labelSecondRight.setFont(Font.font("Verdana", 12));
-      vBoxSecondRight.getChildren().add(labelSecondRight);
-    }
-    
-    //Far right
-    VBox vBoxFarRight = new VBox(10);
-    vBoxFarRight.getChildren().addAll(labelDiff2, labelBlank4);
-    
-    for (int i = 1; i < trends.expense2D.length; i++){
-      Label labelFarRight = new Label(trends.expense2D[i][3]);
-      labelFarRight.setFont(Font.font("Verdana", 12));
-      vBoxFarRight.getChildren().add(labelFarRight);
-    }   
-    
-    //Buttons
-    Button backB = goToSceneThree(stage, "BACK"); //back to scene 3
-    Button mainMenuB = goToSceneOne(window, "MAIN MENU");  
-    Button nextPageB = goToSceneSix(window, "NEXT PAGE");
-    
-    HBox rightTable = new HBox(10);
-    rightTable.getChildren().addAll(vBoxFourthRight, vBoxThirdRight, vBoxSecondRight, vBoxFarRight);
-    
-    HBox hBoxMiddle = new HBox(20);
-    hBoxMiddle.getChildren().addAll(leftTable, rightTable);
-    hBoxMiddle.setAlignment(Pos.CENTER);
-    
-    HBox buttonsHB = new HBox(10);
-    buttonsHB.getChildren().addAll(backB, mainMenuB, nextPageB);
-    buttonsHB.setAlignment(Pos.CENTER);
-    
-    VBox mainScreen = new VBox(10);
-    mainScreen.getChildren().addAll(titleHB, hBoxMiddle, buttonsHB);
-    mainScreen.setAlignment(Pos.TOP_CENTER);
-    
-    BorderPane bPane = features.showBorder(mainScreen);
-    five = new Scene(bPane, 1000, 680);
-    return five;
-  }
   
-  //-------------------- SCENE SIX BELOW --------------------//
-  public Scene showSceneSix(Stage scene, ComboBox cBMonths){
-    Scene six;    
-    bee = features.image();
-    bee2 = features.image();
+    //-------------------- SCENE SIX BELOW --------------------//
+    public Scene showSceneSix(Stage scene, ComboBox cBMonths){
+        Scene six;    
+        bee = features.image();
+        bee2 = features.image();
 
-    //Set the chosen month to selected month from combo box
-    trends.getMonth(cBMonths);
-    
-    HBox titleHB = new HBox();
-    titleHB.getChildren().addAll(bee, cBMonths, bee2);
-    titleHB.setAlignment(Pos.CENTER);
-    
-    Label monthlyBudgetL = new Label("MONTHLY BUDGET");
-    
-    //-------------------- SCENE SIX SECTION 1 BELOW --------------------//
-    int sumAccIncome = 110; //ADD VALUES BY PASSING IT INTO THIS METHOD
-    int endBalance = 0; //Acc income - acc expense
-    
-    Rectangle sumAccIncomeR = new Rectangle (50, sumAccIncome + 10, babyBlue);
-    Rectangle endBalanceR = new Rectangle (50, endBalance + 10, darkBlue);
-    
-    Label sumAccIncomeL = new Label("Sum of Actual Income");
-    Label sumAccIncomeValueL = new Label("$" + String.valueOf(sumAccIncome));
-    
-    Label endBalanceL = new Label("End Balance");
-    Label endBalanceValueL = new Label("$" + String.valueOf(endBalance));
-    
-    VBox sumAccIncomeHB = new VBox(10);
-    sumAccIncomeHB.getChildren().addAll(sumAccIncomeR, sumAccIncomeL, sumAccIncomeValueL);
-    sumAccIncomeHB.setAlignment(Pos.BOTTOM_CENTER);
-    
-    VBox endBalanceHB = new VBox(10);
-    endBalanceHB.getChildren().addAll(endBalanceR, endBalanceL, endBalanceValueL);
-    endBalanceHB.setAlignment(Pos.BOTTOM_CENTER);
-    
-    HBox summaryLeftHB = new HBox(50);
-    summaryLeftHB.getChildren().addAll(sumAccIncomeHB, endBalanceHB);
-    
-    //StackPane summaryLeftStack = new StackPane();
-    //summaryLeftStack.getChildren().addAll(new Rectangle(300, 150, babyBlue), summaryLeftHB);
-    
-    //-------------------- SCENE SIX SECTION 2 BELOW --------------------//
-    Label percentL = new Label("% saved this month");
-    
-    //If [value] is +ive, then increase, else, print decrease
-    Label percentDescriptionL = new Label("Increase in total savings");
-    
-    //If [value] is +ive, then increase, else, print -$
-    Label savedL = new Label("+$");
-    Label savedDescriptionL = new Label("Saved this month");
-    
-    VBox summaryRightHB = new VBox(20);
-    summaryRightHB.getChildren().addAll(percentL, percentDescriptionL, savedL, savedDescriptionL);
-    summaryRightHB.setAlignment(Pos.CENTER);  
-    
-    StackPane summaryRightStack = new StackPane();
-    summaryRightStack.getChildren().addAll(new Rectangle(300, 150, babyBlue), summaryRightHB);
-    
-    //-------------------- SCENE SIX SECTION 3 BELOW --------------------//            
-    int sumAntIncome = 100;//ADD VALUES BY PASSING IT INTO THIS METHOD //Actual income
-    int sumAntExpense = 205;
-    int sumAccExpense = 200;
-    //Note: sumAccIncome has been initialized earlier
-    
-    Label incomeL = features.setFont("INCOME", 12);
-    Label expensesL = features.setFont ("EXPENSES", 12);
-    Label antL = new Label("ANTICIPATED");
-    Label accL = new Label("ACTUAL");
-    Label antL2 = new Label("ANTICIPATED");
-    Label accL2 = new Label("ACTUAL");
-    Label space = new Label(""); //For spacing
-    Label space2 = new Label("");
-    Label space3 = new Label(""); 
-    Label space4 = new Label(""); 
-    Label space5 = new Label("");
-    Label space6 = new Label("");
-    
-    Label sumAntIncL = new Label("$" + String.valueOf(sumAntIncome));
-    Label sumAccIncL = new Label("$" + String.valueOf(sumAccIncome));
-    Label sumAntExpL = new Label("$" + String.valueOf(sumAntExpense));
-    Label sumAccExpL = new Label("$" + String.valueOf(sumAccExpense));
-    
-    Rectangle sumAntIncR = new Rectangle (sumAntIncome + 10, 20, white);
-    Rectangle sumAccIncR = new Rectangle (sumAccIncome + 10, 20, white);
-    Rectangle sumAntExpR = new Rectangle (sumAntExpense + 10, 20, white);
-    Rectangle sumAccExpR = new Rectangle (sumAccExpense + 10, 20, white);
-    
-    VBox incAntAccHB = new VBox(20);
-    incAntAccHB.getChildren().addAll(antL, accL);
-    VBox incomeSummaryVB = new VBox(20);
-    incomeSummaryVB.getChildren().addAll(incomeL, incAntAccHB);
-    
-    VBox incAntAccValueHB = new VBox(20);
-    incAntAccValueHB.getChildren().addAll(space, sumAntIncL, sumAccIncL);
-    
-    VBox incRectVB = new VBox(20);
-    incRectVB.getChildren().addAll(space2, sumAntIncR, sumAccIncR);
-    
-    VBox expAntAccHB = new VBox(20);
-    expAntAccHB.getChildren().addAll(antL2, accL2);
-    VBox expenseSummaryVB = new VBox(20);
-    expenseSummaryVB.getChildren().addAll(expensesL, expAntAccHB);
-    
-    VBox expAntAccValueHB = new VBox(20);
-    expAntAccValueHB.getChildren().addAll(space3, sumAntExpL, sumAccExpL);
-    
-    VBox expRectVB = new VBox(20);
-    expRectVB.getChildren().addAll(space4, sumAntExpR, sumAccExpR);
-    
-    HBox allRect = new HBox(20);
-    allRect.getChildren().addAll(incomeSummaryVB, incAntAccValueHB, incRectVB, expenseSummaryVB, expAntAccValueHB, expRectVB);
-    allRect.setAlignment(Pos.CENTER);
-    
-    
-    VBox summaryBottomVB = new VBox(20);
-    summaryBottomVB.getChildren().addAll(space5, allRect, space6);
-    summaryBottomVB.setBackground(new Background(new BackgroundFill(darkBlue, CornerRadii.EMPTY, Insets.EMPTY)));
-    
-    //-------------------- SCENE SIX COMBINE ALL SECTIONS BELOW --------------------//
-    Button mainMenuB = goToSceneOne(window, "MAIN MENU"); 
-    Button backB = goToSceneFive(window, "BACK");
-    //Export button?
-    
-    HBox mainScreenMiddle = new HBox(100);
-    mainScreenMiddle.getChildren().addAll(summaryLeftHB, summaryRightStack);
-    mainScreenMiddle.setAlignment(Pos.CENTER);
-    
-    HBox buttonsHB = new HBox(10);
-    buttonsHB.getChildren().addAll(backB, mainMenuB);
-    buttonsHB.setAlignment(Pos.CENTER);
-    
-    VBox mainScreen = new VBox(10);
-    mainScreen.getChildren().addAll(titleHB, monthlyBudgetL, mainScreenMiddle, summaryBottomVB, buttonsHB);
-    mainScreen.setAlignment(Pos.TOP_CENTER);
-    
-    // calling the borderpane method
-    BorderPane bPane = features.showBorder(mainScreen);
-    
-    // add all the components to the scene
-    six = new Scene(bPane, 1000, 700);
-    
-    return six;
-  }
+        //Set the chosen month to selected month from combo box
+        trends.getMonth(cBMonths);
+        
+        HBox titleHB = new HBox();
+        titleHB.getChildren().addAll(bee, cBMonths, bee2);
+        titleHB.setAlignment(Pos.CENTER);
+        
+        Label monthlyBudgetL = new Label("MONTHLY BUDGET");
+        
+        //-------------------- SCENE SIX SECTION 1 BELOW --------------------//
+        int sumAccIncome = 110; //ADD VALUES BY PASSING IT INTO THIS METHOD
+        int endBalance = 0; //Acc income - acc expense
+        
+        Rectangle sumAccIncomeR = new Rectangle (50, sumAccIncome + 10, babyBlue);
+        Rectangle endBalanceR = new Rectangle (50, endBalance + 10, darkBlue);
+        
+        Label sumAccIncomeL = new Label("Sum of Actual Income");
+        Label sumAccIncomeValueL = new Label("$" + String.valueOf(sumAccIncome));
+        
+        Label endBalanceL = new Label("End Balance");
+        Label endBalanceValueL = new Label("$" + String.valueOf(endBalance));
+        
+        VBox sumAccIncomeHB = new VBox(10);
+        sumAccIncomeHB.getChildren().addAll(sumAccIncomeR, sumAccIncomeL, sumAccIncomeValueL);
+        sumAccIncomeHB.setAlignment(Pos.BOTTOM_CENTER);
+        
+        VBox endBalanceHB = new VBox(10);
+        endBalanceHB.getChildren().addAll(endBalanceR, endBalanceL, endBalanceValueL);
+        endBalanceHB.setAlignment(Pos.BOTTOM_CENTER);
+        
+        HBox summaryLeftHB = new HBox(50);
+        summaryLeftHB.getChildren().addAll(sumAccIncomeHB, endBalanceHB);
+        
+        //StackPane summaryLeftStack = new StackPane();
+        //summaryLeftStack.getChildren().addAll(new Rectangle(300, 150, babyBlue), summaryLeftHB);
+        
+        //-------------------- SCENE SIX SECTION 2 BELOW --------------------//
+        Label percentL = new Label("% saved this month");
+        
+        //If [value] is +ive, then increase, else, print decrease
+        Label percentDescriptionL = new Label("Increase in total savings");
+        
+        //If [value] is +ive, then increase, else, print -$
+        Label savedL = new Label("+$");
+        Label savedDescriptionL = new Label("Saved this month");
+        
+        VBox summaryRightHB = new VBox(20);
+        summaryRightHB.getChildren().addAll(percentL, percentDescriptionL, savedL, savedDescriptionL);
+        summaryRightHB.setAlignment(Pos.CENTER);  
+        
+        StackPane summaryRightStack = new StackPane();
+        summaryRightStack.getChildren().addAll(new Rectangle(300, 150, babyBlue), summaryRightHB);
+        
+        //-------------------- SCENE SIX SECTION 3 BELOW --------------------//            
+        int sumAntIncome = 100;//ADD VALUES BY PASSING IT INTO THIS METHOD //Actual income
+        int sumAntExpense = 205;
+        int sumAccExpense = 200;
+        //Note: sumAccIncome has been initialized earlier
+        
+        Label incomeL = features.setFont("INCOME", 12);
+        Label expensesL = features.setFont ("EXPENSES", 12);
+        Label antL = new Label("ANTICIPATED");
+        Label accL = new Label("ACTUAL");
+        Label antL2 = new Label("ANTICIPATED");
+        Label accL2 = new Label("ACTUAL");
+        Label space = new Label(""); //For spacing
+        Label space2 = new Label("");
+        Label space3 = new Label(""); 
+        Label space4 = new Label(""); 
+        Label space5 = new Label("");
+        Label space6 = new Label("");
+        
+        Label sumAntIncL = new Label("$" + String.valueOf(sumAntIncome));
+        Label sumAccIncL = new Label("$" + String.valueOf(sumAccIncome));
+        Label sumAntExpL = new Label("$" + String.valueOf(sumAntExpense));
+        Label sumAccExpL = new Label("$" + String.valueOf(sumAccExpense));
+        
+        Rectangle sumAntIncR = new Rectangle (sumAntIncome + 10, 20, white);
+        Rectangle sumAccIncR = new Rectangle (sumAccIncome + 10, 20, white);
+        Rectangle sumAntExpR = new Rectangle (sumAntExpense + 10, 20, white);
+        Rectangle sumAccExpR = new Rectangle (sumAccExpense + 10, 20, white);
+        
+        VBox incAntAccHB = new VBox(20);
+        incAntAccHB.getChildren().addAll(antL, accL);
+        VBox incomeSummaryVB = new VBox(20);
+        incomeSummaryVB.getChildren().addAll(incomeL, incAntAccHB);
+        
+        VBox incAntAccValueHB = new VBox(20);
+        incAntAccValueHB.getChildren().addAll(space, sumAntIncL, sumAccIncL);
+        
+        VBox incRectVB = new VBox(20);
+        incRectVB.getChildren().addAll(space2, sumAntIncR, sumAccIncR);
+        
+        VBox expAntAccHB = new VBox(20);
+        expAntAccHB.getChildren().addAll(antL2, accL2);
+        VBox expenseSummaryVB = new VBox(20);
+        expenseSummaryVB.getChildren().addAll(expensesL, expAntAccHB);
+        
+        VBox expAntAccValueHB = new VBox(20);
+        expAntAccValueHB.getChildren().addAll(space3, sumAntExpL, sumAccExpL);
+        
+        VBox expRectVB = new VBox(20);
+        expRectVB.getChildren().addAll(space4, sumAntExpR, sumAccExpR);
+        
+        HBox allRect = new HBox(20);
+        allRect.getChildren().addAll(incomeSummaryVB, incAntAccValueHB, incRectVB, expenseSummaryVB, expAntAccValueHB, expRectVB);
+        allRect.setAlignment(Pos.CENTER);
+        
+        
+        VBox summaryBottomVB = new VBox(20);
+        summaryBottomVB.getChildren().addAll(space5, allRect, space6);
+        summaryBottomVB.setBackground(new Background(new BackgroundFill(darkBlue, CornerRadii.EMPTY, Insets.EMPTY)));
+        
+        //-------------------- SCENE SIX COMBINE ALL SECTIONS BELOW --------------------//
+        Button mainMenuB = goToSceneOne(window, "MAIN MENU"); 
+        Button backB = goToSceneFive(window, "BACK");
+        //Export button?
+        
+        HBox mainScreenMiddle = new HBox(100);
+        mainScreenMiddle.getChildren().addAll(summaryLeftHB, summaryRightStack);
+        mainScreenMiddle.setAlignment(Pos.CENTER);
+        
+        HBox buttonsHB = new HBox(10);
+        buttonsHB.getChildren().addAll(backB, mainMenuB);
+        buttonsHB.setAlignment(Pos.CENTER);
+        
+        VBox mainScreen = new VBox(10);
+        mainScreen.getChildren().addAll(titleHB, monthlyBudgetL, mainScreenMiddle, summaryBottomVB, buttonsHB);
+        mainScreen.setAlignment(Pos.TOP_CENTER);
+        
+        // calling the borderpane method
+        BorderPane bPane = features.showBorder(mainScreen);
+        
+        // add all the components to the scene
+        six = new Scene(bPane, 1000, 700);
+        
+        return six;
+    }
          
 
     // Button Methods

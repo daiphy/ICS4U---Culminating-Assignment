@@ -12,13 +12,6 @@ class FinanceFV {
     //-------------------- GLOBAL VARIABLES --------------------//
     public String fileName = "income.csv";        
     public String nextMonth = "";
-    public String[][] test2D = {{"Month: March", "0", "0", "0"},
-                                {"Savings", "0", "0", "0"}, 
-                                {"Paycheck", "0", "0", "0"}, 
-                                {"Interest", "0", "0", "0"}, 
-                                {"Bonus", "0", "0", "0"}, 
-                                {"Allowance", "0", "0", "0"},
-                                {"Other", "0", "0", "0"}};
     public String[] testArr = {"Month: March", "0", "0", "0",
                                "Savings", "0", "0", "0",
                                "Paycheck", "0", "0", "0",
@@ -31,6 +24,34 @@ class FinanceFV {
     //-------------------- CONSTRUCTOR --------------------//
     public FinanceFV(){
 
+    }
+    //-------------------- METHOD THAT COLLECTS ALL OTHER METHODS --------------------//
+    //this method collects methods from financeFV in order to be used in AppLayoutFV
+    //arr is existing csv contents by using readCSV() in the param, choice is to determine which file it stores into
+    public void toCSV(String[][] arr, String choice){
+        //file name to inport to income vs expense
+        if(choice.equals("income")){
+            this.fileName = "income.csv";
+        }
+        else{
+            this.fileName = "expense.csv";
+        }
+        findNext();
+    //     //put into CSV
+    //     String coords = checkForMonth(trends.chosenMonth);
+    //     if(coords.equals("")){
+    //         appendCSV(arr);
+    //     }
+    //     else{
+    //         findNext(); 
+    //         String initialCoords = checkForMonth(trends.chosenMonth);
+    //         int row = Integer.parseInt(initialCoords.substring(0,initialCoords.indexOf(",")));
+    //         int col = Integer.parseInt(initialCoords.substring(initialCoords.indexOf(",") + 1,initialCoords.length()));
+    //         boolean updated = update2DArr(arr, row, col, 0);
+    //         if(updated){
+    //             updateCSV(arr);
+    //         } 
+    //     }
     }
     
     //-------------------- CHECK IF CSV FILE --------------------//
@@ -152,16 +173,19 @@ class FinanceFV {
             if(trends.monthNames[i].equals(trends.chosenMonth)){
                 //the name of the next month will be at the next index from chosen month name
                 index = i + 1;
+                // System.out.println("index: " + index);
             }
         }
         this.nextMonth = trends.monthNames[index];
+        System.out.println("this.nextMonth: " + this.nextMonth);
     }
 
     //--- method to append to the csv ---//
     //SO FAR what this method does is: append to the end of the csv
     //data for chosen month has not been created yet
     //chosen month is after existing months
-    public void appendCSV(String[][] arrOne){
+    public void appendCSV(String[][] addArr){
+        String[][] arrOne = readCSV();
         //try catch to append to existing data in csv
         try(PrintWriter writer = new PrintWriter(this.fileName)){
             StringBuilder builder = new StringBuilder();
@@ -174,9 +198,9 @@ class FinanceFV {
                 builder.append("\n");
             }
             //loop through data that needs to be added and add to stringBuilder
-            for(int a = 0; a < test2D.length; a++){
-                for(int b = 0; b < test2D[0].length; b++){
-                    builder.append(test2D[a][b] + ",");
+            for(int a = 0; a < addArr.length; a++){
+                for(int b = 0; b < addArr[0].length; b++){
+                    builder.append(addArr[a][b] + ",");
                 }
                 builder.append("\n");
             }
