@@ -716,6 +716,15 @@ public class AppLayoutFV extends Application{
     else{
         endBalanceR = new Rectangle (50, endBalance + 10, darkBlue);
     }
+    
+    if(sumAccIncome > 1500 || endBalance > 1500){
+      sumAccIncomeR = new Rectangle (50, sumAccIncome/100, babyBlue);
+      endBalanceR = new Rectangle (50, endBalance/100, darkBlue);
+    }
+    else if(sumAccIncome > 100 || endBalance > 100){
+      sumAccIncomeR = new Rectangle (50, sumAccIncome/10, babyBlue);
+      endBalanceR = new Rectangle (50, endBalance/10, darkBlue);
+    }
 
     Label sumAccIncomeL = new Label("Sum of Actual Income");
     Label sumAccIncomeValueL = new Label("$" + String.valueOf(df.format(sumAccIncome)));
@@ -795,29 +804,42 @@ public class AppLayoutFV extends Application{
     Rectangle sumAntIncR, sumAccIncR, sumAntExpR, sumAccExpR;
     
     if (sumAntIncome < 0){
-      sumAntIncR = new Rectangle (10, 20, white); //10 is default rect size
+      sumAntIncR = new Rectangle(10, 20, white); //10 is default rect size
     }
     else{
-      sumAntIncR = new Rectangle (sumAntIncome + 10, 20, white);
+      sumAntIncR = new Rectangle(sumAntIncome + 10, 20, white);
     }
     
     if(sumAccIncome < 0){
-      sumAccIncR = new Rectangle (10, 20, white);
+      sumAccIncR = new Rectangle(10, 20, white);
     }
     else{
-      sumAccIncR = new Rectangle (sumAccIncome + 10, 20, white);
+      sumAccIncR = new Rectangle(sumAccIncome + 10, 20, white);
     }
     if(sumAntExpense < 0){
-      sumAntExpR = new Rectangle (10, 20, white);
+      sumAntExpR = new Rectangle(10, 20, white);
     }
     else{
-      sumAntExpR = new Rectangle (sumAntExpense + 10, 20, white);
+      sumAntExpR = new Rectangle(sumAntExpense + 10, 20, white);
     }
     if(sumAccExpense < 0){
-      sumAccExpR = new Rectangle (10, 20, white);
+      sumAccExpR = new Rectangle(10, 20, white);
     }
     else{
-      sumAccExpR = new Rectangle (sumAccExpense + 10, 20, white);
+      sumAccExpR = new Rectangle(sumAccExpense + 10, 20, white);
+    }
+    
+    if (sumAntIncome > 1500 || sumAccIncome > 1500 || sumAntExpense > 1500 || sumAccExpense > 1500){
+      sumAntIncR = new Rectangle(sumAntIncome/100, 20, white);
+      sumAccIncR = new Rectangle(sumAccIncome/100, 20, white);
+      sumAntExpR = new Rectangle(sumAntExpense/100, 20, white);
+      sumAccExpR = new Rectangle(sumAccExpense/100, 20, white);
+    }
+    else if (sumAntIncome > 100 || sumAccIncome > 100 || sumAntExpense > 100 || sumAccExpense > 100){
+      sumAntIncR = new Rectangle(sumAntIncome/10, 20, white);
+      sumAccIncR = new Rectangle(sumAccIncome/10, 20, white);
+      sumAntExpR = new Rectangle(sumAntExpense/10, 20, white);
+      sumAccExpR = new Rectangle(sumAccExpense/10, 20, white);
     }
 
     VBox incAntAccHB = new VBox(20);
