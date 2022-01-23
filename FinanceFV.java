@@ -10,16 +10,8 @@ import javafx.stage.Stage;
 class FinanceFV {
     
     //-------------------- GLOBAL VARIABLES --------------------//
-    public String fileName = "income.csv";        
-    public String nextMonth = "";
-    public String[] testArr = {"Month: March", "0", "0", "0",
-                               "Savings", "0", "0", "0",
-                               "Paycheck", "0", "0", "0",
-                               "Interest", "0", "0", "0",
-                               "Bonus", "0", "0", "0",
-                               "Allowance", "0", "0", "0",
-                               "Other", "0", "0", "0"};
-    public int startRow = 7;
+    public String fileName = ":)";        
+    public String nextMonth = ":)";
     Trends trends = new Trends();
     //-------------------- CONSTRUCTOR --------------------//
     public FinanceFV(){
@@ -36,22 +28,26 @@ class FinanceFV {
         else{
             this.fileName = "expense.csv";
         }
-        findNext(month);
-    //     //put into CSV
-    //     String coords = checkForMonth(month);
-    //     if(coords.equals("")){
-    //         appendCSV(arr);
-    //     }
-    //     else{
-    //         findNext(); 
-    //         String initialCoords = checkForMonth(month);
-    //         int row = Integer.parseInt(initialCoords.substring(0,initialCoords.indexOf(",")));
-    //         int col = Integer.parseInt(initialCoords.substring(initialCoords.indexOf(",") + 1,initialCoords.length()));
-    //         boolean updated = update2DArr(arr, row, col, 0);
-    //         if(updated){
-    //             updateCSV(arr);
-    //         } 
-    //     }
+        //put into CSV
+        String coords = checkForMonth(month);
+        if(coords.equals(":)") || readCSV().length == 7){
+            appendCSV(arr);
+        }
+        else{
+            findNext(month); 
+            String initialCoords = checkForMonth(month);
+            int row = Integer.parseInt(initialCoords.substring(0,initialCoords.indexOf(",")));
+            int col = Integer.parseInt(initialCoords.substring(initialCoords.indexOf(",") + 1,initialCoords.length()));
+            //replace arr with smth that will not change, a 2D to store everything
+            int r = readCSV().length + arr.length;
+            int c = readCSV()[0].length;
+            String[][] csvArr = new String[r][c];
+            csvArr = readCSV();
+            boolean updated = update2DArr(csvArr, arr, row, col, 0, 0);
+            if(updated){
+                updateCSV(csvArr);
+            } 
+        }
     }
     
     //-------------------- CHECK IF CSV FILE --------------------//
@@ -122,15 +118,6 @@ class FinanceFV {
         }
         return csvArr;
     }
-    //Method to test "readCSV()" method
-    public void test(String[][] arr){
-        for(int i = 0; i < arr.length; i++){
-            for(int j = 0; j < arr[0].length; j++){
-                System.out.print(arr[i][j] + ",");
-            }
-            System.out.println();
-        }
-    }
     //-------------------- APPEND OR UPDATE CSV --------------------//
     /**
      * these are methods that search through the csv file to locate if 
@@ -147,7 +134,7 @@ class FinanceFV {
     */
     public String checkForMonth(String monthName){
         String[][] arr = readCSV();
-        String coords = "";
+        String coords = ":)";
         for(int i = 0; i < arr.length; i++){
             for(int j = 0; j < arr[0].length; j++){
                 //check if the line contains the chosen month name
@@ -173,12 +160,21 @@ class FinanceFV {
             if(trends.monthNames[i].equals(month)){
                 //the name of the next month will be at the next index from chosen month name
                 index = i + 1;
-                // System.out.println("index: " + index);
             }
         }
         this.nextMonth = trends.monthNames[index];
-        System.out.println("this.nextMonth: " + this.nextMonth);
     }
+
+    // //this is a backup method since the months aren't inputted in order
+    // //DOES NOT REALLY WORK :(
+    // public void findNext(String month){
+    //     String[][] arr = readCSV();
+    //     for(int i = 0; i < arr.length; i++){
+    //         if(arr[i][0].equals("Month: " + month)){
+    //             this.nextMonth = arr[i + 7][0].substring(7,arr[i+7][0].length() - 1);
+    //         }
+    //     }
+    // }
 
     //--- method to append to the csv ---//
     //SO FAR what this method does is: append to the end of the csv
@@ -186,6 +182,7 @@ class FinanceFV {
     //chosen month is after existing months
     public void appendCSV(String[][] addArr){
         String[][] arrOne = readCSV();
+        String[][] temp; //maybe add a way to organize the stuff, so that all the months are in order
         //try catch to append to existing data in csv
         try(PrintWriter writer = new PrintWriter(this.fileName)){
             StringBuilder builder = new StringBuilder();
@@ -211,29 +208,33 @@ class FinanceFV {
         }
     }
     //--- method to update an array containing csv data (chosen month already has existing data) ---//
-    public boolean update2DArr(String[][] arr, int row, int col, int count, int count2){
+    public boolean update2DArr(String[][] array, String[][] arr, int row, int col, int r, int c){
         boolean bool = true;
-        if(col < arr[0].length && row < arr.length){ //validation checks 
-            if(arr[row][col].equals("Month: " + this.nextMonth)){
+        if(col < array[0].length && row < array.length){ //validation checks 
+            if(array[row][col].equals("Month: " + this.nextMonth)){
                 return false;
             }
             else{
                 if(bool){
-                    if(col == arr[0].length - 1){
-                        bool = update2DArr(arr, row + 1, 0, count + 1, count2); //next row
+                    if(col == array[0].length - 1){
+                        bool = update2DArr(array, arr, row + 1, 0, r + 1, 0); //next row
                     }
-                    bool = update2DArr(arr, row, col + 1, count + 1, count2); //next col
+                    bool = update2DArr(array, arr, row, col + 1, r, c + 1); //next col
                 }
             }
         }
-        if(col < arr[0].length && row < arr.length){
-            arr[row][col] = testArr[count];            
+        //the stuff below is supposed to be income2D vs expense2D, NOT JUST INCOME2D, but passing through as
+        //param DOES NOT WORK
+        //even when setting as global and putting setting it along with filenames in toCSV() method
+        //does not work declaring in this method either 
+
+        if(col < array[0].length && row < array.length && c < array[0].length && row < arr.length){
+            array[row][col] = arr[r][c];  
         }
         return bool;
     }
     //--- method to write to csv ---//
     public void updateCSV(String[][] arr){
-        //try catch to append to existing data in csv
         try(PrintWriter writer = new PrintWriter(this.fileName)){
             StringBuilder builder = new StringBuilder();
             //loop through 2D arr
