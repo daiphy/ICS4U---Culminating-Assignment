@@ -150,8 +150,7 @@ public class AppLayoutFV extends Application{
             //file directory code here
             try {
             // if the user does not input .csv, the warning text will be shown
-            warningT.setText(
-                    financeFV.checkInputtedFile(scene));
+            warningT.setText(financeFV.checkInputtedFile(scene, this.month));
             } catch (Exception error) {
             warningT.setText("Action terminated.");
             }
@@ -1090,6 +1089,8 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     public Button goToSceneFive(Stage stage, String sceneName){
         Button scene5B = features.yellowButton(sceneName);
         scene5B.setOnAction(action -> {
+            financeFV.repopulate(this.month, trends.income2D, "income");
+            financeFV.repopulate(this.month, trends.expense2D, "expense");
             trends.populateDiff(trends.income2D);
             trends.populateDiff(trends.expense2D);
             if (this.month.equals("")){
@@ -1181,6 +1182,9 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
 
     //set default combobox month name display
     public void setMonth(ComboBox cBMonths){
+        if(this.month == null){
+            this.month = trends.income2D[0][0].substring(7,trends.income2D[0][0].length());
+        }
         for(int i = 0; i < trends.monthNames.length; i++){
             if(trends.monthNames[i].equals(this.month)){
                 cBMonths.getSelectionModel().select(i);

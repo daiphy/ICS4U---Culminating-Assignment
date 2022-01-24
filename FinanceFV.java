@@ -19,7 +19,8 @@ class FinanceFV {
     }
     //-------------------- METHOD THAT COLLECTS ALL OTHER METHODS --------------------//
     //this method collects methods from financeFV in order to be used in AppLayoutFV
-    //arr is existing csv contents by using readCSV() in the param, choice is to determine which file it stores into
+    //arr is existing csv contents by using readCSV() in the param, 
+    //choice is to determine which file it stores into
     public void toCSV(String[][] arr, String choice, String month){
         getFileName(choice);
         //put into CSV
@@ -47,7 +48,7 @@ class FinanceFV {
     }
     
     //-------------------- CHECK IF CSV FILE --------------------//
-    public String checkInputtedFile(Stage primaryStage) {
+    public String checkInputtedFile(Stage primaryStage, String month) {
         FileChooser fileChooser = new FileChooser(); // allow user to input file
         File file = fileChooser.showOpenDialog(primaryStage);
         this.fileName = file.getName();
@@ -59,7 +60,8 @@ class FinanceFV {
             if ((this.fileName.substring(this.fileName.length() - 4, this.fileName.length())).equals(".csv")) {
                 if(this.fileName.toLowerCase().equals("income.csv") || this.fileName.toLowerCase().equals("expense.csv")){
                     try {
-                        //test();
+                        repopulate(month, trends.income2D, "income");
+                        repopulate(month, trends.expense2D, "expense");
                     } catch (Exception e) {
                         warningText = "Invalid, action terminated.";
                     }
@@ -243,7 +245,13 @@ class FinanceFV {
     public void repopulate(String month, String[][] updateArr, String choice){
         getFileName(choice);
         String[][] arr = readCSV();
-        String startCoords = checkForMonth(month);
+        String startCoords = ":)";
+        if(month == null){
+            startCoords = "0,0";
+        }
+        else{
+            startCoords = checkForMonth(month);
+        }
         if(!startCoords.equals(":)")){
             int row = Integer.parseInt(startCoords.substring(0,startCoords.indexOf(",")));
             int col = Integer.parseInt(startCoords.substring(startCoords.indexOf(",") + 1,startCoords.length()));
