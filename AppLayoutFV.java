@@ -67,9 +67,9 @@ public class AppLayoutFV extends Application{
     public LayoutFeatures features = new LayoutFeatures(); 
     public FinanceFV financeFV = new FinanceFV();
     public ComboBox cBMonths;
-    public String month = "";
-    public boolean clicked, selectMonth, sceneTwoAcessed;
-    public boolean sceneFourAcess;
+    public String month;
+    public boolean clicked;
+    public boolean setMonth;
 
     // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
     //   ComboBox cBIncThree = features.comboBoxIncome();
@@ -125,8 +125,6 @@ public class AppLayoutFV extends Application{
         //Buttons and formatting
         Button newBudgetB = goToSceneTwo(window, "NEW BUDGET"); //scene 2
         newBudgetB.setPrefWidth(150);
-                  sceneTwoAcessed = true;
-
         
         Button transactionB = goToSceneFour(window, "TRANSACTION"); //scene 4
         transactionB.setPrefWidth(150);
@@ -166,18 +164,12 @@ public class AppLayoutFV extends Application{
         
         // left side buttons
         VBox left = new VBox(20);
+        left.getChildren().addAll(newBudgetB, planB, summaryB);
+
         // right side buttons
         VBox right = new VBox(20);
-        if(sceneTwoAcessed == true){
-          left.getChildren().addAll(newBudgetB, planB, summaryB);
-          right.getChildren().addAll(importB, transactionB, trendsB);  
-        }
-        else{
-          left.getChildren().add(newBudgetB);
-          right.getChildren().add(importB);
+        right.getChildren().addAll(importB, transactionB, trendsB);
         
-        }
-    
         // hbox to combine left side and right side buttons
         HBox mainMenu = new HBox(20);
         mainMenu.getChildren().addAll(left, right);
@@ -311,8 +303,8 @@ public class AppLayoutFV extends Application{
         Button mainMenuB = goToSceneOne(window, "MAIN MENU");                
         Button nextPageB = features.yellowButton("NEXT");        
         nextPageB.setOnAction(action->{
-            if(selectMonth){
-                sceneFourAcess = true;
+            if(setMonth){
+                clicked = true;
                 trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);
                 trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
                 trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
@@ -323,7 +315,6 @@ public class AppLayoutFV extends Application{
             else{
                 warningT.setText("Please choose a month.");
             }
-
             
         });
         
@@ -471,7 +462,7 @@ public class AppLayoutFV extends Application{
             financeFV.toCSV(trends.income2D, "income", this.month);
             financeFV.toCSV(trends.expense2D, "expense", this.month);
 
-            cBMonths = features.comboBoxMonths("Select Category");
+            cBMonths = features.comboBoxMonths();
             sceneFour = showSceneThreeFour(window, "Actual"); // transactions
             stage.setScene(sceneFour);
             });
@@ -491,7 +482,7 @@ public class AppLayoutFV extends Application{
             financeFV.toCSV(trends.income2D, "income", this.month);
             financeFV.toCSV(trends.expense2D, "expense", this.month);
 
-            cBMonths = features.comboBoxMonths("Select Category");
+            cBMonths = features.comboBoxMonths();
             sceneFive = showSceneFive(window, cBMonths);
             stage.setScene(sceneFive);
             });
@@ -1042,12 +1033,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     public Button goToSceneTwo(Stage stage, String sceneName){
         Button scene2B = features.yellowButton(sceneName);
         scene2B.setOnAction(action -> {
-          if (this.month.equals("")){
-            cBMonths = features.comboBoxMonths("Select Month");
-        }
-        else{
-            cBMonths = features.comboBoxMonths(this.month);
-        }
+            cBMonths = features.comboBoxMonths();
             sceneTwo = showSceneTwo(window, cBMonths); //  new budget     
             stage.setScene(sceneTwo);
         });
@@ -1056,78 +1042,59 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     public Button goToSceneThree(Stage stage, String sceneName){
         Button scene3B = features.yellowButton(sceneName);
         scene3B.setOnAction(action -> {
-          if (this.month.equals("")){
-            cBMonths = features.comboBoxMonths("Select Month");
-        }
-        else{
-            cBMonths = features.comboBoxMonths(this.month);
-        }         
-          sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
+            if(this.month != null && clicked == true){
+                cBMonths = features.comboBoxMonths();
+                sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
                 stage.setScene(sceneThree);
+            }
         });
         return scene3B;
     }    
     public Button goToSceneFour(Stage stage, String sceneName){
         Button scene4B = features.yellowButton(sceneName);
         scene4B.setOnAction(action -> {
-          if(sceneFourAcess == true){
-            if (this.month.equals("")){
-              cBMonths = features.comboBoxMonths("Select Month");
-          }
-          else{
-              cBMonths = features.comboBoxMonths(this.month);
-          }       
-            sceneFour = showSceneThreeFour(window, "Actual"); // transactions
-            stage.setScene(sceneFour);
-          }
-          else{
-            System.out.println("EXIT");
-          }
+            if(this.month != null && clicked == true){
+                cBMonths = features.comboBoxMonths();
+                sceneFour = showSceneThreeFour(window, "Actual"); // transactions
+                stage.setScene(sceneFour);
+            }
         });
         return scene4B;
     }
     public Button goToSceneFive(Stage stage, String sceneName){
         Button scene5B = features.yellowButton(sceneName);
         scene5B.setOnAction(action -> {
-            financeFV.repopulate(this.month, trends.income2D, "income");
-            financeFV.repopulate(this.month, trends.expense2D, "expense");
-            trends.populateDiff(trends.income2D);
-            trends.populateDiff(trends.expense2D);
-            if (this.month.equals("")){
-              cBMonths = features.comboBoxMonths("Select Month");
-          }
-          else{
-              cBMonths = features.comboBoxMonths(this.month);
-          }            
-          sceneFive = showSceneFive(window, cBMonths);
-            stage.setScene(sceneFive);
+            if(this.month != null && clicked == true){
+                financeFV.repopulate(this.month, trends.income2D, "income");
+                financeFV.repopulate(this.month, trends.expense2D, "expense");
+                trends.populateDiff(trends.income2D);
+                trends.populateDiff(trends.expense2D);
+                cBMonths = features.comboBoxMonths();
+                sceneFive = showSceneFive(window, cBMonths); // summary
+                stage.setScene(sceneFive);
+            }
         });
         return scene5B;
     }
     public Button goToSceneSix(Stage stage, String sceneName){
         Button scene6B = features.yellowButton(sceneName);
         scene6B.setOnAction(action -> {
-          if (this.month.equals("")){
-            cBMonths = features.comboBoxMonths("Select Month");
-        }
-        else{
-            cBMonths = features.comboBoxMonths(this.month);
-        }       
-          sceneSix = showSceneSix(window, cBMonths);
-            stage.setScene(sceneSix);
+            if(this.month != null && clicked == true){
+                cBMonths = features.comboBoxMonths();
+                sceneSix = showSceneSix(window, cBMonths); // trends
+                stage.setScene(sceneSix);
+            }
         });
         return scene6B;
     }
     public Button goToSceneSeven(Stage stage, String sceneName){
         Button scene7B = features.yellowButton(sceneName);
         scene7B.setOnAction(action -> {
-          if (this.month.equals("")){
-            cBMonths = features.comboBoxMonths("Select Month");
-        }
-        else{
-            cBMonths = features.comboBoxMonths(this.month);
-        }            sceneSeven = showSceneSeven(window, cBMonths);
-            stage.setScene(sceneSeven);
+            if(this.month != null && clicked == true){
+                cBMonths = features.comboBoxMonths();
+                sceneSeven = showSceneSeven(window, cBMonths); // trends
+                stage.setScene(sceneSeven);
+            }
         });
         return scene7B;
     }
@@ -1198,7 +1165,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
         cBMonths.setOnAction(action ->{
             this.month = (String)cBMonths.getValue();
             warningT.setText("month has been clicked");
-            selectMonth = true;
+            setMonth = true;
             financeFV.fileName = "income.csv";
             String startCoords = financeFV.checkForMonth(this.month);
             if(startCoords.equals(":)")){
@@ -1240,7 +1207,6 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     public void showCategory(boolean add, ArrayList<String> categoryArrList, TextField catTF, boolean income, Text incomeCatT, Text expensesCatT){
         String stringCat;
         String printCat = "";
-        String temp = catTF.getText();
         if(add == true){
             categoryArrList.add(catTF.getText());
         }
