@@ -12,6 +12,8 @@ class FinanceFV {
     //-------------------- GLOBAL VARIABLES --------------------//
     public String fileName = ":)";        
     public String nextMonth = ":)";
+    public int endRow = 0;
+    public int endCol = 0;
     Trends trends = new Trends();
     //-------------------- CONSTRUCTOR --------------------//
     public FinanceFV(){
@@ -24,7 +26,7 @@ class FinanceFV {
         getFileName(choice);
         //put into CSV
         String coords = checkForMonth(month);
-        if(coords.equals(":)") || readCSV().length == 7){
+        if(coords.equals(":)")){
             appendCSV(arr);
         }
         else{
@@ -180,6 +182,12 @@ class FinanceFV {
             //loop through data that needs to be added and add to stringBuilder
             for(int a = 0; a < addArr.length; a++){
                 for(int b = 0; b < addArr[0].length; b++){
+                    // if(addArr[a][b] == null){
+                    //     builder.append("0.0,");
+                    // }
+                    // else{
+                    //     builder.append(addArr[a][b] + ",");
+                    // }
                     builder.append(addArr[a][b] + ",");
                 }
                 builder.append("\n");
@@ -190,11 +198,17 @@ class FinanceFV {
             System.out.println(e.getMessage());
         }
     }
+
+    //--- method to find end row and end col ---//
+    public void findEnd(){
+
+    }
+    
     //--- method to update an array containing csv data (chosen month already has existing data) ---//
     public boolean update2DArr(String[][] array, String[][] arr, int row, int col, int r, int c){
         boolean bool = true;
         if(col < array[0].length && row < array.length){ //validation checks 
-            if(array[row][col].equals("Month: " + this.nextMonth)){
+            if(array[row][col].equals("Month: " + this.nextMonth) || (row == array.length - 1 && col == array[0].length - 1)){
                 return false;
             }
             else{
@@ -207,7 +221,7 @@ class FinanceFV {
             }
         }
 
-        if(col < array[0].length && row < array.length && c < array[0].length && row < arr.length){
+        if(col < array[0].length && row < array.length){
             array[row][col] = arr[r][c];  
         }
         return bool;
@@ -219,12 +233,13 @@ class FinanceFV {
             //loop through 2D arr
             for(int a = 0; a < arr.length; a++){
                 for(int b = 0; b < arr[0].length; b++){
-                    if(arr[a][b] == null){
-                        builder.append("0.0,");
-                    }
-                    else{
-                        builder.append(arr[a][b] + ",");
-                    }
+                    // if(arr[a][b] == null){
+                    //     builder.append("0.0,");
+                    // }
+                    // else{
+                    //     builder.append(arr[a][b] + ",");
+                    // }
+                    builder.append(arr[a][b] + ",");
                 }
                 builder.append("\n");
             }
