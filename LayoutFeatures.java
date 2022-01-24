@@ -46,7 +46,7 @@ public class LayoutFeatures{
     //-------------------- FEATURE METHODS --------------------//    
 
     public Label spacing(){
-        Label space = new Label("   ");
+        Label space = new Label("                        ");
         return space;
     }
     public Label setFont(String name, int size){
