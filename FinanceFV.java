@@ -12,6 +12,7 @@ class FinanceFV {
     //-------------------- GLOBAL VARIABLES --------------------//
     public String fileName = ":)";        
     public String nextMonth = ":)";
+    public boolean imported = false;
     Trends trends = new Trends();
     //-------------------- CONSTRUCTOR --------------------//
     public FinanceFV(){
@@ -62,6 +63,7 @@ class FinanceFV {
                     try {
                         repopulate(month, trends.income2D, "income");
                         repopulate(month, trends.expense2D, "expense");
+                        this.imported = true;
                     } catch (Exception e) {
                         warningText = "Invalid, action terminated.";
                     }
