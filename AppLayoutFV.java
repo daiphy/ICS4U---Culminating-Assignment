@@ -1182,6 +1182,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
       // mainPopup.setAlignment(Pos.TOP_CENTER);
       mainPopup.setBackground(new Background(new BackgroundFill(yellow, CornerRadii.EMPTY, Insets.EMPTY)));
 
+
       warning.getContent().addAll(mainPopup);
       return warning;
     }
