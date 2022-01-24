@@ -60,6 +60,7 @@ public class AppLayoutFV extends Application{
     Color babyBlue = Color.web("#C9DAF8");
     Color darkBlue = Color.web("#9AB3DF");
     Color white = Color.web("#FFFFFF");
+    Color yellow = Color.web("#f8f3c9");
     ImageView bee, bee2;
 
     //Initialize objects -> Trends/LayoutFeatures/Finance
@@ -1179,8 +1180,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
 
       HBox mainPopup = new HBox(warnLabel, exit);
       // mainPopup.setAlignment(Pos.TOP_CENTER);
-      mainPopup.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
-
+      mainPopup.setBackground(new Background(new BackgroundFill(yellow, CornerRadii.EMPTY, Insets.EMPTY)));
 
       warning.getContent().addAll(mainPopup);
       return warning;
