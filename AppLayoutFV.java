@@ -228,6 +228,7 @@ public class AppLayoutFV extends Application{
 
         //Set the chosen month to selected month from combo box
         getMonth(cBMonths);
+        setText(cBMonths, incomeCatT, warningT, stage);
 
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
@@ -1108,6 +1109,48 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     }
 
     // ---------------------------------------------------------------- //
+
+    public void setText(ComboBox cBMonths, Text incomeCatT, Text warningT, Stage stage){
+        cBMonths.setOnAction(action ->{
+            this.month = (String)cBMonths.getValue();
+            warningT.setText("month has been clicked");
+            financeFV.fileName = "income.csv";
+            String startCoords = financeFV.checkForMonth(this.month);
+            if(startCoords.equals(":)")){
+                System.out.println("list has been cleared");
+                trends.incomeCatList.clear();
+                sceneTwo = showSceneTwo(window, cBMonths);
+                stage.setScene(sceneTwo);
+            }
+            else{
+                financeFV.repopulate(this.month, trends.income2D, "income"); 
+                financeFV.repopulate(this.month, trends.expense2D, "expense");
+                for(int i = 1; i < trends.income2D.length; i++){        
+                    trends.incomeCatList.add(trends.income2D[i][0]);
+                    trends.expenseCatList.add(trends.expense2D[i][0]);
+                }
+            }
+            
+            
+                // makes incomeCatT into what is in the arraylist
+            String stringCat;
+            String printCat = "";
+            
+            if(trends.incomeCatList.isEmpty() == false){
+                System.out.println("in is empty");
+                for(int i = 0; i < trends.incomeCatList.size(); i ++){
+                    stringCat = trends.incomeCatList.get(i) + "\n";      
+                    System.out.println("String cat is: " + stringCat)      ;
+                    printCat += stringCat;            
+                    System.out.println(printCat);
+                    
+                        incomeCatT.setText("Categories : \n" + printCat);
+                
+                    
+                }
+            }
+        });
+    }
 
     // for new budget
     public void showCategory(boolean add, ArrayList<String> categoryArrList, TextField catTF, boolean income, Text incomeCatT, Text expensesCatT){

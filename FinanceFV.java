@@ -12,8 +12,6 @@ class FinanceFV {
     //-------------------- GLOBAL VARIABLES --------------------//
     public String fileName = ":)";        
     public String nextMonth = ":)";
-    public int endRow = 0;
-    public int endCol = 0;
     Trends trends = new Trends();
     //-------------------- CONSTRUCTOR --------------------//
     public FinanceFV(){
@@ -182,12 +180,6 @@ class FinanceFV {
             //loop through data that needs to be added and add to stringBuilder
             for(int a = 0; a < addArr.length; a++){
                 for(int b = 0; b < addArr[0].length; b++){
-                    // if(addArr[a][b] == null){
-                    //     builder.append("0.0,");
-                    // }
-                    // else{
-                    //     builder.append(addArr[a][b] + ",");
-                    // }
                     builder.append(addArr[a][b] + ",");
                 }
                 builder.append("\n");
@@ -233,12 +225,6 @@ class FinanceFV {
             //loop through 2D arr
             for(int a = 0; a < arr.length; a++){
                 for(int b = 0; b < arr[0].length; b++){
-                    // if(arr[a][b] == null){
-                    //     builder.append("0.0,");
-                    // }
-                    // else{
-                    //     builder.append(arr[a][b] + ",");
-                    // }
                     builder.append(arr[a][b] + ",");
                 }
                 builder.append("\n");
@@ -265,15 +251,17 @@ class FinanceFV {
         getFileName(choice);
         String[][] arr = readCSV();
         String startCoords = checkForMonth(month);
-        int row = Integer.parseInt(startCoords.substring(0,startCoords.indexOf(",")));
-        int col = Integer.parseInt(startCoords.substring(startCoords.indexOf(",") + 1,startCoords.length()));
-        for(int i = 0; i < updateArr.length; i++){
-            col = 0;
-            for(int j = 0; j < updateArr[0].length; j++){
-                updateArr[i][j] = arr[row][col];
-                col++;
+        if(!startCoords.equals(":)")){
+            int row = Integer.parseInt(startCoords.substring(0,startCoords.indexOf(",")));
+            int col = Integer.parseInt(startCoords.substring(startCoords.indexOf(",") + 1,startCoords.length()));
+            for(int i = 0; i < updateArr.length; i++){
+                col = 0;
+                for(int j = 0; j < updateArr[0].length; j++){
+                    updateArr[i][j] = arr[row][col];
+                    col++;
+                }
+                row++;
             }
-            row++;
         }
     }
 
