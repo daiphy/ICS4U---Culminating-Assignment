@@ -46,7 +46,7 @@ public class LayoutFeatures{
     //-------------------- FEATURE METHODS --------------------//    
 
     public Label spacing(){
-        Label space = new Label("   ");
+        Label space = new Label("                  ");
         return space;
     }
     public Label setFont(String name, int size){
@@ -165,13 +165,14 @@ public class LayoutFeatures{
 
         return sPane;
     }
-    public ComboBox comboBoxMonths(){
+    public ComboBox comboBoxMonths(String text){
         ComboBox months = new ComboBox();
         months.getItems().addAll(
                                  "January", "February", "March", "April", "May", "June",
                                  "July", "August", "September", "October", "November", "December"
                                 );
-        months.setPromptText("Select Month");
+        
+        months.setPromptText(text);
         months.setEditable(false);
         
         return months;
