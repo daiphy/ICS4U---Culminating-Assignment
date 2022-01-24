@@ -189,15 +189,7 @@ public class LayoutFeatures{
     //     return incomeCat;
     // }
 
-    public ComboBox comboBoxIncome(String[][] income2D){        
-        System.out.println("combo box printing");
-        for(int i = 0; i < trends.income2D.length; i++){
-            for(int j = 0; j < 2; j++){
-                System.out.print(trends.income2D[i][j] + ", ");
-                
-            } 
-            System.out.println();
-        }
+    public ComboBox comboBoxIncome(String[][] income2D){                
         String temp = trends.income2D[1][0];
         ComboBox incomeCat = new ComboBox();        
         // if(income2D[1][0] == null){
