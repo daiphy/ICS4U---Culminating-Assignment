@@ -23,13 +23,13 @@ class FinanceFV {
     public void toCSV(String[][] arr, String choice, String month){
         getFileName(choice);
         //put into CSV
-        String coords = checkForMonth(month, readCSV());
+        String coords = checkForMonth(month);
         if(coords.equals(":)") || readCSV().length == 7){
             appendCSV(arr);
         }
         else{
             findNext(month); 
-            String initialCoords = checkForMonth(month, readCSV());
+            String initialCoords = checkForMonth(month);
             int row = Integer.parseInt(initialCoords.substring(0,initialCoords.indexOf(",")));
             int col = Integer.parseInt(initialCoords.substring(initialCoords.indexOf(",") + 1,initialCoords.length()));
             //replace arr with smth that will not change, a 2D to store everything
@@ -126,8 +126,8 @@ class FinanceFV {
      * - will set the total num rows between existing csv and 
      *   additional data as the end of appending section
     */
-    public String checkForMonth(String monthName, String[][] arr){
-        // String[][] arr = readCSV();
+    public String checkForMonth(String monthName){
+        String[][] arr = readCSV();
         String coords = ":)";
         for(int i = 0; i < arr.length; i++){
             for(int j = 0; j < arr[0].length; j++){
