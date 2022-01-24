@@ -121,11 +121,6 @@ class FinanceFV {
 
     //--- method to check for chosen month name ---//
     //can be used for finding both the start and ending indexes
-    /**
-     * if the chosen month is the most recent month
-     * - will set the total num rows between existing csv and 
-     *   additional data as the end of appending section
-    */
     public String checkForMonth(String monthName){
         String[][] arr = readCSV();
         String coords = ":)";
@@ -165,7 +160,6 @@ class FinanceFV {
     //chosen month is after existing months
     public void appendCSV(String[][] addArr){
         String[][] arrOne = readCSV();
-        String[][] temp; //maybe add a way to organize the stuff, so that all the months are in order
         //try catch to append to existing data in csv
         try(PrintWriter writer = new PrintWriter(this.fileName)){
             StringBuilder builder = new StringBuilder();
@@ -191,11 +185,6 @@ class FinanceFV {
         }
     }
 
-    //--- method to find end row and end col ---//
-    public void findEnd(){
-
-    }
-    
     //--- method to update an array containing csv data (chosen month already has existing data) ---//
     public boolean update2DArr(String[][] array, String[][] arr, int row, int col, int r, int c){
         boolean bool = true;
@@ -213,7 +202,7 @@ class FinanceFV {
             }
         }
 
-        if(col < array[0].length && row < array.length){
+        if(!bool && col < array[0].length && row < array.length){
             array[row][col] = arr[r][c];  
         }
         return bool;

@@ -263,7 +263,7 @@ public class AppLayoutFV extends Application{
             else{
                 warningT.setText("Please input a number. Do not include symbols or letters");                
             }
-                                 
+                                
         });
 
         Button deleteExpCatB = features.yellowButton("DELETE");
@@ -555,11 +555,6 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     setMonth(cBMonths);
     //Set the chosen month to selected month from combo box and display data
     changeMonthDisplay(stage, cBMonths);
-
-    //put into CSV
-    //financeFV.appendCSV(trends.income2D);
-    financeFV.toCSV(trends.income2D, "income", this.month);
-    financeFV.toCSV(trends.expense2D, "expense", this.month);
 
     Scene five;
     //Titles, bees, buttons, labels, comboBoxes
@@ -1015,7 +1010,6 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
 
         return lineChart;
     }     
-    // ---------------------------------------------------------------- //
 
     // ---------------------- Button Methods --------------------------- //
     public Button goToSceneOne(Stage stage, String sceneName){
@@ -1088,6 +1082,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
             this.month = (String)cBMonths.getValue();
         });
     }
+    
     //for scene 5, to change the data shown
     public void changeMonthDisplay(Stage stage, ComboBox cBMonths){
         cBMonths.setOnAction(action ->{
@@ -1123,6 +1118,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
                 stage.setScene(sceneTwo);
             }
             else{
+                trends.incomeCatList.clear();
                 financeFV.repopulate(this.month, trends.income2D, "income"); 
                 financeFV.repopulate(this.month, trends.expense2D, "expense");
                 for(int i = 1; i < trends.income2D.length; i++){        
@@ -1131,8 +1127,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
                 }
             }
             
-            
-                // makes incomeCatT into what is in the arraylist
+            // makes incomeCatT into what is in the arraylist
             String stringCat;
             String printCat = "";
             
@@ -1144,8 +1139,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
                     printCat += stringCat;            
                     System.out.println(printCat);
                     
-                        incomeCatT.setText("Categories : \n" + printCat);
-                
+                    incomeCatT.setText("Categories : \n" + printCat);
                     
                 }
             }
