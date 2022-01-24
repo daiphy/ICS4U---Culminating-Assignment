@@ -204,6 +204,7 @@ public class AppLayoutFV extends Application{
 
         //Asks the user which month they are budgeting for and provide a drop down menu 
         Label monthL = features.setFont("Month:", 12);        
+        Text warningT = new Text("");
 
         //HBox gathers the month input and income categories input as they are in the same row
         HBox monthRow = new HBox(20);
@@ -231,7 +232,17 @@ public class AppLayoutFV extends Application{
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
         addIncCatB.setOnAction(action ->{
-            showCategory(true, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT); // arraylist is used so that they can keep adding categories  
+            boolean check;       
+            check = onlyLetters(incCatTF.getText()); //INPUT VALIDATION
+            
+            if(check){      
+                warningT.setText("");                      
+                showCategory(true, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT); // arraylist is used so that they can keep adding categories          
+            }
+            else{
+                warningT.setText("Please input a number. Do not include symbols or letters");                
+            }
+            
         });
 
         Button deleteIncCatB = features.yellowButton("DELETE");
@@ -241,7 +252,17 @@ public class AppLayoutFV extends Application{
 
         Button addExpCatB = features.yellowButton("ADD");
         addExpCatB.setOnAction(action ->{
-            showCategory(true, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);                        
+            boolean check;       
+            check = onlyLetters(expCatTF.getText()); //INPUT VALIDATION
+            
+            if(check){      
+                warningT.setText("");                      
+                showCategory(true, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);                
+            }
+            else{
+                warningT.setText("Please input a number. Do not include symbols or letters");                
+            }
+                                 
         });
 
         Button deleteExpCatB = features.yellowButton("DELETE");
@@ -284,7 +305,6 @@ public class AppLayoutFV extends Application{
             trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
             trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
             trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);                          
-
             sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
             stage.setScene(sceneThree);
         });
@@ -296,7 +316,7 @@ public class AppLayoutFV extends Application{
         
         //Making the overall screen
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(titleHB, instructionsL, infoL, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
+        mainScreen.getChildren().addAll(titleHB, instructionsL, infoL, monthRow, incCatRow, expCatRow, catL, displayCat, warningT, sceneButtons);
         mainScreen.setAlignment(Pos.CENTER);
         
         // call border mthd
@@ -365,8 +385,7 @@ public class AppLayoutFV extends Application{
         Button addTB = features.yellowButton("ADD"); // TB (top half of the scene) -> income
         Button addBB = features.yellowButton("ADD"); // BB (bottom half of the scene) -> expense
         Button delTB = features.yellowButton("DELETE"); // TB (top half of the scene) -> income
-        Button delBB = features.yellowButton("DELETE"); // BB (bottom half of the scene) -> expense
-        Button confirmB = features.yellowButton("CONFIRM");
+        Button delBB = features.yellowButton("DELETE"); // BB (bottom half of the scene) -> expense        
 
         ComboBox cBIncThree = features.comboBoxIncome(trends.income2D);
         ComboBox cBIncFour = features.comboBoxIncome(trends.income2D);
@@ -392,7 +411,7 @@ public class AppLayoutFV extends Application{
                 warningT.setText("");                      
                 showUserInput(true , true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeCatArr, incomeAmtArr);       
             }
-            else if(check == false){
+            else{
                 warningT.setText("Please input a number. Do not include symbols or letters");                
             }
                     
@@ -405,7 +424,7 @@ public class AppLayoutFV extends Application{
                 warningT.setText("");       
                 showUserInput(true, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseCatArr, expenseAmtArr);
             }
-            else if(check == false){
+            else{
                 warningT.setText("Please input a number. Do not include symbols or letters");                
             }
             
@@ -506,9 +525,19 @@ public class AppLayoutFV extends Application{
 
         return threeFour; 
     }
+    public boolean onlyLetters(String str) { //checks if the string only contains letters
+        char[] chars = str.toCharArray();
+    
+        for (char c : chars) {
+            if(!Character.isLetter(c)) {
+                return false;
+            }
+        }
+    
+        return true;
+    }
     public static boolean isNumeric(String strNum){
-        if(strNum == null){
-            System.out.println("currently null");
+        if(strNum == null){            
             return false;
         }
         try {
