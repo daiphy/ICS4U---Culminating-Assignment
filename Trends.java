@@ -48,6 +48,7 @@ public class Trends {
         
         twoDArr[0][0] = "Month: " + month; // Add the month to the 2d array
 
+
         int a = 0;
         for(int i = 1; i < twoDArr.length; i ++){ //starts at one because 0 is the month name
             twoDArr[i][0] = categoryArrList.get(a);
