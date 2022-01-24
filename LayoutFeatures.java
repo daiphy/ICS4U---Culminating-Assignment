@@ -200,13 +200,13 @@ public class LayoutFeatures{
         }
         String temp = trends.income2D[1][0];
         ComboBox incomeCat = new ComboBox();        
-        if(income2D[1][0] == null){
-            incomeCat.getItems().addAll(                            
-                    "Savings", "Paycheck", "Bonus",
-                        "Interest", "Allowance", "Other"
-            );
-        }
-        else{
+        // if(income2D[1][0] == null){
+        //     incomeCat.getItems().addAll(                            
+        //             "Savings", "Paycheck", "Bonus",
+        //                 "Interest", "Allowance", "Other"
+        //     );
+        // }
+        // else{
             System.out.println("entering their categories");
             for(int i = 1; i < income2D.length; i++){                
                     incomeCat.getItems().addAll(
@@ -214,7 +214,7 @@ public class LayoutFeatures{
                     );
                 
             }            
-        }        
+        // }        
         
         incomeCat.setPromptText("Select Category");
         incomeCat.setEditable(false);

@@ -10,8 +10,8 @@ public class Trends {
     
     public ArrayList<String> incomeCatList = new ArrayList<>();
     public ArrayList<String> expenseCatList = new ArrayList<>();
-    // public String[] incomeCat = {" ", "Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      // the space in front makes it line up with the num of rows in the 2d arrays
-    // public String[] expenseCat = {" ", "Food", "Health", "Transportation", "Utilies", "Personal","Other"}; // we need to make this permanent in the 2d arrays first or something
+    public String[] defaultInc = {"Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      // the space in front makes it line up with the num of rows in the 2d arrays
+    public String[] defaultExp = {"Food", "Health", "Transportation", "Utilies", "Personal","Other"}; // we need to make this permanent in the 2d arrays first or something
 
     public String[] monthNames = {"January", "February", "March", "April", "May", 
     "June", "July", "August", "September", "October", "November", "December"};
@@ -30,23 +30,34 @@ public class Trends {
     }
 
     //Methods
-    public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr){
-        twoDArr = new String[categoryArrList.size()+ 1][4];        
+    
+    public ArrayList<String> defaultCategories(ArrayList<String> categoryArrList, String[] defaultCat){ //if they entered nothing, then populate the user's arraylist with default categories
+        
+            if(categoryArrList.isEmpty()){
+                for(int i = 0; i < defaultCat.length; i ++){ //starts at one because 0 is the month name
+                    categoryArrList.add(defaultCat[i]); // populate the categories with default if they entered nothing
+                }    
+            }
+            
+            return categoryArrList;
+    }
+
+    public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr, String month){
+        twoDArr = new String[categoryArrList.size()+ 1][4];  
+        
+        
+        twoDArr[0][0] = "Month: " + month; // Add the month to the 2d array
+
         int a = 0;
         for(int i = 1; i < twoDArr.length; i ++){ //starts at one because 0 is the month name
             twoDArr[i][0] = categoryArrList.get(a);
             a++;
-        }        
+        }                
         
         return twoDArr;
     }
-
-
     
-    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, ArrayList<String> labelCat, int col, String month){ //CHANGE THE INCOME NAMES
-                        
-        // Add the month to the 2d array (we can prob put this in populate cat or its own method)
-        twoDArr[0][0] = "Month: " + month;           
+    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, ArrayList<String> labelCat, int col, String month){ //CHANGE THE INCOME NAMES                                 
         
         int a = 0;
         for(int i = 1; i < twoDArr.length; i++){
