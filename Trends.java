@@ -4,13 +4,13 @@ import javafx.scene.control.ComboBox;
 public class Trends {
     
     //-------------------- GLOBAL VARIABLES --------------------//
-    //2D Arrays
-    public String[][] income2D = new String[7][4]; // it is initialized first so that it can be passed through to methods, but it's size changes depending on how many categories that the user enters
-    public String[][] expense2D = new String[7][4];
-    
     // Arraylists for scene 2, what the user enters is temporarily saved here
     public ArrayList<String> incomeCatList = new ArrayList<>();
     public ArrayList<String> expenseCatList = new ArrayList<>();
+
+        //2D Arrays
+    public String[][] income2D = new String[7][4]; // it is initialized first so that it can be passed through to methods, but it's size changes depending on how many categories that the user enters
+    public String[][] expense2D = new String[7][4];
 
     // Default income and expense categories
     public String[] defaultInc = {"Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      // the space in front makes it line up with the num of rows in the 2d arrays
