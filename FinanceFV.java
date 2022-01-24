@@ -12,6 +12,10 @@ class FinanceFV {
     //-------------------- GLOBAL VARIABLES --------------------//
     public String fileName = ":)";        
     public String nextMonth = ":)";
+    boolean[] fileArr = {false, false};
+    // public boolean importedInc = false;
+    // public boolean importedExp = false;
+    public boolean fullImport = false;
     Trends trends = new Trends();
     //-------------------- CONSTRUCTOR --------------------//
     public FinanceFV(){
@@ -19,12 +23,14 @@ class FinanceFV {
     }
     //-------------------- METHOD THAT COLLECTS ALL OTHER METHODS --------------------//
     //this method collects methods from financeFV in order to be used in AppLayoutFV
-    //arr is existing csv contents by using readCSV() in the param, choice is to determine which file it stores into
+    //arr is existing csv contents by using readCSV() in the param, 
+    //choice is to determine which file it stores into
     public void toCSV(String[][] arr, String choice, String month){
         getFileName(choice);
         //put into CSV
         String coords = checkForMonth(month);
-        if(coords.equals(":)") || readCSV().length == 7){
+        // System.out.println("coords: " + coords);
+        if(coords.equals(":)")){
             appendCSV(arr);
         }
         else{
@@ -38,6 +44,7 @@ class FinanceFV {
             String[][] csvArr = new String[r][c];
             csvArr = readCSV();
             boolean updated = update2DArr(csvArr, arr, row, col, 0, 0);
+            System.out.println("updated: " + updated);
             if(updated){
                 updateCSV(csvArr);
             } 
@@ -45,19 +52,39 @@ class FinanceFV {
     }
     
     //-------------------- CHECK IF CSV FILE --------------------//
-    public String checkInputtedFile(Stage primaryStage) {
+    public String checkInputtedFile(Stage primaryStage, String month) {
         FileChooser fileChooser = new FileChooser(); // allow user to input file
         File file = fileChooser.showOpenDialog(primaryStage);
         this.fileName = file.getName();
-    
-        String warningText = " ";
+        System.out.println("they have entered: " + this.fileName);
+        String warningText = " ";        
     
         if (file != null) {
             // If inputted file is .csv file
             if ((this.fileName.substring(this.fileName.length() - 4, this.fileName.length())).equals(".csv")) {
                 if(this.fileName.toLowerCase().equals("income.csv") || this.fileName.toLowerCase().equals("expense.csv")){
-                    try {
-                        //test();
+                    try {                        
+                        warningText = "You have imported: " + this.fileName;
+                        if(this.fileName.toLowerCase().equals("income.csv")){
+                            this.fileArr[0] = true;
+                        }
+                        else if(this.fileName.toLowerCase().equals("expense.csv")){
+                            this.fileArr[1] = true;
+                        }
+                        // this.fullImport = checkImport();                        
+                        if(this.fileArr[0] == true && this.fileArr[1] == false){
+                            warningText += " please import expense.csv";                            
+                        }
+                        else if(this.fileArr[0] == false && this.fileArr[1] == true){
+                            warningText += " please import income.csv";
+                        }
+                        else{
+                            this.fullImport = true;
+                            warningText += " both .csv files have been imported";
+                        }
+
+                        repopulate(month, trends.income2D, "income");
+                        repopulate(month, trends.expense2D, "expense");                                                                   
                     } catch (Exception e) {
                         warningText = "Invalid, action terminated.";
                     }
@@ -71,7 +98,7 @@ class FinanceFV {
             
         }
         return warningText;
-    } 
+    }     
     //-------------------- READ CSV FILE --------------------//
     public String[][] readCSV(){
         //----- VARIABLES -----//
@@ -121,11 +148,6 @@ class FinanceFV {
 
     //--- method to check for chosen month name ---//
     //can be used for finding both the start and ending indexes
-    /**
-     * if the chosen month is the most recent month
-     * - will set the total num rows between existing csv and 
-     *   additional data as the end of appending section
-    */
     public String checkForMonth(String monthName){
         String[][] arr = readCSV();
         String coords = ":)";
@@ -165,7 +187,6 @@ class FinanceFV {
     //chosen month is after existing months
     public void appendCSV(String[][] addArr){
         String[][] arrOne = readCSV();
-        String[][] temp; //maybe add a way to organize the stuff, so that all the months are in order
         //try catch to append to existing data in csv
         try(PrintWriter writer = new PrintWriter(this.fileName)){
             StringBuilder builder = new StringBuilder();
@@ -190,11 +211,12 @@ class FinanceFV {
             System.out.println(e.getMessage());
         }
     }
+
     //--- method to update an array containing csv data (chosen month already has existing data) ---//
     public boolean update2DArr(String[][] array, String[][] arr, int row, int col, int r, int c){
         boolean bool = true;
         if(col < array[0].length && row < array.length){ //validation checks 
-            if(array[row][col].equals("Month: " + this.nextMonth)){
+            if(array[row][col].equals("Month: " + this.nextMonth) || (row == array.length - 1 && col == array[0].length - 1)){
                 return false;
             }
             else{
@@ -207,7 +229,7 @@ class FinanceFV {
             }
         }
 
-        if(col < array[0].length && row < array.length && c < array[0].length && row < arr.length){
+        if(col < array[0].length && row < array.length){
             array[row][col] = arr[r][c];  
         }
         return bool;
@@ -219,13 +241,10 @@ class FinanceFV {
             //loop through 2D arr
             for(int a = 0; a < arr.length; a++){
                 for(int b = 0; b < arr[0].length; b++){
-                    if(arr[a][b] == null){
-                        builder.append("0.0,");
-                    }
-                    else{
-                        builder.append(arr[a][b] + ",");
-                    }
+                    //System.out.print("arr[a][b]: " + arr[a][b]);
+                    builder.append(arr[a][b] + ",");
                 }
+                //System.out.println();
                 builder.append("\n");
             }
             //put all the information into the csv
@@ -246,11 +265,17 @@ class FinanceFV {
     //the nested for loops go through the row and col lengths of the trends 2D array
     //reset the trends 2D array with existing data in csv pulled from arr[][]
     //row and col just make sure it's iterating properly
-    public void repopulate(String month, String[][] updateArr, String choice){        
+    public void repopulate(String month, String[][] updateArr, String choice){
         getFileName(choice);
         String[][] arr = readCSV();
-        String startCoords = checkForMonth(month);
-        if(!startCoords.equals(":)")){                      
+        String startCoords = ":)";
+        if(month == null){
+            startCoords = "0,0";
+        }
+        else{
+            startCoords = checkForMonth(month);
+        }
+        if(!startCoords.equals(":)")){
             int row = Integer.parseInt(startCoords.substring(0,startCoords.indexOf(",")));
             int col = Integer.parseInt(startCoords.substring(startCoords.indexOf(",") + 1,startCoords.length()));
             for(int i = 0; i < updateArr.length; i++){
@@ -262,7 +287,6 @@ class FinanceFV {
                 row++;
             }
         }
-        
     }
 
     //--- method to get file name ---//

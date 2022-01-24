@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import javafx.scene.control.ComboBox;
 
 public class Trends {
     
@@ -11,46 +12,43 @@ public class Trends {
     public ArrayList<String> incomeCatList = new ArrayList<>();
     public ArrayList<String> expenseCatList = new ArrayList<>();
 
-    // Default income and expense categories, 
+    // Default income and expense categories
     public String[] defaultInc = {"Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      // the space in front makes it line up with the num of rows in the 2d arrays
     public String[] defaultExp = {"Food", "Health", "Transportation", "Utilies", "Personal","Other"}; // we need to make this permanent in the 2d arrays first or something
+
+    public String[] monthNames = {"January", "February", "March", "April", "May", 
+    "June", "July", "August", "September", "October", "November", "December"};
     
-    // Array of month names
-    public String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};            
+    public int totalAntIncome;
+    public int totalAntExpenses;
+
+    public int totalAccIncome;
+    public int totalAccExpense;
+
+    // public FinanceFV financeFV = new FinanceFV();
 
     //-------------------- CONSTRUCTOR --------------------//
     public Trends(){
 
     }
 
-    //-------------------- METHODS --------------------//
+    //Methods
     
-    /**
-     * If the arraylist that holds what the user entered for customizable categories is empty, 
-     * then add the default categories to the arraylist
-     * @param categoryArrList the arraylist that holds all the user's entered categories for either income or expense
-     * @param defaultCat array that holds all the default categories (either income or expense)
-     * @return the updated arraylist of user entered categories
-     */
-    public ArrayList<String> defaultCategories(ArrayList<String> categoryArrList, String[] defaultCat){ //if they entered nothing, then populate the user's arraylist with default categories        
-        if(categoryArrList.isEmpty()){
-            for(int i = 0; i < defaultCat.length; i ++){ //starts at one because 0 is the month name
-                categoryArrList.add(defaultCat[i]);      // populate the categories with default if they entered nothing
-            }    
-        }
+    public ArrayList<String> defaultCategories(ArrayList<String> categoryArrList, String[] defaultCat){ //if they entered nothing, then populate the user's arraylist with default categories
         
-        return categoryArrList;
+            if(categoryArrList.isEmpty()){
+                for(int i = 0; i < defaultCat.length; i ++){ //starts at one because 0 is the month name
+                    categoryArrList.add(defaultCat[i]); // populate the categories with default if they entered nothing
+                }    
+            }
+            
+            return categoryArrList;
     }
 
-    /**
-     * Populates the category column of the 2D array with the finalized category names
-     * @param categoryArrList the arraylist that holds all the user's entered categories for either income or expense
-     * @param twoDArr 2D array which holds all the info (categories, anticipated details, actual details, difference) for income or expense
-     * @param month the month that the user wants to budget for
-     * @return updated 2D array
-     */
     public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr, String month){
-        twoDArr = new String[categoryArrList.size()+ 1][4];  // Give twoDArr                 
+        twoDArr = new String[categoryArrList.size()+ 1][4];  
+        
+        
         twoDArr[0][0] = "Month: " + month; // Add the month to the 2d array
 
         int a = 0;
@@ -78,7 +76,20 @@ public class Trends {
             a++;    
             
             twoDArr[i][col] = String.valueOf(addOn);            
-        }                   
+        }
+
+        for(int i = 0; i < twoDArr.length; i++){
+            if (twoDArr[i][1] == null || twoDArr[i][1].equals("")){
+                twoDArr[i][1] = "0.0";
+            }
+            if (twoDArr[i][2] == null){
+                twoDArr[i][2] = "0.0";
+            }
+            if (twoDArr[i][3] == null){
+                twoDArr[i][3] = "0.0";
+            }
+        }
+           
         return twoDArr;
     }
 
@@ -93,19 +104,6 @@ public class Trends {
                 
             } 
             System.out.println();
-        }
-
-        for(int i = 0; i < twoDArr.length; i++){
-            if (twoDArr[i][1] == null || twoDArr[i][1].equals("")){
-                System.out.println("no longer empty");
-                twoDArr[i][1] = "0.0";
-            }
-            if (twoDArr[i][2] == null){
-                twoDArr[i][2] = "0.0";
-            }
-            if (twoDArr[i][3] == null){
-                twoDArr[i][3] = "0.0";
-            }
         }
         
         for(int i = 1; i < twoDArr.length; i++){
