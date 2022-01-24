@@ -107,7 +107,7 @@ public class AppLayoutFV extends Application{
         Scene one;
 
         // initialize the warning text if the user doesn't enter a csv file it'll change in the gui
-        Text warningT = new Text("");
+        Text warningOne = new Text("");
         
         //Title, bees and instructions
         Label welcomeL = features.setFont("MAIN MENU", 25);
@@ -127,14 +127,12 @@ public class AppLayoutFV extends Application{
         // noData(transactionB, warningT);
         
         //Button summaryB = features.yellowButton("SUMMARY"); //scene 5
-        Button summaryB = goToSceneFive(window, "SUMMARY"); //scene 5
+        Button summaryB = goToSceneFive(window, "SUMMARY", warningOne); //scene 5
         summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         summaryB.setPrefWidth(150);
-        noData(summaryB, warningT);
         
-        Button trendsB = goToSceneSeven(window, "TRENDS"); //scene 7
+        Button trendsB = goToSceneSeven(window, "TRENDS", warningOne); //scene 7
         trendsB.setPrefWidth(150);
-        noData(trendsB, warningT);
         
         // Button planB = goToSceneThree(window, "PLAN");        
         // planB.setPrefWidth(150);
@@ -147,9 +145,9 @@ public class AppLayoutFV extends Application{
             //file directory code here
             try {
             // if the user does not input .csv, the warning text will be shown
-            warningT.setText(financeFV.checkInputtedFile(scene, this.month));
+            warningOne.setText(financeFV.checkInputtedFile(scene, this.month));
             } catch (Exception error) {
-            warningT.setText("Action terminated.");
+                warningOne.setText("Action terminated.");
             }
         
         });   
@@ -176,7 +174,7 @@ public class AppLayoutFV extends Application{
         
         // main screen to combine title, intro, menu, and warning text
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(titleHB, introL, mainMenu, warningT);
+        mainScreen.getChildren().addAll(titleHB, introL, mainMenu, warningOne);
         mainScreen.setAlignment(Pos.CENTER);
         
         // calling the borderpane method
@@ -471,16 +469,24 @@ public class AppLayoutFV extends Application{
             Button backB = goToSceneTwo(stage, "BACK");
             Button nextB = features.yellowButton("NEXT");
             nextB.setOnAction(action -> {  
-            trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
-            trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month); 
+                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
+                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month); 
+                System.out.println("CHECKING");
+                for(int i = 0; i < trends.income2D.length; i++){
+                    for(int j = 0; j < trends.income2D[0].length; j++){
+                        System.out.print(trends.income2D[i][j] + ", ");
+                        
+                    } 
+                    System.out.println();
+                }
+                //put into CSV
+                System.out.println("going into toCSV");
+                financeFV.toCSV(trends.income2D, "income", this.month);
+                financeFV.toCSV(trends.expense2D, "expense", this.month);
 
-            //put into CSV
-            financeFV.toCSV(trends.income2D, "income", this.month);
-            financeFV.toCSV(trends.expense2D, "expense", this.month);
-
-            cBMonths = features.comboBoxMonths();
-            sceneFour = showSceneThreeFour(window, "Actual"); // transactions
-            stage.setScene(sceneFour);
+                cBMonths = features.comboBoxMonths();
+                sceneFour = showSceneThreeFour(window, "Actual"); // transactions
+                stage.setScene(sceneFour);
             });
             
             Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
@@ -970,8 +976,9 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     summaryBottomVB.setBackground(new Background(new BackgroundFill(darkBlue, CornerRadii.EMPTY, Insets.EMPTY)));
     
     //-------------------- SCENE SIX COMBINE ALL SECTIONS BELOW --------------------//
+    Text filler = new Text("");
     Button mainMenuB = goToSceneOne(window, "MAIN MENU"); 
-    Button backB = goToSceneFive(window, "BACK");
+    Button backB = goToSceneFive(window, "BACK", filler);
     //Export button?
     
     HBox mainScreenMiddle = new HBox(100);
@@ -1136,7 +1143,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
         });
         return scene4B;
     }
-    public Button goToSceneFive(Stage stage, String sceneName){
+    public Button goToSceneFive(Stage stage, String sceneName, Text warningT){
         Button scene5B = features.yellowButton(sceneName);
         scene5B.setOnAction(action -> {
             // financeFV.fullImport = financeFV.checkImport();
@@ -1150,10 +1157,11 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
                 cBMonths = features.comboBoxMonths();
                 sceneFive = showSceneFive(window, cBMonths); // summary
                 stage.setScene(sceneFive);
+                warningT.setText(" ");
             }
-            // else{
-            //     noData(scene5B, warningT);
-            // }
+            else{
+                noData(warningT);
+            }
         });
         return scene5B;
     }
@@ -1168,27 +1176,28 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
         });
         return scene6B;
     }
-    public Button goToSceneSeven(Stage stage, String sceneName){
+    public Button goToSceneSeven(Stage stage, String sceneName, Text warningT){
         Button scene7B = features.yellowButton(sceneName);        
         scene7B.setOnAction(action -> {            
             if(this.month != null && (clicked == true || financeFV.fullImport == true)){
                 cBMonths = features.comboBoxMonths();
                 sceneSeven = showSceneSeven(window, cBMonths); // trends
                 stage.setScene(sceneSeven);
+                warningT.setText(" ");
+            }
+            else{
+                noData(warningT);
             }
         });
         return scene7B;
     }
-    public void noData(Button buttonB, Text warningT){
+    public void noData(Text warningT){
         // buttonB.setOnAction(action ->{            
             if (this.month == null && clicked == false || financeFV.fullImport == false){
                     warningT.setText("Please make a new budget first or import csvs");
                     System.out.println("no data is working");
                     System.out.println("month is: " + this.month + " clicked is " + clicked + " imported is " + financeFV.fullImport);
-            }
-            else{
-                warningT.setText(" ");
-            }                            
+            }                    
         // });
     }
     // ---------------------------------------------------------------- //
