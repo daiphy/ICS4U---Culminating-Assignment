@@ -78,6 +78,7 @@ public class AppLayoutFV extends Application{
   public String[] arr = new String[12];        
   
   public AppLayoutFV(){
+
     
   }
   
@@ -468,6 +469,20 @@ public class AppLayoutFV extends Application{
       Button backB = goToSceneThree(stage, "BACK");
       Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
       lastRow.getChildren().addAll(mainMenuB, backB, nextB);
+
+           
+    }
+    public static boolean isNumeric(String strNum){
+        if(strNum == null){
+            System.out.println("currently null");
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;        
     }
     
     // // stack panes to show the user inputs on top of the rectangles
@@ -536,17 +551,19 @@ public class AppLayoutFV extends Application{
     //financeFV.appendCSV(trends.income2D);
     financeFV.toCSV(trends.income2D, "income", this.month);
     financeFV.toCSV(trends.expense2D, "expense", this.month);
+
     
     Scene five;
     //Titles, bees, buttons, labels, comboBoxes
     //Label titleL = new Label("Budgeting App");
     System.out.println("scene 5");
     for(int i = 0; i < trends.income2D.length; i++){
-      for(int j = 0; j < trends.income2D[0].length; j++){
-        System.out.print(trends.income2D[i][j] + ", ");
-        
-      } 
-      System.out.println();
+
+        for(int j = 0; j < trends.income2D[0].length; j++){
+            System.out.print(trends.income2D[i][j] + ", ");
+            
+        } 
+        System.out.println();
     }  
     bee = features.image();
     bee2 = features.image();
@@ -694,9 +711,10 @@ public class AppLayoutFV extends Application{
   //-------------------- SCENE SIX BELOW --------------------//
   public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     Scene six;    
-    
+
+
     DecimalFormat df = new DecimalFormat("######.##");
-    
+
     bee = features.image();
     bee2 = features.image();
     
@@ -740,7 +758,27 @@ public class AppLayoutFV extends Application{
     
     Label sumAccIncomeL = new Label("Sum of Actual Income");
     Label sumAccIncomeValueL = new Label("$" + String.valueOf(df.format(sumAccIncome)));
+
     
+    if(endBalance < 0){
+        endBalanceR = new Rectangle (50, 10, darkBlue);
+    }
+    else{
+        endBalanceR = new Rectangle (50, endBalance + 10, darkBlue);
+    }
+    
+    if(sumAccIncome > 1500 || endBalance > 1500){
+      sumAccIncomeR = new Rectangle (50, sumAccIncome/100, babyBlue);
+      endBalanceR = new Rectangle (50, endBalance/100, darkBlue);
+    }
+    else if(sumAccIncome > 100 || endBalance > 100){
+      sumAccIncomeR = new Rectangle (50, sumAccIncome/10, babyBlue);
+      endBalanceR = new Rectangle (50, endBalance/10, darkBlue);
+    }
+
+    Label sumAccIncomeL = new Label("Sum of Actual Income");
+    Label sumAccIncomeValueL = new Label("$" + String.valueOf(df.format(sumAccIncome)));
+
     Label endBalanceL = new Label("End Balance");
     Label endBalanceValueL = new Label("$" + String.valueOf(endBalance));
     
@@ -781,6 +819,7 @@ public class AppLayoutFV extends Application{
       savedDescriptionL = new Label("Lost this month");
     }
     
+
     VBox summaryRightHB = new VBox(10);
     summaryRightHB.getChildren().addAll(percentL, percentDescriptionL, savedL, savedDescriptionL);
     summaryRightHB.setAlignment(Pos.CENTER);  
@@ -853,7 +892,47 @@ public class AppLayoutFV extends Application{
       sumAntExpR = new Rectangle(sumAntExpense/10, 20, white);
       sumAccExpR = new Rectangle(sumAccExpense/10, 20, white);
     }
+
     
+    if (sumAntIncome < 0){
+      sumAntIncR = new Rectangle(10, 20, white); //10 is default rect size
+    }
+    else{
+      sumAntIncR = new Rectangle(sumAntIncome + 10, 20, white);
+    }
+    
+    if(sumAccIncome < 0){
+      sumAccIncR = new Rectangle(10, 20, white);
+    }
+    else{
+      sumAccIncR = new Rectangle(sumAccIncome + 10, 20, white);
+    }
+    if(sumAntExpense < 0){
+      sumAntExpR = new Rectangle(10, 20, white);
+    }
+    else{
+      sumAntExpR = new Rectangle(sumAntExpense + 10, 20, white);
+    }
+    if(sumAccExpense < 0){
+      sumAccExpR = new Rectangle(10, 20, white);
+    }
+    else{
+      sumAccExpR = new Rectangle(sumAccExpense + 10, 20, white);
+    }
+    
+    if (sumAntIncome > 1500 || sumAccIncome > 1500 || sumAntExpense > 1500 || sumAccExpense > 1500){
+      sumAntIncR = new Rectangle(sumAntIncome/100, 20, white);
+      sumAccIncR = new Rectangle(sumAccIncome/100, 20, white);
+      sumAntExpR = new Rectangle(sumAntExpense/100, 20, white);
+      sumAccExpR = new Rectangle(sumAccExpense/100, 20, white);
+    }
+    else if (sumAntIncome > 100 || sumAccIncome > 100 || sumAntExpense > 100 || sumAccExpense > 100){
+      sumAntIncR = new Rectangle(sumAntIncome/10, 20, white);
+      sumAccIncR = new Rectangle(sumAccIncome/10, 20, white);
+      sumAntExpR = new Rectangle(sumAntExpense/10, 20, white);
+      sumAccExpR = new Rectangle(sumAccExpense/10, 20, white);
+    }
+
     VBox incAntAccHB = new VBox(20);
     incAntAccHB.getChildren().addAll(antL, accL);
     VBox incomeSummaryVB = new VBox(20);
@@ -907,187 +986,202 @@ public class AppLayoutFV extends Application{
     
     // add a scroll wheel
     ScrollPane scroll = features.showScrollPane(bPane);
-    
+
     // add the components into the scene
     six = new Scene(scroll, 1000, 500);
     return six;
-  }
-  public Scene showSceneSeven(Stage stage){ // u have to click plan and transactions first because thats what populates the 2d arr
-    Scene seven;  
-    
-    Button main = goToSceneOne(stage, "MAIN MENU");
-    Button back = goToSceneSix(stage, "BACK");
-    
-    PieChart piechart = showPieChart();        
-    
-    LineChart<String,String> lineChart = showlLineChart();
-    
-    HBox graphs = new HBox(10);
-    graphs.getChildren().addAll(piechart , lineChart);
-    
-    HBox buttons = new HBox();
-    buttons.getChildren().addAll(back, main);
-    buttons.setAlignment(Pos.BOTTOM_LEFT);
-    
-    VBox mainScreen = new VBox(10);
-    mainScreen.getChildren().addAll(graphs, buttons);
-    mainScreen.setAlignment(Pos.TOP_CENTER);
-    
-    BorderPane bPane = features.showBorder(mainScreen);
-    
-    seven = new Scene(bPane, 1000, 500);
-    return seven;
-  }
-  
-  // ---------------------------- GRAPHS ------------------------------ //
-  // pie chart of actual income earnings
-  public PieChart showPieChart(){
-    ArrayList<PieChart.Data> categories = new ArrayList<PieChart.Data>();
-    for(int i = 1; i < trends.income2D.length; i++){   
-      double amount = Double.valueOf(trends.income2D[i][2])    ;
-      if(amount != 0){                 
-        categories.add(new PieChart.Data(trends.income2D[i][0], amount));
-      }
     }
-    
-    ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(categories);
-    
-    PieChart piechart = new PieChart(pieChartData);
-    piechart.setTitle("Actual Income");
-    return piechart;
-  }
-  // line chart of expenses (actual and anticipated)
-  public LineChart<String,String> showlLineChart(){
-    CategoryAxis xAxis = new CategoryAxis();
-    xAxis.setLabel("Category");
-    
-    CategoryAxis yAxis = new CategoryAxis();
-    yAxis.setLabel("Amount($)");
-    
-    LineChart<String,String> lineChart = new LineChart<String, String>(xAxis,yAxis);
-    
-    lineChart.setTitle("Expense Line Graph");
-    
-    // lineChart.setTitle("Expense Line Graph");
-    
-    XYChart.Series antSeries = new XYChart.Series();
-    XYChart.Series accSeries = new XYChart.Series();
-    
-    antSeries.setName("Anticipated");
-    accSeries.setName("Actual");
-    
-    for(int i = 1; i < trends.expense2D.length; i++) {
-      for (int j = 0; j < 4; j++){
-        antSeries.getData().add(new XYChart.Data(trends.expense2D[i][0], trends.expense2D[i][1]));
-      }
+    public Scene showSceneSeven(Stage stage){ // u have to click plan and transactions first because thats what populates the 2d arr
+        Scene seven;  
+
+        Button main = goToSceneOne(stage, "MAIN MENU");
+        Button back = goToSceneSix(stage, "BACK");
+
+        PieChart piechart = showPieChart();        
+
+        LineChart<String,String> lineChart = showlLineChart();
+
+        HBox graphs = new HBox(10);
+        graphs.getChildren().addAll(piechart , lineChart);
+
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(back, main);
+        buttons.setAlignment(Pos.BOTTOM_LEFT);
+
+        VBox mainScreen = new VBox(10);
+        mainScreen.getChildren().addAll(graphs, buttons);
+        mainScreen.setAlignment(Pos.TOP_CENTER);
+
+        BorderPane bPane = features.showBorder(mainScreen);
+
+        seven = new Scene(bPane, 1000, 500);
+        return seven;
     }
-    for(int i = 1; i < trends.expense2D.length; i++) {
-      for (int j = 0; j < 4; j++){
-        accSeries.getData().add(new XYChart.Data(trends.expense2D[i][0], trends.expense2D[i][2]));
-      }
+
+    // ---------------------------- GRAPHS ------------------------------ //
+    // pie chart of actual income earnings
+    public PieChart showPieChart(){
+        ArrayList<PieChart.Data> categories = new ArrayList<PieChart.Data>();
+        for(int i = 1; i < trends.income2D.length; i++){   
+            double amount = Double.valueOf(trends.income2D[i][2])    ;
+            if(amount != 0){                 
+                categories.add(new PieChart.Data(trends.income2D[i][0], amount));
+            }
+        }
+
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(categories);
+                      
+        PieChart piechart = new PieChart(pieChartData);
+        piechart.setTitle("Actual Income");
+        return piechart;
     }
+    // line chart of expenses (actual and anticipated)
+    public LineChart<String,String> showlLineChart(){
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Category");
+          
+        CategoryAxis yAxis = new CategoryAxis();
+        yAxis.setLabel("Amount($)");
     
-    lineChart.getData().addAll(antSeries, accSeries);
+        LineChart<String,String> lineChart = new LineChart<String, String>(xAxis,yAxis);
     
-    return lineChart;
-  }     
-  // ---------------------------------------------------------------- //
-  
-  // ---------------------- Button Methods --------------------------- //
-  public Button goToSceneOne(Stage stage, String sceneName){
-    Button scene1B = features.yellowButton(sceneName);
-    scene1B.setOnAction(action -> {
-      stage.setScene(sceneOne);
-    });
-    return scene1B;
-  }
-  public Button goToSceneTwo(Stage stage, String sceneName){
-    Button scene2B = features.yellowButton(sceneName);
-    scene2B.setOnAction(action -> {
-      cBMonths = features.comboBoxMonths();
-      sceneTwo = showSceneTwo(window, cBMonths); //  new budget     
-      stage.setScene(sceneTwo);
-    });
-    return scene2B;
-  }
-  public Button goToSceneThree(Stage stage, String sceneName){
-    Button scene3B = features.yellowButton(sceneName);
-    scene3B.setOnAction(action -> {
-      cBMonths = features.comboBoxMonths();
-      sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
-      stage.setScene(sceneThree);
-    });
-    return scene3B;
-  }    
-  public Button goToSceneFour(Stage stage, String sceneName){
-    Button scene4B = features.yellowButton(sceneName);
-    scene4B.setOnAction(action -> {
-      cBMonths = features.comboBoxMonths();
-      sceneFour = showSceneThreeFour(window, "Actual"); // transactions
-      stage.setScene(sceneFour);
-    });
-    return scene4B;
-  }
-  public Button goToSceneFive(Stage stage, String sceneName){
-    Button scene5B = features.yellowButton(sceneName);
-    scene5B.setOnAction(action -> {
-      trends.populateDiff(trends.income2D);
-      trends.populateDiff(trends.expense2D);
-      cBMonths = features.comboBoxMonths();
-      sceneFive = showSceneFive(window, cBMonths);
-      stage.setScene(sceneFive);
-    });
-    return scene5B;
-  }
-  public Button goToSceneSix(Stage stage, String sceneName){
-    Button scene6B = features.yellowButton(sceneName);
-    scene6B.setOnAction(action -> {
-      cBMonths = features.comboBoxMonths();
-      sceneSix = showSceneSix(window, cBMonths);
-      stage.setScene(sceneSix);
-    });
-    return scene6B;
-  }
-  public Button goToSceneSeven(Stage stage, String sceneName){
-    Button scene7B = features.yellowButton(sceneName);
-    scene7B.setOnAction(action -> {
-      sceneSeven = showSceneSeven(window);
-      stage.setScene(sceneSeven);
-    });
-    return scene7B;
-  }
-  // ---------------------------------------------------------------- //
-  
-  //month things
-  public void getMonth(ComboBox cBMonths){
-    cBMonths.setOnAction(action ->{
-      this.month = (String)cBMonths.getValue();
-    });
-  }
-  
-  // for new budget
-  public void showCategory(boolean add, ArrayList<String> categoryArrList, TextField catTF, boolean income, Text incomeCatT, Text expensesCatT){
-    String stringCat;
-    String printCat = "";
-    String temp = catTF.getText();
-    if(add == true){
-      categoryArrList.add(catTF.getText());
+        lineChart.setTitle("Expense Line Graph");
+    
+        // lineChart.setTitle("Expense Line Graph");
+    
+        XYChart.Series antSeries = new XYChart.Series();
+        XYChart.Series accSeries = new XYChart.Series();
+    
+        antSeries.setName("Anticipated");
+        accSeries.setName("Actual");
+    
+        for(int i = 1; i < trends.expense2D.length; i++) {
+            for (int j = 0; j < 4; j++){
+                antSeries.getData().add(new XYChart.Data(trends.expense2D[i][0], trends.expense2D[i][1]));
+            }
+        }
+        for(int i = 1; i < trends.expense2D.length; i++) {
+            for (int j = 0; j < 4; j++){
+                accSeries.getData().add(new XYChart.Data(trends.expense2D[i][0], trends.expense2D[i][2]));
+            }
+        }
+        
+        lineChart.getData().addAll(antSeries, accSeries);
+
+        return lineChart;
+    }     
+    // ---------------------------------------------------------------- //
+
+    // ---------------------- Button Methods --------------------------- //
+    public Button goToSceneOne(Stage stage, String sceneName){
+        Button scene1B = features.yellowButton(sceneName);
+        scene1B.setOnAction(action -> {
+                stage.setScene(sceneOne);
+        });
+        return scene1B;
     }
-    else{
-      if(categoryArrList.contains(catTF.getText())){
-        System.out.println("going thru delete");
-        categoryArrList.remove(catTF.getText());
-      }    
+    public Button goToSceneTwo(Stage stage, String sceneName){
+        Button scene2B = features.yellowButton(sceneName);
+        scene2B.setOnAction(action -> {
+            cBMonths = features.comboBoxMonths();
+            sceneTwo = showSceneTwo(window, cBMonths); //  new budget     
+            stage.setScene(sceneTwo);
+        });
+        return scene2B;
     }
-    
-    if(categoryArrList.size() == 0){
-      if(income == true){
-        System.out.println("reset");
-        incomeCatT.setText("Categories : ");
-      }
-      else{
-        expensesCatT.setText("Categories : ");
-      }
+    public Button goToSceneThree(Stage stage, String sceneName){
+        Button scene3B = features.yellowButton(sceneName);
+        scene3B.setOnAction(action -> {
+            cBMonths = features.comboBoxMonths();
+            sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
+                stage.setScene(sceneThree);
+        });
+        return scene3B;
+    }    
+    public Button goToSceneFour(Stage stage, String sceneName){
+        Button scene4B = features.yellowButton(sceneName);
+        scene4B.setOnAction(action -> {
+            cBMonths = features.comboBoxMonths();
+            sceneFour = showSceneThreeFour(window, "Actual"); // transactions
+                stage.setScene(sceneFour);
+        });
+        return scene4B;
+    }
+    public Button goToSceneFive(Stage stage, String sceneName){
+        Button scene5B = features.yellowButton(sceneName);
+        scene5B.setOnAction(action -> {
+            trends.populateDiff(trends.income2D);
+            trends.populateDiff(trends.expense2D);
+            cBMonths = features.comboBoxMonths();
+            sceneFive = showSceneFive(window, cBMonths);
+            stage.setScene(sceneFive);
+        });
+        return scene5B;
+    }
+    public Button goToSceneSix(Stage stage, String sceneName){
+        Button scene6B = features.yellowButton(sceneName);
+        scene6B.setOnAction(action -> {
+            cBMonths = features.comboBoxMonths();
+            sceneSix = showSceneSix(window, cBMonths);
+            stage.setScene(sceneSix);
+        });
+        return scene6B;
+    }
+    public Button goToSceneSeven(Stage stage, String sceneName){
+        Button scene7B = features.yellowButton(sceneName);
+        scene7B.setOnAction(action -> {
+            sceneSeven = showSceneSeven(window);
+            stage.setScene(sceneSeven);
+        });
+        return scene7B;
+    }
+    // ---------------------------------------------------------------- //
+
+    //month things
+    public void getMonth(ComboBox cBMonths){
+        cBMonths.setOnAction(action ->{
+            this.month = (String)cBMonths.getValue();
+        });
+    }
+
+    // for new budget
+    public void showCategory(boolean add, ArrayList<String> categoryArrList, TextField catTF, boolean income, Text incomeCatT, Text expensesCatT){
+        String stringCat;
+        String printCat = "";
+        String temp = catTF.getText();
+        if(add == true){
+            categoryArrList.add(catTF.getText());
+        }
+        else{
+            if(categoryArrList.contains(catTF.getText())){
+                System.out.println("going thru delete");
+                categoryArrList.remove(catTF.getText());
+            }    
+        }
+        
+        if(categoryArrList.size() == 0){
+            if(income == true){
+                System.out.println("reset");
+                incomeCatT.setText("Categories : ");
+            }
+            else{
+                expensesCatT.setText("Categories : ");
+            }
+        }
+
+        for(int i = 0; i < categoryArrList.size(); i ++){
+            stringCat = categoryArrList.get(i) + "\n";      
+            System.out.println("String cat is: " + stringCat)      ;
+            printCat += stringCat;            
+            System.out.println(printCat);
+            if(income == true){
+                incomeCatT.setText("Categories : \n" + printCat);
+            }
+            else {
+                expensesCatT.setText("Categories : \n" + printCat);
+            }
+        }
+        System.out.println("arraylist is: " + categoryArrList);
     }
     
     for(int i = 0; i < categoryArrList.size(); i ++){

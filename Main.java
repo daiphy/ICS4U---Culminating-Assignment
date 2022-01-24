@@ -3,5 +3,6 @@ public class Main{
         //initializing the view
         AppLayoutFV gui = new AppLayoutFV();
         gui.launch(AppLayoutFV.class, args);
+
     }
 }

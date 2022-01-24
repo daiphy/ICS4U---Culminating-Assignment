@@ -18,6 +18,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos; 
 import javafx.scene.image.Image;
@@ -175,23 +176,71 @@ public class LayoutFeatures{
         
         return months;
     }
-    public ComboBox comboBoxIncome(){
-        ComboBox incomeCat = new ComboBox();
-        incomeCat.getItems().addAll(
-                                    "Savings", "Paycheck", "Bonus",
-                                    "Interest", "Allowance", "Other"
-                                   );
+    // public ComboBox comboBoxIncome(String[][] income2D){
+    //    
+    //     ComboBox incomeCat = new ComboBox();
+    //     incomeCat.getItems().addAll(
+    //                                 "Savings", "Paycheck", "Bonus",
+    //                                 "Interest", "Allowance", "Other"
+    //                                );
+    //     incomeCat.setPromptText("Select Category");
+    //     incomeCat.setEditable(false);
+        
+    //     return incomeCat;
+    // }
+
+    public ComboBox comboBoxIncome(String[][] income2D){        
+        System.out.println("combo box printing");
+        for(int i = 0; i < trends.income2D.length; i++){
+            for(int j = 0; j < 2; j++){
+                System.out.print(trends.income2D[i][j] + ", ");
+                
+            } 
+            System.out.println();
+        }
+        String temp = trends.income2D[1][0];
+        ComboBox incomeCat = new ComboBox();        
+        // if(income2D[1][0] == null){
+        //     incomeCat.getItems().addAll(                            
+        //             "Savings", "Paycheck", "Bonus",
+        //                 "Interest", "Allowance", "Other"
+        //     );
+        // }
+        // else{
+            System.out.println("entering their categories");
+            for(int i = 1; i < income2D.length; i++){                
+                    incomeCat.getItems().addAll(
+                        income2D[i][0]
+                    );
+                
+            }            
+        // }        
+        
         incomeCat.setPromptText("Select Category");
         incomeCat.setEditable(false);
         
         return incomeCat;
     }
-    public ComboBox comboBoxExpense(){
-        ComboBox expenseCat = new ComboBox();
-        expenseCat.getItems().addAll(
-                                     "Food", "Health", "Transportation", 
-                                     "Utilies", "Personal","Other"
-        );
+
+    public ComboBox comboBoxExpense(String[][] expense2D){
+        String temp = trends.income2D[1][0];
+        ComboBox expenseCat = new ComboBox();       
+        if(expense2D[1][0] == null){
+            expenseCat.getItems().addAll(                            
+                "Food", "Health", "Transportation", 
+                "Utilies", "Personal","Other"
+            );
+        }
+        else{
+            System.out.println("entering their categories");
+            for(int i = 1; i < expense2D.length; i++){                
+                expenseCat.getItems().addAll(
+                    expense2D[i][0]
+                    );
+                
+            }            
+        }                 
+                                     
         expenseCat.setPromptText("Select Category");
         expenseCat.setEditable(false);
         
