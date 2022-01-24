@@ -239,13 +239,13 @@ public class AppLayoutFV extends Application{
             boolean check;       
             check = onlyLetters(incCatTF.getText()); //INPUT VALIDATION
             
-            if(check){      
-                warningT.setText("");                      
+            // if(check){      
+            //     warningT.setText("");                      
                 showCategory(true, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT); // arraylist is used so that they can keep adding categories          
-            }
-            else{
-                warningT.setText("Please input a number. Do not include symbols or letters");                
-            }
+            // }
+            // else{
+            //     warningT.setText("Please input a number. Do not include symbols or letters");                
+            // }
             
         });
 
@@ -259,13 +259,13 @@ public class AppLayoutFV extends Application{
             boolean check;       
             check = onlyLetters(expCatTF.getText()); //INPUT VALIDATION
             
-            if(check){      
-                warningT.setText("");                      
+            // if(check){      
+            //     warningT.setText("");                      
                 showCategory(true, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);                
-            }
-            else{
-                warningT.setText("Please input a number. Do not include symbols or letters");                
-            }
+            // }
+            // else{
+                // warningT.setText("Please input a number. Do not include symbols or letters");                
+            // }
                                 
         });
 
@@ -311,6 +311,8 @@ public class AppLayoutFV extends Application{
                 trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
                 trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
                 trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);                          
+                arrUpdate(trends.incomeCatList, trends.income2D, 0);
+                arrUpdate(trends.expenseCatList, trends.expense2D, 0);
                 sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
                 stage.setScene(sceneThree);
             }
@@ -423,16 +425,6 @@ public class AppLayoutFV extends Application{
         else{
             cBInc = cBIncFour;
             cBExp = cBExpFour;
-            arrUpdate(incomeCatArr, trends.income2D, 0);
-            arrUpdate(incomeAmtArr, trends.income2D, 2);
-            arrUpdate(expenseCatArr, trends.expense2D, 0);
-            arrUpdate(expenseAmtArr, trends.expense2D, 2);
-            System.out.println("incomeCatArr is " + incomeCatArr);
-            System.out.println("incomeAmtArr is " + incomeAmtArr);   
-            System.out.println("expenseCatArr is " + expenseCatArr);
-            System.out.println("expenseAmtArr is " + expenseAmtArr);      
-            showDataThreeFour(incomeCatArr, incomeAmtArr, showIncCat, showIncAmt);
-            showDataThreeFour(expenseCatArr, expenseAmtArr, showExpCat, showExpAmt);
         }
 
         addTB.setOnAction(action -> {     
@@ -480,7 +472,15 @@ public class AppLayoutFV extends Application{
             Button nextB = features.yellowButton("NEXT");
             nextB.setOnAction(action -> {  
                 trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
-                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month);                 
+                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month); 
+                System.out.println("CHECKING");
+                for(int i = 0; i < trends.income2D.length; i++){
+                    for(int j = 0; j < trends.income2D[0].length; j++){
+                        System.out.print(trends.income2D[i][j] + ", ");
+                        
+                    } 
+                    System.out.println();
+                }
                 //put into CSV
                 System.out.println("going into toCSV");
                 financeFV.toCSV(trends.income2D, "income", this.month);
