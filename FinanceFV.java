@@ -23,13 +23,14 @@ class FinanceFV {
     public void toCSV(String[][] arr, String choice, String month){
         getFileName(choice);
         //put into CSV
-        String coords = checkForMonth(month, readCSV());
-        if(coords.equals(":)") || readCSV().length == 7){
+        String coords = checkForMonth(month);
+        // System.out.println("coords: " + coords);
+        if(coords.equals(":)")){
             appendCSV(arr);
         }
         else{
             findNext(month); 
-            String initialCoords = checkForMonth(month, readCSV());
+            String initialCoords = checkForMonth(month);
             int row = Integer.parseInt(initialCoords.substring(0,initialCoords.indexOf(",")));
             int col = Integer.parseInt(initialCoords.substring(initialCoords.indexOf(",") + 1,initialCoords.length()));
             //replace arr with smth that will not change, a 2D to store everything
@@ -38,6 +39,7 @@ class FinanceFV {
             String[][] csvArr = new String[r][c];
             csvArr = readCSV();
             boolean updated = update2DArr(csvArr, arr, row, col, 0, 0);
+            System.out.println("updated: " + updated);
             if(updated){
                 updateCSV(csvArr);
             } 
@@ -121,13 +123,8 @@ class FinanceFV {
 
     //--- method to check for chosen month name ---//
     //can be used for finding both the start and ending indexes
-    /**
-     * if the chosen month is the most recent month
-     * - will set the total num rows between existing csv and 
-     *   additional data as the end of appending section
-    */
-    public String checkForMonth(String monthName, String[][] arr){
-        // String[][] arr = readCSV();
+    public String checkForMonth(String monthName){
+        String[][] arr = readCSV();
         String coords = ":)";
         for(int i = 0; i < arr.length; i++){
             for(int j = 0; j < arr[0].length; j++){
@@ -165,7 +162,6 @@ class FinanceFV {
     //chosen month is after existing months
     public void appendCSV(String[][] addArr){
         String[][] arrOne = readCSV();
-        String[][] temp; //maybe add a way to organize the stuff, so that all the months are in order
         //try catch to append to existing data in csv
         try(PrintWriter writer = new PrintWriter(this.fileName)){
             StringBuilder builder = new StringBuilder();
@@ -190,11 +186,12 @@ class FinanceFV {
             System.out.println(e.getMessage());
         }
     }
+
     //--- method to update an array containing csv data (chosen month already has existing data) ---//
     public boolean update2DArr(String[][] array, String[][] arr, int row, int col, int r, int c){
         boolean bool = true;
         if(col < array[0].length && row < array.length){ //validation checks 
-            if(array[row][col].equals("Month: " + this.nextMonth)){
+            if(array[row][col].equals("Month: " + this.nextMonth) || (row == array.length - 1 && col == array[0].length - 1)){
                 return false;
             }
             else{
@@ -207,7 +204,7 @@ class FinanceFV {
             }
         }
 
-        if(col < array[0].length && row < array.length && c < array[0].length && row < arr.length){
+        if(col < array[0].length && row < array.length){
             array[row][col] = arr[r][c];  
         }
         return bool;
@@ -219,13 +216,10 @@ class FinanceFV {
             //loop through 2D arr
             for(int a = 0; a < arr.length; a++){
                 for(int b = 0; b < arr[0].length; b++){
-                    if(arr[a][b] == null){
-                        builder.append("0.0,");
-                    }
-                    else{
-                        builder.append(arr[a][b] + ",");
-                    }
+                    //System.out.print("arr[a][b]: " + arr[a][b]);
+                    builder.append(arr[a][b] + ",");
                 }
+                //System.out.println();
                 builder.append("\n");
             }
             //put all the information into the csv
@@ -250,15 +244,17 @@ class FinanceFV {
         getFileName(choice);
         String[][] arr = readCSV();
         String startCoords = checkForMonth(month);
-        int row = Integer.parseInt(startCoords.substring(0,startCoords.indexOf(",")));
-        int col = Integer.parseInt(startCoords.substring(startCoords.indexOf(",") + 1,startCoords.length()));
-        for(int i = 0; i < updateArr.length; i++){
-            col = 0;
-            for(int j = 0; j < updateArr[0].length; j++){
-                updateArr[i][j] = arr[row][col];
-                col++;
+        if(!startCoords.equals(":)")){
+            int row = Integer.parseInt(startCoords.substring(0,startCoords.indexOf(",")));
+            int col = Integer.parseInt(startCoords.substring(startCoords.indexOf(",") + 1,startCoords.length()));
+            for(int i = 0; i < updateArr.length; i++){
+                col = 0;
+                for(int j = 0; j < updateArr[0].length; j++){
+                    updateArr[i][j] = arr[row][col];
+                    col++;
+                }
+                row++;
             }
-            row++;
         }
     }
 
