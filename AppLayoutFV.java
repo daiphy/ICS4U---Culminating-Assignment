@@ -237,10 +237,10 @@ public class AppLayoutFV extends Application{
 
         //Set the chosen month to selected month from combo box
         getMonth(cBMonths);
-        showText(cBMonths, incomeCatT, warningT, stage);
+        showText(cBMonths, incomeCatT, expensesCatT, warningT, stage);
 
         /**
-        incomeCatT = showText(cBMonths, warningT, stage, trends.incomeCatList);
+         * incomeCatT = showText(cBMonths, warningT, stage, trends.incomeCatList);
         expensesCatT = showText(cBMonths, warningT, stage, trends.expenseCatList);
          */
 
@@ -1199,7 +1199,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
 
     // ---------------------------------------------------------------- //
 
-    public void showText(ComboBox cBMonths, Text incomeCatT, Text warningT, Stage stage){
+    public void showText(ComboBox cBMonths, Text incomeCatT, Text expenseCatT, Text warningT, Stage stage){
         cBMonths.setOnAction(action ->{
             this.month = (String)cBMonths.getValue();
             warningT.setText("month has been clicked");
@@ -1209,33 +1209,47 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
             if(startCoords.equals(":)")){
                 System.out.println("list has been cleared");
                 trends.incomeCatList.clear();
+                trends.expenseCatList.clear();
                 sceneTwo = showSceneTwo(window, cBMonths);
                 stage.setScene(sceneTwo);
             }
             else{
                 trends.incomeCatList.clear();
+                trends.expenseCatList.clear();
                 financeFV.repopulate(this.month, trends.income2D, "income"); 
                 financeFV.repopulate(this.month, trends.expense2D, "expense");
                 for(int i = 1; i < trends.income2D.length; i++){        
                     trends.incomeCatList.add(trends.income2D[i][0]);
+                }
+                for(int i = 1; i < trends.expense2D.length; i++){        
                     trends.expenseCatList.add(trends.expense2D[i][0]);
                 }
             }
             
             // makes incomeCatT into what is in the arraylist
-            String stringCat;
-            String printCat = "";
+            String incStringCat, expStringCat;
+            String incPrintCat = "";
+            String expPrintCat = "";
+
+          
             
-            if(trends.incomeCatList.isEmpty() == false){
+            if(trends.incomeCatList.isEmpty() == false || trends.expenseCatList.isEmpty() == false){
                 System.out.println("in is empty");
                 for(int i = 0; i < trends.incomeCatList.size(); i ++){
-                    stringCat = trends.incomeCatList.get(i) + "\n";      
-                    System.out.println("String cat is: " + stringCat)      ;
-                    printCat += stringCat;            
-                    System.out.println(printCat);
+                    incStringCat = trends.incomeCatList.get(i) + "\n";      
+                    System.out.println("String cat is: " + incStringCat)      ;
+                    incPrintCat += incStringCat;            
+                    System.out.println(incPrintCat);
                     
-                    incomeCatT.setText("Categories : \n" + printCat);
+                    incomeCatT.setText("Categories : \n" + incPrintCat);
+                }
+                for(int i = 0; i < trends.expenseCatList.size(); i ++){
+                    expStringCat = trends.expenseCatList.get(i) + "\n";      
+                    System.out.println("String cat is: " + expStringCat)      ;
+                    expPrintCat += expStringCat;            
+                    System.out.println(expPrintCat);
                     
+                    expenseCatT.setText("Categories : \n" + expPrintCat);
                 }
             }
         });
