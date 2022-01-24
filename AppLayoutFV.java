@@ -197,7 +197,8 @@ public class AppLayoutFV extends Application{
         bee = features.image();
         bee2 = features.image();
         
-        Label instructionsL = features.setFont("Type in your desired category and press add to include it. If you would like to delete one, type in your category and press the delete button.", 12); 
+        Label instructionsL = features.setFont("Type in your desired category and press add to include it.", 12); 
+        Label instructionsL2 = features.setFont("If you would like to delete one, type in your category and press the delete button.", 12);
         Label infoL = features.setFont("If you want default categories set for you, do not enter anything.", 12);
 
         //Asks the user which month they are budgeting for and provide a drop down menu 
@@ -285,6 +286,10 @@ public class AppLayoutFV extends Application{
         titleHB.getChildren().addAll(bee, newBudgetL, bee2);
         titleHB.setAlignment(Pos.CENTER);
         
+        VBox instructionsVB = new VBox(10);
+        instructionsVB.getChildren().addAll(instructionsL, instructionsL2, infoL);
+        instructionsVB.setAlignment(Pos.CENTER);
+        
         //Displays the user's categories
         VBox incomeCatLayout = new VBox(20);
         incomeCatLayout.getChildren().addAll(incomeL, incomeCatT);
@@ -300,7 +305,6 @@ public class AppLayoutFV extends Application{
                 
         //NOTE: Buttons need action, move formatting to its own button methods
         Button mainMenuB = goToSceneOne(window, "MAIN MENU");        
-        
         Button nextPageB = goToSceneThree(window, "NEXT PAGE");        
         
         //HBox to gather main menu button and next page button
@@ -310,14 +314,18 @@ public class AppLayoutFV extends Application{
         
         //Making the overall screen
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(titleHB, instructionsL, infoL, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
+        mainScreen.getChildren().addAll(titleHB, instructionsVB, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
         mainScreen.setAlignment(Pos.CENTER);
         
         // call border mthd
-        BorderPane bPaneTwo = features.showBorder(mainScreen);
+        BorderPane bPane = features.showBorder(mainScreen);
+        bPane.setCenter(mainScreen);
         
-        // putting everything into the scene
-        two = new Scene(bPaneTwo, 1000, 500);
+        // add a scroll wheel
+        ScrollPane scroll = features.showScrollPane(bPane);
+
+        // put the components into the scene
+        two = new Scene(scroll, 1000, 500);
         
         return two;
     }
