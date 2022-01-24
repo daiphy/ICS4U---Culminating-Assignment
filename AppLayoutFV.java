@@ -423,6 +423,16 @@ public class AppLayoutFV extends Application{
         else{
             cBInc = cBIncFour;
             cBExp = cBExpFour;
+            arrUpdate(incomeCatArr, trends.income2D, 0);
+            arrUpdate(incomeAmtArr, trends.income2D, 2);
+            arrUpdate(expenseCatArr, trends.expense2D, 0);
+            arrUpdate(expenseAmtArr, trends.expense2D, 2);
+            System.out.println("incomeCatArr is " + incomeCatArr);
+            System.out.println("incomeAmtArr is " + incomeAmtArr);   
+            System.out.println("expenseCatArr is " + expenseCatArr);
+            System.out.println("expenseAmtArr is " + expenseAmtArr);      
+            showDataThreeFour(incomeCatArr, incomeAmtArr, showIncCat, showIncAmt);
+            showDataThreeFour(expenseCatArr, expenseAmtArr, showExpCat, showExpAmt);
         }
 
         addTB.setOnAction(action -> {     
@@ -470,15 +480,7 @@ public class AppLayoutFV extends Application{
             Button nextB = features.yellowButton("NEXT");
             nextB.setOnAction(action -> {  
                 trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
-                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month); 
-                System.out.println("CHECKING");
-                for(int i = 0; i < trends.income2D.length; i++){
-                    for(int j = 0; j < trends.income2D[0].length; j++){
-                        System.out.print(trends.income2D[i][j] + ", ");
-                        
-                    } 
-                    System.out.println();
-                }
+                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month);                 
                 //put into CSV
                 System.out.println("going into toCSV");
                 financeFV.toCSV(trends.income2D, "income", this.month);
