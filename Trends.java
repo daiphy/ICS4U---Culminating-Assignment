@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import javafx.scene.control.ComboBox;
+// import javafx.scene.control.ComboBox;
 
 public class Trends {
     
@@ -30,8 +30,12 @@ public class Trends {
     }
 
     //Methods
-    public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr){
-        twoDArr = new String[categoryArrList.size()+ 1][4];        
+    public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr, String month){
+
+        twoDArr = new String[categoryArrList.size()+ 1][4]; 
+        
+        twoDArr[0][0] = "Month: " + month;   
+        
         int a = 0;
         for(int i = 1; i < twoDArr.length; i ++){ //starts at one because 0 is the month name
             twoDArr[i][0] = categoryArrList.get(a);
