@@ -12,7 +12,10 @@ class FinanceFV {
     //-------------------- GLOBAL VARIABLES --------------------//
     public String fileName = ":)";        
     public String nextMonth = ":)";
-    public boolean imported = false;
+    boolean[] fileArr = {false, false};
+    // public boolean importedInc = false;
+    // public boolean importedExp = false;
+    public boolean fullImport = false;
     Trends trends = new Trends();
     //-------------------- CONSTRUCTOR --------------------//
     public FinanceFV(){
@@ -53,17 +56,35 @@ class FinanceFV {
         FileChooser fileChooser = new FileChooser(); // allow user to input file
         File file = fileChooser.showOpenDialog(primaryStage);
         this.fileName = file.getName();
-    
-        String warningText = " ";
+        System.out.println("they have entered: " + this.fileName);
+        String warningText = " ";        
     
         if (file != null) {
             // If inputted file is .csv file
             if ((this.fileName.substring(this.fileName.length() - 4, this.fileName.length())).equals(".csv")) {
                 if(this.fileName.toLowerCase().equals("income.csv") || this.fileName.toLowerCase().equals("expense.csv")){
-                    try {
+                    try {                        
+                        warningText = "You have imported: " + this.fileName;
+                        if(this.fileName.toLowerCase().equals("income.csv")){
+                            this.fileArr[0] = true;
+                        }
+                        else if(this.fileName.toLowerCase().equals("expense.csv")){
+                            this.fileArr[1] = true;
+                        }
+                        // this.fullImport = checkImport();                        
+                        if(this.fileArr[0] == true && this.fileArr[1] == false){
+                            warningText += " please import expense.csv";                            
+                        }
+                        else if(this.fileArr[0] == false && this.fileArr[1] == true){
+                            warningText += " please import income.csv";
+                        }
+                        else{
+                            this.fullImport = true;
+                            warningText += " both .csv files have been imported";
+                        }
+
                         repopulate(month, trends.income2D, "income");
-                        repopulate(month, trends.expense2D, "expense");
-                        this.imported = true;
+                        repopulate(month, trends.expense2D, "expense");                                                                   
                     } catch (Exception e) {
                         warningText = "Invalid, action terminated.";
                     }
@@ -77,7 +98,7 @@ class FinanceFV {
             
         }
         return warningText;
-    } 
+    }     
     //-------------------- READ CSV FILE --------------------//
     public String[][] readCSV(){
         //----- VARIABLES -----//

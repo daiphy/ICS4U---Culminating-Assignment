@@ -129,17 +129,21 @@ public class AppLayoutFV extends Application{
         
         Button transactionB = goToSceneFour(window, "TRANSACTION"); //scene 4
         transactionB.setPrefWidth(150);
+        // noData(transactionB, warningT);
         
         //Button summaryB = features.yellowButton("SUMMARY"); //scene 5
         Button summaryB = goToSceneFive(window, "SUMMARY"); //scene 5
         summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         summaryB.setPrefWidth(150);
+        // noData(summaryB, warningT);
         
         Button trendsB = goToSceneSeven(window, "TRENDS"); //scene 7
         trendsB.setPrefWidth(150);
+        // noData(trendsB, warningT);
         
         Button planB = goToSceneThree(window, "PLAN");        
         planB.setPrefWidth(150);
+        // noData(planB, warningT);
         
         Button importB = features.yellowButton("IMPORT");
         importB.setPrefWidth(150);
@@ -1111,7 +1115,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     }    
     public Button goToSceneFour(Stage stage, String sceneName){
         Button scene4B = features.yellowButton(sceneName);
-        scene4B.setOnAction(action -> {
+        scene4B.setOnAction(action -> {            
             if(this.month != null && clicked == true){
                 cBMonths = features.comboBoxMonths();
                 sceneFour = showSceneThreeFour(window, "Actual"); // transactions
@@ -1123,7 +1127,10 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     public Button goToSceneFive(Stage stage, String sceneName){
         Button scene5B = features.yellowButton(sceneName);
         scene5B.setOnAction(action -> {
-            if(this.month != null && clicked == true || financeFV.imported == true){
+            // financeFV.fullImport = financeFV.checkImport();
+            System.out.println("month is: " + this.month + " clicked is " + clicked + " imported is " + financeFV.fullImport);
+            if(this.month != null && clicked == true ||financeFV.fullImport == true){
+                System.out.println("going to scene 5");
                 financeFV.repopulate(this.month, trends.income2D, "income");
                 financeFV.repopulate(this.month, trends.expense2D, "expense");
                 trends.populateDiff(trends.income2D);
@@ -1136,9 +1143,9 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
         return scene5B;
     }
     public Button goToSceneSix(Stage stage, String sceneName){
-        Button scene6B = features.yellowButton(sceneName);
-        scene6B.setOnAction(action -> {
-            if(this.month != null && clicked == true || financeFV.imported == true){
+        Button scene6B = features.yellowButton(sceneName);        
+        scene6B.setOnAction(action -> {            
+            if(this.month != null && (clicked == true || financeFV.fullImport == true)){
                 cBMonths = features.comboBoxMonths();
                 sceneSix = showSceneSix(window, cBMonths); // trends
                 stage.setScene(sceneSix);
@@ -1147,15 +1154,24 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
         return scene6B;
     }
     public Button goToSceneSeven(Stage stage, String sceneName){
-        Button scene7B = features.yellowButton(sceneName);
-        scene7B.setOnAction(action -> {
-            if(this.month != null && clicked == true || financeFV.imported == true){
+        Button scene7B = features.yellowButton(sceneName);        
+        scene7B.setOnAction(action -> {            
+            if(this.month != null && (clicked == true || financeFV.fullImport == true)){
                 cBMonths = features.comboBoxMonths();
                 sceneSeven = showSceneSeven(window, cBMonths); // trends
                 stage.setScene(sceneSeven);
             }
         });
         return scene7B;
+    }
+    public void noData(Button buttonB, Text warningT){
+        buttonB.setOnAction(action ->{            
+            if (this.month == null || clicked == false || financeFV.fullImport == false){
+                    warningT.setText("Please make a new budget first or import csvs");
+                    System.out.println("no data is working");
+                    System.out.println("month is: " + this.month + " clicked is " + clicked + " imported is " + financeFV.fullImport);
+                }                            
+        });
     }
     // ---------------------------------------------------------------- //
 
