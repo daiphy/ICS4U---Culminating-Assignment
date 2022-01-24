@@ -21,13 +21,7 @@ class FinanceFV {
     //this method collects methods from financeFV in order to be used in AppLayoutFV
     //arr is existing csv contents by using readCSV() in the param, choice is to determine which file it stores into
     public void toCSV(String[][] arr, String choice, String month){
-        //file name to inport to income vs expense
-        if(choice.equals("income")){
-            this.fileName = "income.csv";
-        }
-        else{
-            this.fileName = "expense.csv";
-        }
+        getFileName(choice);
         //put into CSV
         String coords = checkForMonth(month);
         if(coords.equals(":)") || readCSV().length == 7){
@@ -165,17 +159,6 @@ class FinanceFV {
         this.nextMonth = trends.monthNames[index];
     }
 
-    // //this is a backup method since the months aren't inputted in order
-    // //DOES NOT REALLY WORK :(
-    // public void findNext(String month){
-    //     String[][] arr = readCSV();
-    //     for(int i = 0; i < arr.length; i++){
-    //         if(arr[i][0].equals("Month: " + month)){
-    //             this.nextMonth = arr[i + 7][0].substring(7,arr[i+7][0].length() - 1);
-    //         }
-    //     }
-    // }
-
     //--- method to append to the csv ---//
     //SO FAR what this method does is: append to the end of the csv
     //data for chosen month has not been created yet
@@ -223,10 +206,6 @@ class FinanceFV {
                 }
             }
         }
-        //the stuff below is supposed to be income2D vs expense2D, NOT JUST INCOME2D, but passing through as
-        //param DOES NOT WORK
-        //even when setting as global and putting setting it along with filenames in toCSV() method
-        //does not work declaring in this method either 
 
         if(col < array[0].length && row < array.length && c < array[0].length && row < arr.length){
             array[row][col] = arr[r][c];  
@@ -240,7 +219,12 @@ class FinanceFV {
             //loop through 2D arr
             for(int a = 0; a < arr.length; a++){
                 for(int b = 0; b < arr[0].length; b++){
-                    builder.append(arr[a][b] + ",");
+                    if(arr[a][b] == null){
+                        builder.append("0.0,");
+                    }
+                    else{
+                        builder.append(arr[a][b] + ",");
+                    }
                 }
                 builder.append("\n");
             }
@@ -249,9 +233,46 @@ class FinanceFV {
         } catch (FileNotFoundException e){
             System.out.println(e.getMessage());
         }
+    }
 
-        //from 0,0 to row for starting point (decide for this vs next month)
-        //bc you can either rewrite over smth existing or add a missing month
-        //split into diff methods? 
+    //--- method to repopulate trends 2D arrays to display different things in scene 5 ---//
+    //updateArr is pulled from trends.2D arrays
+    //string month is from AppLayout
+    //String choice is "income" vs "expense"
+    //String[][] arr is existing information in the csv
+    //
+    //get startcoords depending on what month it is
+    //set row and col to be these indexes of where the month name is
+    //the nested for loops go through the row and col lengths of the trends 2D array
+    //reset the trends 2D array with existing data in csv pulled from arr[][]
+    //row and col just make sure it's iterating properly
+    public void repopulate(String month, String[][] updateArr, String choice){        
+        getFileName(choice);
+        String[][] arr = readCSV();
+        String startCoords = checkForMonth(month);
+        if(!startCoords.equals(":)")){                      
+            int row = Integer.parseInt(startCoords.substring(0,startCoords.indexOf(",")));
+            int col = Integer.parseInt(startCoords.substring(startCoords.indexOf(",") + 1,startCoords.length()));
+            for(int i = 0; i < updateArr.length; i++){
+                col = 0;
+                for(int j = 0; j < updateArr[0].length; j++){
+                    updateArr[i][j] = arr[row][col];
+                    col++;
+                }
+                row++;
+            }
+        }
+        
+    }
+
+    //--- method to get file name ---//
+    public void getFileName(String choice){
+        //file name to inport to income vs expense
+        if(choice.equals("income")){
+            this.fileName = "income.csv";
+        }
+        else{
+            this.fileName = "expense.csv";
+        }
     }
 }
