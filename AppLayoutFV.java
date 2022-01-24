@@ -69,6 +69,7 @@ public class AppLayoutFV extends Application{
     public ComboBox cBMonths;
     public String month;
     public boolean clicked;
+    public boolean setMonth;
 
     // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
     //   ComboBox cBIncThree = features.comboBoxIncome();
@@ -77,7 +78,7 @@ public class AppLayoutFV extends Application{
     //   ComboBox cBExpFour = features.comboBoxExpense();
 
     //Initialize arrays
-        public String[] arr = new String[12];        
+        // public String[] arr = new String[12];        
     
     public AppLayoutFV(){
 
@@ -229,7 +230,7 @@ public class AppLayoutFV extends Application{
 
         //Set the chosen month to selected month from combo box
         getMonth(cBMonths);
-        setText(cBMonths, incomeCatT, warningT, stage);
+        showText(cBMonths, incomeCatT, warningT, stage);
 
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
@@ -303,12 +304,19 @@ public class AppLayoutFV extends Application{
         Button mainMenuB = goToSceneOne(window, "MAIN MENU");                
         Button nextPageB = features.yellowButton("NEXT");        
         nextPageB.setOnAction(action->{
-            trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);
-            trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
-            trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
-            trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);                          
-            sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
-            stage.setScene(sceneThree);
+            if(setMonth){
+                trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);
+                trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
+                trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
+                trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);                          
+                sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
+                stage.setScene(sceneThree);
+            }
+            else{
+                warningT.setText("Please choose a month.");
+            }
+
+            
         });
         
         //HBox to gather main menu button and next page button
@@ -935,7 +943,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     six = new Scene(scroll, 1000, 500);
     return six;
     }
-    public Scene showSceneSeven(Stage stage){ // u have to click plan and transactions first because thats what populates the 2d arr
+    public Scene showSceneSeven(Stage stage, ComboBox cBMonths){ // u have to click plan and transactions first because thats what populates the 2d arr
         Scene seven;  
 
         Button main = goToSceneOne(stage, "MAIN MENU");
@@ -953,7 +961,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
         buttons.setAlignment(Pos.BOTTOM_RIGHT);
 
         VBox mainScreen = new VBox(10);
-        mainScreen.getChildren().addAll(graphs, buttons);
+        mainScreen.getChildren().addAll(cBMonths, graphs, buttons);
         mainScreen.setAlignment(Pos.CENTER);
 
         BorderPane bPane = features.showBorder(mainScreen);
@@ -1073,7 +1081,8 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     public Button goToSceneSeven(Stage stage, String sceneName){
         Button scene7B = features.yellowButton(sceneName);
         scene7B.setOnAction(action -> {
-            sceneSeven = showSceneSeven(window);
+            cBMonths = features.comboBoxMonths();
+            sceneSeven = showSceneSeven(window, cBMonths);
             stage.setScene(sceneSeven);
         });
         return scene7B;
@@ -1138,10 +1147,11 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
 
     // ---------------------------------------------------------------- //
 
-    public void setText(ComboBox cBMonths, Text incomeCatT, Text warningT, Stage stage){
+    public void showText(ComboBox cBMonths, Text incomeCatT, Text warningT, Stage stage){
         cBMonths.setOnAction(action ->{
             this.month = (String)cBMonths.getValue();
             warningT.setText("month has been clicked");
+            setMonth = true;
             financeFV.fileName = "income.csv";
             String startCoords = financeFV.checkForMonth(this.month);
             if(startCoords.equals(":)")){
