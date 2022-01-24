@@ -16,7 +16,7 @@ class Finance {
     public Finance(){
 
     }
-    
+    // 
     public String[][] readCSV(String csvFile){
         String[][] tempArray = new String[arraySize][2];
         int i = 0;
