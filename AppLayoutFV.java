@@ -239,6 +239,11 @@ public class AppLayoutFV extends Application{
         getMonth(cBMonths);
         showText(cBMonths, incomeCatT, warningT, stage);
 
+        /**
+        incomeCatT = showText(cBMonths, warningT, stage, trends.incomeCatList);
+        expensesCatT = showText(cBMonths, warningT, stage, trends.expenseCatList);
+         */
+
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
         addIncCatB.setOnAction(action ->{
