@@ -332,7 +332,7 @@ public class AppLayoutFV extends Application{
         // call border mthd
         BorderPane bPane = features.showBorder(mainScreen);
         bPane.setCenter(mainScreen);
-    
+        // 
         // add a scroll wheel
         ScrollPane scroll = features.showScrollPane(bPane);
         
