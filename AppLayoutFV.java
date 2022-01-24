@@ -29,6 +29,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Popup;
 // import javafx.scene.control.ScrollPane;
 // import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 // import javafx.stage.Popup;
@@ -123,20 +124,26 @@ public class AppLayoutFV extends Application{
         //Buttons and formatting
         Button newBudgetB = goToSceneTwo(window, "NEW BUDGET"); //scene 2
         newBudgetB.setPrefWidth(150);
+
+        Button planB = features.yellowButton("PLAN");
+        Button transactionB = features.yellowButton("TRANSACTION");
+        Button summaryB = features.yellowButton("SUMMARY");
+        Button trendsB = features.yellowButton("TRENDS");
+
+
+        planB = goToSceneThree(window, "PLAN");        
+        planB.setPrefWidth(150);
         
-        Button transactionB = goToSceneFour(window, "TRANSACTION"); //scene 4
+        transactionB = goToSceneFour(window, "TRANSACTION"); //scene 4
         transactionB.setPrefWidth(150);
         
         //Button summaryB = features.yellowButton("SUMMARY"); //scene 5
-        Button summaryB = goToSceneFive(window, "SUMMARY"); //scene 5
+        summaryB = goToSceneFive(window, "SUMMARY"); //scene 5
         summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         summaryB.setPrefWidth(150);
         
-        Button trendsB = goToSceneSeven(window, "TRENDS"); //scene 7
+        trendsB = goToSceneSeven(window, "TRENDS"); //scene 7
         trendsB.setPrefWidth(150);
-        
-        Button planB = goToSceneThree(window, "PLAN");        
-        planB.setPrefWidth(150);
         
         Button importB = features.yellowButton("IMPORT");
         importB.setPrefWidth(150);
@@ -298,16 +305,19 @@ public class AppLayoutFV extends Application{
         displayCat.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
                 
         //NOTE: Buttons need action, move formatting to its own button methods
-        Button mainMenuB = goToSceneOne(window, "MAIN MENU");                
-        Button nextPageB = features.yellowButton("NEXT");        
-        nextPageB.setOnAction(action->{
+        Button mainMenuB = goToSceneOne(window, "MAIN MENU");  
+        Button nextPageB = features.yellowButton("NEXT");  
+
+          nextPageB.setOnAction(action->{
             trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);
             trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
             trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
             trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);                          
             sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
             stage.setScene(sceneThree);
-        });
+          });  
+        
+       
         
         //HBox to gather main menu button and next page button
         HBox sceneButtons = new HBox(20);
@@ -331,6 +341,7 @@ public class AppLayoutFV extends Application{
         
         return two;
     }
+   
     
     //-------------------- SCENE THREE/FOUR BELOW --------------------//
     public Scene showSceneThreeFour(Stage stage, String whichType){
@@ -466,8 +477,8 @@ public class AppLayoutFV extends Application{
             nextB.setOnAction(action -> {   
             trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 2, this.month);
             trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 2, this.month); 
-            trends.populateDiff(trends.income2D);
-            trends.populateDiff(trends.expense2D);
+            trends.populateDiff(trends.income2D, true);
+            trends.populateDiff(trends.expense2D, false);
 
             //put into CSV
             financeFV.toCSV(trends.income2D, "income", this.month);
@@ -555,9 +566,9 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     changeMonthDisplay(stage, cBMonths);
 
     //put into CSV
-    //financeFV.appendCSV(trends.income2D);
-    financeFV.toCSV(trends.income2D, "income", this.month);
-    financeFV.toCSV(trends.expense2D, "expense", this.month);
+    // //financeFV.appendCSV(trends.income2D);
+    // financeFV.toCSV(trends.income2D, "income", this.month);
+    // financeFV.toCSV(trends.expense2D, "expense", this.month);
 
     Scene five;
     //Titles, bees, buttons, labels, comboBoxes
@@ -1053,8 +1064,8 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     public Button goToSceneFive(Stage stage, String sceneName){
         Button scene5B = features.yellowButton(sceneName);
         scene5B.setOnAction(action -> {
-            trends.populateDiff(trends.income2D);
-            trends.populateDiff(trends.expense2D);
+            trends.populateDiff(trends.income2D, true);
+            trends.populateDiff(trends.expense2D, false);
             cBMonths = features.comboBoxMonths();
             sceneFive = showSceneFive(window, cBMonths);
             stage.setScene(sceneFive);
@@ -1090,11 +1101,40 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     public void changeMonthDisplay(Stage stage, ComboBox cBMonths){
         cBMonths.setOnAction(action ->{
             this.month = (String)cBMonths.getValue();
-            financeFV.repopulate(this.month, trends.income2D, "income");
-            financeFV.repopulate(this.month, trends.expense2D, "expense");
-            sceneFive = showSceneFive(window, cBMonths);
-            stage.setScene(sceneFive);
+            if(financeFV.checkForMonth(this.month).equals(":)")){
+              System.out.println("NULL MONTH");
+              Popup warning = showWarning();
+              warning.show(stage);
+
+            }
+            else{
+              financeFV.repopulate(this.month, trends.income2D, "income");
+              financeFV.repopulate(this.month, trends.expense2D, "expense");
+              sceneFive = showSceneFive(window, cBMonths);
+              stage.setScene(sceneFive);
+            }
+            
         });
+    }
+    public Popup showWarning(){
+      Popup warning = new Popup();
+      Label warnLabel = features.setFont("Please select a month with \n previous data from your csv.", 15);
+      warnLabel.setAlignment(Pos.CENTER);
+      // warnLabel.setSkin(babyBlue);
+      
+      Button exit = new Button("X");
+      exit.setOnAction(action -> {
+        warning.hide();
+      });
+      exit.setAlignment(Pos.TOP_LEFT);
+
+      HBox mainPopup = new HBox(warnLabel, exit);
+      // mainPopup.setAlignment(Pos.TOP_CENTER);
+      mainPopup.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
+
+      
+      warning.getContent().addAll(mainPopup);
+      return warning;
     }
 
     // for new budget
