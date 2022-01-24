@@ -5,16 +5,17 @@ public class Trends {
     
     //-------------------- GLOBAL VARIABLES --------------------//
     //2D Arrays
-    public String[][] income2D = new String[7][4];
+    public String[][] income2D = new String[7][4]; // temporary initialize
     public String[][] expense2D = new String[7][4];
     
-    public String[] incomeCat = {" ", "Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      // the space in front makes it line up with the num of rows in the 2d arrays
-    public String[] expenseCat = {" ", "Food", "Health", "Transportation", "Utilies", "Personal","Other"}; // we need to make this permanent in the 2d arrays first or something
+    public ArrayList<String> incomeCatList = new ArrayList<>();
+    public ArrayList<String> expenseCatList = new ArrayList<>();
+    public String[] defaultInc = {"Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      // the space in front makes it line up with the num of rows in the 2d arrays
+    public String[] defaultExp = {"Food", "Health", "Transportation", "Utilies", "Personal","Other"}; // we need to make this permanent in the 2d arrays first or something
 
     public String[] monthNames = {"January", "February", "March", "April", "May", 
     "June", "July", "August", "September", "October", "November", "December"};
     
-    public String chosenMonth;
     public int totalAntIncome;
     public int totalAntExpenses;
 
@@ -29,75 +30,38 @@ public class Trends {
     }
 
     //Methods
-    // public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr){
-    //     // twoDArr = new String[categoryArrList.size()+ 1][4];
-    //     int a = 0;
-    //     for(int i = 1; i < categoryArrList.size()+1; i ++){ //starts at one because 0 is the month name
-    //         twoDArr[i][0] = categoryArrList.get(a);
-    //         a++;
-    //     }
-    //     System.out.println("the length is" + twoDArr.length);
-
-    //     //testing populate() 
-    //     for(int i = 0; i < twoDArr.length; i++){
-    //         for(int j = 0; j < 2; j++){
-    //             System.out.print(income2D[i][j] + ", ");
-                
-    //         } 
-    //         System.out.println();
-    //     }
-    //     return twoDArr;
-    // }
-
-    // public void populateCat(String[] arr, String[][] income, String[][] expenses){  
+    
+    public ArrayList<String> defaultCategories(ArrayList<String> categoryArrList, String[] defaultCat){ //if they entered nothing, then populate the user's arraylist with default categories
         
-    //     int a = 0;
-    //     //populate categories and anticipated
-    //     for(int i = 0; i < 12; i++){  
-    //         if(i < 6){
-    //             income[i][0] = incomeCat[i];  
-    //             expenses[i][0] = expenseCat[i];  
-    //             income[i][1] = arr[i];  
-    //         }
-    //         else{
-    //             expenses[a][1] = arr[i]; 
-    //             a++;  
-    //         }       
-    //     } 
-        
-    //     //testing populate() 
-    //     for(int i = 0; i < 6; i++){
-    //         for(int j = 0; j < 2; j++){
-    //             System.out.print(income[i][j] + ", ");
-                
-    //         } 
-    //         System.out.println();
-    //     }
-    //     for(int i = 0; i < 6; i++){
-    //         for(int j = 0; j < 2; j++){
-    //             System.out.print(expenses[i][j] + ", ");
-                
-    //         } 
-    //         System.out.println();
-    //     }
-
-
-    // }
-    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, String[] labelCat, int col, String month){ //CHANGE THE INCOME NAMES
-        
-        for(int i = 0; i < twoDArr.length; i++){ 
-            if(i == 0){
-                System.out.print(month);
-                twoDArr[i][0] = "Month: " + month;
+            if(categoryArrList.isEmpty()){
+                for(int i = 0; i < defaultCat.length; i ++){ //starts at one because 0 is the month name
+                    categoryArrList.add(defaultCat[i]); // populate the categories with default if they entered nothing
+                }    
             }
-            else{
-                twoDArr[i][0] = labelCat[i]; //this inputs the categories in column 0 of the 2d array
-            }
-        }
+            
+            return categoryArrList;
+    }
 
+    public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr, String month){
+        twoDArr = new String[categoryArrList.size()+ 1][4];  
         
-        for(int i = 0; i < twoDArr.length; i++){
-            String temp = labelCat[i]; 
+        
+        twoDArr[0][0] = "Month: " + month; // Add the month to the 2d array
+
+        int a = 0;
+        for(int i = 1; i < twoDArr.length; i ++){ //starts at one because 0 is the month name
+            twoDArr[i][0] = categoryArrList.get(a);
+            a++;
+        }                
+        
+        return twoDArr;
+    }
+    
+    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, ArrayList<String> labelCat, int col, String month){ //CHANGE THE INCOME NAMES                                 
+        
+        int a = 0;
+        for(int i = 1; i < twoDArr.length; i++){
+            String temp = labelCat.get(a); 
             Double addOn = 0.0;
             for(int j = 0; j < catArr.size(); j++){
                 if(!amtArr.get(j).isEmpty() && catArr.get(j) != null){
@@ -105,7 +69,8 @@ public class Trends {
                         addOn += Double.parseDouble(amtArr.get(j));
                    }                
                 }   
-            }            
+            }        
+            a++;    
             
             twoDArr[i][col] = String.valueOf(addOn);
 
@@ -147,7 +112,7 @@ public class Trends {
             System.out.println();
         }
         
-        for(int i = 0; i < twoDArr.length; i++){
+        for(int i = 1; i < twoDArr.length; i++){
             double ant = Double.parseDouble(twoDArr[i][1]);
             double acc = Double.parseDouble(twoDArr[i][2]);                        
             double diff = ant-acc;
@@ -169,13 +134,26 @@ public class Trends {
         double addTerm;
         double sum = 0;
 
-        for(int i = 0; i < twoDArr[0].length; i++){
+        for(int i = 1; i < twoDArr.length; i++){
             addTerm = Double.valueOf(twoDArr[i][1]);
             sum += addTerm;
         }
         
         return sum;
     }    
+    
+    //Calculates the sum of the amounts column in a two d array
+    public double sumAccCalculator(String[][] twoDArr){
+        double addTerm;
+        double sum = 0;
+
+        for(int i = 1; i < twoDArr.length; i++){
+            addTerm = Double.valueOf(twoDArr[i][2]);
+            sum += addTerm;
+        }
+        
+        return sum;
+    }
 
     //calculates the end balance
     public double endBalance(double startingBalance, double accSavings){
