@@ -28,6 +28,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 // import javafx.scene.control.ScrollPane;
 // import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 // import javafx.stage.Popup;
@@ -346,6 +347,9 @@ public class AppLayoutFV extends Application{
         Text showExpCat = new Text();
         Text showExpAmt = new Text();
 
+        // input validation
+        Text warningT = new Text();
+
         // Arraylists
         ArrayList<String> incomeCatArr = new ArrayList<String>();
         ArrayList<String> incomeAmtArr = new ArrayList<String>(); 
@@ -374,19 +378,29 @@ public class AppLayoutFV extends Application{
             cBExp = cBExpFour;
         }
 
-        // button actions
-        addTB.setOnAction(action -> {
-            showUserInput(true , true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeCatArr, incomeAmtArr);            
-        });
-        addBB.setOnAction(action -> {
-            showUserInput(true, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseCatArr, expenseAmtArr);
-        });
-        delTB.setOnAction(action -> {
-            showUserInput(false, true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeCatArr, incomeAmtArr);
-        });
-        delBB.setOnAction(action -> {
-            showUserInput(false, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseCatArr, expenseAmtArr);
-        });
+        String tempT = amntTFT.getText();
+        String tempB = amntTFB.getText();
+
+        if(isNumeric(tempT) == true && isNumeric(tempB) == true){
+            // button actions
+            addTB.setOnAction(action -> {
+                showUserInput(true , true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeCatArr, incomeAmtArr);            
+            });
+            addBB.setOnAction(action -> {
+                showUserInput(true, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseCatArr, expenseAmtArr);
+            });
+            delTB.setOnAction(action -> {
+                showUserInput(false, true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeCatArr, incomeAmtArr);
+            });
+            delBB.setOnAction(action -> {
+                showUserInput(false, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseCatArr, expenseAmtArr);
+            });
+        }
+        else{
+            warningT.setText("Please input a number. Do not include symbol or letters.");
+            warningT.setTextAlignment(TextAlignment.CENTER);
+        }
+
         confirmB.setOnAction(action ->{
             if (whichType.equalsIgnoreCase("Anticipated")){
                 trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 1);
@@ -444,7 +458,7 @@ public class AppLayoutFV extends Application{
 
         // put it all together in the vbox
         VBox mainScreen = new VBox(10);
-        mainScreen.getChildren().addAll(titleHB, monthL, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
+        mainScreen.getChildren().addAll(titleHB, monthL, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, warningT, lastRow);
         mainScreen.setAlignment(Pos.TOP_CENTER);
 
         // add a border
@@ -457,6 +471,9 @@ public class AppLayoutFV extends Application{
         threeFour = new Scene(scroll, 1000, 500);
 
         return threeFour; 
+    }
+    private static boolean isNumeric(String str){
+        return str != null && str.matches("[0-9.]+");
     }
     
     //-------------------- SCENE FIVE BELOW --------------------//
