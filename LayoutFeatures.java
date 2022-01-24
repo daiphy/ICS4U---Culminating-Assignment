@@ -165,13 +165,14 @@ public class LayoutFeatures{
 
         return sPane;
     }
-    public ComboBox comboBoxMonths(){
+    public ComboBox comboBoxMonths(String text){
         ComboBox months = new ComboBox();
         months.getItems().addAll(
                                  "January", "February", "March", "April", "May", "June",
                                  "July", "August", "September", "October", "November", "December"
                                 );
-        months.setPromptText("Select Month");
+        
+        months.setPromptText(text);
         months.setEditable(false);
         
         return months;
