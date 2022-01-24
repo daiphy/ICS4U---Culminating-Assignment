@@ -29,6 +29,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Popup;
 // import javafx.scene.control.ScrollPane;
 // import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 // import javafx.stage.Popup;
@@ -313,7 +314,7 @@ public class AppLayoutFV extends Application{
         //HBox to gather main menu button and next page button
         HBox sceneButtons = new HBox(20);
         sceneButtons.getChildren().addAll(mainMenuB, nextPageB);
-        sceneButtons.setAlignment(Pos.CENTER_RIGHT);
+        sceneButtons.setAlignment(Pos.BOTTOM_RIGHT);
         
         //Making the overall screen
         VBox mainScreen = new VBox(20);        
@@ -322,7 +323,7 @@ public class AppLayoutFV extends Application{
         
         // call border mthd
         BorderPane bPane = features.showBorder(mainScreen);
-        bPane.setCenter(mainScreen);
+        // bPane.setCenter(mainScreen);
     
         // add a scroll wheel
         ScrollPane scroll = features.showScrollPane(bPane);
@@ -655,6 +656,7 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     //Third right
     VBox vBoxThirdRight = new VBox(10);
     vBoxThirdRight.getChildren().addAll(labelAnticipated2, labelBlank6);
+    vBoxThirdRight.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.expense2D.length; i++){
     Label labelThirdRight = new Label(trends.expense2D[i][1]);
@@ -665,6 +667,7 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     //Second right
     VBox vBoxSecondRight = new VBox(10);
     vBoxSecondRight.getChildren().addAll(labelActual2, labelBlank5);
+    vBoxSecondRight.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.expense2D.length; i++){
     Label labelSecondRight = new Label(trends.expense2D[i][2]);
@@ -675,6 +678,7 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     //Far right
     VBox vBoxFarRight = new VBox(10);
     vBoxFarRight.getChildren().addAll(labelDiff2, labelBlank4);
+    vBoxFarRight.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.expense2D.length; i++){
     Label labelFarRight = new Label(trends.expense2D[i][3]);
@@ -696,7 +700,7 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     
     HBox buttonsHB = new HBox(10);
     buttonsHB.getChildren().addAll(backB, mainMenuB, nextPageB);
-    buttonsHB.setAlignment(Pos.CENTER);
+    buttonsHB.setAlignment(Pos.BOTTOM_RIGHT);
     
     VBox mainScreen = new VBox(10);
     mainScreen.getChildren().addAll(titleHB, hBoxMiddle, buttonsHB);
@@ -915,11 +919,11 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     
     HBox buttonsHB = new HBox(10);
     buttonsHB.getChildren().addAll(backB, mainMenuB);
-    buttonsHB.setAlignment(Pos.CENTER);
+    buttonsHB.setAlignment(Pos.BOTTOM_RIGHT);
     
     VBox mainScreen = new VBox(10);
     mainScreen.getChildren().addAll(titleHB, monthlyBudgetL, mainScreenMiddle, summaryBottomVB, buttonsHB);
-    mainScreen.setAlignment(Pos.TOP_CENTER);
+    mainScreen.setAlignment(Pos.CENTER);
     
     // calling the borderpane method
     BorderPane bPane = features.showBorder(mainScreen);
@@ -944,13 +948,13 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
         HBox graphs = new HBox(10);
         graphs.getChildren().addAll(piechart , lineChart);
 
-        HBox buttons = new HBox();
+        HBox buttons = new HBox(10);
         buttons.getChildren().addAll(back, main);
-        buttons.setAlignment(Pos.BOTTOM_LEFT);
+        buttons.setAlignment(Pos.BOTTOM_RIGHT);
 
         VBox mainScreen = new VBox(10);
         mainScreen.getChildren().addAll(graphs, buttons);
-        mainScreen.setAlignment(Pos.TOP_CENTER);
+        mainScreen.setAlignment(Pos.CENTER);
 
         BorderPane bPane = features.showBorder(mainScreen);
 
@@ -1087,11 +1091,40 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     public void changeMonthDisplay(Stage stage, ComboBox cBMonths){
         cBMonths.setOnAction(action ->{
             this.month = (String)cBMonths.getValue();
-            financeFV.repopulate(this.month, trends.income2D, "income");
-            financeFV.repopulate(this.month, trends.expense2D, "expense");
-            sceneFive = showSceneFive(window, cBMonths);
-            stage.setScene(sceneFive);
+            if(financeFV.checkForMonth(this.month).equals(":)")){
+              System.out.println("NULL MONTH");
+              Popup warning = showWarning();
+              warning.show(stage);
+
+            }
+            else{
+              financeFV.repopulate(this.month, trends.income2D, "income");
+              financeFV.repopulate(this.month, trends.expense2D, "expense");
+              sceneFive = showSceneFive(window, cBMonths);
+              stage.setScene(sceneFive);
+            }
+          
         });
+    }
+    public Popup showWarning(){
+      Popup warning = new Popup();
+      Label warnLabel = features.setFont("Please select a month with \n previous data from your csv.", 15);
+      warnLabel.setAlignment(Pos.CENTER);
+      // warnLabel.setSkin(babyBlue);
+
+      Button exit = new Button("X");
+      exit.setOnAction(action -> {
+        warning.hide();
+      });
+      exit.setAlignment(Pos.TOP_LEFT);
+
+      HBox mainPopup = new HBox(warnLabel, exit);
+      // mainPopup.setAlignment(Pos.TOP_CENTER);
+      mainPopup.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
+
+
+      warning.getContent().addAll(mainPopup);
+      return warning;
     }
 
     //set default combobox month name display
