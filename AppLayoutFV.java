@@ -567,7 +567,7 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
 
     setMonth(cBMonths);
     //Set the chosen month to selected month from combo box and display data
-    changeMonthDisplay(stage, cBMonths);
+    changeMonthDisplay(stage, cBMonths, 5);
 
     Scene five;
     //Titles, bees, buttons, labels, comboBoxes
@@ -729,6 +729,8 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
 //-------------------- SCENE SIX BELOW --------------------//
 public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     Scene six;    
+
+    changeMonthDisplay(scene, cBMonths, 6);
 
     DecimalFormat df = new DecimalFormat("######.##");
 
@@ -947,32 +949,34 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     six = new Scene(scroll, 1000, 500);
     return six;
     }
-    public Scene showSceneSeven(Stage stage, ComboBox cBMonths){ // u have to click plan and transactions first because thats what populates the 2d arr
-        Scene seven;  
+public Scene showSceneSeven(Stage stage, ComboBox cBMonths){ // u have to click plan and transactions first because thats what populates the 2d arr
+    Scene seven;  
 
-        Button main = goToSceneOne(stage, "MAIN MENU");
-        Button back = goToSceneSix(stage, "BACK");
+    changeMonthDisplay(stage, cBMonths, 7);
 
-        PieChart piechart = showPieChart();        
+    Button main = goToSceneOne(stage, "MAIN MENU");
+    Button back = goToSceneSix(stage, "BACK");
 
-        LineChart<String,String> lineChart = showlLineChart();
+    PieChart piechart = showPieChart();        
 
-        HBox graphs = new HBox(10);
-        graphs.getChildren().addAll(piechart , lineChart);
+    LineChart<String,String> lineChart = showlLineChart();
 
-        HBox buttons = new HBox(10);
-        buttons.getChildren().addAll(back, main);
-        buttons.setAlignment(Pos.BOTTOM_RIGHT);
+    HBox graphs = new HBox(10);
+    graphs.getChildren().addAll(piechart , lineChart);
 
-        VBox mainScreen = new VBox(10);
-        mainScreen.getChildren().addAll(cBMonths, graphs, buttons);
-        mainScreen.setAlignment(Pos.CENTER);
+    HBox buttons = new HBox(10);
+    buttons.getChildren().addAll(back, main);
+    buttons.setAlignment(Pos.BOTTOM_RIGHT);
 
-        BorderPane bPane = features.showBorder(mainScreen);
+    VBox mainScreen = new VBox(10);
+    mainScreen.getChildren().addAll(cBMonths, graphs, buttons);
+    mainScreen.setAlignment(Pos.CENTER);
 
-        seven = new Scene(bPane, 1000, 500);
-        return seven;
-    }
+    BorderPane bPane = features.showBorder(mainScreen);
+
+    seven = new Scene(bPane, 1000, 500);
+    return seven;
+}
 
     // ---------------------------- GRAPHS ------------------------------ //
     // pie chart of actual income earnings
@@ -1113,7 +1117,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     }
     
     //for scene 5, to change the data shown
-    public void changeMonthDisplay(Stage stage, ComboBox cBMonths){
+    public void changeMonthDisplay(Stage stage, ComboBox cBMonths, int scene){
         cBMonths.setOnAction(action ->{
             this.month = (String)cBMonths.getValue();
             if(financeFV.checkForMonth(this.month).equals(":)")){
@@ -1125,8 +1129,18 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
             else{
               financeFV.repopulate(this.month, trends.income2D, "income");
               financeFV.repopulate(this.month, trends.expense2D, "expense");
-              sceneFive = showSceneFive(window, cBMonths);
-              stage.setScene(sceneFive);
+                if(scene == 5){
+                  sceneFive = showSceneFive(window, cBMonths);
+                  stage.setScene(sceneFive);
+                }
+                else if(scene == 6){
+                  sceneSix = showSceneSix(window, cBMonths);
+                  stage.setScene(sceneSix);
+                }
+                // else{
+                //   sceneSeven = showSceneSeven(window, cBMonths);
+                //   stage.setScene(sceneSeven);
+                // }
             }
           
         });
