@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-// import javafx.scene.control.ComboBox;
+import javafx.scene.control.ComboBox;
 
 public class Trends {
     
@@ -77,9 +77,9 @@ public class Trends {
             
             twoDArr[i][col] = String.valueOf(addOn);            
         }
+
         for(int i = 0; i < twoDArr.length; i++){
             if (twoDArr[i][1] == null || twoDArr[i][1].equals("")){
-                System.out.println("no longer empty");
                 twoDArr[i][1] = "0.0";
             }
             if (twoDArr[i][2] == null){
@@ -95,7 +95,7 @@ public class Trends {
 
     //calculates the difference between two doubles
     //can use this to find the difference between acc and ant income/expense, total accIncome - total accExpense
-    public String[][] populateDiff(String[][] twoDArr, boolean income){        
+    public String[][] populateDiff(String[][] twoDArr){        
         
         System.out.println("in diff");
         for(int i = 0; i < twoDArr.length; i++){
@@ -109,13 +109,7 @@ public class Trends {
         for(int i = 1; i < twoDArr.length; i++){
             double ant = Double.parseDouble(twoDArr[i][1]);
             double acc = Double.parseDouble(twoDArr[i][2]);                        
-            double diff;
-            if(income){
-                diff = acc - ant;
-            }
-            else{
-                diff = ant-acc;
-            }
+            double diff = ant-acc;
             twoDArr[i][3] = Double.toString(diff);            
         }
         for(int i = 0; i < twoDArr.length; i++){

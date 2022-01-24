@@ -46,7 +46,7 @@ public class LayoutFeatures{
     //-------------------- FEATURE METHODS --------------------//    
 
     public Label spacing(){
-        Label space = new Label("                        ");
+        Label space = new Label("   ");
         return space;
     }
     public Label setFont(String name, int size){
@@ -111,7 +111,7 @@ public class LayoutFeatures{
     
     }
     public TextField amntT(){
-        TextField amountT = new TextField("0");
+        TextField amountT = new TextField("0.00");
         return amountT;
     }
     public BorderPane showBorder(VBox center){
@@ -171,7 +171,6 @@ public class LayoutFeatures{
                                  "January", "February", "March", "April", "May", "June",
                                  "July", "August", "September", "October", "November", "December"
                                 );
-        
         months.setPromptText("Select Month");
         months.setEditable(false);
         
