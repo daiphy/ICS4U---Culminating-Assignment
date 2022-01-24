@@ -111,7 +111,7 @@ public class LayoutFeatures{
     
     }
     public TextField amntT(){
-        TextField amountT = new TextField("0.00");
+        TextField amountT = new TextField("0");
         return amountT;
     }
     public BorderPane showBorder(VBox center){
