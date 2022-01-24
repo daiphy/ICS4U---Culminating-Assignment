@@ -189,7 +189,7 @@ public class AppLayoutFV extends Application{
     }    
 
     //-------------------- SCENE TWO BELOW --------------------//
-    public Scene showSceneTwo (Stage scene, ComboBox cBMonths){
+    public Scene showSceneTwo (Stage stage, ComboBox cBMonths){
         Scene two;  // initialize a scene to return
 
         //Title, bees, instructions label and formatting
@@ -198,7 +198,8 @@ public class AppLayoutFV extends Application{
         bee = features.image();
         bee2 = features.image();
         
-        Label instructionsL = features.setFont("Type in your desired category and press add to include it. If you would like to delete one, type in your category and press the delete button.", 12); 
+        Label instructionsL = features.setFont("Type in your desired category and press add to include it.", 12); 
+        Label instructionsL2 = features.setFont("If you would like to delete one, type in your category and press the delete button.", 12); 
         Label infoL = features.setFont("If you want default categories set for you, do not enter anything and just click confirm.", 12);
 
         //Asks the user which month they are budgeting for and provide a drop down menu 
@@ -246,33 +247,7 @@ public class AppLayoutFV extends Application{
         Button deleteExpCatB = features.yellowButton("DELETE");
         deleteExpCatB.setOnAction(action ->{
             showCategory(false, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);
-        });                   
-
-        Button confirmB = features.yellowButton("CONFIRM");
-        confirmB.setOnAction(action->{            
-            trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);
-            trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);
-            System.out.println("incomecatlist is " + trends.incomeCatList);
-
-            trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
-            trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);        
-            //testing populate() 
-            System.out.println("after confirm");
-            for(int i = 0; i < trends.income2D.length; i++){
-                for(int j = 0; j < 4; j++){
-                    System.out.print(trends.income2D[i][j] + ", ");
-                    
-                } 
-                System.out.println();
-            }            
-            for(int i = 0; i < trends.expense2D.length; i++){
-                for(int j = 0; j < 2; j++){
-                    System.out.print(trends.expense2D[i][j] + ", ");
-                    
-                } 
-                System.out.println();
-            }   
-        });
+        });                           
                        
         //HBox
         HBox incCatRow = new HBox(20);
@@ -302,13 +277,20 @@ public class AppLayoutFV extends Application{
         displayCat.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
                 
         //NOTE: Buttons need action, move formatting to its own button methods
-        Button mainMenuB = goToSceneOne(window, "MAIN MENU");        
-        
-        Button nextPageB = goToSceneThree(window, "NEXT PAGE");        
+        Button mainMenuB = goToSceneOne(window, "MAIN MENU");                
+        Button nextPageB = features.yellowButton("NEXT");        
+        nextPageB.setOnAction(action->{
+            trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);
+            trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
+            trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
+            trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);                    
+            sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
+            stage.setScene(sceneThree);
+        });
         
         //HBox to gather main menu button and next page button
         HBox sceneButtons = new HBox(20);
-        sceneButtons.getChildren().addAll(confirmB, mainMenuB, nextPageB);
+        sceneButtons.getChildren().addAll(mainMenuB, nextPageB);
         sceneButtons.setAlignment(Pos.CENTER_RIGHT);
         
         //Making the overall screen
@@ -317,10 +299,14 @@ public class AppLayoutFV extends Application{
         mainScreen.setAlignment(Pos.CENTER);
         
         // call border mthd
-        BorderPane bPaneTwo = features.showBorder(mainScreen);
+        BorderPane bPane = features.showBorder(mainScreen);
+        bPane.setCenter(mainScreen);
+    
+        // add a scroll wheel
+        ScrollPane scroll = features.showScrollPane(bPane);
         
-        // putting everything into the scene
-        two = new Scene(bPaneTwo, 1000, 500);
+        // put the components into the scene
+        two = new Scene(scroll, 1000, 500);
         
         return two;
     }
@@ -430,20 +416,7 @@ public class AppLayoutFV extends Application{
         delBB.setOnAction(action -> {                                       
             showUserInput(false, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseCatArr, expenseAmtArr);                                       
         });
-        
-        
-        
-        confirmB.setOnAction(action ->{
-            clicked = true;
-            if (whichType.equalsIgnoreCase("Anticipated")){
-                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
-                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month);
-            }
-            else{
-                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 2, this.month);
-                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 2, this.month);
-            }
-        });        
+                                   
         
         // FORMATTING
         HBox lastRow = new HBox(10);
@@ -451,27 +424,33 @@ public class AppLayoutFV extends Application{
         lastRow.setAlignment(Pos.BOTTOM_RIGHT);
         
         if (whichType.equalsIgnoreCase("Anticipated")){
-            Button nextB = features.yellowButton("NEXT");    
-            nextB.setOnAction(action -> {
-                if(clicked){
-                    warningT.setText("");
-                    cBMonths = features.comboBoxMonths();                    
-                    sceneFour = showSceneThreeFour(window, "Actual"); // transactions
-                    stage.setScene(sceneFour);
-                }
-                else{
-                    warningT.setText("click confirm first");
-                }
+            Button nextB = features.yellowButton("NEXT");
+            nextB.setOnAction(action -> {  
+              trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
+              trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month); 
+              cBMonths = features.comboBoxMonths();
+              sceneFour = showSceneThreeFour(window, "Actual"); // transactions
+              stage.setScene(sceneFour);
             });
+            
             Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
-            lastRow.getChildren().addAll(confirmB, mainMenuB, nextB);
-        }
-        else{
-            Button nextB = goToSceneFive(stage, "NEXT");
+            lastRow.getChildren().addAll(mainMenuB, nextB);
+          }
+          else{
+            Button nextB = features.yellowButton("NEXT");
+            nextB.setOnAction(action -> {   
+              trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 2, this.month);
+              trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 2, this.month); 
+              trends.populateDiff(trends.income2D);
+              trends.populateDiff(trends.expense2D);
+              cBMonths = features.comboBoxMonths();
+              sceneFive = showSceneFive(window, cBMonths);
+              stage.setScene(sceneFive);
+            });
             Button backB = goToSceneThree(stage, "BACK");
             Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
-            lastRow.getChildren().addAll(confirmB, mainMenuB, backB, nextB);
-        }
+            lastRow.getChildren().addAll(mainMenuB, backB, nextB);
+          }
 
         // // stack panes to show the user inputs on top of the rectangles
         StackPane stackPaneT = features.showSPane(showIncCat, showIncAmt);
