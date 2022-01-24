@@ -1204,21 +1204,19 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     public Popup showWarning(){
       Popup warning = new Popup();
       Label warnLabel = features.setFont("Please select a month with \n previous data from your csv.", 15);
-      warnLabel.setAlignment(Pos.CENTER);
+    //   warnLabel.setAlignment(Pos.BOTTOM_CENTER);
       // warnLabel.setSkin(babyBlue);
 
       Button exit = new Button("X");
       exit.setOnAction(action -> {
         warning.hide();
       });
-      exit.setAlignment(Pos.TOP_LEFT);
 
       HBox mainPopup = new HBox(warnLabel, exit);
-      // mainPopup.setAlignment(Pos.TOP_CENTER);
       mainPopup.setBackground(new Background(new BackgroundFill(yellow, CornerRadii.EMPTY, Insets.EMPTY)));
 
-
       warning.getContent().addAll(mainPopup);
+
       return warning;
     }
 
@@ -1243,6 +1241,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
             for(int i = 1; i < trends.income2D.length; i++){        
                 arrList.add(twoDArr[i][col]);                           // populates the arraylist that we print out with what's already in the 2d array
             }
+            
         }
         return arrList;
     }
