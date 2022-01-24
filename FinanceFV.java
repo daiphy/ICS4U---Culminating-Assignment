@@ -287,6 +287,7 @@ class FinanceFV {
                 row++;
             }
         }
+        updateCSV(updateArr);
     }
 
     //--- method to get file name ---//
