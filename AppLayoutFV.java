@@ -92,13 +92,8 @@ public class AppLayoutFV extends Application{
         // UH SINCE THIS IS GLOBAL ATTEMPT USING "WINDOW" AS THE STAGE INSTEAD OF RUNNING STAGE THROUGH PARAMS?
         window = primaryStage;
 
-        // setting the scene (initializing them)
+        // setting the scene 
         sceneOne = showSceneOne(window); // main Menu
-        // sceneTwo = showSceneTwo(window, cBMonths); //  new budget      
-        // sceneThree = showSceneThreeFour(window, "Anticipated", cBIncThree, cBExpThree, cBMonths); // plan
-        // sceneFour = showSceneThreeFour(window, "Actual", cBIncFour, cBExpFour, cBMonths); // transactions
-        // sceneFive = showSceneFive(window, cBMonths);
-        // sceneSix = showSceneSix(window, cBMonths);
         
         // set the first scene
         window.setScene(sceneOne);
@@ -124,12 +119,12 @@ public class AppLayoutFV extends Application{
         Label introL = features.setFont("Click on one of the buttons below to visit a page", 12);
         
         //Buttons and formatting
-        Button newBudgetB = goToSceneTwo(window, "NEW BUDGET"); //scene 2
+        Button newBudgetB = goToSceneTwo(window, "SELECT MONTH"); //scene 2
         newBudgetB.setPrefWidth(150);
         
-        Button transactionB = goToSceneFour(window, "TRANSACTION"); //scene 4
-        transactionB.setPrefWidth(150);
-        noData(transactionB, warningT);
+        // Button transactionB = goToSceneFour(window, "TRANSACTION"); //scene 4
+        // transactionB.setPrefWidth(150);
+        // noData(transactionB, warningT);
         
         //Button summaryB = features.yellowButton("SUMMARY"); //scene 5
         Button summaryB = goToSceneFive(window, "SUMMARY"); //scene 5
@@ -141,16 +136,8 @@ public class AppLayoutFV extends Application{
         trendsB.setPrefWidth(150);
         noData(trendsB, warningT);
         
-        Button planB = goToSceneThree(window, "PLAN");        
-        planB.setPrefWidth(150);
-        // noData(planB, warningT);
-        // buttonB.setOnAction(action ->{            
-        //     if (this.month == null || clicked == false || financeFV.fullImport == false){
-        //             warningT.setText("Please make a new budget first or import csvs");
-        //             System.out.println("no data is working");
-        //             System.out.println("month is: " + this.month + " clicked is " + clicked + " imported is " + financeFV.fullImport);
-        //         }                            
-        // });
+        // Button planB = goToSceneThree(window, "PLAN");        
+        // planB.setPrefWidth(150);
         
         Button importB = features.yellowButton("IMPORT");
         importB.setPrefWidth(150);
@@ -176,11 +163,11 @@ public class AppLayoutFV extends Application{
         
         // left side buttons
         VBox left = new VBox(20);
-        left.getChildren().addAll(newBudgetB, planB, summaryB);
+        left.getChildren().addAll(newBudgetB, summaryB);
 
         // right side buttons
         VBox right = new VBox(20);
-        right.getChildren().addAll(importB, transactionB, trendsB);
+        right.getChildren().addAll(importB, trendsB);
         
         // hbox to combine left side and right side buttons
         HBox mainMenu = new HBox(20);
@@ -206,7 +193,7 @@ public class AppLayoutFV extends Application{
         Scene two;  // initialize a scene to return
 
         //Title, bees, instructions label and formatting
-        Label newBudgetL = features.setFont("NEW BUDGET", 25);
+        Label newBudgetL = features.setFont("SELECT MONTH", 25);
 
         bee = features.image();
         bee2 = features.image();
@@ -241,7 +228,7 @@ public class AppLayoutFV extends Application{
 
         //Set the chosen month to selected month from combo box
         getMonth(cBMonths);
-        showText(cBMonths, incomeCatT, expensesCatT, warningT, stage);
+        showTextTwo(cBMonths, incomeCatT, expensesCatT, warningT, stage);
 
         /**
          * incomeCatT = showText(cBMonths, warningT, stage, trends.incomeCatList);
@@ -419,10 +406,21 @@ public class AppLayoutFV extends Application{
         ComboBox cBExpFour = features.comboBoxExpense(trends.expense2D);
         ComboBox cBInc;
         ComboBox cBExp;
+        
 
         if(whichType.equalsIgnoreCase("ANTICIPATED")){
             cBInc = cBIncThree;
             cBExp = cBExpThree;
+            arrUpdate(incomeCatArr, trends.income2D, 0);
+            arrUpdate(incomeAmtArr, trends.income2D, 1);
+            arrUpdate(expenseCatArr, trends.expense2D, 0);
+            arrUpdate(expenseAmtArr, trends.expense2D, 1);
+            System.out.println("incomeCatArr is " + incomeCatArr);
+            System.out.println("incomeAmtArr is " + incomeAmtArr);   
+            System.out.println("expenseCatArr is " + expenseCatArr);
+            System.out.println("expenseAmtArr is " + expenseAmtArr);      
+            showDataThreeFour(incomeCatArr, incomeAmtArr, showIncCat, showIncAmt);
+            showDataThreeFour(expenseCatArr, expenseAmtArr, showExpCat, showExpAmt);
         }
         else{
             cBInc = cBIncFour;
@@ -470,6 +468,7 @@ public class AppLayoutFV extends Application{
         lastRow.setAlignment(Pos.BOTTOM_RIGHT);
         
         if (whichType.equalsIgnoreCase("Anticipated")){
+            Button backB = goToSceneTwo(stage, "BACK");
             Button nextB = features.yellowButton("NEXT");
             nextB.setOnAction(action -> {  
             trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
@@ -485,7 +484,7 @@ public class AppLayoutFV extends Application{
             });
             
             Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
-            lastRow.getChildren().addAll(mainMenuB, nextB);
+            lastRow.getChildren().addAll(mainMenuB, backB, nextB);
         }
         else{
             Button nextB = features.yellowButton("NEXT");
@@ -634,6 +633,8 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     Label labelBlank4 = new Label ("");
     Label labelBlank5 = new Label ("");
     Label labelBlank6 = new Label ("");
+
+    Text warningT5 = new Text("");
     
     //Far left
     VBox vBoxFarLeft = new VBox(10);
@@ -727,7 +728,11 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     }   
     
     //Buttons
-    Button backB = goToSceneThree(stage, "BACK"); //back to scene 3
+    Button backB = goToSceneFour(stage, "BACK"); //back to scene 3
+    if (this.month == null && clicked == false){
+        warningT5.setText("Cannot go back, until you make a new budget");        
+        System.out.println("month is: " + this.month + " clicked is " + clicked + " imported is " + financeFV.fullImport);
+    }
     Button mainMenuB = goToSceneOne(window, "MAIN MENU");  
     Button nextPageB = goToSceneSix(window, "NEXT PAGE");
     
@@ -739,7 +744,7 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     hBoxMiddle.setAlignment(Pos.CENTER);
     
     HBox buttonsHB = new HBox(10);
-    buttonsHB.getChildren().addAll(backB, mainMenuB, nextPageB);
+    buttonsHB.getChildren().addAll(warningT5, backB, mainMenuB, nextPageB);
     buttonsHB.setAlignment(Pos.BOTTOM_RIGHT);
     
     VBox mainScreen = new VBox(10);
@@ -1229,8 +1234,45 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     }
 
     // ---------------------------------------------------------------- //
+    public ArrayList<String> arrUpdate(ArrayList<String> arrList, String[][] twoDArr, int col){        
+        String startCoords = financeFV.checkForMonth(this.month);
+        if(!startCoords.equals(":)")){
+            financeFV.repopulate(this.month, trends.income2D, "income"); // repopulates the 2d array
+            financeFV.repopulate(this.month, trends.expense2D, "expense");
+            for(int i = 1; i < trends.income2D.length; i++){        
+                arrList.add(twoDArr[i][col]);                           // populates the arraylist that we print out with what's already in the 2d array
+            }
+        }
+        return arrList;
+    }
+    public void showDataThreeFour(ArrayList<String> catArr, ArrayList<String> amtArr, Text showCat, Text showAmt){
+        // initialize strings                        
+        String stringCat, stringAmt;
+        String printCat = "";
+        String printAmt = "";
+    
 
-    public void showText(ComboBox cBMonths, Text incomeCatT, Text expenseCatT, Text warningT, Stage stage){
+        // conds if scene 3 or scene 4
+        for(int i = 0; i < catArr.size(); i ++){
+            // set string as the array element
+            stringCat = catArr.get(i) + "\n";
+            stringAmt = amtArr.get(i) + "\n";
+            // concanate
+            printCat += stringCat;
+            printAmt += stringAmt;
+        }
+        System.out.println(catArr + " : " + amtArr);  // testing DELETE LT
+        
+        // conds if it is income or exp 
+        // set text to the user inputs
+        showCat.setText("Categories : \n" + printCat);
+        showAmt.setText("Amount : \n" + printAmt);
+        System.out.println("inc cat : " + printCat + " inc amt : " + printAmt);     //testng DELETE LTR
+                                
+        
+    }
+
+    public void showTextTwo(ComboBox cBMonths, Text incomeCatT, Text expenseCatT, Text warningT, Stage stage){
         cBMonths.setOnAction(action ->{
             this.month = (String)cBMonths.getValue();
             warningT.setText("month has been clicked");
