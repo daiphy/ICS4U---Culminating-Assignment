@@ -129,21 +129,28 @@ public class AppLayoutFV extends Application{
         
         Button transactionB = goToSceneFour(window, "TRANSACTION"); //scene 4
         transactionB.setPrefWidth(150);
-        // noData(transactionB, warningT);
+        noData(transactionB, warningT);
         
         //Button summaryB = features.yellowButton("SUMMARY"); //scene 5
         Button summaryB = goToSceneFive(window, "SUMMARY"); //scene 5
         summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
         summaryB.setPrefWidth(150);
-        // noData(summaryB, warningT);
+        noData(summaryB, warningT);
         
         Button trendsB = goToSceneSeven(window, "TRENDS"); //scene 7
         trendsB.setPrefWidth(150);
-        // noData(trendsB, warningT);
+        noData(trendsB, warningT);
         
         Button planB = goToSceneThree(window, "PLAN");        
         planB.setPrefWidth(150);
         // noData(planB, warningT);
+        // buttonB.setOnAction(action ->{            
+        //     if (this.month == null || clicked == false || financeFV.fullImport == false){
+        //             warningT.setText("Please make a new budget first or import csvs");
+        //             System.out.println("no data is working");
+        //             System.out.println("month is: " + this.month + " clicked is " + clicked + " imported is " + financeFV.fullImport);
+        //         }                            
+        // });
         
         Button importB = features.yellowButton("IMPORT");
         importB.setPrefWidth(150);
@@ -1139,6 +1146,9 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
                 sceneFive = showSceneFive(window, cBMonths); // summary
                 stage.setScene(sceneFive);
             }
+            // else{
+            //     noData(scene5B, warningT);
+            // }
         });
         return scene5B;
     }
@@ -1165,13 +1175,16 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
         return scene7B;
     }
     public void noData(Button buttonB, Text warningT){
-        buttonB.setOnAction(action ->{            
-            if (this.month == null || clicked == false || financeFV.fullImport == false){
+        // buttonB.setOnAction(action ->{            
+            if (this.month == null && clicked == false || financeFV.fullImport == false){
                     warningT.setText("Please make a new budget first or import csvs");
                     System.out.println("no data is working");
                     System.out.println("month is: " + this.month + " clicked is " + clicked + " imported is " + financeFV.fullImport);
-                }                            
-        });
+            }
+            else{
+                warningT.setText(" ");
+            }                            
+        // });
     }
     // ---------------------------------------------------------------- //
 
