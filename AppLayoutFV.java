@@ -66,7 +66,14 @@ public class AppLayoutFV extends Application{
     public LayoutFeatures features = new LayoutFeatures(); 
     public FinanceFV financeFV = new FinanceFV();
     public ComboBox cBMonths;
-    public String month;
+    public String month = "";
+
+
+    // Arraylists
+    ArrayList<String> incomeCatArr = new ArrayList<String>();
+    ArrayList<String> incomeAmtArr = new ArrayList<String>(); 
+    ArrayList<String> expenseCatArr = new ArrayList<String>();
+    ArrayList<String> expenseAmtArr = new ArrayList<String>();
 
      // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
     //   ComboBox cBIncThree = features.comboBoxIncome();
@@ -197,11 +204,13 @@ public class AppLayoutFV extends Application{
         bee = features.image();
         bee2 = features.image();
         
-        Label instructionsL = features.setFont("Type in your desired category and press add to include it. If you would like to delete one, type in your category and press the delete button.", 12); 
-        
+        Label instructionsL = features.setFont("Type in your desired category and press add to include it.", 12); 
+        Label instructionsL2 = features.setFont("If you would like to delete one, type in your category and press the delete button.", 12);
+        Label infoL = features.setFont("If you want default categories set for you, do not enter anything.", 12);
+
         //Asks the user which month they are budgeting for and provide a drop down menu 
-        Label monthL = features.setFont("Month:", 12);
-        
+        Label monthL = features.setFont("Month:", 12);        
+
         //HBox gathers the month input and income categories input as they are in the same row
         HBox monthRow = new HBox(20);
         monthRow.getChildren().addAll(monthL, cBMonths);
@@ -213,18 +222,30 @@ public class AppLayoutFV extends Application{
         
         Label expCatL = features.setFont("Type in your category for expense:", 12);
         TextField expCatTF = new TextField();
-
-        // //Initialize arraylists
-        // ArrayList<String> incomeCat = new ArrayList<String>(); // holds all the customized catergory names for income
-        // ArrayList<String> expenseCat = new ArrayList<String>(); // holds all the customized category names for expense
-
+        
         //Labels for displaying the user's categories
         Label catL = features.setFont("CATEGORIES", 12);
         Label incomeL = features.incomeLabel();
         Label expensesL = features.expenseLabel();
-        
-        Text incomeCatT = new Text("*User input*"); //This will depend on the categories (modify later)
-        Text expensesCatT = new Text("*User input*"); 
+
+        Text incomeCatT, expensesCatT;
+
+        if(this.month.equals("")){
+            incomeCatT = showText(trends.income2D, true, 0, 0); //This will depend on the categories (modify later)
+            expensesCatT = showText(trends.expense2D, true, 0, 0); 
+        }
+        else{
+            String locI = financeFV.checkForMonth(this.month, trends.income2D);
+            int rowI = Integer.parseInt(locI.substring(0,locI.indexOf(",")));
+            // int colI = Integer.parseInt(locI.substring(locI.indexOf(",") + 1,locI.length()));
+            String locE = financeFV.checkForMonth(this.month, trends.expense2D);
+            int rowE = Integer.parseInt(locE.substring(0,locE.indexOf(",")));
+            // int colE = Integer.parseInt(locE.substring(locE.indexOf(",") + 1,locE.length()));
+            // row is i col is j
+            
+            incomeCatT = showText(trends.income2D, true, rowI+1, 0); //This will depend on the categories (modify later)
+            expensesCatT = showText(trends.expense2D, true, rowE+1, 0); 
+        }
 
         //Set the chosen month to selected month from combo box
         getMonth(cBMonths);
@@ -232,28 +253,46 @@ public class AppLayoutFV extends Application{
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");
         addIncCatB.setOnAction(action ->{
-            // showCategory(true, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);     
+            showCategory(true, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT); // arraylist is used so that they can keep adding categories  
         });
 
         Button deleteIncCatB = features.yellowButton("DELETE");
         deleteIncCatB.setOnAction(action ->{
-            // showCategory(false, trends.incomeCat, incCatTF, true, incomeCatT, expensesCatT);
+            showCategory(false, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT);
         });
 
         Button addExpCatB = features.yellowButton("ADD");
         addExpCatB.setOnAction(action ->{
-            // showCategory(true, trends.expenseCat, expCatTF, false, incomeCatT, expensesCatT);                        
+            showCategory(true, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);                        
         });
 
         Button deleteExpCatB = features.yellowButton("DELETE");
         deleteExpCatB.setOnAction(action ->{
-            // showCategory(false, trends.expenseCat, expCatTF, false, incomeCatT, expensesCatT);
+            showCategory(false, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);
         });                   
 
-        Button confirm = features.yellowButton("CONFIRM");
-        confirm.setOnAction(action->{
+        Button confirmB = features.yellowButton("CONFIRM");
+        confirmB.setOnAction(action->{
             // trends.income2D = new String[trends.incomeCat.size()+1][4];            //initializes how big income2D is
-            // trends.populateCat(trends.incomeCat, trends.income2D);            
+            trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
+            trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);        
+            //testing populate() 
+            System.out.println("after confirm");
+            for(int i = 0; i < trends.income2D.length; i++){
+                for(int j = 0; j < 2; j++){
+                    System.out.print(trends.income2D[i][j] + ", ");
+                    
+                } 
+                System.out.println();
+            }    
+            System.out.println("after confirm");
+            for(int i = 0; i < trends.expense2D.length; i++){
+                for(int j = 0; j < 2; j++){
+                    System.out.print(trends.expense2D[i][j] + ", ");
+                    
+                } 
+                System.out.println();
+            }   
         });
                        
         //HBox
@@ -270,6 +309,10 @@ public class AppLayoutFV extends Application{
         titleHB.getChildren().addAll(bee, newBudgetL, bee2);
         titleHB.setAlignment(Pos.CENTER);
         
+        VBox instructionsVB = new VBox(10);
+        instructionsVB.getChildren().addAll(instructionsL, instructionsL2, infoL);
+        instructionsVB.setAlignment(Pos.CENTER);
+        
         //Displays the user's categories
         VBox incomeCatLayout = new VBox(20);
         incomeCatLayout.getChildren().addAll(incomeL, incomeCatT);
@@ -285,30 +328,34 @@ public class AppLayoutFV extends Application{
                 
         //NOTE: Buttons need action, move formatting to its own button methods
         Button mainMenuB = goToSceneOne(window, "MAIN MENU");        
-        
         Button nextPageB = goToSceneThree(window, "NEXT PAGE");        
         
         //HBox to gather main menu button and next page button
         HBox sceneButtons = new HBox(20);
-        sceneButtons.getChildren().addAll(mainMenuB, nextPageB);
+        sceneButtons.getChildren().addAll(confirmB, mainMenuB, nextPageB);
         sceneButtons.setAlignment(Pos.CENTER_RIGHT);
         
         //Making the overall screen
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(titleHB, instructionsL, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
+        mainScreen.getChildren().addAll(titleHB, instructionsVB, monthRow, incCatRow, expCatRow, catL, displayCat, sceneButtons);
         mainScreen.setAlignment(Pos.CENTER);
         
         // call border mthd
-        BorderPane bPaneTwo = features.showBorder(mainScreen);
-        // putting everything into the scene
-        two = new Scene(bPaneTwo, 1000, 500);
+        BorderPane bPane = features.showBorder(mainScreen);
+        bPane.setCenter(mainScreen);
+        
+        // add a scroll wheel
+        ScrollPane scroll = features.showScrollPane(bPane);
+
+        // put the components into the scene
+        two = new Scene(scroll, 1000, 500);
         
         return two;
     }
     
     //-------------------- SCENE THREE/FOUR BELOW --------------------//
     public Scene showSceneThreeFour(Stage stage, String whichType){
-
+        System.out.println(this.month);
         Scene threeFour;  // initialize a scene to return
 
         Label titleL;
@@ -324,7 +371,7 @@ public class AppLayoutFV extends Application{
         bee = features.image();
         bee2 = features.image();
 
-        Label monthL = features.setFont(trends.chosenMonth, 18);
+        Label monthL = features.setFont(this.month, 18);
 
         Label typeL = features.setFont(whichType, 16); // anticipated or actual
         Label incL = features.incomeLabel();
@@ -341,20 +388,46 @@ public class AppLayoutFV extends Application{
         TextField amntTFT = features.amntT();   // user inputs inc amnt
         TextField amntTFB = features.amntT();   // user inputs exp amnt
 
-        // fillers to show their inputed amnt
-        Text showIncCat = new Text();
-        Text showIncAmt = new Text();
-        Text showExpCat = new Text();
-        Text showExpAmt = new Text();
+        Text warningT = new Text("");
+        warningT.setTextAlignment(TextAlignment.CENTER);
 
-        // input validation
-        Text warningT = new Text();
+        // // Arraylists
+        // ArrayList<String> incomeCatArr = new ArrayList<String>();
+        // ArrayList<String> incomeAmtArr = new ArrayList<String>(); 
+        // ArrayList<String> expenseCatArr = new ArrayList<String>();
+        // ArrayList<String> expenseAmtArr = new ArrayList<String>();
 
-        // Arraylists
-        ArrayList<String> incomeCatArr = new ArrayList<String>();
-        ArrayList<String> incomeAmtArr = new ArrayList<String>(); 
-        ArrayList<String> expenseCatArr = new ArrayList<String>();
-        ArrayList<String> expenseAmtArr = new ArrayList<String>();
+        Text showIncAmt, showExpAmt, showIncCat, showExpCat;
+
+        if(this.month.equals("")){
+            showIncCat = showText(trends.income2D, true, 0, 0);
+            showExpCat = showText(trends.expense2D, true, 0, 0);
+            showIncAmt = showText(trends.income2D, false, 0, 2);
+            showExpAmt = showText(trends.expense2D, false, 0, 2);
+        }
+        else{
+            String locI = financeFV.checkForMonth( this.month, trends.income2D);
+            int rowI = Integer.parseInt(locI.substring(0,locI.indexOf(",")));
+            // int colI = Integer.parseInt(locI.substring(locI.indexOf(",") + 1,locI.length()));
+            String locE = financeFV.checkForMonth( this.month, trends.expense2D);
+            int rowE = Integer.parseInt(locE.substring(0,locE.indexOf(",")));
+            // int colE = Integer.parseInt(locE.substring(locE.indexOf(",") + 1,locE.length()));
+            // row is i col is j
+    
+            // fillers to show their inputed amnt
+            showIncCat = showText(trends.income2D, true, rowI+1, 0);
+            showExpCat = showText(trends.expense2D, true, rowE + 1, 0);
+            
+            if(whichType.equalsIgnoreCase("Anticipated")){
+                showIncAmt = showText(trends.income2D, false, rowI+1, 1);
+                showExpAmt = showText(trends.expense2D, false, rowE + 1, 1);
+            }
+            else{
+                showIncAmt = showText(trends.income2D, false, rowI+1, 2);
+                showExpAmt = showText(trends.expense2D, false, rowE + 1, 2);
+            }
+        }
+
 
         Button addTB = features.yellowButton("ADD"); // TB (top half of the scene) -> income
         Button addBB = features.yellowButton("ADD"); // BB (bottom half of the scene) -> expense
@@ -362,10 +435,10 @@ public class AppLayoutFV extends Application{
         Button delBB = features.yellowButton("DELETE"); // BB (bottom half of the scene) -> expense
         Button confirmB = features.yellowButton("CONFIRM");
 
-        ComboBox cBIncThree = features.comboBoxIncome();
-        ComboBox cBIncFour = features.comboBoxIncome();
-        ComboBox cBExpThree = features.comboBoxExpense();
-        ComboBox cBExpFour = features.comboBoxExpense();
+        ComboBox cBIncThree = features.comboBoxIncome(trends.income2D);
+        ComboBox cBIncFour = features.comboBoxIncome(trends.income2D);
+        ComboBox cBExpThree = features.comboBoxExpense(trends.expense2D);
+        ComboBox cBExpFour = features.comboBoxExpense(trends.expense2D);
         ComboBox cBInc;
         ComboBox cBExp;
 
@@ -378,37 +451,50 @@ public class AppLayoutFV extends Application{
             cBExp = cBExpFour;
         }
 
-        String tempT = amntTFT.getText();
-        String tempB = amntTFB.getText();
+        addTB.setOnAction(action -> {     
+            boolean check;       
+            check = isNumeric(amntTFT.getText()); //INPUT VALIDATION
+            
+            if(check){      
+                warningT.setText("");                      
+                showUserInput(true , true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeCatArr, incomeAmtArr);       
+            }
+            else if(check == false){
+                warningT.setText("Please input a number. Do not include symbols or letters");                
+            }
+                    
+        });
+        addBB.setOnAction(action -> {
+            boolean check;       
+            check = isNumeric(amntTFT.getText());    
 
-        if(isNumeric(tempT) == true && isNumeric(tempB) == true){
-            // button actions
-            addTB.setOnAction(action -> {
-                showUserInput(true , true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeCatArr, incomeAmtArr);            
-            });
-            addBB.setOnAction(action -> {
+            if(check){      
+                warningT.setText("");       
                 showUserInput(true, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseCatArr, expenseAmtArr);
-            });
-            delTB.setOnAction(action -> {
-                showUserInput(false, true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeCatArr, incomeAmtArr);
-            });
-            delBB.setOnAction(action -> {
-                showUserInput(false, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseCatArr, expenseAmtArr);
-            });
-        }
-        else{
-            warningT.setText("Please input a number. Do not include symbol or letters.");
-            warningT.setTextAlignment(TextAlignment.CENTER);
-        }
-
+            }
+            else if(check == false){
+                warningT.setText("Please input a number. Do not include symbols or letters");                
+            }
+            
+        });
+        delTB.setOnAction(action -> {                                     
+            showUserInput(false, true, cBInc, amntTFT, showIncCat, showIncAmt, showExpCat, showExpAmt, incomeCatArr, incomeAmtArr);
+                    
+        });
+        delBB.setOnAction(action -> {                                       
+            showUserInput(false, false, cBExp, amntTFB, showIncCat, showIncAmt, showExpCat, showExpAmt, expenseCatArr, expenseAmtArr);                                       
+        });
+        
+        
+        
         confirmB.setOnAction(action ->{
             if (whichType.equalsIgnoreCase("Anticipated")){
-                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 1);
-                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 1);
+                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
+                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month);
             }
             else{
-                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCat, 2);
-                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCat, 2);
+                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 2, this.month);
+                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 2, this.month);
             }
         });        
         
@@ -458,7 +544,7 @@ public class AppLayoutFV extends Application{
 
         // put it all together in the vbox
         VBox mainScreen = new VBox(10);
-        mainScreen.getChildren().addAll(titleHB, monthL, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, warningT, lastRow);
+        mainScreen.getChildren().addAll(titleHB, monthL, warningT, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
         mainScreen.setAlignment(Pos.TOP_CENTER);
 
         // add a border
@@ -472,8 +558,17 @@ public class AppLayoutFV extends Application{
 
         return threeFour; 
     }
-    private static boolean isNumeric(String str){
-        return str != null && str.matches("[0-9.]+");
+    public static boolean isNumeric(String strNum){
+        if(strNum == null){
+            System.out.println("currently null");
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;        
     }
     
     //-------------------- SCENE FIVE BELOW --------------------//
@@ -491,8 +586,8 @@ public class AppLayoutFV extends Application{
     //Titles, bees, buttons, labels, comboBoxes
     //Label titleL = new Label("Budgeting App");
     System.out.println("scene 5");
-    for(int i = 0; i < 6; i++){
-        for(int j = 0; j < 4; j++){
+    for(int i = 0; i < trends.income2D.length; i++){
+        for(int j = 0; j < trends.income2D[0].length; j++){
             System.out.print(trends.income2D[i][j] + ", ");
             
         } 
@@ -678,6 +773,15 @@ public class AppLayoutFV extends Application{
     else{
         endBalanceR = new Rectangle (50, endBalance + 10, darkBlue);
     }
+    
+    if(sumAccIncome > 1500 || endBalance > 1500){
+      sumAccIncomeR = new Rectangle (50, sumAccIncome/100, babyBlue);
+      endBalanceR = new Rectangle (50, endBalance/100, darkBlue);
+    }
+    else if(sumAccIncome > 100 || endBalance > 100){
+      sumAccIncomeR = new Rectangle (50, sumAccIncome/10, babyBlue);
+      endBalanceR = new Rectangle (50, endBalance/10, darkBlue);
+    }
 
     Label sumAccIncomeL = new Label("Sum of Actual Income");
     Label sumAccIncomeValueL = new Label("$" + String.valueOf(df.format(sumAccIncome)));
@@ -757,29 +861,42 @@ public class AppLayoutFV extends Application{
     Rectangle sumAntIncR, sumAccIncR, sumAntExpR, sumAccExpR;
     
     if (sumAntIncome < 0){
-      sumAntIncR = new Rectangle (10, 20, white); //10 is default rect size
+      sumAntIncR = new Rectangle(10, 20, white); //10 is default rect size
     }
     else{
-      sumAntIncR = new Rectangle (sumAntIncome + 10, 20, white);
+      sumAntIncR = new Rectangle(sumAntIncome + 10, 20, white);
     }
     
     if(sumAccIncome < 0){
-      sumAccIncR = new Rectangle (10, 20, white);
+      sumAccIncR = new Rectangle(10, 20, white);
     }
     else{
-      sumAccIncR = new Rectangle (sumAccIncome + 10, 20, white);
+      sumAccIncR = new Rectangle(sumAccIncome + 10, 20, white);
     }
     if(sumAntExpense < 0){
-      sumAntExpR = new Rectangle (10, 20, white);
+      sumAntExpR = new Rectangle(10, 20, white);
     }
     else{
-      sumAntExpR = new Rectangle (sumAntExpense + 10, 20, white);
+      sumAntExpR = new Rectangle(sumAntExpense + 10, 20, white);
     }
     if(sumAccExpense < 0){
-      sumAccExpR = new Rectangle (10, 20, white);
+      sumAccExpR = new Rectangle(10, 20, white);
     }
     else{
-      sumAccExpR = new Rectangle (sumAccExpense + 10, 20, white);
+      sumAccExpR = new Rectangle(sumAccExpense + 10, 20, white);
+    }
+    
+    if (sumAntIncome > 1500 || sumAccIncome > 1500 || sumAntExpense > 1500 || sumAccExpense > 1500){
+      sumAntIncR = new Rectangle(sumAntIncome/100, 20, white);
+      sumAccIncR = new Rectangle(sumAccIncome/100, 20, white);
+      sumAntExpR = new Rectangle(sumAntExpense/100, 20, white);
+      sumAccExpR = new Rectangle(sumAccExpense/100, 20, white);
+    }
+    else if (sumAntIncome > 100 || sumAccIncome > 100 || sumAntExpense > 100 || sumAccExpense > 100){
+      sumAntIncR = new Rectangle(sumAntIncome/10, 20, white);
+      sumAccIncR = new Rectangle(sumAccIncome/10, 20, white);
+      sumAntExpR = new Rectangle(sumAntExpense/10, 20, white);
+      sumAccExpR = new Rectangle(sumAccExpense/10, 20, white);
     }
 
     VBox incAntAccHB = new VBox(20);
@@ -846,7 +963,7 @@ public class AppLayoutFV extends Application{
         Button main = goToSceneOne(stage, "MAIN MENU");
         Button back = goToSceneSix(stage, "BACK");
 
-        PieChart piechart = showPieChart();
+        PieChart piechart = showPieChart();        
 
         LineChart<String,String> lineChart = showlLineChart();
 
@@ -932,7 +1049,12 @@ public class AppLayoutFV extends Application{
     public Button goToSceneTwo(Stage stage, String sceneName){
         Button scene2B = features.yellowButton(sceneName);
         scene2B.setOnAction(action -> {
-            cBMonths = features.comboBoxMonths();
+            if (this.month.equals("")){
+                cBMonths = features.comboBoxMonths("Select Month");
+            }
+            else{
+                cBMonths = features.comboBoxMonths(this.month);
+            }
             sceneTwo = showSceneTwo(window, cBMonths); //  new budget     
             stage.setScene(sceneTwo);
         });
@@ -941,7 +1063,13 @@ public class AppLayoutFV extends Application{
     public Button goToSceneThree(Stage stage, String sceneName){
         Button scene3B = features.yellowButton(sceneName);
         scene3B.setOnAction(action -> {
-            cBMonths = features.comboBoxMonths();
+            if (this.month.equals("")){
+                cBMonths = features.comboBoxMonths("Select Month");
+            }
+            else{
+                cBMonths = features.comboBoxMonths(this.month);
+            }
+            // cBMonths = features.comboBoxMonths();
             sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
                 stage.setScene(sceneThree);
         });
@@ -950,7 +1078,13 @@ public class AppLayoutFV extends Application{
     public Button goToSceneFour(Stage stage, String sceneName){
         Button scene4B = features.yellowButton(sceneName);
         scene4B.setOnAction(action -> {
-            cBMonths = features.comboBoxMonths();
+            if (this.month.equals("")){
+                cBMonths = features.comboBoxMonths("Select Month");
+            }
+            else{
+                cBMonths = features.comboBoxMonths(this.month);
+            }
+            // cBMonths = features.comboBoxMonths();
             sceneFour = showSceneThreeFour(window, "Actual"); // transactions
                 stage.setScene(sceneFour);
         });
@@ -961,7 +1095,13 @@ public class AppLayoutFV extends Application{
         scene5B.setOnAction(action -> {
             trends.populateDiff(trends.income2D);
             trends.populateDiff(trends.expense2D);
-            cBMonths = features.comboBoxMonths();
+            if (this.month.equals("")){
+                cBMonths = features.comboBoxMonths("Select Month");
+            }
+            else{
+                cBMonths = features.comboBoxMonths(this.month);
+            }
+            // cBMonths = features.comboBoxMonths();
             sceneFive = showSceneFive(window, cBMonths);
             stage.setScene(sceneFive);
         });
@@ -970,7 +1110,13 @@ public class AppLayoutFV extends Application{
     public Button goToSceneSix(Stage stage, String sceneName){
         Button scene6B = features.yellowButton(sceneName);
         scene6B.setOnAction(action -> {
-            cBMonths = features.comboBoxMonths();
+            // cBMonths = features.comboBoxMonths();
+            if (this.month.equals("")){
+                cBMonths = features.comboBoxMonths("Select Month");
+            }
+            else{
+                cBMonths = features.comboBoxMonths(this.month);
+            }
             sceneSix = showSceneSix(window, cBMonths);
             stage.setScene(sceneSix);
         });
@@ -993,6 +1139,7 @@ public class AppLayoutFV extends Application{
         });
     }
 
+    // for new budget
     public void showCategory(boolean add, ArrayList<String> categoryArrList, TextField catTF, boolean income, Text incomeCatT, Text expensesCatT){
         String stringCat;
         String printCat = "";
@@ -1019,7 +1166,7 @@ public class AppLayoutFV extends Application{
 
         for(int i = 0; i < categoryArrList.size(); i ++){
             stringCat = categoryArrList.get(i) + "\n";      
-            System.out.println("String cat is: " + stringCat)      ;
+            System.out.println("String cat is: " + stringCat);
             printCat += stringCat;            
             System.out.println(printCat);
             if(income == true){
@@ -1096,4 +1243,68 @@ public class AppLayoutFV extends Application{
         }
         System.out.println("Button pressed"); // testing delete later
     }    
+    public Text showText(String[][] arr, Boolean cat, int rowStart, int col){
+        String string;
+        String print = "";
+        // String printAmt = "";
+        // String[] print = new String[1];
+
+        // String loc = financeFV.checkForMonth( (String) mComboBox.getValue(), trends.income2D);
+
+        Text temp = new Text();
+
+        if(rowStart == 0){
+            for(int i = rowStart; i < arr.length; i ++){
+                for(int j = 0; j < arr[i].length; j++){
+                    // set string as the array element
+                    string = arr[i][j] + "\n";
+                    // concanate
+                    print += string;
+                }
+            }
+        }
+        else{
+            // conds if scene 3 or scene 4
+            for(int i = rowStart; i < arr.length+1; i ++){
+               
+                    // set string as the array element
+                    string = arr[i][col] + "\n";
+                    // concanate
+                    print += string;
+                
+            }
+        }
+        System.out.println(arr + " : " );  // testing DELETE LTR
+
+        if(arrEmpty(arr)){
+            temp.setText(" ");
+        }
+        else{
+            if(cat == true){
+                temp.setText("Categories : \n" + print);
+                System.out.println(" cat : " + print);     //testng DELETE LTR
+    
+            }
+            else{
+                temp.setText("Amount : \n" + print);
+            }
+    
+        }
+
+        System.out.println("TEXT TEST" + arr);
+      
+        return temp;
+        
+    }
+    public boolean arrEmpty(String[][] tempArr){
+        boolean empty = false;
+        for(String[] array : tempArr){
+            for(String temp : array){
+              if(temp == null){
+                empty = true; 
+              }
+            }
+        }
+        return empty;
+    }
 }
