@@ -225,21 +225,31 @@ public class AppLayoutFV extends Application{
         Text incomeCatT = new Text(""); //This will depend on the categories (modify later)
         Text expensesCatT = new Text(""); 
 
+        // HILARY 
+         
+
         trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);
-        trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp); 
+        trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);
+        showDefault(incomeCatT, trends.incomeCatList);
+        showDefault(expensesCatT, trends.expenseCatList);
+                                
 
         //Set the chosen month to selected month from combo box
         getMonth(cBMonths);
         // showTextTwo(cBMonths, incomeCatT, expensesCatT, warningT, stage);
-        // incomeCatT.setText();
-
-        // HILARY 
+        
         cBMonths.setOnAction(action -> {
+            this.month = (String)cBMonths.getValue();
+            warningT.setText("month has been clicked");
             setMonth = true;
         });
 
-        showDefault(incomeCatT, trends.incomeCatList);
-        showDefault(expensesCatT, trends.expenseCatList);
+        trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
+        trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month); 
+        arrUpdate(trends.incomeCatList, trends.income2D, 0);
+        arrUpdate(trends.expenseCatList, trends.expense2D, 0);  
+        
+        
 
         /**
          * incomeCatT = showText(cBMonths, warningT, stage, trends.incomeCatList);
@@ -348,10 +358,7 @@ public class AppLayoutFV extends Application{
                 clicked = true;
                 // trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);
                 // trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
-                trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
-                trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);                          
-                arrUpdate(trends.incomeCatList, trends.income2D, 0);
-                arrUpdate(trends.expenseCatList, trends.expense2D, 0);
+               
                 sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
                 stage.setScene(sceneThree);
             }
