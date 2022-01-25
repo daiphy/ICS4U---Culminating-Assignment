@@ -628,6 +628,7 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
         
     });
 
+             
     Scene five;
     //Titles, bees, buttons, labels, comboBoxes
     //Label titleL = new Label("Budgeting App");
@@ -674,9 +675,9 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     
     //Prints out the elements inside labelCatArr on the far left side
     for (int i = 1; i < trends.income2D.length; i++){
-    Label labelFarLeft = new Label(trends.income2D[i][0]);
-    labelFarLeft.setFont(Font.font("Verdana", 12));
-    vBoxFarLeft.getChildren().add(labelFarLeft);
+        Label labelFarLeft = new Label(trends.income2D[i][0]);
+        labelFarLeft.setFont(Font.font("Verdana", 12));
+        vBoxFarLeft.getChildren().add(labelFarLeft);
     }    
     
     //Second left
@@ -685,9 +686,11 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     vBoxSecondLeft.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.income2D.length; i++){
-    Label labelSecondLeft = new Label(trends.income2D[i][1]);
-    labelSecondLeft.setFont(Font.font("Verdana", 12));
-    vBoxSecondLeft.getChildren().add(labelSecondLeft);
+        if(!trends.income2D[i][0].equals("")){
+            Label labelSecondLeft = new Label(trends.income2D[i][1]);
+            labelSecondLeft.setFont(Font.font("Verdana", 12));
+            vBoxSecondLeft.getChildren().add(labelSecondLeft);
+        }        
     }   
     
     //Third left
@@ -696,9 +699,11 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     vBoxThirdLeft.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.income2D.length; i++){
-    Label labelThirdLeft = new Label(trends.income2D[i][2]);
-    labelThirdLeft.setFont(Font.font("Verdana", 12));
-    vBoxThirdLeft.getChildren().add(labelThirdLeft);
+        if(!trends.income2D[i][0].equals("")){
+        Label labelThirdLeft = new Label(trends.income2D[i][2]);
+        labelThirdLeft.setFont(Font.font("Verdana", 12));
+        vBoxThirdLeft.getChildren().add(labelThirdLeft);
+        }
     }   
     
     //Fourth left
@@ -707,9 +712,11 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     vBoxFourthLeft.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.income2D.length; i++){
-    Label labelFourthLeft = new Label(trends.income2D[i][3]);
-    labelFourthLeft.setFont(Font.font("Verdana", 12));
-    vBoxFourthLeft.getChildren().add(labelFourthLeft);
+        if(!trends.income2D[i][0].equals("")){
+        Label labelFourthLeft = new Label(trends.income2D[i][3]);
+        labelFourthLeft.setFont(Font.font("Verdana", 12));
+        vBoxFourthLeft.getChildren().add(labelFourthLeft);
+        }
     }   
     
     HBox leftTable = new HBox(20);
@@ -721,9 +728,11 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     
     //Prints out the elements inside labelCatArr on the far left side
     for (int i = 1; i < trends.expense2D.length; i++){
-    Label labelFourthRight = new Label(trends.expense2D[i][0]);
-    labelFourthRight.setFont(Font.font("Verdana", 12));
-    vBoxFourthRight.getChildren().add(labelFourthRight);
+        if(!trends.income2D[i][0].equals("")){
+        Label labelFourthRight = new Label(trends.expense2D[i][0]);
+        labelFourthRight.setFont(Font.font("Verdana", 12));
+        vBoxFourthRight.getChildren().add(labelFourthRight);
+        }
     }
     
     //Third right
@@ -732,9 +741,11 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     vBoxThirdRight.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.expense2D.length; i++){
-    Label labelThirdRight = new Label(trends.expense2D[i][1]);
-    labelThirdRight.setFont(Font.font("Verdana", 12));
-    vBoxThirdRight.getChildren().add(labelThirdRight);
+        if(!trends.expense2D[i][0].equals("")){
+        Label labelThirdRight = new Label(trends.expense2D[i][1]);
+        labelThirdRight.setFont(Font.font("Verdana", 12));
+        vBoxThirdRight.getChildren().add(labelThirdRight);
+        }
     }
     
     //Second right
@@ -743,9 +754,11 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     vBoxSecondRight.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.expense2D.length; i++){
-    Label labelSecondRight = new Label(trends.expense2D[i][2]);
-    labelSecondRight.setFont(Font.font("Verdana", 12));
-    vBoxSecondRight.getChildren().add(labelSecondRight);
+        if(!trends.expense2D[i][0].equals("")){
+            Label labelSecondRight = new Label(trends.expense2D[i][2]);
+            labelSecondRight.setFont(Font.font("Verdana", 12));
+            vBoxSecondRight.getChildren().add(labelSecondRight);
+        }
     }
     
     //Far right
@@ -754,9 +767,11 @@ public Scene showSceneFive(Stage stage, ComboBox cBMonths){
     vBoxFarRight.setAlignment(Pos.CENTER);
     
     for (int i = 1; i < trends.expense2D.length; i++){
-    Label labelFarRight = new Label(trends.expense2D[i][3]);
-    labelFarRight.setFont(Font.font("Verdana", 12));
-    vBoxFarRight.getChildren().add(labelFarRight);
+        if(!trends.expense2D[i][0].equals("")){
+            Label labelFarRight = new Label(trends.expense2D[i][3]);
+            labelFarRight.setFont(Font.font("Verdana", 12));
+            vBoxFarRight.getChildren().add(labelFarRight);
+        }
     }   
     
     //Buttons
