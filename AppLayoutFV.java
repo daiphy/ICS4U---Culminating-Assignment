@@ -1,27 +1,14 @@
-// import java.io.IOException;
-// import java.io.*;
-// import java.io.File;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-// import java.util.Locale.Category;
-
-// import javafx.stage.FileChooser;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
-// import javafx.scene.Group;
-// import javafx.scene.Node;
-// import javafx.scene.Parent;
 import javafx.scene.Scene;
-// import javafx.scene.chart.Axis;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-// import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-// import javafx.event.ActionEvent;
-// import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.StackPane;
@@ -30,21 +17,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
-// import javafx.scene.control.ScrollPane;
-// import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-// import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
 import javafx.scene.control.TextField; 
-// import javafx.scene.layout.GridPane;
-// import javafx.geometry.Insets;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
-// import javafx.geometry.Insets;
-import javafx.geometry.Pos; //For alignment
+import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Background;
@@ -57,6 +38,13 @@ public class AppLayoutFV extends Application{
     // Global Variables
     Scene sceneOne, sceneTwo, sceneThree, sceneFour, sceneFive, sceneSix, sceneSeven;
     Stage window;
+
+    public String month;
+    public boolean clicked;
+    public boolean setMonth;
+    public boolean noChange = true;
+
+    // Display elements
     Color babyBlue = Color.web("#C9DAF8");
     Color darkBlue = Color.web("#9AB3DF");
     Color white = Color.web("#FFFFFF");
@@ -68,32 +56,16 @@ public class AppLayoutFV extends Application{
     public LayoutFeatures features = new LayoutFeatures(); 
     public FinanceFV financeFV = new FinanceFV();
     public ComboBox cBMonths;
-    public String month;
-    public boolean clicked;
-    public boolean setMonth;
-    public boolean noChange = true;
-
-    // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
-    //   ComboBox cBIncThree = features.comboBoxIncome();
-    //   ComboBox cBIncFour = features.comboBoxIncome();
-    //   ComboBox cBExpThree = features.comboBoxExpense();
-    //   ComboBox cBExpFour = features.comboBoxExpense();
-
-    //Initialize arrays
-        // public String[] arr = new String[12];        
     
-    public AppLayoutFV(){
-
+    public AppLayoutFV(){ // Constructor Method
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        
-        // set global variable
-        // UH SINCE THIS IS GLOBAL ATTEMPT USING "WINDOW" AS THE STAGE INSTEAD OF RUNNING STAGE THROUGH PARAMS?
+                
         window = primaryStage;
 
-        // setting the scene 
+        // setting the main menu (initial) scene
         sceneOne = showSceneOne(window); // main Menu
         
         // set the first scene
@@ -102,7 +74,12 @@ public class AppLayoutFV extends Application{
         
     }
     //-------------------- SCENE ONE BELOW --------------------//
-    public Scene showSceneOne (Stage scene){
+    /**
+     * Creates scene one: holds all the components of scene one
+     * @param scene 
+     * @return
+     */
+    public Scene showSceneOne (Stage stage){
 
         // initialize a scene to return
         Scene one;
@@ -120,51 +97,38 @@ public class AppLayoutFV extends Application{
         Label introL = features.setFont("Click on one of the buttons below to visit a page", 12);
         
         //Buttons and formatting
-        Button newBudgetB = goToSceneTwo(window, "SELECT MONTH"); //scene 2
+        Button newBudgetB = goToSceneTwo(window, "SELECT MONTH");       // When this button is clicked, it changes the scene to scene 2
         newBudgetB.setPrefWidth(150);
-        
-        // Button transactionB = goToSceneFour(window, "TRANSACTION"); //scene 4
-        // transactionB.setPrefWidth(150);
-        // noData(transactionB, warningT);
-        
-        //Button summaryB = features.yellowButton("SUMMARY"); //scene 5
-        Button summaryB = goToSceneFive(window, "SUMMARY", warningOne); //scene 5
-        summaryB.setStyle("-fx-font: 16 verdana; -fx-base: #f8f3c9;");
+                
+        Button summaryB = goToSceneFive(window, "SUMMARY", warningOne); // When this button is clicked, it changes the scene to scene 5        
         summaryB.setPrefWidth(150);
         
-        Button trendsB = goToSceneSeven(window, "TRENDS", warningOne); //scene 7
-        trendsB.setPrefWidth(150);
-        
-        // Button planB = goToSceneThree(window, "PLAN");        
-        // planB.setPrefWidth(150);
+        Button trendsB = goToSceneSeven(window, "TRENDS", warningOne);  // When this button is clicked, it changes the scene to scene 7
+        trendsB.setPrefWidth(150);        
         
         Button importB = features.yellowButton("IMPORT");
         importB.setPrefWidth(150);
 
-        // set button actions
-        importB.setOnAction(action ->{
-            //file directory code here
-            try {
-            // if the user does not input .csv, the warning text will be shown
-            warningOne.setText(financeFV.checkInputtedFile(scene, this.month));
+        // set import button actions
+        importB.setOnAction(action ->{            
+            try {            
+                warningOne.setText(financeFV.checkInputtedFile(stage, this.month)); // Uses FinanceFV's method to check for correct file input
             } catch (Exception error) {
-                warningOne.setText("Action terminated.");
-            }
-        
-        });   
-        
-        // formatting using hbox, vbox and borderpane
+                warningOne.setText("Action terminated.");                           // Let's the user know that their action has been terminated
+            }        
+        });                   
 
+        // LAYOUTS AND ALIGNMENT OF GUI OBJECTS
         // title and bees
         HBox titleHB = new HBox(20);
         titleHB.getChildren().addAll(bee, welcomeL, bee2);
         titleHB.setAlignment(Pos.CENTER);
         
-        // left side buttons
+        // left side buttons (column wise)
         VBox left = new VBox(20);
         left.getChildren().addAll(newBudgetB, summaryB);
 
-        // right side buttons
+        // right side buttons (column wise)
         VBox right = new VBox(20);
         right.getChildren().addAll(importB, trendsB);
         
@@ -188,6 +152,12 @@ public class AppLayoutFV extends Application{
     }    
 
     //-------------------- SCENE TWO BELOW --------------------//
+    /**
+     * Creates scene one: holds all the components of scene one
+     * @param stage 
+     * @param cBMonths
+     * @return
+     */
     public Scene showSceneTwo (Stage stage, ComboBox cBMonths){
         Scene two;  // initialize a scene to return
 

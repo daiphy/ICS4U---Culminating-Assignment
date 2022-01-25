@@ -95,7 +95,7 @@ class FinanceFV {
                         else{
                             this.fullImport = false;
                             System.out.println("full import is " + this.fullImport);    //test delete later
-                        }
+                        }                    
                                                                                            
                     } catch (Exception e) {
                         warningText = "Invalid, action terminated.";                        
