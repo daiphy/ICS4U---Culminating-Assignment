@@ -4,13 +4,13 @@ import javafx.scene.control.ComboBox;
 public class Trends {
     
     //-------------------- GLOBAL VARIABLES --------------------//
+    //2D Arrays
+    public String[][] income2D = new String[7][4]; // it is initialized first so that it can be passed through to methods, but it's size changes depending on how many categories that the user enters
+    public String[][] expense2D = new String[7][4];
+    
     // Arraylists for scene 2, what the user enters is temporarily saved here
     public ArrayList<String> incomeCatList = new ArrayList<>();
     public ArrayList<String> expenseCatList = new ArrayList<>();
-
-        //2D Arrays
-    public String[][] income2D = new String[7][4]; // it is initialized first so that it can be passed through to methods, but it's size changes depending on how many categories that the user enters
-    public String[][] expense2D = new String[7][4];
 
     // Default income and expense categories
     public String[] defaultInc = {"Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other"};      // the space in front makes it line up with the num of rows in the 2d arrays
@@ -46,7 +46,7 @@ public class Trends {
     }
 
     public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr, String month){
-        twoDArr = new String[categoryArrList.size()+ 1][4];  
+        // twoDArr = new String[categoryArrList.size()+ 1][4];  
         
         
         twoDArr[0][0] = "Month: " + month; // Add the month to the 2d array
@@ -97,14 +97,14 @@ public class Trends {
     //can use this to find the difference between acc and ant income/expense, total accIncome - total accExpense
     public String[][] populateDiff(String[][] twoDArr){        
         
-        System.out.println("in diff");
-        for(int i = 0; i < twoDArr.length; i++){
-            for(int j = 0; j < twoDArr[0].length; j++){
-                System.out.print(twoDArr[i][j] + ", ");
+        // System.out.println("in diff");
+        // for(int i = 0; i < twoDArr.length; i++){
+        //     for(int j = 0; j < twoDArr[0].length; j++){
+        //         System.out.print(twoDArr[i][j] + ", ");
                 
-            } 
-            System.out.println();
-        }
+        //     } 
+        //     System.out.println();
+        // }
         
         for(int i = 1; i < twoDArr.length; i++){
             double ant = Double.parseDouble(twoDArr[i][1]);
