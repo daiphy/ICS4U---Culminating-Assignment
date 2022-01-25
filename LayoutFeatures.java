@@ -351,7 +351,8 @@ public class LayoutFeatures{
             for(int i = 0; i < catArr.size(); i++){
                 if( catArr.get(i).contains(temp) && amtArr.get(i).contains(tempText)){
                     catArr.remove(i);
-                    amtArr.remove(i);     
+                    amtArr.remove(i);   
+                    break;  
                 }   
             }
         }
