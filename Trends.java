@@ -133,7 +133,6 @@ public class Trends {
         return twoDArr;
     }
 
-
     //Calculates the sum of the amounts column in a two d array
     public double sumCalculator(String[][] twoDArr){
         double addTerm;
