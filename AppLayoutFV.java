@@ -16,7 +16,6 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.paint.Color;
 import javafx.scene.control.TextField; 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.VBox;
@@ -430,11 +429,7 @@ public class AppLayoutFV extends Application{
             financeFV.arrUpdate(incomeCatArr, trends.income2D, 0, this.month);
             financeFV.arrUpdate(incomeAmtArr, trends.income2D, 1, this.month);
             financeFV.arrUpdate(expenseCatArr, trends.expense2D, 0, this.month);
-            financeFV.arrUpdate(expenseAmtArr, trends.expense2D, 1, this.month);
-            System.out.println("incomeCatArr is " + incomeCatArr);
-            System.out.println("incomeAmtArr is " + incomeAmtArr);   
-            System.out.println("expenseCatArr is " + expenseCatArr);
-            System.out.println("expenseAmtArr is " + expenseAmtArr);      
+            financeFV.arrUpdate(expenseAmtArr, trends.expense2D, 1, this.month);    
             features.showDataThreeFour(incomeCatArr, incomeAmtArr, showIncCat, showIncAmt);
             features.showDataThreeFour(expenseCatArr, expenseAmtArr, showExpCat, showExpAmt);
         }
@@ -443,13 +438,15 @@ public class AppLayoutFV extends Application{
             financeFV.arrUpdate(incomeCatArr, trends.income2D, 0, this.month);
             financeFV.arrUpdate(incomeAmtArr, trends.income2D, 2, this.month);
             financeFV.arrUpdate(expenseCatArr, trends.expense2D, 0, this.month);
-            financeFV.arrUpdate(expenseAmtArr, trends.expense2D, 2, this.month);
-            System.out.println("incomeCatArr is " + incomeCatArr);
-            System.out.println("incomeAmtArr is " + incomeAmtArr);   
-            System.out.println("expenseCatArr is " + expenseCatArr);
-            System.out.println("expenseAmtArr is " + expenseAmtArr);      
-            features.showDataThreeFour(incomeCatArr, incomeAmtArr, showIncCat, showIncAmt);
-            features.showDataThreeFour(expenseCatArr, expenseAmtArr, showExpCat, showExpAmt);        
+            financeFV.arrUpdate(expenseAmtArr, trends.expense2D, 2, this.month);  
+            for(int i = 0; i < trends.income2D.length; i++){
+                if (trends.income2D[i][2] != null || trends.income2D[i][2].equals("0.0") == false);{
+                    features.showDataThreeFour(incomeCatArr, incomeAmtArr, showIncCat, showIncAmt);
+                    features.showDataThreeFour(expenseCatArr, expenseAmtArr, showExpCat, showExpAmt); 
+                }
+            } 
+
+            // if(trends.income2D[][])        
         }
 
         // actions for when the user clicks "add" to an input
@@ -513,16 +510,7 @@ public class AppLayoutFV extends Application{
             nextB.setOnAction(action -> {  
                 trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
                 trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month); 
-                System.out.println("CHECKING");
-                for(int i = 0; i < trends.income2D.length; i++){
-                    for(int j = 0; j < trends.income2D[0].length; j++){
-                        System.out.print(trends.income2D[i][j] + ", ");
-                        
-                    } 
-                    System.out.println();
-                }
                 //put into CSV
-                System.out.println("going into toCSV");
                 financeFV.toCSV(trends.income2D, "income", this.month);
                 financeFV.toCSV(trends.expense2D, "expense", this.month);
 
@@ -622,10 +610,8 @@ public class AppLayoutFV extends Application{
     cBMonths.setOnAction(action ->{
         this.month = (String)cBMonths.getValue();
         if(financeFV.checkForMonth(this.month).equals(":)")){
-            System.out.println("NULL MONTH");
             Popup warning = features.showWarning();
             warning.show(stage);
-
         }
         else{
             financeFV.repopulate(this.month, trends.income2D, "income");
@@ -639,16 +625,6 @@ public class AppLayoutFV extends Application{
              
     //Initialize scene five     
     Scene five;
-    
-    //Output the elements in trends.income2D array
-    System.out.println("scene 5");
-    for(int i = 0; i < trends.income2D.length; i++){
-      for(int j = 0; j < trends.income2D[0].length; j++){
-        System.out.print(trends.income2D[i][j] + ", ");
-        
-      } 
-      System.out.println();
-    }  
     
     //Bees 
     bee = features.image();
@@ -793,7 +769,6 @@ public class AppLayoutFV extends Application{
     Button backB = goToSceneFour(stage, "BACK"); //back to scene 3
     if (this.month == null && clicked == false){
         warningT5.setText("Cannot go back, until you make a new budget");        
-        System.out.println("month is: " + this.month + " clicked is " + clicked + " imported is " + financeFV.fullImport);
     }
     Button mainMenuB = goToSceneOne(window, "MAIN MENU");  
     Button nextPageB = goToSceneSix(window, "NEXT PAGE");
@@ -849,7 +824,6 @@ public class AppLayoutFV extends Application{
     cBMonths.setOnAction(action ->{
         this.month = (String)cBMonths.getValue();
         if(financeFV.checkForMonth(this.month).equals(":)")){
-            System.out.println("NULL MONTH");
             Popup warning = features.showWarning();
             warning.show(scene);
 
@@ -1146,7 +1120,6 @@ public class AppLayoutFV extends Application{
         cBMonths.setOnAction(action ->{
             this.month = (String)cBMonths.getValue();
             if(financeFV.checkForMonth(this.month).equals(":)")){
-                System.out.println("NULL MONTH");
                 Popup warning = features.showWarning();
                 warning.show(stage);
     
@@ -1227,9 +1200,7 @@ public class AppLayoutFV extends Application{
         Button scene5B = features.yellowButton(sceneName);
         scene5B.setOnAction(action -> {
             // financeFV.fullImport = financeFV.checkImport();
-            System.out.println("month is: " + this.month + " clicked is " + clicked + " imported is " + financeFV.fullImport);
             if(this.month != null && clicked == true ||financeFV.fullImport == true){
-                System.out.println("going to scene 5");
                 financeFV.repopulate(this.month, trends.income2D, "income");
                 financeFV.repopulate(this.month, trends.expense2D, "expense");
                 trends.populateDiff(trends.income2D);
@@ -1281,7 +1252,6 @@ public class AppLayoutFV extends Application{
             financeFV.fileName = "income.csv";
             String startCoords = financeFV.checkForMonth(this.month);
             if(startCoords.equals(":)")){                               // is not in the csv yet
-                System.out.println("list has been cleared");
                 trends.incomeCatList.clear();
                 trends.expenseCatList.clear();
                 noChange = true;
@@ -1289,7 +1259,6 @@ public class AppLayoutFV extends Application{
                 stage.setScene(sceneTwo);
             }
             else{
-                System.out.println("there is no change");
                 noChange = false;
                 trends.incomeCatList.clear();
                 trends.expenseCatList.clear();
@@ -1313,20 +1282,15 @@ public class AppLayoutFV extends Application{
           
             
             if(trends.incomeCatList.isEmpty() == false || trends.expenseCatList.isEmpty() == false){
-                System.out.println("in is empty");
                 for(int i = 0; i < trends.incomeCatList.size(); i ++){
                     incStringCat = trends.incomeCatList.get(i) + "\n";      
-                    System.out.println("String cat is: " + incStringCat)      ;
                     incPrintCat += incStringCat;            
-                    System.out.println(incPrintCat);
                     
                     incomeCatT.setText("Categories : \n" + incPrintCat);
                 }
                 for(int i = 0; i < trends.expenseCatList.size(); i ++){
                     expStringCat = trends.expenseCatList.get(i) + "\n";      
-                    System.out.println("String cat is: " + expStringCat)      ;
                     expPrintCat += expStringCat;            
-                    System.out.println(expPrintCat);
                     
                     expenseCatT.setText("Categories : \n" + expPrintCat);
                 }
