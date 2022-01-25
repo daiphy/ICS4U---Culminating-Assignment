@@ -83,19 +83,21 @@ class FinanceFV {
                         else if(this.fileArr[0] == false && this.fileArr[1] == true){
                             warningText += " please import income.csv";
                         }
-                        else if(this.fileArr[0] && this.fileArr[1]){ // if everything is imported/true
+                        else{ // if everything is imported/true
                             this.fullImport = true;
                             warningText += " both .csv files have been imported";                            
                         }
+                        // --------
+                        if(file.length() > 1){
+                            repopulate(month, trends.income2D, "income");
+                            repopulate(month, trends.expense2D, "expense");
+                        }
                         else{
                             this.fullImport = false;
+                            System.out.println("full import is " + this.fullImport);    //test delete later
                         }
-                        repopulate(month, trends.income2D, "income");
-                        repopulate(month, trends.expense2D, "expense");
                                                                                            
                     } catch (Exception e) {
-                        this.fullImport = false;
-                        System.out.println("full import is " + this.fullImport);
                         warningText = "Invalid, action terminated.";                        
                     }
                 }
