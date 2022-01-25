@@ -1225,17 +1225,20 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
         scene5B.setOnAction(action -> {
             // financeFV.fullImport = financeFV.checkImport();
             System.out.println("month is: " + this.month + " clicked is " + clicked + " imported is " + financeFV.fullImport);
-            if(this.month != null && clicked == true ||financeFV.fullImport == true){
-                System.out.println("going to scene 5");
-                financeFV.repopulate(this.month, trends.income2D, "income");
-                financeFV.repopulate(this.month, trends.expense2D, "expense");
-                trends.populateDiff(trends.income2D);
-                trends.populateDiff(trends.expense2D);
-                cBMonths = features.comboBoxMonths();
-                sceneFive = showSceneFive(window, cBMonths); // summary
-                stage.setScene(sceneFive);
-                warningT.setText(" ");
+            if((financeFV.fullImport == true) || (this.month != null && clicked == true)){
+                // if(this.month != null && clicked == true){
+                    System.out.println("going to scene 5");
+                    financeFV.repopulate(this.month, trends.income2D, "income");
+                    financeFV.repopulate(this.month, trends.expense2D, "expense");
+                    trends.populateDiff(trends.income2D);
+                    trends.populateDiff(trends.expense2D);
+                    cBMonths = features.comboBoxMonths();
+                    sceneFive = showSceneFive(window, cBMonths); // summary
+                    stage.setScene(sceneFive);
+                    warningT.setText(" ");
+                // }
             }
+                                            
             else{
                 noData(warningT);
             }
@@ -1362,8 +1365,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
 
     public void showTextTwo(ComboBox cBMonths, Text incomeCatT, Text expenseCatT, Text warningT, Stage stage){
         cBMonths.setOnAction(action ->{
-            this.month = (String)cBMonths.getValue();
-            warningT.setText("month has been clicked");
+            this.month = (String)cBMonths.getValue();            
             setMonth = true;
             financeFV.fileName = "income.csv";
             String startCoords = financeFV.checkForMonth(this.month);
