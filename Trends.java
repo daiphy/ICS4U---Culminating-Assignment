@@ -79,19 +79,16 @@ public class Trends {
         }
 
         for(int i = 0; i < twoDArr.length; i++){
-            if(!twoDArr[i][0].equals("")){
-                if (twoDArr[i][1] == null || twoDArr[i][1].equals("")){
-                    twoDArr[i][1] = "0.0";
-                }
-                if (twoDArr[i][2] == null){
-                    twoDArr[i][2] = "0.0";
-                }
-                if (twoDArr[i][3] == null){
-                    twoDArr[i][3] = "0.0";
-                }
+            if (twoDArr[i][1] == null || twoDArr[i][1].equals("")){
+                twoDArr[i][1] = "0.0";
             }
-        }
-           
+            if (twoDArr[i][2] == null){
+                twoDArr[i][2] = "0.0";
+            }
+            if (twoDArr[i][3] == null){
+                twoDArr[i][3] = "0.0";
+            }
+        }           
         return twoDArr;
     }
 
