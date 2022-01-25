@@ -348,13 +348,14 @@ public class LayoutFeatures{
             
         }
         else{
-            if( catArr.contains(temp) && amtArr.contains(tempText)){
-                catArr.remove(temp);
-                amtArr.remove(tempText);     
+            for(int i = 0; i < catArr.size(); i++){
+                if( catArr.get(i).contains(temp) && amtArr.get(i).contains(tempText)){
+                    catArr.remove(i);
+                    amtArr.remove(i);     
+                }   
             }
         }
 
-        // conds if scene 3 or scene 4
         for(int i = 0; i < catArr.size(); i ++){
             // set string as the array element
             stringCat = catArr.get(i) + "\n";
