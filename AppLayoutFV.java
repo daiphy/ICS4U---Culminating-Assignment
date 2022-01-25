@@ -211,11 +211,11 @@ public class AppLayoutFV extends Application{
         monthRow.setAlignment(Pos.CENTER);
         
         //Asks the user to type in their category for income and expenses
-        Label incCatL = features.setFont("Type in your category for income:", 12);
-        TextField incCatTF = new TextField();
+        // Label incCatL = features.setFont("Type in your category for income:", 12);
+        // TextField incCatTF = new TextField();
         
-        Label expCatL = features.setFont("Type in your category for expense:", 12);
-        TextField expCatTF = new TextField();
+        // Label expCatL = features.setFont("Type in your category for expense:", 12);
+        // TextField expCatTF = new TextField();
         
         //Labels for displaying the user's categories
         Label catL = features.setFont("CATEGORIES", 12);
@@ -225,9 +225,21 @@ public class AppLayoutFV extends Application{
         Text incomeCatT = new Text(""); //This will depend on the categories (modify later)
         Text expensesCatT = new Text(""); 
 
+        trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);
+        trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp); 
+
         //Set the chosen month to selected month from combo box
         getMonth(cBMonths);
-        showTextTwo(cBMonths, incomeCatT, expensesCatT, warningT, stage);
+        // showTextTwo(cBMonths, incomeCatT, expensesCatT, warningT, stage);
+        // incomeCatT.setText();
+
+        // HILARY 
+        cBMonths.setOnAction(action -> {
+            setMonth = true;
+        });
+
+        showDefault(incomeCatT, trends.incomeCatList);
+        showDefault(expensesCatT, trends.expenseCatList);
 
         /**
          * incomeCatT = showText(cBMonths, warningT, stage, trends.incomeCatList);
@@ -235,75 +247,75 @@ public class AppLayoutFV extends Application{
          */
 
         //User selects either the add or delete button for income and expenses
-        Button addIncCatB = features.yellowButton("ADD");        
-        addIncCatB.setOnAction(action ->{
-            boolean check;       
-            check = onlyLetters(incCatTF.getText()); //INPUT VALIDATION
+        // Button addIncCatB = features.yellowButton("ADD");        
+        // addIncCatB.setOnAction(action ->{
+        //     boolean check;       
+        //     check = onlyLetters(incCatTF.getText()); //INPUT VALIDATION
             
-            if(check && noChange){      
-                warningT.setText("");                      
-                showCategory(true, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT); // arraylist is used so that they can keep adding categories          
-            }
-            else if(noChange == false){
-                warningT.setText("Sorry your categories have been finalized");
-            }
-            else{
-                warningT.setText("Please input a number. Do not include symbols or letters");                
-            }
+        //     if(check && noChange){      
+        //         warningT.setText("");                      
+        //         showCategory(true, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT); // arraylist is used so that they can keep adding categories          
+        //     }
+        //     else if(noChange == false){
+        //         warningT.setText("Sorry your categories have been finalized");
+        //     }
+        //     else{
+        //         warningT.setText("Please input a number. Do not include symbols or letters");                
+        //     }
             
-        });
+        // });
 
-        Button deleteIncCatB = features.yellowButton("DELETE");
-        deleteIncCatB.setOnAction(action ->{
-            if(noChange){
-                showCategory(false, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT);
-            }
-            else {
-                warningT.setText("Sorry your categories have been finalized");
-            }
+        // Button deleteIncCatB = features.yellowButton("DELETE");
+        // deleteIncCatB.setOnAction(action ->{
+        //     if(noChange){
+        //         showCategory(false, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT);
+        //     }
+        //     else {
+        //         warningT.setText("Sorry your categories have been finalized");
+        //     }
             
-        });
+        // });
 
-        Button addExpCatB = features.yellowButton("ADD");
-        addExpCatB.setOnAction(action ->{
-            boolean check;       
-            check = onlyLetters(expCatTF.getText()); //INPUT VALIDATION
+        // Button addExpCatB = features.yellowButton("ADD");
+        // addExpCatB.setOnAction(action ->{
+        //     boolean check;       
+        //     check = onlyLetters(expCatTF.getText()); //INPUT VALIDATION
             
-            if(check && noChange){      
-                warningT.setText("");                      
-                showCategory(true, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);                
-            }
-            else if(noChange == false){
-                warningT.setText("Sorry your categories have been finalized");
-            }
-            else{
-                warningT.setText("Please input a number. Do not include symbols or letters");                
-            }
+        //     if(check && noChange){      
+        //         warningT.setText("");                      
+        //         showCategory(true, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);                
+        //     }
+        //     else if(noChange == false){
+        //         warningT.setText("Sorry your categories have been finalized");
+        //     }
+        //     else{
+        //         warningT.setText("Please input a number. Do not include symbols or letters");                
+        //     }
                                 
-        });
+        // });
 
-        Button deleteExpCatB = features.yellowButton("DELETE");
-        deleteExpCatB.setOnAction(action ->{
-            if(noChange){
-                showCategory(false, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);
-            }
-            else {
-                warningT.setText("Sorry your categories have been finalized");
-            }
+        // Button deleteExpCatB = features.yellowButton("DELETE");
+        // deleteExpCatB.setOnAction(action ->{
+        //     if(noChange){
+        //         showCategory(false, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);
+        //     }
+        //     else {
+        //         warningT.setText("Sorry your categories have been finalized");
+        //     }
             
-        });                   
+        // });                   
         
                 
                     
         //HBox
-        HBox incCatRow = new HBox(20);
-        HBox expCatRow = new HBox(20);
+        // HBox incCatRow = new HBox(20);
+        // HBox expCatRow = new HBox(20);
         // if(noChange){
-            incCatRow.getChildren().addAll(incCatL, incCatTF, addIncCatB, deleteIncCatB);
-            incCatRow.setAlignment(Pos.CENTER);            
+            // incCatRow.getChildren().addAll(incCatL, incCatTF);
+            // incCatRow.setAlignment(Pos.CENTER);            
             
-            expCatRow.getChildren().addAll(expCatL, expCatTF, addExpCatB, deleteExpCatB);
-            expCatRow.setAlignment(Pos.CENTER);     
+            // expCatRow.getChildren().addAll(expCatL, expCatTF);
+            // expCatRow.setAlignment(Pos.CENTER);     
         // }
            
         
@@ -327,12 +339,15 @@ public class AppLayoutFV extends Application{
                 
         //NOTE: Buttons need action, move formatting to its own button methods
         Button mainMenuB = goToSceneOne(window, "MAIN MENU");                
-        Button nextPageB = features.yellowButton("NEXT");        
+        Button nextPageB = features.yellowButton("NEXT");   
+        
+        // HILARY VERIFY SELECTED MONTH 
+        
         nextPageB.setOnAction(action->{
             if(setMonth){
                 clicked = true;
-                trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);
-                trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
+                // trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);
+                // trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
                 trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
                 trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);                          
                 arrUpdate(trends.incomeCatList, trends.income2D, 0);
@@ -353,7 +368,7 @@ public class AppLayoutFV extends Application{
         
         //Making the overall screen
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(titleHB, instructionsL, infoL, monthRow, incCatRow, expCatRow, catL, displayCat, warningT, sceneButtons);
+        mainScreen.getChildren().addAll(titleHB, instructionsL, infoL, monthRow, catL, displayCat, warningT, sceneButtons);
         mainScreen.setAlignment(Pos.CENTER);
         
         // call border mthd
@@ -1279,6 +1294,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
         }
         return arrList;
     }
+
     public void showDataThreeFour(ArrayList<String> catArr, ArrayList<String> amtArr, Text showCat, Text showAmt){
         // initialize strings                        
         String stringCat, stringAmt;
@@ -1305,6 +1321,8 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
                                 
         
     }
+
+    // HILARY HERE IS WHERE IT IS SET TRUE BUT THIS METHOD IS NOT CALLED
 
     public void showTextTwo(ComboBox cBMonths, Text incomeCatT, Text expenseCatT, Text warningT, Stage stage){
         cBMonths.setOnAction(action ->{
@@ -1405,6 +1423,20 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
             }
         }
         System.out.println("arraylist is: " + categoryArrList);
+    }
+    public void showDefault(Text cat, ArrayList<String> arrayList){
+        String stringCat;
+        String printCat = "";
+
+        for(int i = 0; i < arrayList.size(); i ++){
+            // set string as the array element
+            stringCat = arrayList.get(i) + "\n";
+            // stringAmt = amtArr.get(i) + "\n";
+            // concanate
+            printCat += stringCat;
+            // printAmt += stringAmt;
+        }
+        cat.setText(printCat);
     }
 
     public void showUserInput(boolean add, boolean income, ComboBox comboBox, TextField amntTF, Text catInc, Text amtInc, Text catExp, Text amtExp, ArrayList<String> catArr, ArrayList<String> amtArr){
