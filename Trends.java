@@ -52,14 +52,15 @@ public class Trends {
         for(int i = 0; i < addEmpty; i++){
             categoryArrList.add("");
         }
-        
         twoDArr[0][0] = "Month: " + month; // Add the month to the 2d array
-
+        // System.out.println()
         int a = 0;
         for(int i = 1; i < twoDArr.length; i ++){ //starts at one because 0 is the month name
             twoDArr[i][0] = categoryArrList.get(a);
             a++;
         }                
+
+        // for(int i = 0; i < )
         
         return twoDArr;
     }
@@ -81,10 +82,17 @@ public class Trends {
             
             twoDArr[i][col] = String.valueOf(addOn);            
         }
-
+        System.out.println("before chaning to 0.0");
+        for(int i = 0; i < twoDArr.length; i++){
+            for(int j = 0; j < twoDArr[0].length; j++){
+                System.out.print(twoDArr[i][j] + ", ");
+                
+            } 
+            System.out.println();
+        }
         for(int i = 0; i < twoDArr.length; i++){
             if (twoDArr[i][1] == null || twoDArr[i][1].equals("")){
-                twoDArr[i][1] = "0.0";
+                twoDArr[i][1] = "0.0";                
             }
             if (twoDArr[i][2] == null){
                 twoDArr[i][2] = "0.0";
@@ -92,8 +100,14 @@ public class Trends {
             if (twoDArr[i][3] == null){
                 twoDArr[i][3] = "0.0";
             }
+        }           
+        for(int i = 0; i < twoDArr.length; i++){
+            for(int j = 0; j < twoDArr[0].length; j++){
+                System.out.print(twoDArr[i][j] + ", ");
+                
+            } 
+            System.out.println();
         }
-           
         return twoDArr;
     }
 
@@ -101,14 +115,14 @@ public class Trends {
     //can use this to find the difference between acc and ant income/expense, total accIncome - total accExpense
     public String[][] populateDiff(String[][] twoDArr){        
         
-        // System.out.println("in diff");
-        // for(int i = 0; i < twoDArr.length; i++){
-        //     for(int j = 0; j < twoDArr[0].length; j++){
-        //         System.out.print(twoDArr[i][j] + ", ");
+        System.out.println("in diff");
+        for(int i = 0; i < twoDArr.length; i++){
+            for(int j = 0; j < twoDArr[0].length; j++){
+                System.out.print(twoDArr[i][j] + ", ");
                 
-        //     } 
-        //     System.out.println();
-        // }
+            } 
+            System.out.println();
+        }
         
         for(int i = 1; i < twoDArr.length; i++){
             double ant = Double.parseDouble(twoDArr[i][1]);
@@ -116,13 +130,6 @@ public class Trends {
             double diff = ant-acc;
             twoDArr[i][3] = Double.toString(diff);            
         }
-        for(int i = 0; i < twoDArr.length; i++){
-            for(int j = 0; j < twoDArr[0].length; j++){
-                System.out.print(twoDArr[i][j] + ", ");
-                
-            } 
-            System.out.println();
-        }      
         return twoDArr;
     }
 
