@@ -2,6 +2,7 @@
  * Base Class - Model - Finance
  */
 import java.io.*;
+import java.util.ArrayList;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -55,6 +56,19 @@ class FinanceFV {
             } 
         }
     }
+
+    public ArrayList<String> arrUpdate(ArrayList<String> arrList, String[][] twoDArr, int col, String month){        
+        String startCoords = this.checkForMonth(month);
+        if(!startCoords.equals(":)")){
+            this.repopulate(month, trends.income2D, "income"); // repopulates the 2d array
+            this.repopulate(month, trends.expense2D, "expense");
+            for(int i = 1; i < trends.income2D.length; i++){        
+                arrList.add(twoDArr[i][col]);                           // populates the arraylist that we print out with what's already in the 2d array
+            }
+            
+        }
+        return arrList;
+    }
     
     //-------------------- CHECK IF CSV FILE --------------------//
     public String checkInputtedFile(Stage primaryStage, String month) {
@@ -105,7 +119,6 @@ class FinanceFV {
             // Forces user to input .csv in order to go to continue
             else {
                 warningText = "Please enter a .csv file.";
-    
             }
             
         }
