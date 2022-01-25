@@ -332,8 +332,6 @@ class FinanceFV {
 
     //-------------------- REPOPULATE DATA/DISPLAY ARRAYS METHOD --------------------//
     
-    //row and col just make sure it's iterating properly
-
     /**
      * This method repopulates "trends" 2D arrays with new data pulled from a CSV file in order for the correct information to be displayed in "AppLayout"
      * @param month this is the current/chosen month
