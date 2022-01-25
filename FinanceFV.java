@@ -66,7 +66,7 @@ class FinanceFV {
         }
     }
     
-    //-------------------- CHECK IF CSV FILE METHOD--------------------//
+    //-------------------- CHECK IF CSV FILE METHOD --------------------//
     /**
      * This method opens a dialogue box to allow a user to attempt to import a file
      * - this also checks to see if they have imported BOTH "income.csv" AND "expense.csv"
