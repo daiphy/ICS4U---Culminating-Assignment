@@ -438,7 +438,6 @@ public class AppLayoutFV extends Application{
             financeFV.arrUpdate(expenseCatArr, trends.expense2D, 0, this.month);
             financeFV.arrUpdate(expenseAmtArr, trends.expense2D, 2, this.month);     
         }
-        
         features.showDataThreeFour(incomeCatArr, incomeAmtArr, showIncCat, showIncAmt);
         features.showDataThreeFour(expenseCatArr, expenseAmtArr, showExpCat, showExpAmt);
 
