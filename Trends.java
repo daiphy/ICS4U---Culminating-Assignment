@@ -48,6 +48,10 @@ public class Trends {
     public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr, String month){
         // twoDArr = new String[categoryArrList.size()+ 1][4];  
         
+        int addEmpty = twoDArr.length - categoryArrList.size(); // 7 - size of arrlist
+        for(int i = 0; i < addEmpty; i++){
+            categoryArrList.add("");
+        }
         
         twoDArr[0][0] = "Month: " + month; // Add the month to the 2d array
 
