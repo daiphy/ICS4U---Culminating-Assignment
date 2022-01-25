@@ -1,3 +1,11 @@
+/**
+ * Daiphy, Hilary, Jane, Rachel
+ * Teacher: Mr. Ho
+ * ICS4U Culminating Project
+ * January 24, 2022
+ * AppLayoutFV.java
+ */
+
 //********** IMPORTS **********//
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -223,7 +231,7 @@ public class AppLayoutFV extends Application{
         
         //Set the chosen month to selected month from combo box
         getMonth(cBMonths);
-        showTextTwo(cBMonths, incomeCatT, expensesCatT, warningT, stage);
+        showTextTwo(cBMonths, incomeCatT, expensesCatT, stage);
 
         //User selects either the add or delete button for income and expenses
         Button addIncCatB = features.yellowButton("ADD");  
@@ -1150,6 +1158,12 @@ public class AppLayoutFV extends Application{
         return seven;
     }
     // ---------------------- GOTOSCENE BUTTONS --------------------------- //
+    /**
+     * button that goes to scene one (main menu) when user clicks it
+     * @param stage the stage where scenes are set
+     * @param sceneName the name of the button
+     * @return the button
+     */
     public Button goToSceneOne(Stage stage, String sceneName){
         Button scene1B = features.yellowButton(sceneName);
         scene1B.setOnAction(action -> {
@@ -1157,6 +1171,13 @@ public class AppLayoutFV extends Application{
         });
         return scene1B;
     }
+    /**
+     * button that goes to scene two (select month) when user clicks it
+     * calls on the second scene method
+     * @param stage the stage where scenes are set
+     * @param sceneName the name of the button
+     * @return the button
+     */
     public Button goToSceneTwo(Stage stage, String sceneName){
         Button scene2B = features.yellowButton(sceneName);
         scene2B.setOnAction(action -> {
@@ -1166,6 +1187,13 @@ public class AppLayoutFV extends Application{
         });
         return scene2B;
     }
+    /**
+     * button that goes to scene three (plan) when user clicks it
+     * calls on the threefour scene method
+     * @param stage the stage where scenes are set
+     * @param sceneName the name of the button
+     * @return the button
+     */
     public Button goToSceneThree(Stage stage, String sceneName){
         Button scene3B = features.yellowButton(sceneName);
         scene3B.setOnAction(action -> {
@@ -1177,6 +1205,13 @@ public class AppLayoutFV extends Application{
         });
         return scene3B;
     }    
+    /**
+     * button that goes to scene four (transaction) when user clicks it
+     * calls on the threefour scene method
+     * @param stage the stage where scenes are set
+     * @param sceneName the name of the button
+     * @return the button
+     */
     public Button goToSceneFour(Stage stage, String sceneName){
         Button scene4B = features.yellowButton(sceneName);
         scene4B.setOnAction(action -> {            
@@ -1188,14 +1223,26 @@ public class AppLayoutFV extends Application{
         });
         return scene4B;
     }
+    /**
+     * button that goes to scene five (summary a) when user clicks it
+     * changes the 2d arrays to the data that the user inputted
+     * inputs the difference into the 2d array
+     * calls on the five scene method
+     * @param stage the stage where scenes are set
+     * @param sceneName the name of the button
+     * @param warntingT the outputted Text warning text 
+     * @return the button
+     */
     public Button goToSceneFive(Stage stage, String sceneName, Text warningT){
         Button scene5B = features.yellowButton(sceneName);
         scene5B.setOnAction(action -> {
             // financeFV.fullImport = financeFV.checkImport();
+            // conds if user has not imported or selected a month (started a budget)
             if(this.month != null && clicked == true ||financeFV.fullImport == true){
-                financeFV.repopulate(this.month, trends.income2D, "income");
+                //repopulates the data to the from the user inputted scene 3/4
+                financeFV.repopulate(this.month, trends.income2D, "income");        
                 financeFV.repopulate(this.month, trends.expense2D, "expense");
-                trends.populateDiff(trends.income2D);
+                trends.populateDiff(trends.income2D);   // inputs the differences into the 2d array
                 trends.populateDiff(trends.expense2D);
                 cBMonths = features.comboBoxMonths();
                 sceneFive = showSceneFive(window, cBMonths); // summary
@@ -1208,9 +1255,17 @@ public class AppLayoutFV extends Application{
         });
         return scene5B;
     }
+        /**
+     * button that goes to scene five (summary b) when user clicks it
+     * calls on the six scene method
+     * @param stage the stage where scenes are set
+     * @param sceneName the name of the button
+     * @return the button
+     */
     public Button goToSceneSix(Stage stage, String sceneName){
         Button scene6B = features.yellowButton(sceneName);        
         scene6B.setOnAction(action -> {            
+            // conds if user has not imported or selected a month (started a budget)
             if(this.month != null && (clicked == true || financeFV.fullImport == true)){
                 cBMonths = features.comboBoxMonths();
                 sceneSix = showSceneSix(window, cBMonths); // trends
@@ -1219,9 +1274,18 @@ public class AppLayoutFV extends Application{
         });
         return scene6B;
     }
+    /**
+     * button that goes to scene seven (trends) when user clicks it
+     * calls on the seven scene method
+     * @param stage the stage where scenes are set
+     * @param sceneName the name of the button
+     * @param warntingT the outputted Text warning text 
+     * @return the button
+     */
     public Button goToSceneSeven(Stage stage, String sceneName, Text warningT){
         Button scene7B = features.yellowButton(sceneName);        
-        scene7B.setOnAction(action -> {            
+        scene7B.setOnAction(action -> {    
+            // conds if user has not imported or selected a month (started a budget)
             if(this.month != null && (clicked == true || financeFV.fullImport == true)){
                 cBMonths = features.comboBoxMonths();
                 sceneSeven = showSceneSeven(window, cBMonths); // trends
@@ -1229,22 +1293,28 @@ public class AppLayoutFV extends Application{
                 warningT.setText(" ");
             }
             else{
-                features.noData(warningT, this.month, clicked);
+                features.noData(warningT, this.month, clicked);     // warning text updates
             }
         });
         return scene7B;
     }
     // ---------------------------------------------------------------- //
-    
-    public void showTextTwo(ComboBox<String> cBMonths, Text incomeCatT, Text expenseCatT, Text warningT, Stage stage){
+    /**
+     * displays the user's entries onto scene two
+     * @param cBMonths the combo box that holds all the months a user can select
+     * @param incomeCatT gui text object for the income categories
+     * @param expenseCatT gui text object for the expense categories    
+     * @param stage holds all the the scenes
+     */
+    public void showTextTwo(ComboBox<String> cBMonths, Text incomeCatT, Text expenseCatT, Stage stage){
         cBMonths.setOnAction(action ->{
-            this.month = (String)cBMonths.getValue();
-            warningT.setText("month has been clicked");
-            monthSet = true;
+            this.month = (String)cBMonths.getValue();   // get the month that the user has selected
+            monthSet = true;        // now we know that they have chosen a month
             financeFV.fileName = "income.csv";
-            String startCoords = financeFV.checkForMonth(this.month);
-            if(startCoords.equals(":)")){                               // is not in the csv yet
-                trends.incomeCatList.clear();
+            String startCoords = financeFV.checkForMonth(this.month);       //checks the month exists in the csv or not
+            if(startCoords.equals(":)")){                               // smiley face means that it is not in the csv yet
+                // clears the arraylists
+                trends.incomeCatList.clear();       
                 trends.expenseCatList.clear();
                 noChange = true;
                 sceneTwo = showSceneTwo(window, cBMonths);
@@ -1254,15 +1324,16 @@ public class AppLayoutFV extends Application{
                 noChange = false;
                 trends.incomeCatList.clear();
                 trends.expenseCatList.clear();
+                // repopulates the 2D arrays with the data in the csv
                 financeFV.repopulate(this.month, trends.income2D, "income"); 
                 financeFV.repopulate(this.month, trends.expense2D, "expense");
+                // adds to the entries arraylist
                 for(int i = 1; i < trends.income2D.length; i++){        
                     trends.incomeCatList.add(trends.income2D[i][0]);
                 }
                 for(int i = 1; i < trends.expense2D.length; i++){        
                     trends.expenseCatList.add(trends.expense2D[i][0]);
                 }
-                
                 
             }
             
@@ -1271,8 +1342,7 @@ public class AppLayoutFV extends Application{
             String incPrintCat = "";
             String expPrintCat = "";
 
-          
-            
+            // if the user has entered stuff, then dispkay it in the GUI
             if(trends.incomeCatList.isEmpty() == false || trends.expenseCatList.isEmpty() == false){
                 for(int i = 0; i < trends.incomeCatList.size(); i ++){
                     incStringCat = trends.incomeCatList.get(i) + "\n";      
@@ -1290,7 +1360,9 @@ public class AppLayoutFV extends Application{
         });
     }
 
-    //month things
+    /**
+     * Sets the global variable month with what month the user clicked in the combo box
+     */
     public void getMonth(ComboBox<String> cBMonths){
         cBMonths.setOnAction(action ->{
             this.month = (String)cBMonths.getValue();
