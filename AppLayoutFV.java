@@ -197,7 +197,7 @@ public class AppLayoutFV extends Application{
     bee = features.image();
     bee2 = features.image();
     
-    Label instructionsL = features.setFont("Type in your desired category and press add to include it.", 12); 
+    Label instructionsL = features.setFont("Type in your desired category (up to six) and press add to include it.", 12); 
     Label instructionsL2 = features.setFont("If you would like to delete one, type in your category and press the delete button.", 12); 
     Label infoL = features.setFont("If you want default categories, do not add any categories.", 12);
     
