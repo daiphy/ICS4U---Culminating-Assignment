@@ -26,7 +26,9 @@ class FinanceFV {
     //arr is existing csv contents by using readCSV() in the param, 
     //choice is to determine which file it stores into
     public void toCSV(String[][] arr, String choice, String month){
+        System.out.println("part one is working");
         getFileName(choice);
+        
         //put into CSV
         String coords = checkForMonth(month);
         // System.out.println("coords: " + coords);
@@ -38,11 +40,14 @@ class FinanceFV {
             String initialCoords = checkForMonth(month);
             int row = Integer.parseInt(initialCoords.substring(0,initialCoords.indexOf(",")));
             int col = Integer.parseInt(initialCoords.substring(initialCoords.indexOf(",") + 1,initialCoords.length()));
+            System.out.println("row is: " + row);
+            System.out.println("col is: " + row);
             //replace arr with smth that will not change, a 2D to store everything
             int r = readCSV().length + arr.length;
             int c = readCSV()[0].length;
             String[][] csvArr = new String[r][c];
             csvArr = readCSV();
+            
             boolean updated = update2DArr(csvArr, arr, row, col, 0, 0);
             System.out.println("updated: " + updated);
             if(updated){
@@ -70,8 +75,7 @@ class FinanceFV {
                         }
                         else if(this.fileName.toLowerCase().equals("expense.csv")){
                             this.fileArr[1] = true;
-                        }
-                        // this.fullImport = checkImport();                        
+                        }                                             
                         if(this.fileArr[0] == true && this.fileArr[1] == false){
                             warningText += " please import expense.csv";                            
                         }
@@ -292,7 +296,9 @@ class FinanceFV {
     //--- method to get file name ---//
     public void getFileName(String choice){
         //file name to inport to income vs expense
+        System.out.println("in get file name ");
         if(choice.equals("income")){
+            System.out.println("in get file name income");
             this.fileName = "income.csv";
         }
         else{
