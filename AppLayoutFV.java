@@ -198,9 +198,9 @@ public class AppLayoutFV extends Application{
         bee2 = features.image();
         
         Label instructionsL = features.setFont("Type in your desired category and press add to include it.", 12); 
-        Label instructionsL2 = features.setFont("If you would like to delete one, type in your category and press the delete button.", 12); 
-        Label infoL = features.setFont("If you want default categories set for you, do not enter anything and just click confirm.", 12);
-
+    Label instructionsL2 = features.setFont("If you would like to delete one, type in your category and press the delete button.", 12); 
+    Label infoL = features.setFont("If you want default categories, do not add any categories.", 12);
+    
         //Asks the user which month they are budgeting for and provide a drop down menu 
         Label monthL = features.setFont("Month:", 12);        
         Text warningT = new Text("");
@@ -224,6 +224,35 @@ public class AppLayoutFV extends Application{
         
         Text incomeCatT = new Text(""); //This will depend on the categories (modify later)
         Text expensesCatT = new Text(""); 
+
+        //VBox and labels for default categories
+    VBox defaultIncVB = new VBox(15);
+    VBox defaultExpVB = new VBox(15);
+    Label defaultIncHeaderL = new Label("Default Income Categories");
+    defaultIncHeaderL.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+    Label defaultExpHeaderL = new Label("Default Expense Categories");
+    defaultExpHeaderL.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+    
+    //Displays default income categories 
+    defaultIncVB.getChildren().add(defaultIncHeaderL);
+    for (int i = 1; i < trends.defaultInc.length; i++){
+      Label defaultIncL = new Label(trends.defaultInc[i]);
+      defaultIncL.setFont(Font.font("Verdana", 12));
+      defaultIncVB.getChildren().add(defaultIncL);
+    }   
+    
+    //Displays default expenses categories 
+    for (int i = 1; i < trends.defaultExp.length; i++){
+      Label defaultExpL = new Label(trends.defaultExp[i]);
+      defaultExpL.setFont(Font.font("Verdana", 12));
+      defaultExpVB.getChildren().add(defaultExpL);
+    }   
+    defaultIncVB.getChildren().add(defaultExpHeaderL);
+    
+    //Vbox gathers the two default category sections together
+    VBox defaultVB = new VBox(20);
+    defaultVB.getChildren().addAll(defaultIncVB, defaultExpVB);
+    
 
         //Set the chosen month to selected month from combo box
         getMonth(cBMonths);
@@ -322,7 +351,7 @@ public class AppLayoutFV extends Application{
         displayCat.setAlignment(Pos.CENTER);
         displayCat.setBackground(new Background(new BackgroundFill(babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
                 
-        //Buttons
+        //NOTE: Buttons need action, move formatting to its own button methods
         Button mainMenuB = goToSceneOne(window, "MAIN MENU");                
         Button nextPageB = features.yellowButton("NEXT");        
         nextPageB.setOnAction(action->{
@@ -345,9 +374,17 @@ public class AppLayoutFV extends Application{
         sceneButtons.getChildren().addAll(mainMenuB, nextPageB);
         sceneButtons.setAlignment(Pos.BOTTOM_RIGHT);
 
+        VBox middleScreen = new VBox(20);
+        middleScreen.getChildren().addAll(instructionsL, infoL, monthRow, incCatRow, expCatRow, catL, displayCat, warningT, sceneButtons);
+        middleScreen.setAlignment(Pos.CENTER);
+        
+        HBox mainMiddleScreen = new HBox(20);
+        mainMiddleScreen.getChildren().addAll(middleScreen, defaultVB);
+        mainMiddleScreen.setAlignment(Pos.CENTER);
+
         //Making the overall screen
         VBox mainScreen = new VBox(20);        
-        mainScreen.getChildren().addAll(titleHB, instructionsL, infoL, monthRow, incCatRow, expCatRow, catL, displayCat, warningT, sceneButtons);
+        mainScreen.getChildren().addAll(titleHB, mainMiddleScreen);
         mainScreen.setAlignment(Pos.CENTER);
 
         //Call BorderPane method
