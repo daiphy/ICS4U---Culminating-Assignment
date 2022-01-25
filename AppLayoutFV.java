@@ -71,6 +71,7 @@ public class AppLayoutFV extends Application{
     public String month;
     public boolean clicked;
     public boolean setMonth;
+    public boolean noChange = true;
 
     // comboboxs for scene three and four (there's two of both inc and exp so that javafx wont think theres duplicate children)
     //   ComboBox cBIncThree = features.comboBoxIncome();
@@ -234,14 +235,17 @@ public class AppLayoutFV extends Application{
          */
 
         //User selects either the add or delete button for income and expenses
-        Button addIncCatB = features.yellowButton("ADD");
+        Button addIncCatB = features.yellowButton("ADD");        
         addIncCatB.setOnAction(action ->{
             boolean check;       
             check = onlyLetters(incCatTF.getText()); //INPUT VALIDATION
             
-            if(check){      
+            if(check && noChange){      
                 warningT.setText("");                      
                 showCategory(true, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT); // arraylist is used so that they can keep adding categories          
+            }
+            else if(noChange == false){
+                warningT.setText("Sorry your categories have been finalized");
             }
             else{
                 warningT.setText("Please input a number. Do not include symbols or letters");                
@@ -251,7 +255,13 @@ public class AppLayoutFV extends Application{
 
         Button deleteIncCatB = features.yellowButton("DELETE");
         deleteIncCatB.setOnAction(action ->{
-            showCategory(false, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT);
+            if(noChange){
+                showCategory(false, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT);
+            }
+            else {
+                warningT.setText("Sorry your categories have been finalized");
+            }
+            
         });
 
         Button addExpCatB = features.yellowButton("ADD");
@@ -259,9 +269,12 @@ public class AppLayoutFV extends Application{
             boolean check;       
             check = onlyLetters(expCatTF.getText()); //INPUT VALIDATION
             
-            if(check){      
+            if(check && noChange){      
                 warningT.setText("");                      
                 showCategory(true, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);                
+            }
+            else if(noChange == false){
+                warningT.setText("Sorry your categories have been finalized");
             }
             else{
                 warningT.setText("Please input a number. Do not include symbols or letters");                
@@ -271,17 +284,28 @@ public class AppLayoutFV extends Application{
 
         Button deleteExpCatB = features.yellowButton("DELETE");
         deleteExpCatB.setOnAction(action ->{
-            showCategory(false, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);
-        });                           
+            if(noChange){
+                showCategory(false, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);
+            }
+            else {
+                warningT.setText("Sorry your categories have been finalized");
+            }
+            
+        });                   
+        
+                
                     
         //HBox
         HBox incCatRow = new HBox(20);
-        incCatRow.getChildren().addAll(incCatL, incCatTF, addIncCatB, deleteIncCatB);
-        incCatRow.setAlignment(Pos.CENTER);
-        
         HBox expCatRow = new HBox(20);
-        expCatRow.getChildren().addAll(expCatL, expCatTF, addExpCatB, deleteExpCatB);
-        expCatRow.setAlignment(Pos.CENTER);        
+        // if(noChange){
+            incCatRow.getChildren().addAll(incCatL, incCatTF, addIncCatB, deleteIncCatB);
+            incCatRow.setAlignment(Pos.CENTER);            
+            
+            expCatRow.getChildren().addAll(expCatL, expCatTF, addExpCatB, deleteExpCatB);
+            expCatRow.setAlignment(Pos.CENTER);     
+        // }
+           
         
         //Gathers the title and bees
         HBox titleHB = new HBox(20);
@@ -311,6 +335,8 @@ public class AppLayoutFV extends Application{
                 trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
                 trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);         //updates the 2d arrays with new categories (fixes the size too)
                 trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);                          
+                arrUpdate(trends.incomeCatList, trends.income2D, 0);
+                arrUpdate(trends.expenseCatList, trends.expense2D, 0);
                 sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
                 stage.setScene(sceneThree);
             }
@@ -469,16 +495,24 @@ public class AppLayoutFV extends Application{
             Button backB = goToSceneTwo(stage, "BACK");
             Button nextB = features.yellowButton("NEXT");
             nextB.setOnAction(action -> {  
-            trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
-            trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month); 
+                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
+                trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month); 
+                System.out.println("CHECKING");
+                for(int i = 0; i < trends.income2D.length; i++){
+                    for(int j = 0; j < trends.income2D[0].length; j++){
+                        System.out.print(trends.income2D[i][j] + ", ");
+                        
+                    } 
+                    System.out.println();
+                }
+                //put into CSV
+                System.out.println("going into toCSV");
+                financeFV.toCSV(trends.income2D, "income", this.month);
+                financeFV.toCSV(trends.expense2D, "expense", this.month);
 
-            //put into CSV
-            financeFV.toCSV(trends.income2D, "income", this.month);
-            financeFV.toCSV(trends.expense2D, "expense", this.month);
-
-            cBMonths = features.comboBoxMonths();
-            sceneFour = showSceneThreeFour(window, "Actual"); // transactions
-            stage.setScene(sceneFour);
+                cBMonths = features.comboBoxMonths();
+                sceneFour = showSceneThreeFour(window, "Actual"); // transactions
+                stage.setScene(sceneFour);
             });
             
             Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
@@ -1204,21 +1238,19 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
     public Popup showWarning(){
       Popup warning = new Popup();
       Label warnLabel = features.setFont("Please select a month with \n previous data from your csv.", 15);
-      warnLabel.setAlignment(Pos.CENTER);
+    //   warnLabel.setAlignment(Pos.BOTTOM_CENTER);
       // warnLabel.setSkin(babyBlue);
 
       Button exit = new Button("X");
       exit.setOnAction(action -> {
         warning.hide();
       });
-      exit.setAlignment(Pos.TOP_LEFT);
 
       HBox mainPopup = new HBox(warnLabel, exit);
-      // mainPopup.setAlignment(Pos.TOP_CENTER);
       mainPopup.setBackground(new Background(new BackgroundFill(yellow, CornerRadii.EMPTY, Insets.EMPTY)));
 
-
       warning.getContent().addAll(mainPopup);
+
       return warning;
     }
 
@@ -1243,6 +1275,7 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
             for(int i = 1; i < trends.income2D.length; i++){        
                 arrList.add(twoDArr[i][col]);                           // populates the arraylist that we print out with what's already in the 2d array
             }
+            
         }
         return arrList;
     }
@@ -1280,14 +1313,17 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
             setMonth = true;
             financeFV.fileName = "income.csv";
             String startCoords = financeFV.checkForMonth(this.month);
-            if(startCoords.equals(":)")){
+            if(startCoords.equals(":)")){                               // is not in the csv yet
                 System.out.println("list has been cleared");
                 trends.incomeCatList.clear();
                 trends.expenseCatList.clear();
+                noChange = true;
                 sceneTwo = showSceneTwo(window, cBMonths);
                 stage.setScene(sceneTwo);
             }
             else{
+                System.out.println("there is no change");
+                noChange = false;
                 trends.incomeCatList.clear();
                 trends.expenseCatList.clear();
                 financeFV.repopulate(this.month, trends.income2D, "income"); 
@@ -1298,6 +1334,8 @@ public Scene showSceneSix(Stage scene, ComboBox cBMonths){
                 for(int i = 1; i < trends.expense2D.length; i++){        
                     trends.expenseCatList.add(trends.expense2D[i][0]);
                 }
+                
+                
             }
             
             // makes incomeCatT into what is in the arraylist
