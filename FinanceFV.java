@@ -68,6 +68,15 @@ class FinanceFV {
         }
     }
 
+    /**
+     * updates the 2D arrays with what is in the CSV according to the month that the user wants to see
+     * and updates the user's entries arraylists
+     * @param arrList the arraylist that holds the user's entries
+     * @param twoDArr 2D array that stores data
+     * @param col the index number of the column we need in the 2D array
+     * @param month the month that the user has selected
+     * @return updated arraylist of user entries
+     */
     public ArrayList<String> arrUpdate(ArrayList<String> arrList, String[][] twoDArr, int col, String month){        
         String startCoords = this.checkForMonth(month);
         if(!startCoords.equals(":)")){
