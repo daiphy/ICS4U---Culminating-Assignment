@@ -238,14 +238,16 @@ public class AppLayoutFV extends Application{
         addIncCatB.setOnAction(action ->{
             boolean check;       
             check = onlyLetters(incCatTF.getText()); //INPUT VALIDATION
-            
-            // if(check){      
-            //     warningT.setText("");                      
+            if(check && (( trends.incomeCatList.size() == 7) || (trends.incomeCatList.isEmpty()))){
+                warningT.setText("");                      
                 showCategory(true, trends.incomeCatList, incCatTF, true, incomeCatT, expensesCatT); // arraylist is used so that they can keep adding categories          
-            // }
-            // else{
-            //     warningT.setText("Please input a number. Do not include symbols or letters");                
-            // }
+            }
+            else if(( trends.incomeCatList.size() >= 7) || ( trends.incomeCatList.isEmpty() == false)){
+                warningT.setText("Sorry, you are not allowed to add on categories.");
+            }
+            else{
+                warningT.setText("Please input a number. Do not include symbols or letters");                
+            }
             
         });
 
@@ -258,14 +260,17 @@ public class AppLayoutFV extends Application{
         addExpCatB.setOnAction(action ->{
             boolean check;       
             check = onlyLetters(expCatTF.getText()); //INPUT VALIDATION
-            
-            // if(check){      
-            //     warningT.setText("");                      
+
+            if(check && ( trends.expenseCatList.size() <= 7 || trends.expenseCatList.isEmpty() )){
+                warningT.setText("");                      
                 showCategory(true, trends.expenseCatList, expCatTF, false, incomeCatT, expensesCatT);                
-            // }
-            // else{
-                // warningT.setText("Please input a number. Do not include symbols or letters");                
-            // }
+            }
+            else if((trends.expenseCatList.size() >= 7 ) || (trends.expenseCatList.isEmpty() == false )){
+                warningT.setText("Sorry, you are not allowed to add on categories.");
+            }
+            else{
+                warningT.setText("Please input a number. Do not include symbols or letters");                
+            }
                                 
         });
 
