@@ -322,10 +322,16 @@ public class AppLayoutFV extends Application{
         nextPageB.setOnAction(action->{                          // action for going to next page button
             if(monthSet){              // if the user has clicked a month in the month combo box                        
                 clicked = true;        // if the user has clicked the next button
+                
                 trends.incomeCatList = trends.defaultCategories(trends.incomeCatList, trends.defaultInc);       // checks if the user's entries arraylist is empty, that means they want default categories
-                trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
+                trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp); 
+
                 trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);        //updates the 2d arrays with new categories from the user's entries arraylists
-                trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);                          
+                trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month); 
+
+                trends.income2D = trends.refreshArr(trends.income2D);                                           // refreshes the 2D array to 0.0 (everything except the categories)
+                trends.expense2D = trends.refreshArr(trends.expense2D);
+
                 sceneThree = showSceneThreeFour(window, "Anticipated");                                         // changes the scene to scene three
                 stage.setScene(sceneThree);
             }
@@ -434,17 +440,17 @@ public class AppLayoutFV extends Application{
 
         // conditions if user is on scene 3
         if(whichType.equalsIgnoreCase("ANTICIPATED")){
-            financeFV.arrUpdate(incomeCatArr, trends.income2D, 0, this.month);
-            financeFV.arrUpdate(incomeAmtArr, trends.income2D, 1, this.month);
-            financeFV.arrUpdate(expenseCatArr, trends.expense2D, 0, this.month);
-            financeFV.arrUpdate(expenseAmtArr, trends.expense2D, 1, this.month);    
+            arrUpdate(incomeCatArr, trends.income2D, 0, this.month);
+            arrUpdate(incomeAmtArr, trends.income2D, 1, this.month);
+            arrUpdate(expenseCatArr, trends.expense2D, 0, this.month);
+            arrUpdate(expenseAmtArr, trends.expense2D, 1, this.month);    
         }
         // conditions if user scene 4 ("actual" scene)
         else{
-            financeFV.arrUpdate(incomeCatArr, trends.income2D, 0, this.month);
-            financeFV.arrUpdate(incomeAmtArr, trends.income2D, 2, this.month);
-            financeFV.arrUpdate(expenseCatArr, trends.expense2D, 0, this.month);
-            financeFV.arrUpdate(expenseAmtArr, trends.expense2D, 2, this.month);     
+            arrUpdate(incomeCatArr, trends.income2D, 0, this.month);
+            arrUpdate(incomeAmtArr, trends.income2D, 2, this.month);
+            arrUpdate(expenseCatArr, trends.expense2D, 0, this.month);
+            arrUpdate(expenseAmtArr, trends.expense2D, 2, this.month);     
         }
         features.showDataThreeFour(incomeCatArr, incomeAmtArr, showIncCat, showIncAmt);
         features.showDataThreeFour(expenseCatArr, expenseAmtArr, showExpCat, showExpAmt);
@@ -507,13 +513,13 @@ public class AppLayoutFV extends Application{
         if (whichType.equalsIgnoreCase("Anticipated")){            
             //Initialize button to go to next scene and add action. Action starts the calculations and populating arrays
             Button nextB = features.yellowButton("NEXT");
-            nextB.setOnAction(action -> {  
-                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);
+            nextB.setOnAction(action -> {     
+                trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 1, this.month);        // populates the anticipated column of the 2d array
                 trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 1, this.month); 
                 //put into CSV
-                financeFV.toCSV(trends.income2D, "income", this.month);
+                financeFV.toCSV(trends.income2D, "income", this.month);              
                 financeFV.toCSV(trends.expense2D, "expense", this.month);
-
+                
                 // set scene for the correct page
                 cBMonths = features.comboBoxMonths();
                 sceneFour = showSceneThreeFour(window, "Actual"); // transactions
@@ -529,9 +535,10 @@ public class AppLayoutFV extends Application{
             nextB.setOnAction(action -> {   
                 trends.income2D = trends.populate(incomeCatArr, incomeAmtArr, trends.income2D, trends.incomeCatList, 2, this.month);
                 trends.expense2D = trends.populate(expenseCatArr, expenseAmtArr, trends.expense2D, trends.expenseCatList, 2, this.month); 
-                trends.populateDiff(trends.income2D);
-                trends.populateDiff(trends.expense2D);
-
+             
+                trends.populateDiff(trends.income2D, "income");
+                trends.populateDiff(trends.expense2D, "expense");
+           
                 //put into CSV
                 financeFV.toCSV(trends.income2D, "income", this.month);
                 financeFV.toCSV(trends.expense2D, "expense", this.month);
@@ -766,10 +773,7 @@ public class AppLayoutFV extends Application{
     vBoxFarRight.setAlignment(Pos.TOP_CENTER);
 
     //Buttons
-    Button backB = goToSceneFour(stage, "BACK"); //back to scene 3
-    if (this.month == null && clicked == false){
-        warningT5.setText("Cannot go back, until you make a new budget");        
-    }
+    Button backB = goToSceneFour(stage, "BACK"); //back to scene 3    
     Button mainMenuB = goToSceneOne(window, "MAIN MENU");  
     Button nextPageB = goToSceneSix(window, "NEXT PAGE");
 
@@ -974,14 +978,14 @@ public class AppLayoutFV extends Application{
     
     //If any of actual or anticipated income or expense is 0, a default rectangle size (10) is used
     if (sumAntIncome < 0){
-    sumAntIncR = new Rectangle(10, 20, features.white); //10 is default rect size
+        sumAntIncR = new Rectangle(10, 20, features.white); //10 is default rect size
     }
     else{
-    sumAntIncR = new Rectangle(sumAntIncome + 10, 20, features.white);
+        sumAntIncR = new Rectangle(sumAntIncome + 10, 20, features.white);
     }
     
     if(sumAccIncome < 0){
-    sumAccIncR = new Rectangle(10, 20, features.white);
+        sumAccIncR = new Rectangle(10, 20, features.white);
     }
     else{
     sumAccIncR = new Rectangle(sumAccIncome + 10, 20, features.white);
@@ -1242,8 +1246,8 @@ public class AppLayoutFV extends Application{
                 //repopulates the data to the from the user inputted scene 3/4
                 financeFV.repopulate(this.month, trends.income2D, "income");        
                 financeFV.repopulate(this.month, trends.expense2D, "expense");
-                trends.populateDiff(trends.income2D);   // inputs the differences into the 2d array
-                trends.populateDiff(trends.expense2D);
+                trends.populateDiff(trends.income2D, "income");   // inputs the differences into the 2d array
+                trends.populateDiff(trends.expense2D, "expense");
                 cBMonths = features.comboBoxMonths();
                 sceneFive = showSceneFive(window, cBMonths); // summary
                 stage.setScene(sceneFive);
@@ -1367,6 +1371,28 @@ public class AppLayoutFV extends Application{
         cBMonths.setOnAction(action ->{
             this.month = (String)cBMonths.getValue();
         });
+    }
+    /**
+     * updates the 2D arrays with what is in the CSV according to the month that the user wants to see
+     * and updates the user's entries arraylists
+     * @param arrList the arraylist that holds the user's entries
+     * @param twoDArr 2D array that stores data
+     * @param col the index number of the column we need in the 2D array
+     * @param month the month that the user has selected
+     * @return updated arraylist of user entries
+     */
+    public void arrUpdate(ArrayList<String> arrList, String[][] twoDArr, int col, String month){        
+        String startCoords = financeFV.checkForMonth(month);
+        if(!startCoords.equals(":)")){
+            financeFV.repopulate(month, trends.income2D, "income");     // repopulates the 2d array
+            financeFV.repopulate(month, trends.expense2D, "expense");
+            System.out.println("going thru arrupdate");
+            for(int i = 1; i < trends.income2D.length; i++){        
+                arrList.add(twoDArr[i][col]);                           // populates the arraylist that we print out with what's already in the 2d array
+            }
+            
+        }
+        // return arrList;
     }
 
 }
