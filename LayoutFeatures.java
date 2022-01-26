@@ -359,16 +359,19 @@ public class LayoutFeatures{
 
         for(int i = 0; i < catArr.size(); i ++){
             // set string as the array element
-            stringCat = catArr.get(i) + "\n";
-            stringAmt = amtArr.get(i) + "\n";
-            // concanate
-            printCat += stringCat;
-            printAmt += stringAmt;
+            if(!catArr.get(i).equals("") && !amtArr.get(i).equals("0.0")){
+                stringCat = catArr.get(i) + "\n";
+                stringAmt = "$ " + amtArr.get(i) + "\n";
+                // concanate
+                printCat += stringCat;
+                printAmt += stringAmt;
+            }            
         }
-        
+        System.out.println("catArr is: " + catArr);
+        System.out.println("amtArr is: " + amtArr);
         // if the user deletes all inputs set it to default labels 
         if(catArr.size() == 0 || catArr.size() == 0){
-            if(income == true){
+            if(income == true){                
                 catInc.setText("Categories : ");
                 amtInc.setText("Amount : ");
             }

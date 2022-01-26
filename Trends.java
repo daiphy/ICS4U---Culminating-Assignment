@@ -115,21 +115,15 @@ public class Trends {
      * @return the updated version of the 2D array (holds categories, anticipated
      *         and actual)
      */
-    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr,
-            ArrayList<String> labelCat, int col, String month) { // CHANGE THE INCOME NAMES
+    public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, ArrayList<String> labelCat, int col, String month) { // CHANGE THE INCOME NAMES
 
         int a = 0; // counter for the arraylist since its one index less than 2D array
-        for (int i = 1; i < twoDArr.length; i++) { // loops through the 2D array with just the values and not the month
-                                                   // name
+        for (int i = 1; i < twoDArr.length; i++) { // loops through the 2D array with just the values and not the month name
             String temp = labelCat.get(a);
             Double addOn = 0.0;
-            for (int j = 0; j < catArr.size(); j++) { // loops through the size of the catArr because the user can enter
-                                                      // many different amounts per category
-                if (!amtArr.get(j).isEmpty() && catArr.get(j) != null) { // if the amount and category arrays are not
-                                                                         // empty/null, and the category array is
-                                                                         // aligned with
-                    if (catArr.get(j).equals(temp)) { // the category label list, then add the values of the amount
-                                                      // together (this gets the total)
+            for (int j = 0; j < catArr.size(); j++) { // loops through the size of the catArr because the user can enter many different amounts per category
+                if (!amtArr.get(j).isEmpty() && catArr.get(j) != null) { // if the amount and category arrays are not empty/null, and the category array is aligned with
+                    if (catArr.get(j).equals(temp)) { // the category label list, then add the values of the amount together (this gets the total)
                         addOn += Double.parseDouble(amtArr.get(j));
                     }
                 }
@@ -139,7 +133,13 @@ public class Trends {
             twoDArr[i][col] = String.valueOf(addOn); // this populates the 2D array with the calculated sum of the
                                                      // entries for anticipated/actual
         }
-
+        System.out.println("in populate before making 0.0");
+        for(int i = 0; i < twoDArr.length; i++){
+            for(int j = 0; j < twoDArr[0].length; j++){
+                System.out.print(twoDArr[i][j] + ", ");
+            }
+            System.out.println();
+        }
         for (int i = 0; i < twoDArr.length; i++) { // looping through the entire array, if it's null or empty then
                                                    // replace that element with 0.0
             if (twoDArr[i][1] == null || twoDArr[i][1].equals("")) {
@@ -162,14 +162,18 @@ public class Trends {
      * populates the calculated differences into a 2D array
      * 
      * @param twoDArr this is the 2D array that the data is being stored in
+     * @param choice if it is populating income or expense
      * @return this method will return the 2D array with the updated data
      */
-    public String[][] populateDiff(String[][] twoDArr) {
+    public String[][] populateDiff(String[][] twoDArr, String choice) {
         for (int i = 1; i < twoDArr.length; i++) {
             // initialize a double for anticipated and actual income/expense
             double ant = Double.parseDouble(twoDArr[i][1]);
             double acc = Double.parseDouble(twoDArr[i][2]);
             double diff = ant - acc; // calculate the difference between two doubles
+            if(choice.equals("income")){    // changes the diff to actual minus anticipated because your actual amount is important
+                diff = acc - ant;
+            }            
             twoDArr[i][3] = Double.toString(diff); // populate the 2D array with the calculated difference
         }
         return twoDArr;
@@ -192,4 +196,19 @@ public class Trends {
         }
         return sum;
     }    
+    // -------------------- REFRESH 2D ARRAY METHOD --------------------//
+    /**
+     * This refreshes the 2D array so that it can either repopulate or add new user entries to a new month
+     * (everything except the categories and month)
+     * @param twoDArr 2D array (either income or expense)
+     * @return refreshed 2D array
+     */
+    public String[][] refreshArr(String[][] twoDArr){
+        for(int i = 1; i < twoDArr.length; i++){
+            for(int j = 1; j < twoDArr[0].length; j++){
+                twoDArr[i][j] = "0.0";
+            }
+        }    
+        return twoDArr;
+    }
 }
