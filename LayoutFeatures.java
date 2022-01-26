@@ -348,11 +348,11 @@ public class LayoutFeatures{
             
         }
         else{
-            for(int i = 0; i < catArr.size(); i++){
-                if( catArr.get(i).contains(temp) && amtArr.get(i).contains(tempText)){
-                    catArr.remove(i);
-                    amtArr.remove(i);   
-                    break;  
+            for(int i = 0; i < catArr.size(); i++){         // for looop
+                if( catArr.get(i).contains(temp) && amtArr.get(i).contains(tempText)){      //goes through arraylist if it contains the same element as the userInputs 
+                    catArr.remove(i);   // removes the element
+                    amtArr.remove(i);   // removes the element
+                    break;  // break to remove ONLY that element once
                 }   
             }
         }
@@ -490,7 +490,10 @@ public class LayoutFeatures{
     public void noData(Text warningT, String month, boolean clicked){    
         if (month == null && clicked == false || finance.fullImport == false){
                 warningT.setText("Please make a new budget first or import csvs");
-        }                    
+        }               
+        else{
+            warningT.setText(" ");
+        }     
     }
     //------------------- CHECK IF TEXT CONTAINS ONLY LETTERS METHOD ------------------//
     /**
