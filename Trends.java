@@ -22,18 +22,8 @@ public class Trends {
     public ArrayList<String> expenseCatList = new ArrayList<>();
 
     // Default income and expense categories
-    public String[] defaultInc = { "Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other" }; // the space in
-                                                                                                       // front makes it
-                                                                                                       // line up with
-                                                                                                       // the num of
-                                                                                                       // rows in the 2d
-                                                                                                       // arrays
-    public String[] defaultExp = { "Food", "Health", "Transportation", "Utilies", "Personal", "Other" }; // we need to
-                                                                                                         // make this
-                                                                                                         // permanent in
-                                                                                                         // the 2d
-                                                                                                         // arrays first
-                                                                                                         // or something
+    public String[] defaultInc = { "Savings", "Paycheck", "Bonus", "Interest", "Allowance", "Other" };
+    public String[] defaultExp = { "Food", "Health", "Transportation", "Utilies", "Personal", "Other" }; 
 
     // Contains all the month names in a year
     public String[] monthNames = { "January", "February", "March", "April", "May",
@@ -47,16 +37,13 @@ public class Trends {
     /**
      * Changes the user's entries arraylists to the default categories
      * 
-     * @param categoryArrList the user's entries arraylist (can be income or
-     *                        expense)
-     * @param defaultCat      the array of the default categories (can be income or
-     *                        expense)
+     * @param categoryArrList the user's entries arraylist (can be income or expense)
+     * @param defaultCat the array of the default categories (can be income or expense)
      * @return the updated version of the user's entries arraylist
      */
     public ArrayList<String> defaultCategories(ArrayList<String> categoryArrList, String[] defaultCat) {
 
-        if (categoryArrList.isEmpty()) { // if they entered nothing, then populate the user's arraylist with default
-                                         // categories
+        if (categoryArrList.isEmpty()) { // if they entered nothing, then populate the user's arraylist with default categories
             for (int i = 0; i < defaultCat.length; i++) { // starts at one because 0 is the month name
                 categoryArrList.add(defaultCat[i]); // populate the categories with default if they entered nothing
             }
@@ -70,16 +57,13 @@ public class Trends {
      * stored
      * 
      * @param categoryArrList the user's entries arraylist
-     * @param twoDArr         the 2D array that stores user data (can be income or
-     *                        expense)
-     * @param month           the month that the user wants to work on
+     * @param twoDArr the 2D array that stores user data (can be income or expense)
+     * @param month the month that the user wants to work on
      * @return the updated version of the 2D array
      */
     public String[][] populateCat(ArrayList<String> categoryArrList, String[][] twoDArr, String month) {
 
-        int addEmpty = twoDArr.length - categoryArrList.size(); // number of empty spaces we need to add to the
-                                                                // arraylist (so that it can match the length of the 2D
-                                                                // arrays)
+        int addEmpty = twoDArr.length - categoryArrList.size(); // number of empty spaces we need to add to the arraylist (so that it can match the length of the 2D arrays)
         for (int i = 0; i < addEmpty; i++) { // add the empty spaces
             categoryArrList.add("");
         }
@@ -96,24 +80,15 @@ public class Trends {
 
     // -------------------- POPULATE ANTICIPATED AND ACTUAL COLUMNS OF 2D ARRAY METHOD --------------------//
     /**
-     * Populates the anticipated and actual columns of the 2D arrays from what the
-     * user entered.
-     * Since the user can enter a specific category with an amount($) several times,
-     * this method takes the totals of the amount and
-     * stores in all into one place
-     * 
-     * @param catArr   arraylist that holds all the categories that the user has
-     *                 entered (can be for income or expense)
-     * @param amtArr   arraylist that holds all the amounts that the user has
-     *                 entered (can be for income or expense)
-     * @param twoDArr  the 2D array that stores user data (can be income or expense)
-     * @param labelCat the arraylist that has all of the categories (no duplicates,
-     *                 the one we reference off of)
-     * @param col      the index number of the column we want to store to (because
-     *                 anticipated and actual are in different columns)
-     * @param month    the month that the user wants to work on
-     * @return the updated version of the 2D array (holds categories, anticipated
-     *         and actual)
+     * Populates the anticipated and actual columns of the 2D arrays from what the user entered.
+     * Since the user can enter a specific category with an amount($) several times, this method takes the totals of the amount and stores in all into one place
+     * @param catArr arraylist that holds all the categories that the user has entered (can be for income or expense)
+     * @param amtArr arraylist that holds all the amounts that the user has entered (can be for income or expense)
+     * @param twoDArr the 2D array that stores user data (can be income or expense)
+     * @param labelCat the arraylist that has all of the categories (no duplicates, the one we reference off of)
+     * @param col the index number of the column we want to store to (because anticipated and actual are in different columns)
+     * @param month the month that the user wants to work on
+     * @return the updated version of the 2D array (holds categories, anticipated and actual)
      */
     public String[][] populate(ArrayList<String> catArr, ArrayList<String> amtArr, String[][] twoDArr, ArrayList<String> labelCat, int col, String month) { // CHANGE THE INCOME NAMES
 
@@ -132,13 +107,6 @@ public class Trends {
 
             twoDArr[i][col] = String.valueOf(addOn); // this populates the 2D array with the calculated sum of the
                                                      // entries for anticipated/actual
-        }
-        System.out.println("in populate before making 0.0");
-        for(int i = 0; i < twoDArr.length; i++){
-            for(int j = 0; j < twoDArr[0].length; j++){
-                System.out.print(twoDArr[i][j] + ", ");
-            }
-            System.out.println();
         }
         for (int i = 0; i < twoDArr.length; i++) { // looping through the entire array, if it's null or empty then
                                                    // replace that element with 0.0

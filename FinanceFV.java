@@ -8,7 +8,6 @@
 
 //********** IMPORTS **********//
 import java.io.*;
-import java.util.ArrayList;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -16,13 +15,13 @@ import javafx.stage.Stage;
 class FinanceFV {
     
     //-------------------- GLOBAL VARIABLES --------------------//
-    public String fileName = ":)"; //this is the file name which should be "income.csv" or "expense.csv"   
-    public boolean fullImport = false; //this checks for whether or not the user has imported BOTH "income.csv" AND "expense.csv" 
+    public String fileName = ":)"; // this is the file name which should be "income.csv" or "expense.csv"   
+    public boolean fullImport = false; // this checks for whether or not the user has imported BOTH "income.csv" AND "expense.csv" 
     
-    private String nextMonth = ":)"; //this represents the month name that comes after the current month name
-    private boolean[] fileArr = {false, false}; //this is to check which file is imported, "income.csv" or "expense.csv"
+    private String nextMonth = ":)"; // this represents the month name that comes after the current month name
+    private boolean[] fileArr = {false, false}; // this is to check which file is imported, "income.csv" or "expense.csv"
 
-    private Trends trends = new Trends(); //this is an object that gets from the "trends.java" file
+    private Trends trends = new Trends(); // this is an object that gets from the "trends.java" file
 
     //-------------------- CONSTRUCTOR --------------------//
     public FinanceFV(){
@@ -37,30 +36,30 @@ class FinanceFV {
      * @param month this is the current/chosen month name
      */
     public void toCSV(String[][] arr, String choice, String month){
-        //get file name based on "choice"
+        // get file name based on "choice"
         getFileName(choice);
-        //initialize starting coordinates which represent the row and column indexes in a 2D array
+        // initialize starting coordinates which represent the row and column indexes in a 2D array
         String coords = checkForMonth(month);
-        //if the month DOES NOT EXIST in the CSV file:
+        // if the month DOES NOT EXIST in the CSV file:
         if(coords.equals(":)")){
             appendCSV(arr); //add data to the end of the file
         }
-        //if the month EXISTS in the CSV file:
+        // if the month EXISTS in the CSV file:
         else{
-            //set "this.nextMonth" to be the next month in the year
+            // set "this.nextMonth" to be the next month in the year
             findNext(month); 
-            //find the coordinates for the next month in order to know when to stop updating
+            // find the coordinates for the next month in order to know when to stop updating
             String initialCoords = checkForMonth(month);
-            //get row and column from taking substrings of the string
+            // get row and column from taking substrings of the string
             int row = Integer.parseInt(initialCoords.substring(0,initialCoords.indexOf(","))); 
             int col = Integer.parseInt(initialCoords.substring(initialCoords.indexOf(",") + 1,initialCoords.length()));
-            //get row length and col length from total length of csv file and the 2D array that needs to be put in
+            // get row length and col length from total length of csv file and the 2D array that needs to be put in
             int r = readCSV().length + arr.length;
             int c = readCSV()[0].length;
-            //initialize a 2D array 
+            // initialize a 2D array 
             String[][] csvArr = new String[r][c];
-            csvArr = readCSV(); //set the 2D array to be the contents of the CSV
-            //if the 2D array is able to be updated, put the new data into the CSV file
+            csvArr = readCSV(); // set the 2D array to be the contents of the CSV
+            // if the 2D array is able to be updated, put the new data into the CSV file
             boolean updated = update2DArr(csvArr, arr, row, col, 0, 0);
             if(updated){
                 updateCSV(csvArr);
@@ -135,11 +134,11 @@ class FinanceFV {
      */
     public String[][] readCSV(){
         //----- VARIABLES -----//
-        File file = new File(this.fileName); //initializing a file using fileName
-        int col = 0; //num cols in csvArr
-        int row = 0; //num rows in csvArr
+        File file = new File(this.fileName); // initializing a file using fileName
+        int col = 0; // num cols in csvArr
+        int row = 0; // num rows in csvArr
 
-        //first try catch is to get num of rows and cols for 2d array//
+        // first try catch is to get num of rows and cols for 2d array//
         try{
             BufferedReader buffer = new BufferedReader(new FileReader(file));
             String line = "";
@@ -154,7 +153,7 @@ class FinanceFV {
         }
         //initializing 2D array//
         String[][] csvArr = new String[row][col];
-        //second try catch is to populate 2d array with contents from the file//
+        // second try catch is to populate 2d array with contents from the file
         try{
             BufferedReader buffer = new BufferedReader(new FileReader(file));
             String line;
@@ -188,10 +187,10 @@ class FinanceFV {
 
         for(int i = 0; i < arr.length; i++){
             for(int j = 0; j < arr[0].length; j++){
-                //check if the line contains the chosen month name
+                // check if the line contains the chosen month name
                 if(arr[i][j].equals("Month: " + monthName)){
-                    //save the coordinates in one line: row,col
-                    //where i is row and j is col
+                    // save the coordinates in one line: row,col
+                    // (where i is row and j is col)
                     coords = Integer.toString(i) + "," + Integer.toString(j);
                 }
             }
@@ -208,7 +207,7 @@ class FinanceFV {
         int index = 0;
         for(int i = 0; i < trends.monthNames.length; i++){
             if(trends.monthNames[i].equals(month)){
-                //the name of the next month will be at the next index from chosen month name
+                // the name of the next month will be at the next index from chosen month name
                 index = i + 1;
             }
         }
@@ -332,7 +331,7 @@ class FinanceFV {
         }
         // if the month EXISTS:
         if(!startCoords.equals(":)")){
-            //set starting row and column indexes in order to iterate through the arrays and repopulate the "trends" array
+            // set starting row and column indexes in order to iterate through the arrays and repopulate the "trends" array
             int row = Integer.parseInt(startCoords.substring(0,startCoords.indexOf(",")));
             int col = Integer.parseInt(startCoords.substring(startCoords.indexOf(",") + 1,startCoords.length()));
             for(int i = 0; i < updateArr.length; i++){

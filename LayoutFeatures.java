@@ -42,6 +42,7 @@ import javafx.scene.image.ImageView;
 public class LayoutFeatures{ 
  
     //-------------------- GLOBAL VARIABLES --------------------//
+    // initializing colours to equal hex numbers
     public Color babyBlue = Color.web("#C9DAF8");
     public Color darkBlue = Color.web("#9AB3DF");
     public Color white = Color.web("#FFFFFF");
@@ -106,7 +107,7 @@ public class LayoutFeatures{
         Label warnLabel = setFont("Please select a month with \n previous data from your csv.", 15);    // popup labels
         // intialize button
         Button exit = new Button("X");
-        exit.setOnAction(action -> {    //when button is clicked
+        exit.setOnAction(action -> {    // when button is clicked
           warning.hide();               // popup is hidden
         });
         
@@ -147,8 +148,8 @@ public class LayoutFeatures{
     }   
     /**
      * creates a scrollPane for each scene surrounging the borderpane contents
-     * @param contents  borderPane contents of the vbox scene contents with a border
-     * @return  the scroll wheel (scrollPane)
+     * @param contents borderPane contents of the vbox scene contents with a border
+     * @return the scroll wheel (scrollPane)
      */
     public ScrollPane showScrollPane(BorderPane contents){
         // initialize scrollPane
@@ -159,12 +160,12 @@ public class LayoutFeatures{
         scroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);      // visible vertical scroll wheel
         scroll.setStyle("-fx-background-color:transparent;");       // ensures the middle is clear
 
-        return scroll;      //return scrollPane
+        return scroll;      // return scrollPane
     }
     /**
      * stacks a blue rectangle under the hbox contents
-     * @param cat   updated Text Categories user has entered
-     * @param amnt  updated Text Amount user has entered
+     * @param cat updated Text Categories user has entered
+     * @param amnt updated Text Amount user has entered
      * @return
      */
     public StackPane showSPane(Text cat, Text amnt){
@@ -202,7 +203,7 @@ public class LayoutFeatures{
             }
         }
 
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(categories); //Make the arraylist into an observable list
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(categories); // Make the arraylist into an observable list
 
         PieChart piechart = new PieChart(pieChartData);
         piechart.setTitle("Actual Income");
@@ -211,7 +212,7 @@ public class LayoutFeatures{
     /**
      * Line chart -> takes the user inputted data in the expense array and shows the 
      * (actual and anticipated) data in the form of a line chart (a line for each)
-     * @param expenseArr    updated trends.expense2D with the user inputs for the acc and ant expenses specified by the month
+     * @param expenseArr updated trends.expense2D with the user inputs for the acc and ant expenses specified by the month
      * @return the line graph (LineChart)
      */
     public LineChart<String,String> showlLineChart(String[][] expenseArr){
@@ -227,19 +228,19 @@ public class LayoutFeatures{
     
         lineChart.setTitle("Expense Line Graph");       // set's the lineChart title 
     
-        XYChart.Series antSeries = new XYChart.Series();    //the line for the anticipated data
-        XYChart.Series accSeries = new XYChart.Series();    //the line for the actual data
+        XYChart.Series antSeries = new XYChart.Series();    // the line for the anticipated data
+        XYChart.Series accSeries = new XYChart.Series();    // the line for the actual data
     
-        //sets name for the line (shows user which line correlates with which data)
+        // sets name for the line (shows user which line correlates with which data)
         antSeries.setName("Anticipated");       
         accSeries.setName("Actual");
         
         // for loop to go through the data
         for(int i = 1; i < expenseArr.length; i++) {
             antSeries.getData().add(new XYChart.Data(expenseArr[i][0], expenseArr[i][1]));  
-            //the (x,y) x = [i][0]to go through the categories data || y = [i][1] to go through the anticipated data
+            // the (x,y) x = [i][0]to go through the categories data || y = [i][1] to go through the anticipated data
             accSeries.getData().add(new XYChart.Data(expenseArr[i][0], expenseArr[i][2]));
-            //the (x,y) x = [i][0]to go through the categories data || y = [i][2] to go through the actual data
+            // the (x,y) x = [i][0]to go through the categories data || y = [i][2] to go through the actual data
         }
         
         lineChart.getData().addAll(antSeries, accSeries);   // sets the series line data into the chart
@@ -349,7 +350,7 @@ public class LayoutFeatures{
         }
         else{
             for(int i = 0; i < catArr.size(); i++){         // for looop
-                if( catArr.get(i).contains(temp) && amtArr.get(i).contains(tempText)){      //goes through arraylist if it contains the same element as the userInputs 
+                if( catArr.get(i).contains(temp) && amtArr.get(i).contains(tempText)){      // goes through arraylist if it contains the same element as the userInputs 
                     catArr.remove(i);   // removes the element
                     amtArr.remove(i);   // removes the element
                     break;  // break to remove ONLY that element once
@@ -362,13 +363,11 @@ public class LayoutFeatures{
             if(!catArr.get(i).equals("") && !amtArr.get(i).equals("0.0")){
                 stringCat = catArr.get(i) + "\n";
                 stringAmt = "$ " + amtArr.get(i) + "\n";
-                // concanate
+                // concatenate
                 printCat += stringCat;
                 printAmt += stringAmt;
             }            
         }
-        System.out.println("catArr is: " + catArr);
-        System.out.println("amtArr is: " + amtArr);
         // if the user deletes all inputs set it to default labels 
         if(catArr.size() == 0 || catArr.size() == 0){
             if(income == true){                
