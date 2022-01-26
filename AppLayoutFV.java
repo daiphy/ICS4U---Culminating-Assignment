@@ -97,7 +97,7 @@ public class AppLayoutFV extends Application{
         Label introL = features.setFont("Click on one of the buttons below to visit a page", 12);
         
         //Buttons and formatting
-        Button newBudgetB = goToSceneTwo(window, "SELECT MONTH"); //scene 2
+        Button newBudgetB = goToSceneTwo(window, "SELECT MONTH", warningOne); //scene 2
         newBudgetB.setPrefWidth(150);
         
         //Button summaryB = features.yellowButton("SUMMARY"); //scene 5
@@ -161,9 +161,10 @@ public class AppLayoutFV extends Application{
      * Creates scene two: holds all the components of scene two
      * @param stage contains all the scenes 
      * @param cBMonths combo box that has all the months in a year
+     * @param warningT adjusts warning text on the first scene     
      * @return scene two 
      */
-    public Scene showSceneTwo (Stage stage, ComboBox<String>cBMonths){
+    public Scene showSceneTwo (Stage stage, ComboBox<String>cBMonths, Text warningOne){
         Scene two;  // initialize a scene to return
 
         //Title, bees, instructions label and formatting
@@ -317,7 +318,7 @@ public class AppLayoutFV extends Application{
         displayCat.setBackground(new Background(new BackgroundFill(features.babyBlue, CornerRadii.EMPTY, Insets.EMPTY)));
                 
         // Buttons
-        Button mainMenuB = goToSceneOne(window, "MAIN MENU");    // when clicked, scene changes to scene one             
+        Button mainMenuB = goToSceneOne(window, "MAIN MENU", warningOne);    // when clicked, scene changes to scene one             
         Button nextPageB = features.yellowButton("NEXT");        
         nextPageB.setOnAction(action->{                          // action for going to next page button
             if(monthSet){              // if the user has clicked a month in the month combo box                        
@@ -326,7 +327,7 @@ public class AppLayoutFV extends Application{
                 trends.expenseCatList = trends.defaultCategories(trends.expenseCatList, trends.defaultExp);            
                 trends.income2D = trends.populateCat(trends.incomeCatList, trends.income2D, this.month);        //updates the 2d arrays with new categories from the user's entries arraylists
                 trends.expense2D = trends.populateCat(trends.expenseCatList, trends.expense2D, this.month);                          
-                sceneThree = showSceneThreeFour(window, "Anticipated");                                         // changes the scene to scene three
+                sceneThree = showSceneThreeFour(window, "Anticipated", warningOne);                                         // changes the scene to scene three
                 stage.setScene(sceneThree);
             }
             else{   // when the user has NOT chosen a month in the month combo box yet
@@ -370,9 +371,10 @@ public class AppLayoutFV extends Application{
      * Since scene three and four have the same layout, we were able to methodize the scenes
      * @param stage contains all the scenes
      * @param whichType String of whether we are working in the anticipated (scene 3) or actual (scene 4)
+     * @param warningT adjusts warning text on the first scene
      * @return scene three or scene three
      */
-    public Scene showSceneThreeFour(Stage stage, String whichType){
+    public Scene showSceneThreeFour(Stage stage, String whichType, Text warningOne){
 
         Scene threeFour;  // initialize a scene to return
 
@@ -516,11 +518,11 @@ public class AppLayoutFV extends Application{
 
                 // set scene for the correct page
                 cBMonths = features.comboBoxMonths();
-                sceneFour = showSceneThreeFour(window, "Actual"); // transactions
+                sceneFour = showSceneThreeFour(window, "Actual", warningOne); // transactions
                 stage.setScene(sceneFour);
             });
             // buttons to go back to the main menu
-            Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
+            Button mainMenuB = goToSceneOne(stage, "MAIN MENU", warningOne);
             lastRow.getChildren().addAll(mainMenuB, nextB); //gather buttons
         }
         else{   //conds for scene 4
@@ -543,8 +545,8 @@ public class AppLayoutFV extends Application{
             });
 
             // go (TO GO BACK AND MAIN MENU)
-            Button backB = goToSceneThree(stage, "BACK");
-            Button mainMenuB = goToSceneOne(stage, "MAIN MENU");
+            Button backB = goToSceneThree(stage, "BACK", warningOne);
+            Button mainMenuB = goToSceneOne(stage, "MAIN MENU", warningOne);
             lastRow.getChildren().addAll(mainMenuB, backB, nextB); // gathers buttons
         }
 
@@ -766,11 +768,11 @@ public class AppLayoutFV extends Application{
     vBoxFarRight.setAlignment(Pos.TOP_CENTER);
 
     //Buttons
-    Button backB = goToSceneFour(stage, "BACK"); //back to scene 3
+    Button backB = goToSceneFour(stage, "BACK", warningT5); //back to scene 3
     if (this.month == null && clicked == false){
         warningT5.setText("Cannot go back, until you make a new budget");        
     }
-    Button mainMenuB = goToSceneOne(window, "MAIN MENU");  
+    Button mainMenuB = goToSceneOne(window, "MAIN MENU", warningT5);  
     Button nextPageB = goToSceneSix(window, "NEXT PAGE");
 
     //Gathers all the coloumns (vboxes) to create the left side of the summary table
@@ -1075,7 +1077,7 @@ public class AppLayoutFV extends Application{
     //-------------------- SCENE SIX COMBINE ALL SECTIONS BELOW --------------------//
     //Initialize buttons
     Text filler = new Text("");
-    Button mainMenuB = goToSceneOne(window, "MAIN MENU"); 
+    Button mainMenuB = goToSceneOne(window, "MAIN MENU", filler); 
     Button backB = goToSceneFive(window, "BACK", filler);
     
     //Gather the left and right sides (section 1 and 2)
@@ -1134,7 +1136,7 @@ public class AppLayoutFV extends Application{
         });
 
         // initialize buttons
-        Button main = goToSceneOne(stage, "MAIN MENU");
+        Button main = goToSceneOne(stage, "MAIN MENU", null);
         
         // initilze graphs
         PieChart piechart = features.showPieChart(trends.income2D);        
@@ -1162,11 +1164,13 @@ public class AppLayoutFV extends Application{
      * button that goes to scene one (main menu) when user clicks it
      * @param stage the stage where scenes are set
      * @param sceneName the name of the button
+     * @param warningT adjusts warning text on the first scene
      * @return the button
      */
-    public Button goToSceneOne(Stage stage, String sceneName){
+    public Button goToSceneOne(Stage stage, String sceneName, Text warningT){
         Button scene1B = features.yellowButton(sceneName);
         scene1B.setOnAction(action -> {
+                warningT.setText(" ");
                 stage.setScene(sceneOne);
         });
         return scene1B;
@@ -1176,13 +1180,14 @@ public class AppLayoutFV extends Application{
      * calls on the second scene method
      * @param stage the stage where scenes are set
      * @param sceneName the name of the button
+     * @param warningT adjusts warning text on the first scene
      * @return the button
      */
-    public Button goToSceneTwo(Stage stage, String sceneName){
+    public Button goToSceneTwo(Stage stage, String sceneName, Text warning){
         Button scene2B = features.yellowButton(sceneName);
         scene2B.setOnAction(action -> {
             cBMonths = features.comboBoxMonths();
-            sceneTwo = showSceneTwo(window, cBMonths); //  new budget     
+            sceneTwo = showSceneTwo(window, cBMonths, warning); //  new budget     
             stage.setScene(sceneTwo);
         });
         return scene2B;
@@ -1192,14 +1197,15 @@ public class AppLayoutFV extends Application{
      * calls on the threefour scene method
      * @param stage the stage where scenes are set
      * @param sceneName the name of the button
+     * @param warningT adjusts warning text on the first scene
      * @return the button
      */
-    public Button goToSceneThree(Stage stage, String sceneName){
+    public Button goToSceneThree(Stage stage, String sceneName, Text warning){
         Button scene3B = features.yellowButton(sceneName);
         scene3B.setOnAction(action -> {
             if(this.month != null && clicked == true){
                 cBMonths = features.comboBoxMonths();
-                sceneThree = showSceneThreeFour(window, "Anticipated"); // plan
+                sceneThree = showSceneThreeFour(window, "Anticipated", warning); // plan
                 stage.setScene(sceneThree);
             }
         });
@@ -1210,14 +1216,15 @@ public class AppLayoutFV extends Application{
      * calls on the threefour scene method
      * @param stage the stage where scenes are set
      * @param sceneName the name of the button
+     * @param warningT adjusts warning text on the first scene
      * @return the button
      */
-    public Button goToSceneFour(Stage stage, String sceneName){
+    public Button goToSceneFour(Stage stage, String sceneName, Text warning){
         Button scene4B = features.yellowButton(sceneName);
         scene4B.setOnAction(action -> {            
             if(this.month != null && clicked == true){
                 cBMonths = features.comboBoxMonths();
-                sceneFour = showSceneThreeFour(window, "Actual"); // transactions
+                sceneFour = showSceneThreeFour(window, "Actual", warning); // transactions
                 stage.setScene(sceneFour);
             }
         });
@@ -1312,12 +1319,13 @@ public class AppLayoutFV extends Application{
             monthSet = true;        // now we know that they have chosen a month
             financeFV.fileName = "income.csv";
             String startCoords = financeFV.checkForMonth(this.month);       //checks the month exists in the csv or not
+            Text filler = new Text(" ");
             if(startCoords.equals(":)")){                               // smiley face means that it is not in the csv yet
                 // clears the arraylists
                 trends.incomeCatList.clear();       
                 trends.expenseCatList.clear();
                 noChange = true;
-                sceneTwo = showSceneTwo(window, cBMonths);
+                sceneTwo = showSceneTwo(window, cBMonths, filler);
                 stage.setScene(sceneTwo);
             }
             else{
