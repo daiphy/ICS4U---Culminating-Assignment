@@ -420,9 +420,12 @@ public class AppLayoutFV extends Application{
         Text showExpCat = new Text();
         Text showExpAmt = new Text();
 
-        // warning text for when the user forgets to input something importan
+        // warning text for when the user forgets to input something important
         Text warningT = new Text("");
         warningT.setTextAlignment(TextAlignment.CENTER);
+        Text notify = new Text("Please click on the NEXT button to save your inputs !!");
+        notify.setTextAlignment(TextAlignment.CENTER);
+        notify.setStyle("-fx-font: 16 verdana;");
 
         // Arraylists
         ArrayList<String> incomeCatArr = new ArrayList<String>();
@@ -590,7 +593,7 @@ public class AppLayoutFV extends Application{
 
         // put it all together in the vbox
         VBox mainScreen = new VBox(10);
-        mainScreen.getChildren().addAll(titleHB, monthL, warningT, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, lastRow);
+        mainScreen.getChildren().addAll(titleHB, monthL, warningT, secondRow, thirdRow, stackPaneT, fourthRow, fifthRow, stackPaneB, notify, lastRow);
         mainScreen.setAlignment(Pos.TOP_CENTER);
 
         // add a border
@@ -1139,8 +1142,10 @@ public class AppLayoutFV extends Application{
             
         });
 
+        Text filler = new Text(" ");
+
         // initialize buttons
-        Button main = goToSceneOne(stage, "MAIN MENU", null);
+        Button main = goToSceneOne(stage, "MAIN MENU", filler);
         
         // initilze graphs
         PieChart piechart = features.showPieChart(trends.income2D);        
